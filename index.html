@@ -253,6 +253,10 @@ main{flex:1;padding:28px 32px 60px}
 .pd-thumb.has-image svg{display:none}
 .pd-title-block{min-width:0}
 .pd-title-block h1{margin-bottom:1px;font-size:22px;line-height:1.2}
+.pd-stage-desc{font-size:12px;color:#999;margin-top:5px;line-height:1.4;max-width:480px}
+.pd-stage-summary{font-size:12px;color:#666;font-weight:600;margin-top:6px}
+.proj-head-actions{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex-shrink:0}
+.pd-stage-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
 .proj-meta-line{font-size:11px;color:#999;text-transform:uppercase;letter-spacing:0.5px}
 .status-pill-display{padding:6px 14px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;white-space:nowrap}
 .status-pill-display.pre{background:#eee;color:#555}
@@ -282,10 +286,6 @@ textarea.f-input{min-height:50px}
 select.f-input{padding:9px 30px 9px 12px}
 input:disabled.f-input,textarea:disabled.f-input{background:#fafafa;color:#444;border-color:#eee}
 select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
-.confirm-bar{border:1px solid #e5e5e5;border-radius:8px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;margin-top:20px;flex-wrap:wrap;gap:12px}
-.confirm-bar-text b{display:block;font-size:18px;font-weight:400;font-family:'Georgia',serif;margin-bottom:2px}
-.confirm-bar-text span{font-size:12px;color:#999}
-.stage-footer-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .thumb-box{border:1px dashed #ddd;border-radius:8px;height:160px;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;color:#999;font-size:12px;background:#fafafa;text-align:center}
 .thumb-box:hover{border-color:#bbb}
 .thumb-preview{width:100%;height:100%;object-fit:cover}
@@ -627,10 +627,13 @@ h1{font-size:28px}
 <div class="pd-title-block">
 <h1 id="pdTitle">—</h1>
 <div class="proj-meta-line" id="pdMeta">—</div>
+<p class="pd-stage-desc" id="pdStageDesc">—</p>
+<div class="pd-stage-summary" id="pdStageSummary">—</div>
 </div>
 </div>
 <div class="proj-head-actions">
 <span class="status-pill-display" id="pdStatusDisplay">—</span>
+<div class="pd-stage-actions" id="pdStageActions"></div>
 </div>
 </div>
 <div class="stage-progress-row">
@@ -731,6 +734,13 @@ expenses:[
 /* ---------- DATA MODEL ---------- */
 const STAGE_ORDER=['brief','shotPlanning','budgeting','shootTracking','delivery'];
 const STAGE_NAMES={brief:'Project Overview',shotPlanning:'Shot Planner',budgeting:'Resource Planner',shootTracking:'Shoot Tracker',delivery:'Edit & Delivery'};
+const STAGE_DESCRIPTIONS={
+brief:'Define the story, creative direction and key project details before production begins.',
+shotPlanning:'Break the project into shooting days, scenes and individual shots.',
+budgeting:'Allocate crew, equipment and other production costs.',
+shootTracking:'Track shot-by-shot progress across every shooting day.',
+delivery:'Log review and master versions through to final delivery.'
+};
 const STAGE_ICONS={
 brief:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6a1 1 0 0 1 1 1v1H8V3a1 1 0 0 1 1-1z"/><rect x="5" y="4" width="14" height="18" rx="2"/><path d="M9 12h6M9 16h6"/></svg>',
 shotPlanning:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>',
@@ -1491,7 +1501,7 @@ const progressPct=STAGE_ORDER.length>0?Math.round((confirmedCount/STAGE_ORDER.le
 const progressTrack=document.getElementById('pdProgress');
 progressTrack.innerHTML='<div class="stage-progress-fill" id="stageProgressFill"></div>';
 requestAnimationFrame(()=>{ requestAnimationFrame(()=>{ const f=document.getElementById('stageProgressFill'); if(f) f.style.width=progressPct+'%'; }); });
-document.getElementById('pdProgressLabel').textContent=`${status.toUpperCase()} · ${STAGE_NAMES[currentTab].toUpperCase()} · ${confirmedCount}/5`;
+document.getElementById('pdProgressLabel').textContent=`${confirmedCount}/5 STAGES COMPLETE`;
 
 renderHeaderStageTabs();
 
@@ -1510,25 +1520,24 @@ if(bodyEl) bodyEl.querySelectorAll('input,textarea,select,button').forEach(el=>{
 }
 function fmtDateShort(iso){ if(!iso) return ''; const d=new Date(iso+'T00:00:00'); if(isNaN(d)) return ''; return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}).toUpperCase(); }
 
-function renderStageFooter(key,title,keyNotes,opts){
+function setStageHeaderExtras(key,keyNotes,opts){
 opts=opts||{};
 const p=currentProject();
 const confirmed=p.sections[key].confirmed;
 const editing=forceEditStage===key;
 const locked=confirmed && !editing;
+const descEl=document.getElementById('pdStageDesc');
+const summaryEl=document.getElementById('pdStageSummary');
+const actionsEl=document.getElementById('pdStageActions');
+if(descEl) descEl.textContent=STAGE_DESCRIPTIONS[key]||'';
+if(summaryEl) summaryEl.textContent=keyNotes;
 let actionHtml='';
 if(opts.noProceed){
 actionHtml = confirmed ? `<span class="section-badge confirmed">Completed</span><button class="btn-ghost" onclick="toggleEditStage('${key}')">Edit</button>` : '';
 } else {
 actionHtml = locked ? `<span class="section-badge confirmed">Completed</span><button class="btn-ghost" onclick="toggleEditStage('${key}')">Edit</button>` : `<button class="confirm-btn" onclick="proceedStage('${key}')">Proceed</button>`;
 }
-return `<div class="confirm-bar">
-<div class="confirm-bar-text"><b>${title}</b><span>${keyNotes}</span></div>
-<div class="stage-footer-actions">
-<button class="btn-ghost" onclick="printStage('${key}')">Print</button>
-${actionHtml}
-</div>
-</div>`;
+if(actionsEl) actionsEl.innerHTML = `<button class="btn-ghost" onclick="printStage('${key}')">Save PDF</button>${actionHtml}`;
 }
 function printStage(key){
 const p=currentProject();
@@ -1629,6 +1638,7 @@ setTimeout(()=>w.print(),300);
 
 function renderBriefTab(p){
 const b=p.brief;
+setStageHeaderExtras('brief',(esc(p.format)||'No format set')+stageDurationSuffix(p,'brief'));
 return `<div id="pdBody">
 <div class="box">
 <div class="box-title">Project thumbnail</div>
@@ -1669,8 +1679,7 @@ ${(p.conceptTasks||[]).map((t)=>`<div class="log-line">${t}</div>`).join('')||'<
 ${(p.refs||[]).map(r=>`<div class="lib-row"><a href="${r.url}" target="_blank" style="color:#1a1a1a;text-decoration:underline;">${esc(r.title)}</a></div>`).join('')}
 <div style="display:flex;gap:8px;margin-top:10px;"><input class="f-input" id="refTitleInput" placeholder="Title"><input class="f-input" id="refUrlInput" placeholder="https://..."><button class="btn-ghost" onclick="addRef()">Add</button></div>
 </div>
-</div>
-${renderStageFooter('brief','Project Overview',(esc(p.format)||'No format set')+stageDurationSuffix(p,'brief'))}`;
+</div>`;
 }
 function updateBrief(field,val){ const p=currentProject(); p.brief[field]=val; saveProjectChange(p); }
 function updateMeta(field,val){ const p=currentProject(); p[field]=val; saveProjectChange(p); renderProjectDetail(); }
@@ -1712,9 +1721,10 @@ const days=p.days||[];
 const totalScenes=days.reduce((a,d)=>a+(d.scenes||[]).length,0);
 const totalShots=days.reduce((a,d)=>a+(d.scenes||[]).reduce((b,s)=>b+(s.shots||[]).length,0),0);
 const unscheduled=p.unscheduledShots||[];
+setStageHeaderExtras('shotPlanning',`Scenes ${totalScenes} · Shots ${totalShots} · Days ${days.length}`+stageDurationSuffix(p,'shotPlanning'));
 const toolbar=`<div class="sp-toolbar">
 <div class="view-toggle"><button class="vt-btn ${shotPlannerView==='list'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('list')">List</button><button class="vt-btn ${shotPlannerView==='storyboard'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('storyboard')">Storyboard</button></div>
-<div style="display:flex;gap:8px;"><button class="btn-ghost" data-no-lock="1" onclick="printStage('shotPlanning')">Print</button><button class="btn-ghost" onclick="addDay()">Add day</button></div>
+<div style="display:flex;gap:8px;"><button class="btn-ghost" onclick="addDay()">Add day</button></div>
 </div>`;
 const unschedHtml = unscheduled.length ? `<div class="box" style="border-color:#ffd700;">
 <div class="box-title">Unscheduled shots</div>
@@ -1746,8 +1756,7 @@ ${sidebarHtml || '<div style="font-size:12px;color:#999;padding:8px 2px;">No sce
 <button class="sp-show-btn ${spSidebarCollapsed?'show':''}" id="spShowBtn" data-no-lock="1" onclick="toggleSpSidebar()">Scenes ›</button>
 ${toolbar}${unschedHtml}${body}
 </div>
-</div></div>
-${renderStageFooter('shotPlanning','Shot Planner',`Scenes ${totalScenes} · Shots ${totalShots} · Days ${days.length}`+stageDurationSuffix(p,'shotPlanning'))}`;
+</div></div>`;
 }
 function renderShotPlannerListBody(days){
 return days.map((d,di)=>`
@@ -1951,6 +1960,7 @@ const totals=resourceTotals(p);
 const assignedCrew=(p.crewIds||[]).map(resolveCrew).filter(Boolean);
 const assignedEq=(p.equipmentIds||[]).map(resolveEquipment).filter(Boolean);
 const otherLines=p.sections.budgeting.lines||[];
+setStageHeaderExtras('budgeting',`Crew ${fmt(totals.crewTotal)} · Equipment ${fmt(totals.eqTotal)} · Others ${fmt(totals.othersTotal)}`+stageDurationSuffix(p,'budgeting'));
 return `<div id="pdBody">
 <div class="rp-grid">
 <div class="box">
@@ -1976,8 +1986,7 @@ ${!otherLines.length?'<div style="font-size:12px;color:#999;">None added yet.</d
 <div class="rp-est-total"><span>Total</span><span>${fmt(totals.total)}</span></div>
 </div>
 </div>
-</div>
-${renderStageFooter('budgeting','Resource Planner',`Crew ${fmt(totals.crewTotal)} · Equipment ${fmt(totals.eqTotal)} · Others ${fmt(totals.othersTotal)}`+stageDurationSuffix(p,'budgeting'))}`;
+</div>`;
 }
 function addBudgetLine(){
 const p=currentProject();
@@ -2008,13 +2017,13 @@ const shotRows=(d.scenes||[]).map((sc,si)=>(sc.shots||[]).map((sh,shi)=>`
 </div>`).join('')).join('');
 return `<div class="tr-day-date">${fmtDateShort(d.date)||'Day '+(di+1)}</div>${shotRows||'<div style="font-size:12px;color:#999;padding:8px 0;">No shots planned for this day yet.</div>'}`;
 }).join('');
+setStageHeaderExtras('shootTracking',`${daysWrapped}/${days.length} Days Wrapped · ${doneShots}/${totalShots} Shots Completed`+stageDurationSuffix(p,'shootTracking'));
 return `<div id="pdBody">
 <div class="box">
 <div class="box-title">Final shot report</div>
 ${rows || '<div style="font-size:12px;color:#999;padding:20px 0;">No shots scheduled yet — add days and shots in Shot Planner.</div>'}
 </div>
-</div>
-${renderStageFooter('shootTracking','Shoot Tracker',`${daysWrapped}/${days.length} Days Wrapped · ${doneShots}/${totalShots} Shots Completed`+stageDurationSuffix(p,'shootTracking'))}`;
+</div>`;
 }
 function setShotTrackStatus(di,si,shi,status,btn){
 const apply=()=>{
@@ -2048,6 +2057,7 @@ const ir=d.initialReview, fm=d.finalMaster;
 const headerRow=`<div class="del-version-row" style="font-size:11px;color:#999;text-transform:uppercase;font-weight:700;border-top:none;"><span>Ver.</span><span>Title</span><span>Link</span><span>Date</span><span>Duration</span></div>`;
 const irRows=(ir.versions||[]).map(v=>`<div class="del-version-row"><span>v${v.num}</span><span>${esc(v.title)}</span><span>${esc(v.link)}</span><span>${fmtDateShort(v.date)}</span><span>${phaseDurationLabel(p,v.date)}</span></div>`).join('');
 const fmRows=(fm.versions||[]).map(v=>`<div class="del-version-row"><span>v${v.num}</span><span>${esc(v.title)}</span><span>${esc(v.link)}</span><span>${fmtDateShort(v.date)}</span><span>${phaseDurationLabel(p,v.date)}</span></div>`).join('');
+setStageHeaderExtras('delivery',(p.phaseLog&&p.phaseLog.delivered?('Delivered on '+fmtDateShort(p.phaseLog.delivered)):('Final Master '+(fm.versions||[]).length+' version(s)')),{noProceed:true});
 return `<div id="pdBody">
 <div class="box">
 <div class="box-title">Segment 01 · Initial Review</div>
@@ -2058,8 +2068,7 @@ ${!ir.locked?`<div class="form-grid" style="margin-top:12px;"><input class="f-in
 <div class="box-title">Segment 02 · Final Master</div>
 ${ir.locked?`${headerRow}${fmRows||'<div style="font-size:12px;color:#999;padding:8px 0;">No versions logged yet.</div>'}<div class="form-grid" style="margin-top:12px;"><input class="f-input" id="fmTitleInput" placeholder="Version title"><input class="f-input" id="fmLinkInput" placeholder="Master link"></div><div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;"><button class="btn-ghost" onclick="addFinalMasterVersion()">Add version</button><button class="btn-primary" onclick="markProjectComplete()">Mark as complete</button><button class="btn-ghost" onclick="generateMasterReport()">Generate master report</button></div>`:'<div style="font-size:12px;color:#999;padding:8px 0;">Lock Initial Review to unlock Final Master.</div>'}
 </div>
-</div>
-${renderStageFooter('delivery','Edit & Delivery',(p.phaseLog&&p.phaseLog.delivered?('Delivered on '+fmtDateShort(p.phaseLog.delivered)):('Final Master '+(fm.versions||[]).length+' version(s)')),{noProceed:true})}`;
+</div>`;
 }
 function addInitialReviewVersion(){
 const p=currentProject();
