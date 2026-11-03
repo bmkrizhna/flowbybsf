@@ -126,6 +126,65 @@ main{flex:1;padding:28px 32px 60px}
 .pill-group{display:flex;gap:6px}
 .pill{font-size:11px;padding:5px 10px;border-radius:20px;border:1px solid #ddd;color:#666;text-transform:uppercase;letter-spacing:0.4px;font-weight:700}
 .pill.stages{background:#e8f5e9;color:#2e7d32;border-color:#e8f5e9}
+.pill.shoot{background:#fff3cd;color:#8a6d00;border-color:#fff3cd}
+.pill.completed-ov{background:#e8f5e9;color:#2e7d32;border-color:#e8f5e9}
+
+/* ---- Overview dashboard ---- */
+.ov2-grid{display:grid;grid-template-columns:360px 1fr;gap:20px;align-items:start}
+.ov-progress-card{margin-bottom:16px}
+.ov-donut-row{display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+.ov-donut{width:120px;height:120px;border-radius:50%;flex-shrink:0;position:relative;display:flex;align-items:center;justify-content:center;background:conic-gradient(#ffd700 calc(var(--pct,0)*1%),#eceae4 0)}
+.ov-donut::before{content:'';position:absolute;inset:12px;background:#fff;border-radius:50%}
+.ov-donut-center{position:relative;z-index:1;text-align:center}
+.ov-donut-pct{font-family:'Georgia',serif;font-size:24px;line-height:1.1}
+.ov-donut-label{font-size:10px;color:#999;text-transform:uppercase;letter-spacing:0.4px;margin-top:2px}
+.ov-stage-breakdown{flex:1;min-width:160px}
+.ov-sb-row{margin-bottom:10px}
+.ov-sb-row:last-child{margin-bottom:0}
+.ov-sb-top{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;margin-bottom:4px}
+.ov-sb-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.ov-sb-pct{margin-left:auto;color:#666;font-weight:700}
+.ov-sb-bar{height:5px;background:#eee;border-radius:3px;overflow:hidden}
+.ov-sb-bar-fill{height:100%;border-radius:3px}
+
+.ov-stat-cards{display:flex;flex-direction:column;gap:10px}
+.ov-stat-card{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:8px;background:#f7f7f5}
+.ov-stat-card.highlight{background:#fff8e1}
+.ov-stat-card.good{background:#eaf6ec}
+.ov-stat-icon{width:36px;height:36px;border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#1a1a1a}
+.ov-stat-icon svg{width:18px;height:18px}
+.ov-stat-text-label{font-size:11px;color:#888;margin-bottom:2px}
+.ov-stat-text-value{font-family:'Georgia',serif;font-size:22px;line-height:1}
+
+.ov-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.ov-view-all{border:none;background:none;font-size:12px;font-weight:600;color:#666;cursor:pointer;white-space:nowrap}
+.ov-view-all:hover{color:#1a1a1a}
+
+.ov-upcoming-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0ee}
+.ov-upcoming-row:last-child{border-bottom:none}
+.ov-date-box{width:46px;flex-shrink:0;text-align:center;background:#f7f7f5;border-radius:7px;padding:5px 0}
+.ov-date-month{font-size:9px;font-weight:700;color:#999;letter-spacing:0.4px}
+.ov-date-day{font-size:16px;font-weight:700;font-family:'Georgia',serif}
+.ov-upcoming-info{flex:1;min-width:0}
+.ov-upcoming-title{font-size:13px;font-weight:600;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ov-upcoming-loc{font-size:11px;color:#999;display:flex;align-items:center;gap:4px}
+.ov-upcoming-loc svg{width:11px;height:11px;flex-shrink:0}
+
+.ov-project-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0ee}
+.ov-project-row:last-child{border-bottom:none}
+.ov-project-thumb{width:44px;height:44px;border-radius:8px;background:#eceae4;background-size:cover;background-position:center;flex-shrink:0}
+.ov-project-info{flex:1;min-width:0}
+.ov-project-title{font-size:13px;font-weight:600;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ov-project-loc{font-size:11px;color:#999;display:flex;align-items:center;gap:4px}
+.ov-project-loc svg{width:11px;height:11px;flex-shrink:0}
+.ov-project-progress{display:flex;align-items:center;gap:8px;width:120px;flex-shrink:0}
+.ov-project-progress .usage-bar{margin:0;flex:1}
+.ov-project-pct{font-size:12px;font-weight:700;width:32px;text-align:right;flex-shrink:0}
+.ov-arrow-btn{width:28px;height:28px;border-radius:50%;border:1px solid #e5e5e5;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;color:#1a1a1a;padding:0}
+.ov-arrow-btn svg{width:14px;height:14px}
+.ov-arrow-btn:hover{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.ov-arrow-btn:disabled{opacity:.35;cursor:default}
+.ov-arrow-btn:disabled:hover{background:#fff;color:#1a1a1a;border-color:#e5e5e5}
 .resources-tabs{display:flex;gap:28px;border-bottom:1px solid #e5e5e5;margin-bottom:20px}
 .resources-tab{padding:0 0 10px;border:none;background:none;font-size:14px;font-weight:500;color:#999;border-bottom:2px solid transparent}
 .resources-tab.active{color:#1a1a1a;border-bottom-color:#1a1a1a;font-weight:600}
@@ -377,6 +436,9 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
    MOBILE / VERTICAL-SCREEN RESPONSIVE LAYER
    ====================================================== */
 @media (max-width:768px){
+.ov2-grid{grid-template-columns:1fr}
+.ov-project-progress{width:70px}
+.ov-project-title,.ov-upcoming-title{white-space:normal}
 body{overflow-x:hidden}
 
 /* ---- Header: stack into rows (logo, then centered nav, then user) ---- */
@@ -488,42 +550,31 @@ h1{font-size:28px}
 <div id="overview" class="page active">
 <div class="page-date">30 OCTOBER 2026</div>
 <div class="page-title-row"><h1 class="page-heading">Overview</h1><button class="btn-primary" onclick="openNewProjectModal()">New project</button></div>
-<div class="stats-grid">
-<div class="stat-box"><div class="stat-label">Active Projects</div><div class="stat-value" id="statActive">5</div><div class="stat-desc">in flight</div></div>
-<div class="stat-box"><div class="stat-label">Shots Planned</div><div class="stat-value" id="statShots">89</div><div class="stat-desc" id="statShotsDesc">80 ready or shot</div></div>
-<div class="stat-box"><div class="stat-label">Shooting Days</div><div class="stat-value">27</div><div class="stat-desc">15 Dec – 2 Dec</div></div>
-<div class="stat-box"><div class="stat-label">Completed Projects</div><div class="stat-value" id="statCompleted">6</div><div class="stat-desc">delivered so far</div></div>
-</div>
-<div class="main-grid">
+<div class="ov2-grid">
 <div>
-<div class="box"><div class="box-label">PORTFOLIO</div><div class="box-title">In flight</div><div id="portfolioGrid"></div></div>
-<div class="box"><div class="box-label">LIBRARY</div><div class="box-title">Resources in use</div>
-<div class="lib-grid"><div><div class="lib-sub">CREW</div><div id="crewLibrary"></div></div><div><div class="lib-sub">EQUIPMENT</div><div id="equipmentLibrary"></div></div></div>
+<div class="box ov-progress-card">
+<div class="ov-donut-row">
+<div class="ov-donut" id="ovDonut"><div class="ov-donut-center"><div class="ov-donut-pct" id="ovDonutPct">0%</div><div class="ov-donut-label">Overall Progress</div></div></div>
+<div class="ov-stage-breakdown">
+<div class="box-label">PROGRESS</div><div class="box-title" style="margin-bottom:14px;">By stage</div>
+<div id="ovStageBreakdown"></div>
 </div>
-<div class="two-col">
-<div class="box"><div class="box-label">NEEDS A LOOK</div><div class="box-title">Attention</div>
-<div class="needs-item"><span class="needs-dot">●</span><span>Changes requested on Hollow City · v1 rough cut</span></div>
-<div class="needs-item"><span class="needs-dot">●</span><span>Postponed day: Paper Boats · Day 4 — the answer</span></div>
 </div>
-<div class="box"><div class="box-label">LOG</div><div class="box-title">Recent activity</div><div id="activityLog"></div></div>
 </div>
+<div class="ov-stat-cards" id="ovStatCards"></div>
 </div>
 <div>
-<div class="sidebar-box"><div class="box-label">NEXT UP</div><div class="box-title">Shooting schedule</div><div id="nextUpSchedule"></div></div>
-<div class="sidebar-box"><div class="box-label">STUDIO</div><div class="box-title">Workspace summary</div>
-<div class="sidebar-label"><span>Projects</span><span class="sidebar-value">11</span></div>
-<div class="sidebar-label"><span>Shooting days</span><span class="sidebar-value">27 · 20 wrapped</span></div>
-<div class="sidebar-label"><span>Crew</span><span class="sidebar-value" id="ovCrewStat">—</span></div>
-<div class="sidebar-label"><span>Equipment</span><span class="sidebar-value" id="ovEquipStat">—</span></div>
-<div class="sidebar-label"><span>Budget planned</span><span class="sidebar-value">₹38,90,000</span></div>
-<div class="sidebar-label"><span>Spent</span><span class="sidebar-value">₹22,16,350</span></div>
-<div class="sidebar-label"><span>Videos out</span><span class="sidebar-value">13 · 508.4K views</span></div>
+<div class="box">
+<div class="ov-card-head"><div><div class="box-label">SCHEDULE</div><div class="box-title">Upcoming</div></div></div>
+<div id="ovUpcoming"></div>
 </div>
-<div class="sidebar-box"><div class="box-label">STATUS</div><div class="box-title">Readiness</div>
-<div class="sidebar-label"><span>Shots completed</span><span class="sidebar-value">85%</span></div>
-<div class="usage-bar"><div class="usage-bar-fill" style="width:85%"></div></div>
-<div class="sidebar-label"><span>Days wrapped</span><span class="sidebar-value">20/27</span></div>
-<div class="sidebar-label"><span>Versions in progress</span><span class="sidebar-value">3</span></div>
+<div class="box">
+<div class="ov-card-head"><div><div class="box-label">PORTFOLIO</div><div class="box-title">Active projects (<span id="ovActiveCount">0</span>)</div></div></div>
+<div id="ovActiveList"></div>
+</div>
+<div class="box">
+<div class="ov-card-head"><div><div class="box-label">DELIVERED</div><div class="box-title">Completed projects (<span id="ovCompletedCount">0</span>)</div></div><button class="ov-view-all" onclick="goQuickAccess('completed')">View all →</button></div>
+<div id="ovCompletedList"></div>
 </div>
 </div>
 </div>
@@ -942,31 +993,68 @@ let done=0,total=0;
 (p.days||[]).forEach(d=>(d.scenes||[]).forEach(s=>(s.shots||[]).forEach(sh=>{total++; if(sh.status==='Completed')done++;})));
 return {done,total};
 }
+const OV_ICONS={
+folder:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/></svg>',
+play:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M10 8.5l6 3.5-6 3.5v-7z"/></svg>',
+check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>',
+layers:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg>',
+pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.8 7-11.5A7 7 0 0 0 5 9.5C5 14.2 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.3"/></svg>',
+arrow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>'
+};
 function renderOverview(){
-const list=STATE.projects.filter(p=>getProjectStatus(p)!=='Delivered');
-document.getElementById('statActive').textContent=list.length;
-document.getElementById('portfolioGrid').innerHTML=list.map((p)=>{
-const sh=projShots(p);
-return `<div class="portfolio-row" onclick="openProject('${p.id}')">
-<div class="pf-info"><div class="pf-title">${p.title}</div><div class="pf-meta">${p.client} · ${p.format}</div></div>
-<div class="pf-right"><div class="mini-bar">${barHtml(sh.done,sh.total)}</div><span class="pf-shots">${sh.done}/${sh.total} shots<span class="pf-arrow">↗</span></span></div>
-</div>`;
-}).join('') || '<div style="font-size:12px;color:#999;padding:12px 0;">Nothing in flight.</div>';
+const active=STATE.projects.filter(p=>getProjectStatus(p)!=='Delivered');
+const completedLive=STATE.projects.filter(p=>getProjectStatus(p)==='Delivered').map(projectToCompletedCard);
+const completedAll=[...completedLive,...STATE.completed];
+const n=active.length;
 
-const crewTop=STATE.crew.slice().sort((a,b)=>b.totalEarned-a.totalEarned).slice(0,3);
-document.getElementById('crewLibrary').innerHTML=crewTop.map(c=>`<div class="lib-row"><span class="lib-name">${c.name}<span class="lib-count">${c.projCount} proj</span></span><span class="lib-amt">${fmt(c.totalEarned)}</span></div>`).join('');
-const equipTop=STATE.equipment.filter(e=>e.rate>0).sort((a,b)=>b.rate-a.rate).slice(0,3);
-document.getElementById('equipmentLibrary').innerHTML=equipTop.map(e=>`<div class="lib-row"><span class="lib-name">${e.name}<span class="lib-count">${e.projCount} proj</span></span><span class="lib-amt">${fmt(e.rate)}</span></div>`).join('');
-const crewInhouse=STATE.crew.filter(c=>c.status==='inhouse').length;
-const equipRental=STATE.equipment.filter(e=>e.status==='freelance').length;
-const ovCrewEl=document.getElementById('ovCrewStat'); if(ovCrewEl) ovCrewEl.textContent=`${STATE.crew.length} · ${crewInhouse} in-house`;
-const ovEquipEl=document.getElementById('ovEquipStat'); if(ovEquipEl) ovEquipEl.textContent=`${STATE.equipment.length} · ${equipRental} rental`;
-const statCompletedEl=document.getElementById('statCompleted'); if(statCompletedEl) statCompletedEl.textContent=STATE.completed.length + STATE.projects.filter(p=>getProjectStatus(p)==='Delivered').length;
+/* Overall progress donut */
+const overallPct = n ? Math.round(active.reduce((s,p)=>s+STAGE_ORDER.filter(k=>p.sections[k].confirmed).length,0)/(n*5)*100) : 0;
+const donut=document.getElementById('ovDonut'); if(donut) donut.style.setProperty('--pct',overallPct);
+const donutPct=document.getElementById('ovDonutPct'); if(donutPct) donutPct.textContent=overallPct+'%';
 
-const ACTIVITY=['Tiffin marked Delivered','Tiffin moved to Delivery','Masters and archive handed over','v1 rough cut sent for review','Hollow City moved to Post-production','v2 fine cut uploaded for approval','Day 4 postponed, shots moved to Day 3','Day 1 wrapped — 4 shots completed'];
-document.getElementById('activityLog').innerHTML=ACTIVITY.map(a=>`<div class="log-line">${a}</div>`).join('');
+/* Progress by broad stage */
+const BUCKETS=[{key:'Pre Production',stages:['brief','shotPlanning','budgeting'],color:'#ffd700'},{key:'Production',stages:['shootTracking'],color:'#999'},{key:'Post Production',stages:['delivery'],color:'#cfcfc9'}];
+document.getElementById('ovStageBreakdown').innerHTML=BUCKETS.map(b=>{
+const pct = n ? Math.round(active.reduce((s,p)=>s+b.stages.filter(k=>p.sections[k].confirmed).length,0)/(n*b.stages.length)*100) : 0;
+return `<div class="ov-sb-row"><div class="ov-sb-top"><span class="ov-sb-dot" style="background:${b.color}"></span><span>${b.key}</span><span class="ov-sb-pct">${pct}%</span></div><div class="ov-sb-bar"><div class="ov-sb-bar-fill" style="width:${pct}%;background:${b.color}"></div></div></div>`;
+}).join('');
+
+/* Stat cards */
+const totalResources=STATE.crew.length+STATE.equipment.length;
+const preProdCount=active.filter(p=>getProjectStatus(p)==='Pre Production').length;
+const STATS=[
+{icon:'folder',label:'Total Projects',value:active.length+completedAll.length,cls:''},
+{icon:'play',label:'Pre Production',value:preProdCount,cls:'highlight'},
+{icon:'check',label:'Completed',value:completedAll.length,cls:'good'},
+{icon:'layers',label:'Total Resources',value:totalResources,cls:''}
+];
+document.getElementById('ovStatCards').innerHTML=STATS.map(s=>`<div class="ov-stat-card ${s.cls}"><div class="ov-stat-icon">${OV_ICONS[s.icon]}</div><div><div class="ov-stat-text-label">${s.label}</div><div class="ov-stat-text-value">${s.value}</div></div></div>`).join('');
+
+/* Upcoming */
 const SCHEDULE=[{d:'3 Nov',p:'Paper Boats · Day 2 — stairwell'},{d:'4 Nov',p:'Paper Boats · Day 3 — rain tower'},{d:'12 Nov',p:'Monsoon Letters · Day 1'},{d:'13 Nov',p:'Monsoon Letters · Day 2'},{d:'1 Dec',p:'The Last Bus · Day 1 — depot'},{d:'2 Dec',p:'The Last Bus · Day 2 — route'}];
-document.getElementById('nextUpSchedule').innerHTML=SCHEDULE.map(s=>`<div class="sched-row"><span class="sched-date">${s.d}</span><span class="sched-proj">${s.p}</span></div>`).join('');
+document.getElementById('ovUpcoming').innerHTML=SCHEDULE.map(s=>{
+const [day,month]=s.d.split(' ');
+const projTitle=s.p.split(' · ')[0];
+const proj=STATE.projects.find(pp=>pp.title===projTitle);
+const loc=proj&&proj.place?proj.place:'';
+return `<div class="ov-upcoming-row"><div class="ov-date-box"><div class="ov-date-month">${(month||'').toUpperCase()}</div><div class="ov-date-day">${day}</div></div><div class="ov-upcoming-info"><div class="ov-upcoming-title">${s.p}</div>${loc?`<div class="ov-upcoming-loc">${OV_ICONS.pin}${loc}</div>`:''}</div><span class="pill shoot">Shoot</span></div>`;
+}).join('') || '<div style="font-size:12px;color:#999;padding:8px 0;">Nothing scheduled.</div>';
+
+/* Active projects */
+document.getElementById('ovActiveCount').textContent=active.length;
+document.getElementById('ovActiveList').innerHTML=active.map(p=>{
+const pct=Math.round(STAGE_ORDER.filter(k=>p.sections[k].confirmed).length/5*100);
+const thumbStyle=p.thumbnail?`background-image:url('${p.thumbnail}')`:'';
+return `<div class="ov-project-row"><div class="ov-project-thumb" style="${thumbStyle}"></div><div class="ov-project-info"><div class="ov-project-title">${p.title}</div><div class="ov-project-loc">${OV_ICONS.pin}${p.place||p.format||''}</div></div><div class="ov-project-progress"><div class="usage-bar"><div class="usage-bar-fill" style="width:${pct}%"></div></div><span class="ov-project-pct">${pct}%</span></div><button class="ov-arrow-btn" onclick="openProject('${p.id}')">${OV_ICONS.arrow}</button></div>`;
+}).join('') || '<div style="font-size:12px;color:#999;padding:8px 0;">Nothing in flight.</div>';
+
+/* Completed projects preview */
+document.getElementById('ovCompletedCount').textContent=completedAll.length;
+document.getElementById('ovCompletedList').innerHTML=completedAll.slice(0,5).map(p=>{
+const thumbStyle=p.thumbnail?`background-image:url('${p.thumbnail}')`:'';
+const openBtn=p._liveId?`<button class="ov-arrow-btn" onclick="openProject('${p._liveId}')">${OV_ICONS.arrow}</button>`:`<button class="ov-arrow-btn" disabled>${OV_ICONS.arrow}</button>`;
+return `<div class="ov-project-row"><div class="ov-project-thumb" style="${thumbStyle}"></div><div class="ov-project-info"><div class="ov-project-title">${p.title}</div><div class="ov-project-loc">${OV_ICONS.pin}${p.place||''}</div></div><span class="pill completed-ov">Completed</span>${openBtn}</div>`;
+}).join('') || '<div style="font-size:12px;color:#999;padding:8px 0;">Nothing delivered yet.</div>';
 }
 
 /* ---------- COMPLETED ---------- */
