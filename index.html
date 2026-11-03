@@ -33,6 +33,15 @@ header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;paddin
 .nav-tab{padding:7px 16px;border:none;background:none;border-radius:18px;font-size:14px;font-weight:500;color:#666;transition:all .15s}
 .nav-tab.active{background:#1a1a1a;color:#fff}
 .nav-tab:hover:not(.active){color:#1a1a1a}
+.nav-tab.done:not(.active){color:#2e7d32}
+.nav-tab.disabled{opacity:.35;cursor:default;pointer-events:none}
+.quick-access{position:relative}
+.quick-access-btn{display:flex;align-items:center;gap:4px;padding:7px 14px;border:1px solid #e5e5e5;background:#fff;border-radius:18px;font-size:12px;font-weight:600;color:#666;cursor:pointer;transition:all .15s}
+.quick-access-btn:hover{border-color:#1a1a1a;color:#1a1a1a}
+.quick-access-menu{display:none;position:absolute;top:calc(100% + 8px);right:0;background:#fff;border:1px solid #e5e5e5;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);min-width:160px;padding:6px;z-index:30}
+.quick-access-menu.open{display:block}
+.quick-access-menu button{display:block;width:100%;text-align:left;padding:9px 12px;border:none;background:none;border-radius:7px;font-size:13px;font-weight:500;color:#1a1a1a;cursor:pointer;transition:background .12s}
+.quick-access-menu button:hover{background:#f2f2ef}
 .user-info{display:flex;align-items:center;gap:8px;font-size:12px}
 .user-label{color:#1a1a1a;font-weight:600}
 .user-sep{color:#ddd}
@@ -462,12 +471,15 @@ h1{font-size:28px}
 <div class="header-left">
 <div class="logo" onclick="showView('overview')"><div class="logo-square"></div><span>BIG SHORT FILMS</span></div>
 </div>
-<div class="nav-tabs">
-<button class="nav-tab active" data-tab="overview">Overview</button>
-<button class="nav-tab" data-tab="resources">Resources</button>
-<button class="nav-tab" data-tab="completed">Completed</button>
-</div>
+<div class="nav-tabs" id="headerStageTabs"></div>
 <div class="header-right">
+<div class="quick-access" id="quickAccessWrap">
+<button class="quick-access-btn" onclick="toggleQuickAccess(event)">Quick Access <span style="font-size:9px">▾</span></button>
+<div class="quick-access-menu" id="quickAccessMenu">
+<button onclick="goQuickAccess('resources')">Resources</button>
+<button onclick="goQuickAccess('completed')">Completed</button>
+</div>
+</div>
 <div class="user-info"><span class="user-label">Balamurali Krishna</span><span class="user-sep">|</span><span class="user-name">ADMIN</span></div>
 </div>
 </header>
@@ -580,7 +592,6 @@ h1{font-size:28px}
 <div class="stage-progress" id="pdProgress"></div>
 <div class="stage-progress-label" id="pdProgressLabel">—</div>
 </div>
-<div class="stage-tabs" id="pdTabs"></div>
 <div id="pdContent"></div>
 </div>
 </main>
@@ -870,18 +881,45 @@ function setCompletedSearch(v){ completedSearch=v; renderCompleted(); }
 function setResourcesSearch(v){ resourcesSearch=v; renderResources(); }
 function setResourcesCategoryFilter(v){ resourcesCategoryFilter=v; renderResources(); }
 
-document.querySelectorAll('.nav-tab').forEach(btn=>{
-btn.addEventListener('click',e=>{ showView(e.target.dataset.tab); });
-});
-
 function showView(view){
 currentView=view;
-document.querySelectorAll('.nav-tab').forEach(b=>b.classList.toggle('active', b.dataset.tab===view));
 document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
 const el=document.getElementById(view);
 if(el) el.classList.add('active');
+renderHeaderStageTabs();
+closeQuickAccess();
 window.scrollTo(0,0);
 }
+
+function renderHeaderStageTabs(){
+const wrap=document.getElementById('headerStageTabs');
+if(!wrap) return;
+const p = (currentView==='projectDetail' && currentProjectId) ? currentProject() : null;
+wrap.innerHTML = STAGE_ORDER.map(k=>{
+if(!p) return `<button class="nav-tab disabled">${STAGE_NAMES[k]}</button>`;
+const active=currentTab===k;
+const done=p.sections[k].confirmed;
+return `<button class="nav-tab ${active?'active':''} ${!active&&done?'done':''}" onclick="setTab('${k}')">${STAGE_NAMES[k]}</button>`;
+}).join('');
+}
+
+function toggleQuickAccess(e){
+if(e) e.stopPropagation();
+const m=document.getElementById('quickAccessMenu');
+if(m) m.classList.toggle('open');
+}
+function closeQuickAccess(){
+const m=document.getElementById('quickAccessMenu');
+if(m) m.classList.remove('open');
+}
+function goQuickAccess(view){
+closeQuickAccess();
+showView(view);
+}
+document.addEventListener('click', (e)=>{
+const wrap=document.getElementById('quickAccessWrap');
+if(wrap && !wrap.contains(e.target)) closeQuickAccess();
+});
 
 function barHtml(done,total){
 const n=Math.min(Math.max(total,0),8)||1;
@@ -1367,13 +1405,7 @@ progressTrack.innerHTML='<div class="stage-progress-fill" id="stageProgressFill"
 requestAnimationFrame(()=>{ requestAnimationFrame(()=>{ const f=document.getElementById('stageProgressFill'); if(f) f.style.width=progressPct+'%'; }); });
 document.getElementById('pdProgressLabel').textContent=`${status.toUpperCase()} · ${STAGE_NAMES[currentTab].toUpperCase()} · ${confirmedCount}/5`;
 
-document.getElementById('pdTabs').innerHTML=STAGE_ORDER.map((k,i)=>{
-const done=p.sections[k].confirmed;
-return `<button class="stage-tab ${currentTab===k?'active':''} ${done?'done':''}" onclick="setTab('${k}')">
-<span class="stage-tab-icon">${STAGE_ICONS[k]}</span>
-<span class="stage-tab-text">${STAGE_NAMES[k]}</span>
-</button>`;
-}).join('');
+renderHeaderStageTabs();
 
 const content=document.getElementById('pdContent');
 if(currentTab==='brief') content.innerHTML=renderBriefTab(p);
@@ -1984,7 +2016,7 @@ const {data:projects}=await supabase.from('projects').select('*');
 console.log('supabase projects',projects);
 }catch(e){console.error('Supabase load error',e);}
 }
-renderOverview();renderCompleted();renderResources();
+renderOverview();renderCompleted();renderResources();renderHeaderStageTabs();
 loadData();
 </script>
 <script>
