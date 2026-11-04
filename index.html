@@ -464,7 +464,11 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
    ====================================================== */
 @media (max-width:768px){
 .ov2-grid{grid-template-columns:1fr}
-.ov-project-progress{width:70px}
+.ov-project-row{flex-wrap:wrap;row-gap:6px}
+.ov-project-progress{width:100%;flex-basis:100%;order:4;margin-top:2px}
+.ov-card-head{flex-wrap:wrap;row-gap:8px}
+.ov-heading-lg{font-size:18px}
+.status-pill-display{padding:5px 10px;font-size:9px}
 .ov-project-title,.ov-upcoming-title{white-space:normal}
 body{overflow-x:hidden}
 
@@ -501,7 +505,7 @@ h1{font-size:28px}
 .pd-title-block{border-left:none;padding-left:0}
 .pd-title-block h1{font-size:18px}
 .pd-progress-inline{border-left:none;padding-left:0;flex-basis:100%;order:3}
-.proj-head-actions{border-left:none;padding-left:0}
+.proj-head-actions{border-left:none;padding-left:0;flex-basis:100%;flex-wrap:wrap;row-gap:8px}
 .stage-progress-label{white-space:normal;text-align:right}
 .stage-tab-text{display:none}
 .stage-tab{min-width:0;padding:9px}
