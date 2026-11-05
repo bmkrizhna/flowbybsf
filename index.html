@@ -61,7 +61,7 @@ select:disabled{cursor:default}
 .sidebar-toggle svg{width:18px;height:18px;transition:opacity .2s}
 body.sidebar-collapsed .sidebar{width:56px;padding:18px 6px}
 body.sidebar-collapsed .sidebar-toggle{align-self:center;margin:0 0 40px 0}
-body.sidebar-collapsed .sidebar-link{justify-content:center;padding:13px 0}
+body.sidebar-collapsed .sidebar-link{justify-content:center;padding:13px 0;gap:0}
 body.sidebar-collapsed .sidebar-link-label{opacity:0;width:0}
 body.sidebar-collapsed .sidebar-user{justify-content:center;padding:13px 0}
 body.sidebar-collapsed .sidebar-user-name{opacity:0;width:0}
@@ -113,8 +113,8 @@ main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
 .completed-card{border:1px solid #e5e5e5;border-radius:8px;overflow:hidden;background:#fff}
 .completed-image{height:220px;background:#111;position:relative;padding:14px;display:flex;flex-direction:column;justify-content:space-between}
 .completed-image .badges{display:flex;justify-content:space-between}
-.status-badge{font-family:'Satoshi',sans-serif;padding:5px 10px;background:var(--gold-bg);color:var(--gold-text);font-size:11px;font-weight:700;border-radius:20px;text-transform:uppercase;letter-spacing:0.5px}
-.date-badge{font-family:'Satoshi',sans-serif;padding:5px 10px;background:#fff;color:#1a1a1a;font-size:11px;font-weight:700;border-radius:20px;text-transform:uppercase;letter-spacing:0.5px}
+.status-badge{font-family:'Satoshi',sans-serif;padding:5px 10px;background:var(--gold-bg);color:var(--gold-text);font-size:11px;font-weight:700;border-radius:999px}
+.date-badge{font-family:'Satoshi',sans-serif;padding:5px 10px;background:#fff;color:#1a1a1a;font-size:11px;font-weight:700;border-radius:999px}
 .completed-image .ctitle{color:#fff;font-family:'Bevellier',sans-serif;font-size:16px;line-height:1.3}
 .completed-content{padding:18px}
 .completed-meta{font-size:13px;color:#999}
@@ -124,7 +124,7 @@ main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
 .detail-value{color:#333}
 .completed-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid #eee}
 .pill-group{display:flex;gap:6px}
-.pill{font-family:'Satoshi',sans-serif;font-size:11px;padding:5px 10px;border-radius:999px;border:none;background:#f0f0f0;color:#6b6b6b;text-transform:uppercase;letter-spacing:0.4px;font-weight:700}
+.pill{font-family:'Satoshi',sans-serif;font-size:11px;padding:5px 10px;border-radius:999px;border:none;background:#f0f0f0;color:#6b6b6b;font-weight:700}
 .pill.stages{background:var(--accent-bg);color:var(--accent-text);border-color:var(--accent-bg)}
 
 /* ---- Overview dashboard ---- */
@@ -260,7 +260,7 @@ main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
 .proj-head-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;border-left:1px solid #eee;padding-left:20px}
 .pd-stage-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .proj-meta-line{font-size:13px;color:#999}
-.status-pill-display{font-family:'Satoshi',sans-serif;padding:6px 14px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:0.3px;text-transform:uppercase;white-space:nowrap}
+.status-pill-display{font-family:'Satoshi',sans-serif;padding:10px 20px;border-radius:999px;font-size:13px;font-weight:600;white-space:nowrap}
 .status-pill-display.pre{background:var(--lavender-bg);color:var(--lavender-text)}
 .status-pill-display.prod{background:var(--peach-bg);color:var(--peach-text)}
 .status-pill-display.post{background:var(--mint-bg);color:var(--mint-text)}
@@ -268,10 +268,8 @@ main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
 .stage-progress{flex:1;height:7px;border-radius:4px;overflow:hidden;background-image:repeating-linear-gradient(135deg,#f0f0f0 0,#f0f0f0 5px,#f4f4f4 5px,#f4f4f4 10px)}
 .stage-progress-fill{height:100%;width:0%;background:var(--accent);border-radius:4px;transition:width .7s cubic-bezier(.4,0,.2,1)}
 .stage-progress-label{font-size:11px;font-weight:700;color:#999;white-space:nowrap}
-.btn-icon-label{display:inline-flex;align-items:center;gap:6px}
-.icon-only-btn{width:34px;height:34px;padding:0;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
-.section-badge.confirmed{display:inline-flex;align-items:center;gap:5px;background:var(--accent-bg);color:var(--accent-text);border-color:var(--accent-bg)}
-.section-badge{font-size:11px;padding:6px 12px;border:1px solid #ddd;border-radius:20px;color:#666;white-space:nowrap;font-weight:700}
+.section-badge.confirmed{display:inline-flex;align-items:center;background:var(--accent-bg);color:var(--accent-text)}
+.section-badge{font-size:13px;padding:10px 20px;border:none;border-radius:999px;color:#666;white-space:nowrap;font-weight:600;display:inline-flex;align-items:center}
 .field-label{margin-bottom:6px;display:block}
 .field-box{margin-bottom:16px}
 textarea.f-input,input.f-input,select.f-input{width:100%;padding:10px 14px;border:none;background:#f0f0f0;border-radius:12px;font-size:14px;font-family:inherit;resize:vertical;color:#1a1a1a}
@@ -284,7 +282,7 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .thumb-preview{width:100%;height:100%;object-fit:cover}
 .shoot-day-box{border:1px solid #e5e5e5;border-radius:8px;margin-bottom:14px;padding:14px 16px;background:#fff}
 .shoot-day-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:13px;flex-wrap:wrap;row-gap:8px}
-.day-badge{font-family:'Satoshi',sans-serif;font-size:11px;padding:5px 10px;border-radius:20px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px}
+.day-badge{font-family:'Satoshi',sans-serif;font-size:11px;padding:5px 10px;border-radius:999px;font-weight:700}
 .day-badge.Wrapped{background:var(--accent-bg);color:var(--accent-text)}
 .day-badge.Shooting{background:var(--accent-text);color:#fff}
 .day-badge.Scheduled{background:#eee;color:#666}
@@ -436,13 +434,13 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .ov-project-progress{width:100%;flex-basis:100%;order:4;margin-top:2px}
 .ov-card-head{flex-wrap:wrap;row-gap:8px}
 .ov-heading-lg{font-size:16px}
-.status-pill-display{padding:5px 10px;font-size:11px}
+.status-pill-display{padding:7px 16px;font-size:12px}
 .ov-project-title,.ov-upcoming-title{white-space:normal}
 body{overflow-x:hidden}
 
 /* ---- Sidebar: collapse to an icon-only rail ---- */
 .sidebar{width:56px;padding:18px 6px;top:108px;height:calc(100vh - 108px)}
-.sidebar-link{justify-content:center;padding:13px 0}
+.sidebar-link{justify-content:center;padding:13px 0;gap:0}
 .sidebar-link-label{display:none}
 .sidebar-bottom{flex-direction:column;gap:10px}
 .sidebar-user{justify-content:center;padding:13px 0}
@@ -769,9 +767,6 @@ expenses:[
 /* ---------- DATA MODEL ---------- */
 const STAGE_ORDER=['brief','shotPlanning','budgeting','shootTracking','delivery'];
 const STAGE_NAMES={brief:'Brief',shotPlanning:'Planner',budgeting:'Budgeting',shootTracking:'Tracker',delivery:'Review'};
-const ICON_CHECK='<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>';
-const ICON_PENCIL='<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
-const ICON_DOWNLOAD='<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>';
 const ICON_HOUSE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5l9-7 9 7V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9.5z"/><path d="M9 21v-7h6v7"/></svg>';
 const ICON_DOC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>';
 const ICON_CAL_PLAIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
@@ -1635,11 +1630,11 @@ const locked=confirmed && !editing;
 const actionsEl=document.getElementById('pdStageActions');
 let actionHtml='';
 if(opts.noProceed){
-actionHtml = confirmed ? `<span class="section-badge confirmed">${ICON_CHECK}Completed</span><button class="btn-ghost btn-icon-label" onclick="toggleEditStage('${key}')">${ICON_PENCIL}Edit</button>` : '';
+actionHtml = confirmed ? `<span class="section-badge confirmed">Completed</span><button class="btn-ghost" onclick="toggleEditStage('${key}')">Edit</button>` : '';
 } else {
-actionHtml = locked ? `<span class="section-badge confirmed">${ICON_CHECK}Completed</span><button class="btn-ghost btn-icon-label" onclick="toggleEditStage('${key}')">${ICON_PENCIL}Edit</button>` : `<button class="confirm-btn" onclick="proceedStage('${key}')">Proceed</button>`;
+actionHtml = locked ? `<span class="section-badge confirmed">Completed</span><button class="btn-ghost" onclick="toggleEditStage('${key}')">Edit</button>` : `<button class="confirm-btn" onclick="proceedStage('${key}')">Proceed</button>`;
 }
-if(actionsEl) actionsEl.innerHTML = `<button class="btn-ghost icon-only-btn" title="Save PDF" aria-label="Save PDF" onclick="printStage('${key}')">${ICON_DOWNLOAD}</button>${actionHtml}`;
+if(actionsEl) actionsEl.innerHTML = `<button class="btn-ghost" title="Save PDF" aria-label="Save PDF" onclick="printStage('${key}')">Save PDF</button>${actionHtml}`;
 }
 function printStage(key){
 const p=currentProject();
@@ -1872,7 +1867,7 @@ return days.map((d,di)=>`
 <div class="shoot-day-head">
 <input class="f-input" type="date" style="width:160px;" value="${d.date}" onchange="updateDay(${di},'date',this.value)">
 <span style="color:#999;">${(d.scenes||[]).reduce((a,s)=>a+(s.shots||[]).length,0)} shots</span>
-<span class="day-badge ${d.status}">${d.status.toUpperCase()}</span>
+<span class="day-badge ${d.status}">${d.status}</span>
 <button class="word-link" onclick="removeDay(${di})">Delete</button>
 </div>
 ${(d.scenes||[]).map((sc,si)=>{
@@ -1925,12 +1920,12 @@ const sh=r.shot, shi=r.shi;
 const anchorId='shot-'+di+'-'+si+'-'+shi;
 return `<div class="sb-card" onclick="focusShotInList('${anchorId}')">
 <div class="sb-img">${sh.image?`<img src="${sh.image}">`:'No image'}</div>
-<div class="sb-body"><div class="sb-num">${sh.num}</div><div class="sb-desc">${sh.desc||'Untitled shot'}</div><span class="day-badge ${sh.status}">${sh.status.toUpperCase()}</span></div>
+<div class="sb-body"><div class="sb-num">${sh.num}</div><div class="sb-desc">${sh.desc||'Untitled shot'}</div><span class="day-badge ${sh.status}">${sh.status}</span></div>
 </div>`;
 }).join('');
 }).join('');
 return `<div style="margin-bottom:22px;">
-<div class="tr-day-date">${fmtDateShort(d.date)||'Day '+(di+1)}<span class="day-badge ${d.status}">${d.status.toUpperCase()}</span></div>
+<div class="tr-day-date">${fmtDateShort(d.date)||'Day '+(di+1)}<span class="day-badge ${d.status}">${d.status}</span></div>
 <div class="sb-grid">${cards||'<div style="font-size:13px;color:#999;">No shots in this day yet.</div>'}</div>
 </div>`;
 }).join('');
