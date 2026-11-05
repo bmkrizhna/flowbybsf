@@ -60,9 +60,7 @@ main{flex:1;padding:28px 32px 60px}
 .page{display:none}
 .page.active{display:block}
 /* ---- Shared eyebrow / label typography ---- */
-.page-date,.box-label,.lib-sub,.stat-label,.detail-label,.usage-top-label,.top5-title,.field-label{font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:#999;font-size:11px}
-.page-date{margin-bottom:6px}
-.page-title-row{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;gap:16px}
+.box-label,.detail-label,.usage-top-label,.top5-title,.field-label{font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:#999;font-size:11px}
 /* ---- Shared button baseline: same box type/sizing for every action button ---- */
 .btn-primary,.btn-ghost,.add-link,.confirm-btn,.open-btn,.delete-btn,.rate-row button{padding:9px 16px;border-radius:6px;font-size:13px;font-weight:600;line-height:1.2;white-space:nowrap}
 .btn-primary{background:#1a1a1a;color:#fff;border:none}
@@ -75,48 +73,12 @@ main{flex:1;padding:28px 32px 60px}
 .delete-btn{background:#fff;border:1px solid #e5e5e5;color:#c0392b}
 .rate-row button{background:#ffd700;border:none;color:#1a1a1a}
 .word-link{background:none;border:none;color:#c0392b;font-size:11px;font-weight:700;padding:6px 4px}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px}
-.stat-box{padding:18px 20px;border:1px solid #e5e5e5;border-radius:8px;background:#fff}
-.stat-label{font-size:11px;margin-bottom:10px}
-.stat-value{font-family:'Georgia',serif;font-size:34px;font-weight:400;line-height:1;margin-bottom:6px}
-.stat-desc{font-size:12px;color:#666}
-.main-grid{display:grid;grid-template-columns:1fr 300px;gap:16px}
 .box{border:1px solid #e5e5e5;border-radius:8px;padding:18px 20px;margin-bottom:16px;background:#fff}
 .box-label{font-size:11px;margin-bottom:2px}
 .box-title{font-family:'Georgia',serif;font-size:18px;font-weight:400;margin-bottom:12px}
-.portfolio-row{display:flex;align-items:center;padding:12px 0;border-bottom:1px solid #eee;cursor:pointer}
-.portfolio-row:hover{background:#fafafa}
-.portfolio-row:last-child{border-bottom:none;padding-bottom:0}
-.portfolio-row:first-child{padding-top:2px}
-.pf-num{width:22px;color:#999;font-size:12px;flex-shrink:0}
-.pf-info{flex:1;min-width:0;margin-right:16px}
-.pf-title{font-family:'Georgia',serif;font-size:18px;font-weight:400;line-height:1.2}
-.pf-meta{font-size:12px;color:#999;margin-top:2px}
-.pf-right{display:flex;align-items:center;gap:14px;flex-shrink:0}
-.mini-bar{display:flex;gap:2px}
-.mini-bar span{width:14px;height:4px;border-radius:1px;background:#e5e5e5}
-.mini-bar span.filled{background:#ffd700}
-.pf-shots{font-size:12px;color:#666;white-space:nowrap}
-.pf-arrow{color:#ffc107;margin-left:4px}
-.lib-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
-.lib-sub{font-size:11px;margin-bottom:10px}
 .lib-row{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;font-size:13px}
-.lib-name{color:#1a1a1a}
-.lib-count{color:#999;font-size:12px;margin-left:4px}
-.lib-amt{font-weight:600}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.needs-item{display:flex;align-items:flex-start;gap:8px;font-size:14px;color:#333;margin-bottom:10px;line-height:1.4}
-.needs-item:last-child{margin-bottom:0}
-.needs-dot{color:#ffc107;flex-shrink:0;margin-top:1px}
 .log-line{font-size:12px;color:#555;padding:6px 0;border-bottom:1px solid #f2f2f2}
 .log-line:last-child{border-bottom:none}
-.sidebar-box{border:1px solid #e5e5e5;border-radius:8px;padding:16px 18px;margin-bottom:16px;background:#fff}
-.sched-row{padding:8px 0;border-bottom:1px solid #f2f2f2;font-size:12px}
-.sched-row:last-child{border-bottom:none;padding-bottom:0}
-.sched-date{color:#999;font-weight:600;margin-right:8px}
-.sched-proj{color:#1a1a1a}
-.sidebar-label{font-size:12px;color:#666;display:flex;justify-content:space-between;padding:6px 0}
-.sidebar-value{font-weight:600;color:#1a1a1a}
 .usage-bar{width:100%;height:4px;background:#eee;border-radius:2px;margin:8px 0 12px;overflow:hidden}
 .usage-bar-fill{height:100%;background:#1a1a1a}
 .completed-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
@@ -212,32 +174,22 @@ main{flex:1;padding:28px 32px 60px}
 .ov-project-progress{display:flex;align-items:center;gap:8px;width:140px;flex-shrink:0}
 .ov-project-progress .usage-bar{margin:0;flex:1}
 .ov-project-pct{font-size:12px;font-weight:700;width:32px;text-align:right;flex-shrink:0}
-.resources-tabs{display:flex;gap:28px;border-bottom:1px solid #e5e5e5;margin-bottom:20px}
-.resources-tab{padding:0 0 10px;border:none;background:none;font-size:14px;font-weight:500;color:#999;border-bottom:2px solid transparent}
-.resources-tab.active{color:#1a1a1a;border-bottom-color:#1a1a1a;font-weight:600}
-.page-title-actions{display:flex;gap:8px;flex-wrap:wrap}
 .page-search-input{width:260px;max-width:100%;padding:9px 14px 9px 34px;border:1px solid #e5e5e5;border-radius:8px;font-size:14px;background:#f8f8f8 url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%23999" stroke-width="2"%3E%3Ccircle cx="11" cy="11" r="8"/%3E%3Cpath d="m21 21-4.35-4.35"/%3E%3C/svg%3E') no-repeat 12px center}
 .page-head-row{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:22px;flex-wrap:wrap}
 .page-head-row .page-heading{margin-bottom:0;flex-shrink:0}
 .page-head-row .page-heading.compact{font-size:21px}
 .search-filter-row{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap;flex:1;min-width:0}
-.search-filter-row.standalone{justify-content:space-between;margin-bottom:18px}
 .search-filter-box{display:flex;align-items:center;border:1px solid #e5e5e5;border-radius:8px;background:#f8f8f8;width:360px;max-width:100%}
 .search-filter-box.wide{flex:1 1 420px;max-width:480px}
 .search-filter-box input{flex:1;min-width:0;border:none;background:transparent;padding:9px 12px;font-size:14px;outline:none}
 .search-filter-box select{border:none;border-left:1px solid #e5e5e5;background-color:transparent;background-size:9px;padding:9px 22px 9px 10px;font-size:12px;color:#666;outline:none;max-width:130px}
 .search-filter-icons{display:flex;gap:8px;flex-shrink:0}
-.icon-btn{width:38px;height:38px;border-radius:8px;border:1px solid #e5e5e5;background:#fff;display:flex;align-items:center;justify-content:center;color:#1a1a1a;flex-shrink:0;cursor:pointer;transition:background .15s,border-color .15s}
-.icon-btn:hover{background:#f2f2ef;border-color:#d8d8d2}
-.icon-btn svg{width:17px;height:17px}
 .icon-btn-text{display:flex;align-items:center;gap:7px;padding:0 14px;height:38px;border-radius:8px;border:1px solid #e5e5e5;background:#fff;color:#1a1a1a;flex-shrink:0;cursor:pointer;font-size:13px;font-weight:600;white-space:nowrap;transition:background .15s,border-color .15s;font-family:inherit}
 .icon-btn-text:hover{background:#f2f2ef;border-color:#d8d8d2}
 .icon-btn-text svg{width:15px;height:15px;flex-shrink:0}
 .resource-group{margin-bottom:28px}
 .resource-group-title{font-family:'Georgia',serif;font-size:20px;font-weight:400;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid #eee}
 .modal-box.xwide{max-width:920px}
-.resources-content{display:none}
-.resources-content.active{display:block}
 .resources-main{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:start}
 .crew-cat-box{border:1px solid #e5e5e5;border-radius:8px;margin-bottom:12px;overflow:hidden;background:#fff}
 .crew-cat-head{padding:12px 18px 8px}
@@ -293,19 +245,8 @@ main{flex:1;padding:28px 32px 60px}
 .stage-progress-label{font-size:11px;font-weight:700;color:#999;white-space:nowrap}
 .btn-icon-label{display:inline-flex;align-items:center;gap:6px}
 .icon-only-btn{width:34px;height:34px;padding:0;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
-.section-badge.confirmed{display:inline-flex;align-items:center;gap:5px}
-.stage-tabs{display:flex;width:100%;background:#f2f2ef;border-radius:12px;padding:4px;gap:2px;margin-bottom:22px;overflow-x:auto}
-.stage-tab{display:flex;align-items:center;justify-content:center;gap:8px;flex:1 1 0;min-width:130px;padding:9px 10px;background:none;border:none;border-radius:9px;cursor:pointer;white-space:nowrap;transition:background .18s}
-.stage-tab-icon{width:24px;height:24px;border-radius:50%;background:transparent;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#999;transition:color .18s}
-.stage-tab-icon svg{width:14px;height:14px}
-.stage-tab-text{font-size:13px;font-weight:600;color:#666;text-align:left;transition:color .18s}
-.stage-tab:hover:not(.active){background:#e9e9e4}
-.stage-tab.done .stage-tab-icon{color:#b38f00}
-.stage-tab.active{background:#1a1a1a}
-.stage-tab.active .stage-tab-icon{color:#ffd700}
-.stage-tab.active .stage-tab-text{color:#fff;font-weight:700}
+.section-badge.confirmed{display:inline-flex;align-items:center;gap:5px;background:#e8f5e9;color:#2e7d32;border-color:#e8f5e9}
 .section-badge{font-size:11px;padding:6px 12px;border:1px solid #ddd;border-radius:20px;color:#666;white-space:nowrap;font-weight:700}
-.section-badge.confirmed{background:#e8f5e9;color:#2e7d32;border-color:#e8f5e9}
 .field-label{margin-bottom:6px;display:block}
 .field-box{margin-bottom:16px}
 textarea.f-input,input.f-input,select.f-input{width:100%;padding:9px 10px;border:1px solid #e5e5e5;border-radius:5px;font-size:14px;font-family:inherit;resize:vertical;color:#1a1a1a}
@@ -488,9 +429,6 @@ body{overflow-x:hidden}
 main{padding:16px 16px 40px}
 h1{font-size:28px}
 .page-heading{font-size:20px}
-.page-title-row{flex-wrap:wrap}
-.page-title-actions{width:100%}
-.page-title-actions .btn-primary{flex:1 1 auto}
 .page-search-input{width:100%}
 .page-head-row{flex-direction:column;align-items:stretch;gap:12px}
 .page-head-row .page-heading.compact{font-size:20px}
@@ -498,7 +436,6 @@ h1{font-size:28px}
 .search-filter-box{width:100%}
 .search-filter-box.wide{max-width:100%}
 .search-filter-icons{width:100%}
-.icon-btn{flex:1 1 0}
 .icon-btn-text{flex:1 1 0;justify-content:center;padding:0 10px}
 .resource-group-title{font-size:17px}
 .pd-thumb{width:42px;height:36px}
@@ -508,24 +445,18 @@ h1{font-size:28px}
 .pd-progress-inline{border-left:none;padding-left:0;flex-basis:100%;order:3}
 .proj-head-actions{border-left:none;padding-left:0;flex-basis:100%;flex-wrap:wrap;row-gap:8px}
 .stage-progress-label{white-space:normal;text-align:right}
-.stage-tab-text{display:none}
-.stage-tab{min-width:0;padding:9px}
 
 /* ---- Grids: collapse to 1 (or 2) columns ----
    minmax(0,1fr) (not bare 1fr) so a track's min-width can't be
    blown out by an unshrinkable descendant (CSS Grid tracks default
    to min-width:auto = content's intrinsic minimum). ---- */
-.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-.main-grid{grid-template-columns:minmax(0,1fr)}
-.lib-grid{grid-template-columns:minmax(0,1fr);gap:18px}
-.two-col{grid-template-columns:minmax(0,1fr)}
 .completed-grid{grid-template-columns:minmax(0,1fr)}
 .resources-main{grid-template-columns:minmax(0,1fr)}
 .rp-grid{grid-template-columns:minmax(0,1fr)}
 .form-grid{grid-template-columns:minmax(0,1fr)}
 .stat-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}
 .usage-sidebar{position:static;top:auto}
-.main-grid>*,.resources-main>*,.rp-grid>*,.two-col>*,.lib-grid>*{min-width:0}
+.resources-main>*,.rp-grid>*{min-width:0}
 
 /* ---- Dense flex rows: allow wrapping instead of overflow ---- */
 .crew-row{flex-wrap:wrap;row-gap:6px}
@@ -551,8 +482,6 @@ h1{font-size:28px}
 .rp-filters{flex-wrap:wrap}
 .rp-filters input,.rp-filters select{flex:1 1 100%;width:100%}
 
-.resources-tabs{overflow-x:auto;gap:18px}
-.resources-tab{white-space:nowrap;flex-shrink:0}
 
 /* ---- Version table: keep its shape, scroll horizontally ---- */
 .box{overflow-x:auto}
@@ -1047,12 +976,6 @@ function goToView(view){
 showView(view);
 }
 
-function barHtml(done,total){
-const n=Math.min(Math.max(total,0),8)||1;
-let h='';
-for(let i=0;i<n;i++){h+=`<span class="${i<done?'filled':''}"></span>`;}
-return h;
-}
 function fmt(n){ return '₹'+Number(n||0).toLocaleString('en-IN'); }
 function resolveCrew(id){ return STATE.crew.find(c=>c.id===id); }
 function resolveEquipment(id){ return STATE.equipment.find(e=>e.id===id); }
@@ -1837,7 +1760,6 @@ return `<div class="sp-scene-row" onclick="scrollToScene(${di},${si})"><span cla
 function renderShotPlanningTab(p){
 const days=p.days||[];
 const totalScenes=days.reduce((a,d)=>a+(d.scenes||[]).length,0);
-const totalShots=days.reduce((a,d)=>a+(d.scenes||[]).reduce((b,s)=>b+(s.shots||[]).length,0),0);
 const unscheduled=p.unscheduledShots||[];
 setStageHeaderExtras('shotPlanning');
 const toolbar=`<div class="sp-toolbar">
