@@ -43,7 +43,7 @@ select:disabled{cursor:default}
 .container{display:flex;flex-direction:row;align-items:stretch;flex:1}
 /* ---- Sidebar nav ---- */
 .sidebar{width:208px;flex-shrink:0;display:flex;flex-direction:column;padding:22px 14px;position:sticky;top:62.5px;align-self:flex-start;height:calc(100vh - 62.5px);overflow-y:auto;transition:width .25s ease,padding .25s ease}
-.sidebar-nav{display:flex;flex-direction:column;gap:20px}
+.sidebar-nav{display:flex;flex-direction:column;gap:34px}
 .sidebar-link{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;border:none;background:none;font-size:14px;font-weight:600;color:#4a4a4a;text-align:left;width:100%;transition:background .15s,color .15s,padding .25s ease}
 .sidebar-link-icon{display:flex;flex-shrink:0}
 .sidebar-link-icon svg{width:20px;height:20px;transition:width .2s ease,height .2s ease}
@@ -55,11 +55,11 @@ select:disabled{cursor:default}
 .sidebar-user{display:flex;align-items:center;gap:12px;padding:13px 14px;font-size:13px;font-weight:700;color:#1a1a1a}
 .sidebar-user-name{white-space:nowrap;overflow:hidden;opacity:1;transition:opacity .2s ease,width .2s ease}
 .sidebar-bottom{display:flex;align-items:center;margin-top:auto;padding-top:14px}
-.sidebar-toggle{width:34px;height:34px;border-radius:8px;border:none;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#4a4a4a;flex-shrink:0;align-self:flex-start;margin:0 0 28px 14px;transition:background .15s,color .15s,margin .25s ease}
+.sidebar-toggle{width:34px;height:34px;border-radius:8px;border:none;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#4a4a4a;flex-shrink:0;align-self:flex-start;margin:0 0 40px 14px;transition:background .15s,color .15s,margin .25s ease}
 .sidebar-toggle:hover{background:#f0f0f0;color:#1a1a1a}
 .sidebar-toggle svg{width:18px;height:18px;transition:opacity .2s}
 body.sidebar-collapsed .sidebar{width:56px;padding:18px 6px}
-body.sidebar-collapsed .sidebar-toggle{align-self:center;margin:0 0 28px 0}
+body.sidebar-collapsed .sidebar-toggle{align-self:center;margin:0 0 40px 0}
 body.sidebar-collapsed .sidebar-link{justify-content:center;padding:13px 0}
 body.sidebar-collapsed .sidebar-link-label{opacity:0;width:0}
 body.sidebar-collapsed .sidebar-user{justify-content:center;padding:13px 0}
@@ -95,6 +95,7 @@ main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
 .btn-primary:hover,.confirm-btn:hover,.open-btn:hover,.rate-row button:hover{background:#333}
 .btn-primary:disabled{opacity:.5;cursor:default}
 .open-btn{display:inline-flex;align-items:center;gap:5px}
+.ov-new-btn{display:inline-flex;align-items:center;gap:6px}
 .btn-ghost,.add-link,.delete-btn{background:#f0f0f0;color:#1a1a1a}
 .btn-ghost:hover,.add-link:hover,.delete-btn:hover{background:#e2e2e2}
 .btn-ghost:disabled,.add-link:disabled{opacity:.5;cursor:default}
@@ -127,7 +128,7 @@ main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
 
 /* ---- Overview dashboard ---- */
 .ov-eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:#999;font-size:11px;margin-bottom:16px}
-.ov2-grid{display:grid;grid-template-columns:360px 1fr;gap:40px;align-items:start}
+.ov2-grid{display:grid;grid-template-columns:minmax(360px,38%) 1fr;gap:56px;align-items:start}
 .ov-readiness{margin-bottom:24px}
 .ov-readiness-title{font-size:20px;font-weight:400;margin-bottom:16px}
 .ov-readiness-pct{font-family:'Bodoni Moda',serif;font-size:32px;line-height:1;margin-bottom:18px}
@@ -563,7 +564,6 @@ setTimeout(dismissIntro, 4500);
 
 <main>
 <div id="overview" class="page active">
-<div class="ov-eyebrow">Dashboard</div>
 <div class="dash-welcome">
 <div class="topbar-left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="topbarGreetIcon"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M2.5 12H5M19 12h2.5M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg><span id="topbarGreeting">Good Morning, Bala</span></div>
 <div class="topbar-right">
@@ -593,7 +593,7 @@ setTimeout(dismissIntro, 4500);
 <div id="ovUpcoming"></div>
 </div>
 <div class="ov-section">
-<div class="ov-card-head"><h3 class="ov-heading-lg">Active Projects</h3><div style="display:flex;align-items:center;gap:8px;"><button class="btn-primary ov-new-btn" onclick="openNewProjectModal()">New project</button></div></div>
+<div class="ov-card-head"><h3 class="ov-heading-lg">Active Projects</h3><div style="display:flex;align-items:center;gap:8px;"><button class="btn-primary ov-new-btn" onclick="openNewProjectModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 5v14M5 12h14"/></svg>New project</button></div></div>
 <div id="ovActiveList"></div>
 </div>
 <div class="ov-section">
@@ -2215,7 +2215,7 @@ const {data:projects}=await supabase.from('projects').select('*');
 console.log('supabase projects',projects);
 }catch(e){console.error('Supabase load error',e);}
 }
-try{ if(localStorage.getItem('flowSidebarCollapsed')==='1') document.body.classList.add('sidebar-collapsed'); }catch(e){}
+try{ if(localStorage.getItem('flowSidebarCollapsed')!=='0') document.body.classList.add('sidebar-collapsed'); }catch(e){}
 renderOverview();renderCompleted();renderResources();renderSidebarNav();
 updateTopbarClock();
 setInterval(updateTopbarClock,30000);
