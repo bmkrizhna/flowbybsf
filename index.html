@@ -462,14 +462,16 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .ov-project-title,.ov-upcoming-title{white-space:normal}
 body{overflow-x:hidden}
 
-/* ---- Sidebar: collapse to an icon-only rail ---- */
-.sidebar{width:56px;padding:18px 6px;top:108px;height:calc(100vh - 108px)}
-.sidebar-link{justify-content:center;padding:13px 0;gap:0}
-.sidebar-link-label{display:none}
-.sidebar-bottom{flex-direction:column;gap:10px}
-.sidebar-user{justify-content:center;padding:13px 0}
-.sidebar-user-name{display:none}
-.sidebar-toggle{display:none}
+/* ---- Sidebar: icon-only rail by default; toggle opens it as a full-height overlay drawer ---- */
+body.sidebar-collapsed .sidebar{width:56px;padding:18px 6px;top:108px;height:calc(100vh - 108px)}
+body.sidebar-collapsed .sidebar-link{justify-content:center;padding:13px 0;gap:0}
+body.sidebar-collapsed .sidebar-link-label{display:none}
+body.sidebar-collapsed .sidebar-bottom{flex-direction:column;gap:10px}
+body.sidebar-collapsed .sidebar-user{justify-content:center;padding:13px 0}
+body.sidebar-collapsed .sidebar-user-name{display:none}
+body:not(.sidebar-collapsed) .sidebar{position:fixed;left:0;top:0;width:240px;height:100vh;padding:20px 16px;z-index:150;box-shadow:0 12px 40px rgba(0,0,0,.25)}
+body:not(.sidebar-collapsed)::after{content:'';position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:140}
+body:not(.sidebar-collapsed){overflow:hidden}
 
 /* ---- Topbar: stack greeting / logo / location+clock ---- */
 .topbar{padding:12px 14px}
@@ -537,9 +539,13 @@ h1{font-size:32px}
 .rp-filters .view-toggle{flex:1 1 100%;justify-content:center}
 
 
-/* ---- Version table: keep its shape, scroll horizontally ---- */
+/* ---- Version table: stack each row into a labeled card instead of scrolling sideways ---- */
 .box{overflow-x:auto}
-.del-version-row{min-width:460px}
+.del-version-row{display:block;min-width:0;border:1px solid #eee;border-radius:8px;padding:12px 14px;margin:8px 0 0}
+.del-version-row.del-version-header{display:none}
+.del-version-row:first-child{border-top:1px solid #eee}
+.del-version-row span{display:block;overflow:visible;text-overflow:clip;white-space:normal;word-break:break-word;padding:4px 0}
+.del-version-row span[data-label]::before{content:attr(data-label);display:block;font-family:'Satoshi',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.4px;text-transform:uppercase;color:#999}
 
 /* ---- Modals: tighter chrome on small viewports ---- */
 .modal-overlay{padding:16px 10px}
@@ -1824,6 +1830,18 @@ const btn=document.getElementById('sidebarToggle');
 if(btn) btn.title=collapsed?'Show sidebar':'Hide sidebar';
 try{ localStorage.setItem('flowSidebarCollapsed',collapsed?'1':'0'); }catch(e){}
 }
+/* On mobile, the sidebar opens as a full-height overlay drawer; any tap outside it
+   (the dimmed backdrop) or on a nav link inside it should close it again. The toggle
+   button manages its own open/close via toggleSidebar() above, so it's excluded here. */
+document.addEventListener('click',function(ev){
+if(window.innerWidth>768) return;
+if(document.body.classList.contains('sidebar-collapsed')) return;
+if(ev.target.closest('.sidebar-toggle')) return;
+document.body.classList.add('sidebar-collapsed');
+try{ localStorage.setItem('flowSidebarCollapsed','1'); }catch(e){}
+const btn=document.getElementById('sidebarToggle');
+if(btn) btn.title='Show sidebar';
+});
 function toggleSpSidebar(){
 spSidebarCollapsed=!spSidebarCollapsed;
 const layout=document.getElementById('spLayout');
@@ -2392,9 +2410,9 @@ apply();
 function renderDeliveryTab(p){
 const d=p.sections.delivery;
 const ir=d.initialReview, fm=d.finalMaster;
-const headerRow=`<div class="del-version-row" style="font-size:11px;color:#999;text-transform:uppercase;font-weight:700;border-top:none;font-family:'Satoshi',sans-serif;"><span>Ver.</span><span>Title</span><span>Link</span><span>Date</span><span>Duration</span></div>`;
-const irRows=(ir.versions||[]).map(v=>`<div class="del-version-row"><span>v${v.num}</span><span>${esc(v.title)}</span><span>${esc(v.link)}</span><span>${fmtDateShort(v.date)}</span><span>${phaseDurationLabel(p,v.date)}</span></div>`).join('');
-const fmRows=(fm.versions||[]).map(v=>`<div class="del-version-row"><span>v${v.num}</span><span>${esc(v.title)}</span><span>${esc(v.link)}</span><span>${fmtDateShort(v.date)}</span><span>${phaseDurationLabel(p,v.date)}</span></div>`).join('');
+const headerRow=`<div class="del-version-row del-version-header" style="font-size:11px;color:#999;text-transform:uppercase;font-weight:700;border-top:none;font-family:'Satoshi',sans-serif;"><span>Ver.</span><span>Title</span><span>Link</span><span>Date</span><span>Duration</span></div>`;
+const irRows=(ir.versions||[]).map(v=>`<div class="del-version-row"><span data-label="Ver.">v${v.num}</span><span data-label="Title">${esc(v.title)}</span><span data-label="Link">${esc(v.link)}</span><span data-label="Date">${fmtDateShort(v.date)}</span><span data-label="Duration">${phaseDurationLabel(p,v.date)}</span></div>`).join('');
+const fmRows=(fm.versions||[]).map(v=>`<div class="del-version-row"><span data-label="Ver.">v${v.num}</span><span data-label="Title">${esc(v.title)}</span><span data-label="Link">${esc(v.link)}</span><span data-label="Date">${fmtDateShort(v.date)}</span><span data-label="Duration">${phaseDurationLabel(p,v.date)}</span></div>`).join('');
 setStageHeaderExtras('delivery',{noProceed:true});
 return `<div id="pdBody">
 <div class="box">
