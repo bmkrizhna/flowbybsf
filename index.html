@@ -360,7 +360,6 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 @keyframes tr-pop{0%{transform:scale(1)}45%{transform:scale(1.25)}100%{transform:scale(1)}}
 .tr-status-icon.just-set{animation:tr-pop .3s ease}
 /* ---- Shot Planner toolbar + Storyboard ---- */
-.sp-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:12px;flex-wrap:wrap}
 .view-toggle{display:flex;gap:4px;background:#f0f0f0;border-radius:999px;padding:3px}
 .vt-btn{padding:7px 16px;border:none;border-radius:999px;background:none;font-size:13px;font-weight:600;color:#6b6b6b;transition:background .15s,color .15s}
 .vt-btn.active{background:#1a1a1a;color:#fff}
@@ -660,6 +659,7 @@ setTimeout(dismissIntro, 4500);
 <div class="stage-progress-label" id="pdProgressLabel">—</div>
 </div>
 <div class="proj-head-actions">
+<div class="view-toggle" id="pdViewToggle" style="display:none;"><button class="vt-btn" id="pdVtList" data-no-lock="1" onclick="setShotPlannerView('list')">List</button><button class="vt-btn" id="pdVtStoryboard" data-no-lock="1" onclick="setShotPlannerView('storyboard')">Storyboard</button></div>
 <div class="pd-stage-actions" id="pdStageActions"></div>
 </div>
 </div>
@@ -1641,6 +1641,17 @@ document.getElementById('pdProgressLabel').textContent=`${confirmedCount}/${STAG
 
 renderSidebarNav();
 
+const vt=document.getElementById('pdViewToggle');
+if(vt){
+if(currentTab==='shotPlanning'){
+vt.style.display='';
+document.getElementById('pdVtList').classList.toggle('active',shotPlannerView==='list');
+document.getElementById('pdVtStoryboard').classList.toggle('active',shotPlannerView==='storyboard');
+} else {
+vt.style.display='none';
+}
+}
+
 const content=document.getElementById('pdContent');
 if(currentTab==='brief') content.innerHTML=renderBriefTab(p);
 else if(currentTab==='shotPlanning'){ content.innerHTML=renderShotPlanningTab(p); }
@@ -1874,9 +1885,6 @@ function renderShotPlanningTab(p){
 const days=p.days||[];
 const unscheduled=p.unscheduledShots||[];
 setStageHeaderExtras('shotPlanning');
-const toolbar=`<div class="sp-toolbar">
-<div class="view-toggle"><button class="vt-btn ${shotPlannerView==='list'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('list')">List</button><button class="vt-btn ${shotPlannerView==='storyboard'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('storyboard')">Storyboard</button></div>
-</div>`;
 const unschedHtml = unscheduled.length ? `<div class="box" style="border-color:#fec92d;border-width:2px;">
 <div class="box-title">Unscheduled shots</div>
 <div class="shot-grid">${unscheduled.map((u,ui)=>`
@@ -1898,7 +1906,7 @@ const unschedHtml = unscheduled.length ? `<div class="box" style="border-color:#
 </div>` : '';
 const body = shotPlannerView==='list' ? renderShotPlannerListBody(days) : renderShotPlannerStoryboardBody(days);
 return `<div id="pdBody">
-${toolbar}${unschedHtml}${body}
+${unschedHtml}${body}
 </div>`;
 }
 function dayBandLabel(d,di){ return `Day ${di+1} — ${fmtDateShort(d.date)||'Unscheduled'}`; }
