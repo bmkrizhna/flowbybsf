@@ -361,14 +361,20 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .sb-body{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#f7f7f7}
 .sb-num{font-size:13px;color:#1a1a1a;font-weight:700;flex-shrink:0;padding-right:10px;border-right:1px solid #ddd}
 .sb-desc{font-size:13px;color:#555;margin:0;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-/* ---- Resource Planner ---- */
+/* ---- Resource Planner / Budgeting ---- */
 .rp-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;align-items:start}
 .rp-filters{display:flex;gap:8px;margin-bottom:14px}
 .rp-filters select{width:190px;flex-shrink:0}
-.rb-head-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:14px}
-.rb-head-row .box-title{margin-bottom:0;flex-shrink:0}
-.rb-head-row .rp-filters{margin-bottom:0;flex:1 1 320px;min-width:280px}
-.rp-row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-top:1px solid #f2f2f2;font-size:13px;gap:10px;cursor:pointer;border-radius:8px;transition:background .15s}
+/* Budgeting tab: same headingless-list + sticky-breadcrumb pattern as the
+   Resources page (see .resources-head-row / updateBudgetBreadcrumb) - a fixed
+   "Budgeting" title that grows a live breadcrumb suffix as the single
+   continuous list (Crew, then Equipment, then Production Expenses) scrolls
+   beneath it, instead of a separate totals summary. */
+.budget-head-row{position:sticky;top:62.5px;z-index:15;background:var(--page-bg);padding:14px 0;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+#budgetHeading{transition:opacity .1s ease}
+.budget-head-row .rp-filters{margin-bottom:0;flex:1 1 320px;min-width:280px}
+.budget-expenses{padding:16px 20px 20px}
+.rp-row{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-top:1px solid #f2f2f2;font-size:13px;gap:10px;cursor:pointer;transition:background .15s}
 .rp-row:first-child{border-top:none}
 .rp-row:hover{background:#fafafa}
 .rp-row.selected{background:var(--accent-bg)}
@@ -378,11 +384,6 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .rp-qty-badge{display:inline-block;font-size:11px;font-weight:700;color:var(--accent-text);background:#fff;padding:2px 7px;border-radius:999px;margin-left:2px}
 .rp-qty-dec{width:26px;height:26px;border-radius:50%;border:none;background:#eee;color:#1a1a1a;font-size:15px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .rp-qty-dec:hover{background:#e0e0e0}
-.rp-est-group{margin-bottom:16px}
-.rp-est-total{display:flex;justify-content:space-between;padding:10px 0 0;border-top:1px solid #eee;font-weight:700;font-size:13px;margin-top:6px}
-.rb-summary{margin-top:18px;padding-top:16px;border-top:1px solid #eee}
-.rb-cat-block{margin-bottom:10px}
-.rb-cat-title{font-family:'Satoshi',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.4px;color:#999;margin-bottom:2px}
 /* ---- Edit & Delivery version table ---- */
 .del-version-row{display:grid;grid-template-columns:44px 1.1fr 1.3fr 90px 110px;gap:10px;align-items:center;padding:9px 0;border-top:1px solid #f2f2f2;font-size:13px}
 .del-version-row:first-child{border-top:none}
@@ -496,7 +497,7 @@ h1{font-size:32px}
 .rp-filters{flex-wrap:wrap}
 .rp-filters input,.rp-filters select{flex:1 1 100%;width:100%}
 .rp-filters .view-toggle{flex:1 1 100%;justify-content:center}
-.rb-head-row{flex-direction:column;align-items:stretch;gap:10px}
+.budget-head-row{position:static;background:none;border-bottom:none;padding:0;flex-direction:column;align-items:stretch;gap:10px}
 
 
 /* ---- Version table: stack each row into a labeled card instead of scrolling sideways ---- */
@@ -1303,6 +1304,33 @@ if(resourcesScrollTicking) return;
 resourcesScrollTicking=true;
 requestAnimationFrame(()=>{ updateResourcesBreadcrumb(); resourcesScrollTicking=false; });
 },{passive:true});
+/* Budgeting tab: same headingless-list + sticky-breadcrumb pattern as Resources
+   above - one continuous scroll through Crew, then Equipment, then Production
+   Expenses, with the sticky title naming whichever section is currently at the
+   top instead of inline dividers. */
+function updateBudgetBreadcrumb(){
+const heading=document.getElementById('budgetHeading');
+const headRow=document.getElementById('budgetHeadRow');
+if(!heading || !headRow) return;
+const headRect=headRow.getBoundingClientRect();
+if(headRect.width===0 && headRect.height===0) return;
+const rows=document.querySelectorAll('#pdBody [data-bctype]');
+if(!rows.length){ heading.textContent='Budgeting'; return; }
+const threshold=headRect.bottom;
+let current=null;
+for(const row of rows){
+if(row.getBoundingClientRect().top<=threshold) current=row; else break;
+}
+if(!current){ heading.textContent='Budgeting'; return; }
+heading.textContent = current.dataset.bctype==='expense' ? 'Budgeting / Production Expense' : `Budgeting / Resources / ${current.dataset.bctype}`;
+}
+let budgetScrollTicking=false;
+window.addEventListener('scroll',()=>{
+if(currentView!=='projectDetail' || currentTab!=='budgeting') return;
+if(budgetScrollTicking) return;
+budgetScrollTicking=true;
+requestAnimationFrame(()=>{ updateBudgetBreadcrumb(); budgetScrollTicking=false; });
+},{passive:true});
 function renderCategoryGroup(type,elId){
 const list=STATE.categories[type];
 document.getElementById(elId).innerHTML = `<div class="cat-list">` + list.map((c,ci)=>`
@@ -1683,8 +1711,32 @@ const confirmed=p.sections[key].confirmed;
 const actionsEl=document.getElementById('pdStageActions');
 if(actionsEl) actionsEl.innerHTML = confirmed ? `<span class="section-badge confirmed">Completed</span>` : '';
 }
+function budgetExpenseGroupsHtml(otherLines){
+const byCat={};
+(otherLines||[]).forEach(l=>{
+const cat=l.category||'Misc';
+byCat[cat]=(byCat[cat]||0)+(Number(l.amount)||0);
+});
+const cats=Object.keys(byCat).sort();
+if(!cats.length) return '<div style="font-size:13px;color:#999;font-family:\'Satoshi\',Arial,sans-serif;">None added.</div>';
+return cats.map(cat=>`<div class="lib-row"><span>${esc(cat)}</span><span>${fmt(byCat[cat])}</span></div>`).join('');
+}
+function buildBudgetingPrintHtml(p){
+const totals=resourceTotals(p);
+const summary=resourceBudgetingSummary(p);
+const otherLines=p.sections.budgeting.lines||[];
+return `
+<div class="box"><div class="box-title">Crew</div>${summary.crewHtml}<div class="rb-total-row"><span>Crew total</span><span>${fmt(totals.crewTotal)}</span></div></div>
+<div class="box"><div class="box-title">Equipment</div>${summary.eqHtml}<div class="rb-total-row"><span>Equipment total</span><span>${fmt(totals.eqTotal)}</span></div></div>
+<div class="box"><div class="box-title">Production Expenses</div>${budgetExpenseGroupsHtml(otherLines)}<div class="rb-total-row"><span>Production expenses total</span><span>${fmt(totals.othersTotal)}</span></div></div>
+<div class="rb-grand-row"><span>Grand total</span><span>${fmt(totals.total)}</span></div>`;
+}
 function printStage(key){
 const p=currentProject();
+let bodyHtml;
+if(key==='budgeting'){
+bodyHtml=buildBudgetingPrintHtml(p);
+} else {
 const bodyEl=document.getElementById('pdBody');
 if(!bodyEl) return;
 const node=bodyEl.cloneNode(true);
@@ -1698,6 +1750,8 @@ div.textContent = el.options[el.selectedIndex] ? el.options[el.selectedIndex].te
 el.replaceWith(div);
 });
 node.querySelectorAll('button').forEach(el=>el.remove());
+bodyHtml=node.innerHTML;
+}
 const w=window.open('','_blank');
 if(!w){ alert('Allow pop-ups to print this stage.'); return; }
 w.document.write(`<!DOCTYPE html><html><head><title>${p.title} — ${STAGE_NAMES[key]}</title><meta charset="UTF-8"><style>
@@ -1709,11 +1763,16 @@ h1{font-size:20px;font-weight:400;margin-bottom:4px;}
 .box{margin-bottom:22px;}
 .box-title{font-family:'Bevellier',sans-serif;font-size:16px;margin-bottom:10px;}
 .box-label{font-size:11px;color:#999;font-family:'Satoshi',sans-serif;letter-spacing:0.5px;font-weight:700;}
+.rb-cat-block{margin-bottom:10px;}
+.rb-cat-title{font-family:'Satoshi',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.5px;color:#999;margin-bottom:2px;text-transform:uppercase;}
+.lib-row{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;font-family:'Satoshi',Arial,sans-serif;}
+.rb-total-row{display:flex;justify-content:space-between;padding:10px 0 0;border-top:1px solid #ddd;margin-top:6px;font-weight:700;font-size:13px;font-family:'Satoshi',Arial,sans-serif;}
+.rb-grand-row{display:flex;justify-content:space-between;padding:16px 0;border-top:2px solid #111;margin-top:10px;font-weight:700;font-size:17px;}
 footer{margin-top:50px;padding-top:14px;border-top:1px solid #333;font-size:13px;color:#666;font-family:'Satoshi',Arial,sans-serif;display:flex;justify-content:space-between;}
 </style></head><body>
 <h1>${p.title} — ${STAGE_NAMES[key]}</h1>
 <div class="meta">${p.client} · ${p.format} · ${p.place}</div>
-${node.innerHTML}
+${bodyHtml}
 <footer><span>Archive Film Labs · Big Short Films</span><span>Printed ${new Date().toLocaleDateString('en-GB')}</span></footer>
 </body></html>`);
 w.document.close();
@@ -2365,11 +2424,12 @@ const emptyMsg = rpAllocatedFilter ? 'Nothing allocated yet. Switch to All to se
 el.innerHTML = rows.map(r=>{
 const qty = r.type==='crew' ? (crewSet.has(r.id)?1:0) : (eqCounts[r.id]||0);
 const selected = qty>0;
-return `<div class="rp-row ${selected?'selected':''}" onclick="selectResource('${r.type}','${r.id}')">
+return `<div class="rp-row ${selected?'selected':''}" data-bctype="${typeLabel[r.type]}" onclick="selectResource('${r.type}','${r.id}')">
 <div><div class="nm">${esc(r.name)}${r.type==='equipment'&&qty>1?` <span class="rp-qty-badge">×${qty}</span>`:''}</div><div class="ct">${typeLabel[r.type]} · ${esc(r.role||r.cat)}</div></div>
 <div class="rp-row-right"><span>${fmt(r.rate)}</span>${selected?`<button class="rp-qty-dec" onclick="event.stopPropagation();deselectResource('${r.type}','${r.id}')" title="Remove">−</button>`:''}</div>
 </div>`;
-}).join('') || `<div style="font-size:13px;color:#999;padding:12px 0;">${emptyMsg}</div>`;
+}).join('') || `<div style="font-size:13px;color:#999;padding:12px 18px;">${emptyMsg}</div>`;
+updateBudgetBreadcrumb();
 }
 function selectResource(type,id){
 const p=currentProject();
@@ -2423,14 +2483,11 @@ ${Object.values(byCat[cat]).map(g=>`<div class="lib-row"><span>${esc(g.label)}${
 return {crewHtml:groupSection(crewRows,false), eqHtml:groupSection(eqRows,true)};
 }
 function renderBudgetingTab(p){
-const totals=resourceTotals(p);
 const otherLines=p.sections.budgeting.lines||[];
-const summary=resourceBudgetingSummary(p);
 setStageHeaderExtras('budgeting');
 return `<div id="pdBody">
-<div class="box">
-<div class="rb-head-row">
-<div class="box-title">Resource Budgeting</div>
+<div class="budget-head-row" id="budgetHeadRow">
+<h1 class="page-heading compact" id="budgetHeading">Budgeting</h1>
 <div class="rp-filters">
 <input class="f-input" placeholder="Search resources" value="${esc(rpSearch)}" data-no-lock="1" oninput="setRpSearch(this.value)">
 <select class="f-input" data-no-lock="1" onchange="setRpCategoryFilter(this.value)">
@@ -2440,23 +2497,16 @@ ${allCategoryNames().map(n=>`<option value="${esc(n)}" ${rpCategoryFilter===n?'s
 <div class="view-toggle" data-no-lock="1"><button class="vt-btn ${!rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(false)">All</button><button class="vt-btn ${rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(true)">Allocated</button></div>
 </div>
 </div>
+<div class="resource-list-box">
 <div id="rpResourceList"></div>
-<div class="rb-summary">
-<div class="rp-est-group"><div class="box-label">Crew — ${fmt(totals.crewTotal)}</div>${summary.crewHtml}</div>
-<div class="rp-est-group"><div class="box-label">Equipment — ${fmt(totals.eqTotal)}</div>${summary.eqHtml}</div>
-<div class="rp-est-total"><span>Resource total</span><span>${fmt(totals.crewTotal+totals.eqTotal)}</span></div>
-</div>
-</div>
-<div class="box">
-<div class="box-title">Production Expenses</div>
+<div class="budget-expenses">
+<div class="box-title" data-bctype="expense">Production Expenses</div>
 ${otherLines.map((l,i)=>`<div class="lib-row"><span>${esc(l.category||'Misc')}</span><span>${fmt(l.amount)}</span></div>`).join('')}
-${!otherLines.length?'<div style="font-size:13px;color:#999;">None added yet.</div>':''}
+${!otherLines.length?'<div style="font-size:13px;color:#999;padding:4px 0;">None added yet.</div>':''}
 <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;"><select class="f-input" id="miscLineCat" style="flex:1;min-width:140px;"><option value="">Select category</option>${STATE.categories.expenses.map(c=>`<option>${esc(c.name)}</option>`).join('')}</select><input class="f-input" id="miscLineAmt" type="number" placeholder="Amount" style="max-width:110px;"><button class="btn-ghost" onclick="addBudgetLine()">Add line item</button></div>
-<div class="rp-est-total"><span>Expenses total</span><span>${fmt(totals.othersTotal)}</span></div>
 </div>
-<div class="box" style="background:#fafafa;">
-<div class="rp-est-total" style="font-size:16px;"><span>Grand total</span><span>${fmt(totals.total)}</span></div>
 </div>
+<div style="height:100vh;" aria-hidden="true"></div>
 </div>`;
 }
 function addBudgetLine(){
