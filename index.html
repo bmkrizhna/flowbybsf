@@ -59,7 +59,7 @@ select:disabled{cursor:default}
 .sidebar-toggle{width:34px;height:34px;border-radius:8px;border:none;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#1a1a1a;flex-shrink:0;align-self:flex-start;margin:0 0 40px 14px;transition:background .15s,color .15s,margin .25s ease}
 .sidebar-toggle:hover{background:#f0f0f0;color:#1a1a1a}
 .sidebar-toggle svg{width:18px;height:18px;transition:opacity .2s}
-body.sidebar-collapsed .sidebar{width:64px;padding:18px 6px 18px 14px}
+body.sidebar-collapsed .sidebar{width:64px;padding:22px 6px 22px 14px}
 body.sidebar-collapsed .sidebar-toggle{margin-left:8px}
 body.sidebar-collapsed .sidebar-link{padding:13px 0 13px 14px}
 body.sidebar-collapsed .sidebar-link-label{opacity:0;width:0}
@@ -89,7 +89,7 @@ main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
 .page{display:none}
 .page.active{display:block}
 /* ---- Shared eyebrow / label typography ---- */
-.box-label,.detail-label,.usage-top-label,.top5-title,.field-label{font-family:'Satoshi',sans-serif;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:#999;font-size:11px}
+.box-label,.detail-label,.usage-top-label,.top5-title,.field-label{font-family:'Satoshi',sans-serif;font-weight:700;letter-spacing:0.5px;color:#999;font-size:11px}
 /* ---- Shared button baseline: same box type/sizing for every action button ---- */
 .btn-primary,.btn-ghost,.add-link,.confirm-btn,.open-btn,.delete-btn,.rate-row button{padding:10px 20px;border-radius:999px;font-size:13px;font-weight:600;line-height:1.2;white-space:nowrap;border:none;font-family:inherit;transition:background .15s,color .15s}
 .btn-primary,.confirm-btn,.open-btn,.rate-row button{background:#1a1a1a;color:#fff}
@@ -128,7 +128,7 @@ main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
 .pill.stages{background:var(--accent-bg);color:var(--accent-text);border-color:var(--accent-bg)}
 
 /* ---- Overview dashboard ---- */
-.ov-eyebrow{font-family:'Satoshi',sans-serif;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:#999;font-size:11px;margin-bottom:16px}
+.ov-eyebrow{font-family:'Satoshi',sans-serif;font-weight:700;letter-spacing:0.5px;color:#999;font-size:11px;margin-bottom:16px}
 .ov2-grid{display:grid;grid-template-columns:minmax(360px,38%) 1fr;gap:56px;align-items:start}
 .ov-readiness{margin-bottom:24px}
 .ov-readiness-title{font-family:'Satoshi',sans-serif;font-size:18px;font-weight:700;margin-bottom:16px}
@@ -204,7 +204,7 @@ main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
 .page-head-row .page-heading.compact{font-size:20px}
 .search-filter-row{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap;flex:1;min-width:0}
 .search-filter-box{display:flex;align-items:center;border:none;border-radius:999px;background:#f0f0f0;width:360px;max-width:100%}
-.search-filter-box.wide{flex:1 1 420px;max-width:480px}
+.search-filter-box.wide{flex:1 1 420px}
 .search-filter-box input{flex:1;min-width:0;border:none;background:transparent;padding:9px 12px;font-size:14px;outline:none}
 .search-filter-box select{border:none;border-left:1px solid #ddd;background-color:transparent;background-size:9px;padding:9px 24px 9px 12px;font-size:13px;color:#666;outline:none;max-width:130px}
 .search-filter-icons{display:flex;gap:8px;flex-shrink:0}
@@ -305,25 +305,7 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .drag-handle:hover{color:#999}
 .drag-handle:active{cursor:grabbing}
 
-/* ---- Shot Planner: scene sidebar + redesigned shot cards ---- */
-.sp-layout{display:flex;gap:20px;align-items:flex-start}
-.sp-sidebar{width:230px;flex-shrink:0;box-sizing:border-box;border:1px solid #e5e5e5;border-radius:10px;padding:14px;position:sticky;top:16px;max-height:calc(100vh - 32px);overflow-y:auto;transition:width .2s ease,opacity .15s ease,padding .2s ease,border-color .2s ease;background:#fff}
-.sp-sidebar.collapsed{width:0;padding:0;border-color:transparent;opacity:0;overflow:hidden}
-.sp-layout.sb-collapsed{gap:0}
-.sp-sidebar-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px}
-.sp-sidebar-title{font-family:'Satoshi',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:#999;white-space:nowrap}
-.sp-hide-btn{background:none;border:none;color:#999;font-size:11px;font-weight:700;cursor:pointer;padding:4px;white-space:nowrap}
-.sp-hide-btn:hover{color:#1a1a1a}
-.sp-day-group{margin-bottom:6px}
-.sp-day-label{font-family:'Satoshi',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:#ccc;padding:8px 8px 4px}
-.sp-scene-row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 8px;border-radius:7px;cursor:pointer;font-size:13px;color:#444}
-.sp-scene-row:hover{background:#f5f5f5}
-.sp-scene-row .sc-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
-.sp-scene-row .sc-count{font-size:11px;font-weight:700;color:#999;background:#f0f0f0;padding:2px 8px;border-radius:20px;flex-shrink:0}
-.sp-main{flex:1;min-width:0}
-.sp-show-btn{display:none;align-items:center;gap:6px;background:#f0f0f0;border:none;border-radius:999px;padding:9px 16px;font-size:13px;font-weight:700;color:#1a1a1a;cursor:pointer;margin-bottom:14px}
-.sp-show-btn.show{display:inline-flex}
-.sp-show-btn:hover{background:#f5f5f5;border-color:#ddd}
+/* ---- Shot Planner: redesigned shot cards ---- */
 .shot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin:4px 0 14px}
 .shot-card{border:1px solid #ededed;border-radius:10px;overflow:hidden;background:#fff;display:flex;flex-direction:column;transition:border-color .15s}
 .shot-card:hover{border-color:#ddd}
@@ -337,7 +319,7 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .shot-list-wrap{overflow-x:auto;margin-top:6px}
 .shot-list-head,.shot-list-row{display:grid;grid-template-columns:20px 56px 240px minmax(260px,2fr) 180px 32px;gap:12px;align-items:center;min-width:850px}
 .shot-list-head{padding:0 0 8px;border-bottom:1px solid #eee}
-.shot-list-head span{font-family:'Satoshi',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:#999}
+.shot-list-head span{font-family:'Satoshi',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.5px;color:#999}
 .shot-list-row{padding:12px 0;border-top:1px solid #f2f2f2;align-items:start}
 .shot-list-row .drag-handle,.shot-list-row .shot-list-del{margin-top:4px}
 .shot-list-row:first-child{border-top:none}
@@ -365,9 +347,9 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .item-type-toggle{display:flex;gap:8px;margin-bottom:16px;background:#f5f5f5;padding:4px;border-radius:10px}
 .itt-btn{flex:1;padding:8px;border:none;background:none;border-radius:7px;font-size:13px;font-weight:600;color:#999;cursor:pointer;transition:background .15s,color .15s}
 .itt-btn.active{background:#fff;color:#1a1a1a;box-shadow:0 1px 3px rgba(0,0,0,.1)}
-.sb-activity-marker{font-family:'Satoshi',sans-serif;text-align:center;font-size:11px;font-weight:700;color:#999;letter-spacing:0.4px;text-transform:uppercase;padding:6px 0;grid-column:1/-1}
+.sb-activity-marker{font-family:'Satoshi',sans-serif;text-align:center;font-size:11px;font-weight:700;color:#999;letter-spacing:0.4px;padding:6px 0;grid-column:1/-1}
 /* ---- Shoot Tracker report rows ---- */
-.tr-day-date{font-family:'Satoshi',sans-serif;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:0.5px;margin:22px 0 6px;display:flex;align-items:center;gap:10px}
+.tr-day-date{font-family:'Satoshi',sans-serif;font-size:11px;font-weight:700;color:#999;letter-spacing:0.5px;margin:22px 0 6px;display:flex;align-items:center;gap:10px}
 .tr-day-date:first-child{margin-top:0}
 .tr-shot-row{display:flex;align-items:center;gap:14px;padding:10px 0;border-top:1px solid #f2f2f2}
 .tr-shot-thumb{width:168px;height:126px;border-radius:10px;background:#f1f1f1;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;color:#bbb;overflow:hidden;text-align:center}
@@ -409,7 +391,7 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .rp-row:hover{background:#fafafa}
 .rp-row.selected{background:var(--accent-bg)}
 .rp-row .nm{font-weight:600}
-.rp-row .ct{font-family:'Satoshi',sans-serif;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:0.4px;margin-top:2px}
+.rp-row .ct{font-family:'Satoshi',sans-serif;font-size:11px;font-weight:700;color:#999;letter-spacing:0.4px;margin-top:2px}
 .rp-row-right{display:flex;align-items:center;gap:12px;flex-shrink:0}
 .rp-qty-badge{display:inline-block;font-size:11px;font-weight:700;color:var(--accent-text);background:#fff;padding:2px 7px;border-radius:999px;margin-left:2px}
 .rp-qty-dec{width:26px;height:26px;border-radius:50%;border:none;background:#eee;color:#1a1a1a;font-size:15px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -418,7 +400,7 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .rp-est-total{display:flex;justify-content:space-between;padding:10px 0 0;border-top:1px solid #eee;font-weight:700;font-size:13px;margin-top:6px}
 .rb-summary{margin-top:18px;padding-top:16px;border-top:1px solid #eee}
 .rb-cat-block{margin-bottom:10px}
-.rb-cat-title{font-family:'Satoshi',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.4px;text-transform:uppercase;color:#999;margin-bottom:2px}
+.rb-cat-title{font-family:'Satoshi',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.4px;color:#999;margin-bottom:2px}
 /* ---- Edit & Delivery version table ---- */
 .del-version-row{display:grid;grid-template-columns:44px 1.1fr 1.3fr 90px 110px;gap:10px;align-items:center;padding:9px 0;border-top:1px solid #f2f2f2;font-size:13px}
 .del-version-row:first-child{border-top:none}
@@ -438,7 +420,7 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .sub-pill-input:focus{outline:none;background:#fff;border-radius:3px}
 .stat-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
 .stat-tile{border:1px solid #eee;border-radius:6px;padding:10px 12px}
-.stat-tile .l{font-family:'Satoshi',sans-serif;font-size:11px;color:#999;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:4px;font-weight:700}
+.stat-tile .l{font-family:'Satoshi',sans-serif;font-size:11px;color:#999;letter-spacing:0.4px;margin-bottom:4px;font-weight:700}
 .stat-tile .v{font-weight:700;font-size:16px}
 .rate-row{display:flex;gap:10px;margin-bottom:6px}
 .rate-row input{flex:1;padding:9px 10px;border:1px solid #e5e5e5;border-radius:5px;font-size:14px}
@@ -446,7 +428,7 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
 .chart-box{margin-bottom:18px}
 .hist-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:18px}
-.hist-table th{font-family:'Satoshi',sans-serif;text-align:left;font-size:11px;color:#999;text-transform:uppercase;letter-spacing:0.4px;padding:6px 8px;border-bottom:1px solid #eee;font-weight:700}
+.hist-table th{font-family:'Satoshi',sans-serif;text-align:left;font-size:11px;color:#999;letter-spacing:0.4px;padding:6px 8px;border-bottom:1px solid #eee;font-weight:700}
 .hist-table td{padding:7px 8px;border-bottom:1px solid #f5f5f5}
 
 /* ======================================================
@@ -518,11 +500,6 @@ h1{font-size:32px}
 .rp-row{flex-wrap:wrap;row-gap:6px}
 .tr-shot-row{flex-wrap:wrap;row-gap:8px}
 .tr-status-icons{width:100%;justify-content:flex-start}
-.sp-layout{flex-direction:column}
-.sp-sidebar{width:100%;position:static;max-height:220px;top:auto}
-.sp-sidebar.collapsed{max-height:0;width:100%;margin:0}
-.sp-layout.sb-collapsed{gap:0}
-.sp-main{width:100%;min-width:0;max-width:100%}
 .shot-grid{grid-template-columns:1fr}
 .shot-img-box{height:110px}
 .shoot-day-head{flex-wrap:wrap;row-gap:6px}
@@ -545,7 +522,7 @@ h1{font-size:32px}
 .del-version-row.del-version-header{display:none}
 .del-version-row:first-child{border-top:1px solid #eee}
 .del-version-row span{display:block;overflow:visible;text-overflow:clip;white-space:normal;word-break:break-word;padding:4px 0}
-.del-version-row span[data-label]::before{content:attr(data-label);display:block;font-family:'Satoshi',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.4px;text-transform:uppercase;color:#999}
+.del-version-row span[data-label]::before{content:attr(data-label);display:block;font-family:'Satoshi',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.4px;color:#999}
 
 /* ---- Modals: tighter chrome on small viewports ---- */
 .modal-overlay{padding:16px 10px}
@@ -676,8 +653,8 @@ setTimeout(dismissIntro, 4500);
 </div>
 <div class="usage-sidebar">
 <div class="usage-top"><div><div class="usage-top-label">Total Spend</div><div class="usage-top-val">21,80,500</div></div><div><div class="usage-top-label">Bookings</div><div class="usage-top-count">54</div></div></div>
-<div class="usage-split"><div class="usage-split-label"><span>CREW</span><span>18,79,000 · 86%</span></div><div class="usage-bar"><div class="usage-bar-fill" style="width:86%"></div></div></div>
-<div class="usage-split"><div class="usage-split-label"><span>KIT</span><span>3,01,500 · 14%</span></div><div class="usage-bar"><div class="usage-bar-fill" style="width:14%;background:var(--accent);"></div></div></div>
+<div class="usage-split"><div class="usage-split-label"><span>Crew</span><span>18,79,000 · 86%</span></div><div class="usage-bar"><div class="usage-bar-fill" style="width:86%"></div></div></div>
+<div class="usage-split"><div class="usage-split-label"><span>Kit</span><span>3,01,500 · 14%</span></div><div class="usage-bar"><div class="usage-bar-fill" style="width:14%;background:var(--accent);"></div></div></div>
 <div class="top5-title">Top Five In Use</div>
 <div id="top5List"></div>
 </div>
@@ -725,9 +702,9 @@ setTimeout(dismissIntro, 4500);
 <div class="modal-box xwide">
 <button class="modal-close" onclick="closeModal('categoriesModal')">×</button>
 <div class="modal-title">Manage categories</div>
-<div class="cat-group"><div class="box-label">CREW CATEGORIES</div><div id="crewCategories"></div></div>
-<div class="cat-group"><div class="box-label">EQUIPMENT CATEGORIES</div><div id="equipmentCategories"></div></div>
-<div class="cat-group"><div class="box-label">PRODUCTION EXPENSE CATEGORIES</div><div id="expenseCategories"></div></div>
+<div class="cat-group"><div class="box-label">Crew categories</div><div id="crewCategories"></div></div>
+<div class="cat-group"><div class="box-label">Equipment categories</div><div id="equipmentCategories"></div></div>
+<div class="cat-group"><div class="box-label">Production expense categories</div><div id="expenseCategories"></div></div>
 <button class="btn-ghost" style="width:100%;margin-top:14px;" onclick="openAddCategoryForm()">Add category</button>
 </div>
 </div>
@@ -1025,7 +1002,7 @@ return n===null ? '—' : ('Day '+n);
 }
 
 let currentView='overview', currentProjectId=null, currentTab='brief', forceEditStage=null;
-let shotPlannerView='list', spSidebarCollapsed=false, rpSearch='', rpCategoryFilter='', rpAllocatedFilter=false, completedSearch='', resourcesSearch='', resourcesCategoryFilter='';
+let shotPlannerView='list', rpSearch='', rpCategoryFilter='', rpAllocatedFilter=false, completedSearch='', resourcesSearch='', resourcesCategoryFilter='';
 function setCompletedSearch(v){ completedSearch=v; renderCompleted(); }
 function setResourcesSearch(v){ resourcesSearch=v; renderResources(); }
 function setResourcesCategoryFilter(v){ resourcesCategoryFilter=v; renderResources(); }
@@ -1304,8 +1281,8 @@ const bookings=STATE.crew.reduce((a,c)=>a+(c.projCount||0),0)+STATE.equipment.re
 document.querySelector('.usage-top-val').textContent=fmt(crewSpend+eqSpend);
 document.querySelector('.usage-top-count').textContent=bookings;
 const splitLabels=document.querySelectorAll('.usage-split-label');
-if(splitLabels[0]) splitLabels[0].innerHTML=`<span>CREW</span><span>${fmt(crewSpend)} · ${crewPct}%</span>`;
-if(splitLabels[1]) splitLabels[1].innerHTML=`<span>KIT</span><span>${fmt(eqSpend)} · ${eqPct}%</span>`;
+if(splitLabels[0]) splitLabels[0].innerHTML=`<span>Crew</span><span>${fmt(crewSpend)} · ${crewPct}%</span>`;
+if(splitLabels[1]) splitLabels[1].innerHTML=`<span>Kit</span><span>${fmt(eqSpend)} · ${eqPct}%</span>`;
 const splitBars=document.querySelectorAll('.usage-split .usage-bar-fill');
 if(splitBars[0]) splitBars[0].style.width=crewPct+'%';
 if(splitBars[1]) splitBars[1].style.width=eqPct+'%';
@@ -1571,7 +1548,6 @@ function openProject(id){
 currentProjectId=id;
 forceEditStage=null;
 shotPlannerView='list';
-spSidebarCollapsed=false;
 rpSearch=''; rpCategoryFilter=''; rpAllocatedFilter=false;
 const p=STATE.projects.find(x=>x.id===id);
 if(!p) return;
@@ -1643,7 +1619,7 @@ const bodyEl=content.querySelector('#pdBody');
 if(bodyEl) bodyEl.querySelectorAll('input,textarea,select,button').forEach(el=>{ if(el.dataset.noLock!=='1') el.disabled=true; });
 }
 }
-function fmtDateShort(iso){ if(!iso) return ''; const d=new Date(iso+'T00:00:00'); if(isNaN(d)) return ''; return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}).toUpperCase(); }
+function fmtDateShort(iso){ if(!iso) return ''; const d=new Date(iso+'T00:00:00'); if(isNaN(d)) return ''; return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}); }
 function metaDateRange(p){
 if(!p.first) return '';
 const d1=new Date(p.first+'T00:00:00');
@@ -1694,12 +1670,12 @@ if(!w){ alert('Allow pop-ups to print this stage.'); return; }
 w.document.write(`<!DOCTYPE html><html><head><title>${p.title} — ${STAGE_NAMES[key]}</title><meta charset="UTF-8"><style>
 body{font-family:'Bevellier',sans-serif;padding:48px;color:#111;max-width:760px;margin:0 auto;}
 h1{font-size:20px;font-weight:400;margin-bottom:4px;}
-.meta{font-size:13px;color:#666;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:28px;font-family:'Satoshi',sans-serif;}
-.field-label{font-size:11px;text-transform:uppercase;color:#999;font-family:'Satoshi',sans-serif;letter-spacing:0.5px;font-weight:700;display:block;margin-bottom:4px;}
+.meta{font-size:13px;color:#666;letter-spacing:0.5px;margin-bottom:28px;font-family:'Satoshi',sans-serif;}
+.field-label{font-size:11px;color:#999;font-family:'Satoshi',sans-serif;letter-spacing:0.5px;font-weight:700;display:block;margin-bottom:4px;}
 .print-value{border-bottom:1px solid #ddd;padding:6px 0 10px;margin-bottom:12px;font-family:'Satoshi',Arial,sans-serif;font-size:14px;white-space:pre-wrap;}
 .box{margin-bottom:22px;}
 .box-title{font-family:'Bevellier',sans-serif;font-size:16px;margin-bottom:10px;}
-.box-label{font-size:11px;text-transform:uppercase;color:#999;font-family:'Satoshi',sans-serif;letter-spacing:0.5px;font-weight:700;}
+.box-label{font-size:11px;color:#999;font-family:'Satoshi',sans-serif;letter-spacing:0.5px;font-weight:700;}
 footer{margin-top:50px;padding-top:14px;border-top:1px solid #333;font-size:13px;color:#666;font-family:'Satoshi',Arial,sans-serif;display:flex;justify-content:space-between;}
 </style></head><body>
 <h1>${p.title} — ${STAGE_NAMES[key]}</h1>
@@ -1723,9 +1699,9 @@ w.document.write(`<!DOCTYPE html><html><head><title>${p.title} — Master Report
 body{font-family:'Bevellier',sans-serif;padding:48px;color:#111;max-width:760px;margin:0 auto;}
 h1{font-size:20px;font-weight:400;margin-bottom:4px;}
 h2{font-size:20px;font-weight:400;margin:28px 0 10px;border-bottom:1px solid #ddd;padding-bottom:6px;}
-.meta{font-size:13px;color:#666;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;font-family:'Satoshi',sans-serif;}
+.meta{font-size:13px;color:#666;letter-spacing:0.5px;margin-bottom:10px;font-family:'Satoshi',sans-serif;}
 .row{font-size:13px;padding:5px 0;border-bottom:1px solid #f2f2f2;font-family:'Satoshi',Arial,sans-serif;display:flex;justify-content:space-between;gap:16px;}
-.label{color:#999;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;font-family:'Satoshi',sans-serif;font-weight:700;margin-top:14px;}
+.label{color:#999;font-size:11px;letter-spacing:0.5px;font-family:'Satoshi',sans-serif;font-weight:700;margin-top:14px;}
 p.body-text{font-size:14px;font-family:'Satoshi',Arial,sans-serif;line-height:1.6;margin:4px 0 10px;}
 footer{margin-top:50px;padding-top:14px;border-top:1px solid #333;font-size:13px;color:#666;font-family:'Satoshi',Arial,sans-serif;display:flex;justify-content:space-between;}
 </style></head><body>
@@ -1805,12 +1781,12 @@ ${p.thumbnail?`<img src="${p.thumbnail}" class="thumb-preview">`:'Click to uploa
 <div class="field-box" style="margin-bottom:0;"><span class="field-label">Delivery</span><input class="f-input" type="date" value="${p.delivery||''}" onchange="updateMeta('delivery',this.value)"></div>
 </div>
 <div class="box">
-<div class="box-label">CONCEPT</div><div class="box-title">Before green light</div>
+<div class="box-label">Concept</div><div class="box-title">Before green light</div>
 ${(p.conceptTasks||[]).map((t)=>`<div class="log-line">${t}</div>`).join('')||'<div style="font-size:13px;color:#999;padding:8px 0;">Nothing here yet — add the first task below.</div>'}
 <div style="display:flex;gap:8px;margin-top:8px;"><input class="f-input" id="conceptTaskInput" placeholder="Add a task"><button class="btn-ghost" onclick="addConceptTask()">Add</button></div>
 </div>
 <div class="box">
-<div class="box-label">INSPIRATION</div><div class="box-title">References</div>
+<div class="box-label">Inspiration</div><div class="box-title">References</div>
 ${(p.refs||[]).map(r=>`<div class="lib-row"><a href="${r.url}" target="_blank" style="color:#1a1a1a;text-decoration:underline;">${esc(r.title)}</a></div>`).join('')}
 <div style="display:flex;gap:8px;margin-top:10px;"><input class="f-input" id="refTitleInput" placeholder="Title"><input class="f-input" id="refUrlInput" placeholder="https://..."><button class="btn-ghost" onclick="addRef()">Add</button></div>
 </div>
@@ -1842,34 +1818,6 @@ try{ localStorage.setItem('flowSidebarCollapsed','1'); }catch(e){}
 const btn=document.getElementById('sidebarToggle');
 if(btn) btn.title='Show sidebar';
 });
-function toggleSpSidebar(){
-spSidebarCollapsed=!spSidebarCollapsed;
-const layout=document.getElementById('spLayout');
-const sidebar=document.getElementById('spSidebar');
-const showBtn=document.getElementById('spShowBtn');
-if(layout) layout.classList.toggle('sb-collapsed',spSidebarCollapsed);
-if(sidebar) sidebar.classList.toggle('collapsed',spSidebarCollapsed);
-if(showBtn) showBtn.classList.toggle('show',spSidebarCollapsed);
-}
-function scrollToScene(di,si){
-const el=document.getElementById('scene-'+di+'-'+si);
-if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
-}
-function renderSpSidebar(days){
-return days.map((d,di)=>{
-const scenes=d.scenes||[];
-if(!scenes.length) return '';
-return `<div class="sp-day-group">
-<div class="sp-day-label">${fmtDateShort(d.date)||'Day '+(di+1)}</div>
-${scenes.map((sc,si)=>{
-const n=sceneShots(sc).length;
-const label=sc.title?esc(sc.title):'Scene '+sc.num;
-const ie=sc.ie?sc.ie+' · ':'';
-return `<div class="sp-scene-row" onclick="scrollToScene(${di},${si})"><span class="sc-name">${ie}${label}</span><span class="sc-count">${n}</span></div>`;
-}).join('')}
-</div>`;
-}).join('');
-}
 const ICON_GRIP='<svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg>';
 let autoOpenedSceneProjects=new Set();
 let dragItem=null, dragScene=null;
@@ -1921,21 +1869,13 @@ const unschedHtml = unscheduled.length ? `<div class="box" style="border-color:#
 </div>`).join('')}</div>
 </div>` : '';
 const body = shotPlannerView==='list' ? renderShotPlannerListBody(days) : renderShotPlannerStoryboardBody(days);
-const sidebarHtml = renderSpSidebar(days);
 if(totalScenes===0 && !autoOpenedSceneProjects.has(p.id)){
 autoOpenedSceneProjects.add(p.id);
 setTimeout(()=>openSceneModal(),80);
 }
-return `<div id="pdBody"><div class="sp-layout ${spSidebarCollapsed?'sb-collapsed':''}" id="spLayout">
-<div class="sp-sidebar ${spSidebarCollapsed?'collapsed':''}" id="spSidebar">
-<div class="sp-sidebar-head"><span class="sp-sidebar-title">Scenes · ${totalScenes}</span><button class="sp-hide-btn" data-no-lock="1" onclick="toggleSpSidebar()">‹ Hide</button></div>
-${sidebarHtml || '<div style="font-size:13px;color:#999;padding:8px 2px;">No scenes yet.</div>'}
-</div>
-<div class="sp-main">
-<button class="sp-show-btn ${spSidebarCollapsed?'show':''}" id="spShowBtn" data-no-lock="1" onclick="toggleSpSidebar()">Scenes ›</button>
+return `<div id="pdBody">
 ${toolbar}${unschedHtml}${body}
-</div>
-</div></div>`;
+</div>`;
 }
 function renderShotPlannerListBody(days){
 return days.map((d,di)=>{
@@ -2245,7 +2185,7 @@ let rows=resourcePlannerPool().filter(r=>
 (!rpCategoryFilter || r.cat===rpCategoryFilter)
 );
 if(rpAllocatedFilter) rows=rows.filter(r=> r.type==='crew' ? crewSet.has(r.id) : (eqCounts[r.id]||0)>0);
-const typeLabel={crew:'CREW',equipment:'EQUIPMENT'};
+const typeLabel={crew:'Crew',equipment:'Equipment'};
 const locked = p.sections.budgeting.confirmed && forceEditStage!=='budgeting';
 const emptyMsg = rpAllocatedFilter ? 'Nothing allocated yet. Switch to All to select resources.' : 'No resources match.';
 el.innerHTML = rows.map(r=>{
@@ -2328,8 +2268,8 @@ ${allCategoryNames().map(n=>`<option value="${esc(n)}" ${rpCategoryFilter===n?'s
 </div>
 <div id="rpResourceList"></div>
 <div class="rb-summary">
-<div class="rp-est-group"><div class="box-label">CREW — ${fmt(totals.crewTotal)}</div>${summary.crewHtml}</div>
-<div class="rp-est-group"><div class="box-label">EQUIPMENT — ${fmt(totals.eqTotal)}</div>${summary.eqHtml}</div>
+<div class="rp-est-group"><div class="box-label">Crew — ${fmt(totals.crewTotal)}</div>${summary.crewHtml}</div>
+<div class="rp-est-group"><div class="box-label">Equipment — ${fmt(totals.eqTotal)}</div>${summary.eqHtml}</div>
 <div class="rp-est-total"><span>Resource total</span><span>${fmt(totals.crewTotal+totals.eqTotal)}</span></div>
 </div>
 </div>
@@ -2410,7 +2350,7 @@ apply();
 function renderDeliveryTab(p){
 const d=p.sections.delivery;
 const ir=d.initialReview, fm=d.finalMaster;
-const headerRow=`<div class="del-version-row del-version-header" style="font-size:11px;color:#999;text-transform:uppercase;font-weight:700;border-top:none;font-family:'Satoshi',sans-serif;"><span>Ver.</span><span>Title</span><span>Link</span><span>Date</span><span>Duration</span></div>`;
+const headerRow=`<div class="del-version-row del-version-header" style="font-size:11px;color:#999;font-weight:700;border-top:none;font-family:'Satoshi',sans-serif;"><span>Ver.</span><span>Title</span><span>Link</span><span>Date</span><span>Duration</span></div>`;
 const irRows=(ir.versions||[]).map(v=>`<div class="del-version-row"><span data-label="Ver.">v${v.num}</span><span data-label="Title">${esc(v.title)}</span><span data-label="Link">${esc(v.link)}</span><span data-label="Date">${fmtDateShort(v.date)}</span><span data-label="Duration">${phaseDurationLabel(p,v.date)}</span></div>`).join('');
 const fmRows=(fm.versions||[]).map(v=>`<div class="del-version-row"><span data-label="Ver.">v${v.num}</span><span data-label="Title">${esc(v.title)}</span><span data-label="Link">${esc(v.link)}</span><span data-label="Date">${fmtDateShort(v.date)}</span><span data-label="Duration">${phaseDurationLabel(p,v.date)}</span></div>`).join('');
 setStageHeaderExtras('delivery',{noProceed:true});
