@@ -300,16 +300,6 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .drag-handle:hover{color:#999}
 .drag-handle:active{cursor:grabbing}
 
-/* ---- Shot Planner: redesigned shot cards ---- */
-.shot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin:4px 0 14px}
-.shot-card{border:1px solid #ededed;border-radius:10px;overflow:hidden;background:#fff;display:flex;flex-direction:column;transition:border-color .15s}
-.shot-card:hover{border-color:#ddd}
-.shot-card-head{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:#fafafa;border-bottom:1px solid #f0f0f0}
-.shot-img-box{width:100%;height:120px;border-radius:0;background:#f2f2f2;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:#999;cursor:pointer;overflow:hidden;text-align:center;line-height:1.3}
-.shot-img-box img{width:100%;height:100%;object-fit:cover}
-.shot-fields{flex:1;min-width:0;padding:12px;display:flex;flex-direction:column;gap:9px}
-.shot-fields .form-grid.tight{margin-bottom:0;gap:8px}
-.shot-num{font-size:13px;color:#1a1a1a;font-weight:700;letter-spacing:0.3px}
 /* ---- Shot Planner: List view table rows ---- */
 .f-input.mini{padding:6px 8px;font-size:12px}
 .sp-shot-row{display:grid;grid-template-columns:20px 40px 200px minmax(200px,1fr) 150px;gap:16px;align-items:center;padding:12px 6px;border-top:1px solid #f2f2f2;cursor:pointer;transition:background .15s}
@@ -492,8 +482,6 @@ h1{font-size:32px}
 .rp-row{flex-wrap:wrap;row-gap:6px}
 .tr-shot-row{flex-wrap:wrap;row-gap:8px}
 .tr-status-icons{width:100%;justify-content:flex-start}
-.shot-grid{grid-template-columns:1fr}
-.shot-img-box{height:110px}
 .sp-scene-row-text{text-align:left}
 .sp-shot-row{grid-template-columns:20px 1fr;grid-template-areas:"grip num" "thumb thumb" "desc desc" "tags tags";row-gap:8px}
 .sp-shot-row .drag-handle{grid-area:grip}
@@ -1891,22 +1879,16 @@ const unscheduled=p.unscheduledShots||[];
 setStageHeaderExtras('shotPlanning');
 const unschedHtml = unscheduled.length ? `<div class="box" style="border-color:#fec92d;border-width:2px;">
 <div class="box-title">Unscheduled shots</div>
-<div class="shot-grid">${unscheduled.map((u,ui)=>`
-<div class="shot-card">
-<div class="shot-card-head"><span class="shot-num">Unscheduled</span></div>
-<div class="shot-img-box">${u.image?`<img src="${u.image}">`:'No image'}</div>
-<div class="shot-fields">
-<div><span class="field-label">Description</span><input class="f-input" value="${esc(u.desc)}" placeholder="Shot description" onchange="updateUnscheduled(${ui},'desc',this.value)"></div>
-<div class="form-grid tight">
-<div><span class="field-label">Shot size</span><input class="f-input" value="${esc(u.size)}" placeholder="Shot size" onchange="updateUnscheduled(${ui},'size',this.value)"></div>
-<div><span class="field-label">Movement</span><input class="f-input" value="${esc(u.movement)}" placeholder="Movement" onchange="updateUnscheduled(${ui},'movement',this.value)"></div>
-</div>
-<div style="display:flex;gap:8px;">
-<select class="f-input" id="schedDaySel-${ui}" style="width:auto;flex:1;">${days.map((d,di)=>`<option value="${di}">${fmtDateShort(d.date)||('Day '+(di+1))}</option>`).join('')||'<option value="">Add a scene first</option>'}</select>
-<button class="btn-ghost" onclick="scheduleUnscheduled(${ui})">Schedule</button>
-</div>
-</div>
-</div>`).join('')}</div>
+${unscheduled.map((u,ui)=>{
+const tags=[u.size,u.movement].filter(v=>v && v!=='—');
+return `<div class="sp-shot-row" data-no-lock="1" onclick="openEditUnscheduledShotModal(${ui})">
+<span class="drag-handle">${ICON_GRIP}</span>
+<div class="sp-shot-num">—</div>
+<div class="sp-shot-thumb">${u.image?`<img src="${u.image}">`:'No image'}</div>
+<div class="sp-shot-desc">${esc(u.desc)||'Untitled shot'}</div>
+<div class="sp-shot-tags">${tags.map(t=>`<span class="shot-tag">${esc(t)}</span>`).join('')}</div>
+</div>`;
+}).join('')}
 </div>` : '';
 const body = shotPlannerView==='list' ? renderShotPlannerListBody(days) : renderShotPlannerStoryboardBody(days);
 return `<div id="pdBody">
@@ -2030,6 +2012,13 @@ days.forEach((d,di)=>(d.scenes||[]).forEach((sc,si)=>{
 opts.push({di,si,html:`Day ${di+1} — Scene ${sc.num}: ${esc(sc.title)||'Untitled'}`});
 }));
 return opts.map((o,i)=>`<option value="${o.di}-${o.si}" ${i===opts.length-1?'selected':''}>${o.html}</option>`).join('');
+}
+function sceneOptionsHtmlPlain(days){
+const opts=[];
+(days||[]).forEach((d,di)=>(d.scenes||[]).forEach((sc,si)=>{
+opts.push(`<option value="${di}-${si}">Day ${di+1} — Scene ${sc.num}: ${esc(sc.title)||'Untitled'}</option>`);
+}));
+return opts.join('');
 }
 function openAddDetailsModal(){
 addDetailsType='scene'; addDetailsImageData='';
@@ -2230,6 +2219,66 @@ logActivity('Shot list updated',p.title);
 closeModal('itemModal');
 renderProjectDetail();
 }
+function openEditUnscheduledShotModal(ui){
+const p=currentProject(); const u=p.unscheduledShots[ui];
+editImageData=u.image||'';
+const box=document.getElementById('itemModalBox');
+box.innerHTML=`<button class="modal-close" onclick="closeModal('itemModal')">×</button>
+<div class="modal-title">Edit shot</div>
+<div class="field-box"><span class="field-label">Image</span><div class="sp-shot-thumb" style="width:140px;height:100px;aspect-ratio:auto;cursor:pointer;" onclick="document.getElementById('emUImage').click()" id="emUThumb">${u.image?`<img src="${u.image}">`:'No image'}<input type="file" accept="image/*" id="emUImage" style="display:none;" onchange="handleEditUnschedShotImage(event)"></div></div>
+<div class="field-box"><span class="field-label">Description</span><textarea class="f-input" id="emUDesc" placeholder="Shot description">${esc(u.desc)}</textarea></div>
+<div class="form-grid">
+<div><span class="field-label">Shot size</span><select class="f-input" id="emUSize">${['Wide shot','Medium shot','Close-up','Insert','Low angle','High angle','—'].map(s=>`<option ${u.size===s?'selected':''}>${s}</option>`).join('')}</select></div>
+<div><span class="field-label">Movement</span><select class="f-input" id="emUMovement">${['Static','Handheld','Slow push in','Slow tilt up','Pan','Dolly','—'].map(s=>`<option ${u.movement===s?'selected':''}>${s}</option>`).join('')}</select></div>
+</div>
+<div class="field-box"><span class="field-label">Schedule to scene</span><select class="f-input" id="emUnschedScene"><option value="">Keep unscheduled</option>${sceneOptionsHtmlPlain(p.days)}</select></div>
+<div style="display:flex;gap:10px;margin-top:10px;">
+<button class="btn-primary" style="flex:1;" onclick="saveEditUnscheduledShotModal(${ui})">Save</button>
+<button class="delete-btn" onclick="deleteUnscheduledShotModal(${ui})">Delete</button>
+</div>`;
+document.getElementById('itemModal').classList.add('show');
+}
+function handleEditUnschedShotImage(ev){
+const file=ev.target.files[0]; if(!file) return;
+readAndDownscaleImage(file,800,function(dataUrl){
+editImageData=dataUrl;
+const t=document.getElementById('emUThumb');
+if(t) t.innerHTML=`<img src="${dataUrl}">`;
+});
+}
+function saveEditUnscheduledShotModal(ui){
+const p=currentProject(); const u=p.unscheduledShots[ui];
+const desc=document.getElementById('emUDesc').value||'';
+const size=document.getElementById('emUSize').value;
+const movement=document.getElementById('emUMovement').value;
+const image=editImageData||'';
+const target=document.getElementById('emUnschedScene').value;
+if(target){
+const [di,si]=target.split('-').map(Number);
+const sc=p.days[di].scenes[si];
+sc.items=sc.items||[];
+sc.items.push({type:'shot',desc,size,movement,status:'Scheduled',image});
+p.unscheduledShots.splice(ui,1);
+logActivity('Shot scheduled',p.title);
+} else {
+u.desc=desc; u.size=size; u.movement=movement; u.image=image;
+logActivity('Shot list updated',p.title);
+}
+p.sections.shotPlanning.confirmed=false;
+saveProjectChange(p);
+closeModal('itemModal');
+renderProjectDetail();
+}
+function deleteUnscheduledShotModal(ui){
+if(!confirm('Delete this shot?'))return;
+const p=currentProject();
+p.unscheduledShots.splice(ui,1);
+p.sections.shotPlanning.confirmed=false;
+saveProjectChange(p);
+logActivity('Shot list updated',p.title);
+closeModal('itemModal');
+renderProjectDetail();
+}
 function openEditActivityModal(di,si,idx){
 const a=currentProject().days[di].scenes[si].items[idx];
 const box=document.getElementById('itemModalBox');
@@ -2281,22 +2330,6 @@ renderProjectDetail();
 function setActivitySubtype(prefix,v){
 document.getElementById(prefix+'ActTimeFields').style.display=v==='shifting'?'none':'';
 document.getElementById(prefix+'ActLocFields').style.display=v==='shifting'?'':'none';
-}
-function updateUnscheduled(ui,field,val){ const p=currentProject(); p.unscheduledShots[ui][field]=val; saveProjectChange(p); }
-function scheduleUnscheduled(ui){
-const p=currentProject();
-const sel=document.getElementById('schedDaySel-'+ui);
-if(!sel||sel.value===''){ alert('Add a scene first.'); return; }
-const di=Number(sel.value);
-const day=p.days[di];
-day.scenes=day.scenes||[];
-let scene=day.scenes.find(s=>s.title==='Rescheduled shots');
-if(!scene){ scene={num:0,title:'Rescheduled shots',location:'',ie:'EXT',date:day.date||'',items:[]}; day.scenes.push(scene); renumberScenesContinuous(p); }
-const u=p.unscheduledShots[ui];
-scene.items.push({type:'shot',desc:u.desc,size:u.size,movement:u.movement,status:'Scheduled',image:u.image||''});
-p.unscheduledShots.splice(ui,1);
-saveProjectChange(p);
-renderProjectDetail();
 }
 
 /* ---------- RESOURCE PLANNER ---------- */
