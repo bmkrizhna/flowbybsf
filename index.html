@@ -202,6 +202,8 @@ main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
 .page-head-row{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:22px;flex-wrap:wrap}
 .page-head-row .page-heading{margin-bottom:0;flex-shrink:0}
 .page-head-row .page-heading.compact{font-size:20px}
+.resources-head-row{position:sticky;top:62.5px;z-index:15;background:var(--page-bg);padding:14px 0;border-bottom:1px solid #f0f0f0}
+#resourcesHeading{transition:opacity .1s ease}
 .search-filter-row{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap;flex:1;min-width:0}
 .search-filter-box{display:flex;align-items:center;border:none;border-radius:999px;background:#f0f0f0;width:360px;max-width:100%;height:38px}
 .search-filter-box.wide{flex:1 1 320px;max-width:420px}
@@ -462,6 +464,7 @@ h1{font-size:32px}
 .page-search-input{width:100%}
 .page-head-row{flex-direction:column;align-items:stretch;gap:12px}
 .page-head-row .page-heading.compact{font-size:20px}
+.resources-head-row{position:static;background:none;border-bottom:none;padding:0}
 .search-filter-row{width:100%;justify-content:flex-start}
 .search-filter-box{width:100%}
 .search-filter-box.wide{max-width:100%}
@@ -620,8 +623,8 @@ setTimeout(dismissIntro, 4500);
 </div>
 
 <div id="resources" class="page">
-<div class="page-head-row">
-<h1 class="page-heading compact">Resources</h1>
+<div class="page-head-row resources-head-row" id="resourcesHeadRow">
+<h1 class="page-heading compact" id="resourcesHeading">Resources</h1>
 <div class="search-filter-row" id="resourcesSearchRow">
 <div class="search-filter-box wide">
 <input type="text" id="resourcesSearchInput" placeholder="Search crew or equipment" oninput="setResourcesSearch(this.value)">
@@ -1000,6 +1003,11 @@ const el=document.getElementById(view);
 if(el) el.classList.add('active');
 renderSidebarNav();
 window.scrollTo(0,0);
+/* The resources list is rendered once at app init, while this page is still
+   hidden (display:none) - at that moment every row's getBoundingClientRect()
+   collapses to zero, so the scroll-spy loop below has no real layout to read.
+   Re-sync the breadcrumb now that the page is actually visible and laid out. */
+if(view==='resources') updateResourcesBreadcrumb();
 }
 
 function renderSidebarNav(){
@@ -1219,19 +1227,32 @@ if(kind==='sub' && item.sub!==val) return false;
 return true;
 }
 function renderResources(){
-/* Unified list: crew and equipment merged into one flat, alphabetised list with
-   no per-category or per-type headings - filtering still narrows it, it just
-   no longer groups the results visually. */
+/* Unified list: crew and equipment merged into one list with no inline
+   per-category or per-type headings - those are shown dynamically in the
+   sticky header's breadcrumb as the list scrolls (see updateResourcesBreadcrumb)
+   instead. For that breadcrumb to read correctly, items need to stay grouped
+   by type then by category (in the same order as Manage Categories), with only
+   the final tie-break alphabetised by name. */
+const catRank=(type,cat)=>{
+const idx=STATE.categories[type].findIndex(c=>c.name===cat);
+return idx===-1 ? STATE.categories[type].length : idx;
+};
 const allResources=[
 ...STATE.crew.filter(matchesResourcesFilter).map(c=>({...c,_type:'crew'})),
 ...STATE.equipment.filter(matchesResourcesFilter).map(e=>({...e,_type:'equipment'}))
-].sort((a,b)=>a.name.localeCompare(b.name));
+].sort((a,b)=>{
+if(a._type!==b._type) return a._type==='crew' ? -1 : 1;
+const catDiff=catRank(a._type,a.cat)-catRank(a._type,b.cat);
+if(catDiff!==0) return catDiff;
+return a.name.localeCompare(b.name);
+});
 document.getElementById('resourceList').innerHTML=allResources.map(item=>{
 if(item._type==='crew'){
-return `<div class="crew-row" onclick="openResourceModal('crew','${item.id}')"><div class="crew-left"><div class="nm">${esc(item.name)}</div><div class="rl">${esc(item.role)}${item.contact?' · '+esc(item.contact):''}</div></div><div class="crew-right"><span class="status-pill ${item.status}">${item.status==='inhouse'?'In-house':'Freelance'}</span><span class="rate-num">${fmt(item.rate)}</span></div></div>`;
+return `<div class="crew-row" data-type="Crew" data-cat="${esc(item.cat||'')}" onclick="openResourceModal('crew','${item.id}')"><div class="crew-left"><div class="nm">${esc(item.name)}</div><div class="rl">${esc(item.role)}${item.contact?' · '+esc(item.contact):''}</div></div><div class="crew-right"><span class="status-pill ${item.status}">${item.status==='inhouse'?'In-house':'Freelance'}</span><span class="rate-num">${fmt(item.rate)}</span></div></div>`;
 }
-return `<div class="crew-row" onclick="openResourceModal('equipment','${item.id}')"><div class="crew-left"><div class="nm">${esc(item.name)}</div><div class="rl">${esc(item.sub||'')}</div></div><div class="crew-right"><span class="status-pill ${item.status}">${item.status==='inhouse'?'In-house':'Rental'}</span><span class="rate-num">${item.rate>0?fmt(item.rate):'—'}</span></div></div>`;
+return `<div class="crew-row" data-type="Equipment" data-cat="${esc(item.cat||'')}" onclick="openResourceModal('equipment','${item.id}')"><div class="crew-left"><div class="nm">${esc(item.name)}</div><div class="rl">${esc(item.sub||'')}</div></div><div class="crew-right"><span class="status-pill ${item.status}">${item.status==='inhouse'?'In-house':'Rental'}</span><span class="rate-num">${item.rate>0?fmt(item.rate):'—'}</span></div></div>`;
 }).join('');
+updateResourcesBreadcrumb();
 
 const emptyEl=document.getElementById('resourcesEmptyState');
 if(emptyEl) emptyEl.style.display=(allResources.length===0)?'block':'none';
@@ -1265,6 +1286,36 @@ const splitBars=document.querySelectorAll('.usage-split .usage-bar-fill');
 if(splitBars[0]) splitBars[0].style.width=crewPct+'%';
 if(splitBars[1]) splitBars[1].style.width=eqPct+'%';
 }
+/* As the (headingless) resource list scrolls under the sticky header, show which
+   section is currently at the top in the heading itself - "Resources / Crew /
+   Direction" - rather than an inline divider. Picks the last row that has
+   already scrolled up to the sticky header's bottom edge. */
+function updateResourcesBreadcrumb(){
+const heading=document.getElementById('resourcesHeading');
+const headRow=document.getElementById('resourcesHeadRow');
+if(!heading || !headRow) return;
+const headRect=headRow.getBoundingClientRect();
+/* Page not visible yet (display:none, e.g. during initial app render before the
+   user has ever opened Resources) - there's no real layout to read, so skip
+   rather than let every zero-sized row "qualify" and land on a meaningless
+   last-row match. */
+if(headRect.width===0 && headRect.height===0) return;
+const rows=document.querySelectorAll('#resourceList .crew-row');
+if(!rows.length){ heading.textContent='Resources'; return; }
+const threshold=headRect.bottom;
+let current=null;
+for(const row of rows){
+if(row.getBoundingClientRect().top<=threshold) current=row; else break;
+}
+heading.textContent = current ? `Resources / ${current.dataset.type} / ${current.dataset.cat||'Uncategorised'}` : 'Resources';
+}
+let resourcesScrollTicking=false;
+window.addEventListener('scroll',()=>{
+if(currentView!=='resources') return;
+if(resourcesScrollTicking) return;
+resourcesScrollTicking=true;
+requestAnimationFrame(()=>{ updateResourcesBreadcrumb(); resourcesScrollTicking=false; });
+},{passive:true});
 function renderCategoryGroup(type,elId){
 const list=STATE.categories[type];
 document.getElementById(elId).innerHTML = `<div class="cat-list">` + list.map((c,ci)=>`
