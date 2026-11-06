@@ -268,7 +268,7 @@ main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
 .field-label{margin-bottom:6px;display:block}
 .field-box{margin-bottom:16px}
 textarea.f-input,input.f-input,select.f-input{width:100%;padding:10px 14px;border:none;background:#f0f0f0;border-radius:12px;font-size:14px;font-family:inherit;resize:vertical;color:#1a1a1a}
-textarea.f-input{min-height:50px}
+textarea.f-input{min-height:50px;overflow:hidden}
 select.f-input{padding:9px 30px 9px 12px}
 input:disabled.f-input,textarea:disabled.f-input{background:#fafafa;color:#444;border-color:#eee}
 select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
@@ -453,16 +453,15 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .ov-project-title,.ov-upcoming-title{white-space:normal}
 body{overflow-x:hidden}
 
-/* ---- Sidebar: icon-only rail by default; toggle opens it as a full-height overlay drawer ---- */
-body.sidebar-collapsed .sidebar{width:56px;padding:18px 6px;top:108px;height:calc(100vh - 108px)}
-body.sidebar-collapsed .sidebar-link{justify-content:center;padding:13px 0;gap:0}
-body.sidebar-collapsed .sidebar-link-label{display:none}
-body.sidebar-collapsed .sidebar-bottom{flex-direction:column;gap:10px}
-body.sidebar-collapsed .sidebar-user{justify-content:center;padding:13px 0}
-body.sidebar-collapsed .sidebar-user-name{display:none}
-body:not(.sidebar-collapsed) .sidebar{position:fixed;left:0;top:0;width:240px;height:100vh;padding:20px 16px;z-index:150;box-shadow:0 12px 40px rgba(0,0,0,.25)}
-body:not(.sidebar-collapsed)::after{content:'';position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:140}
-body:not(.sidebar-collapsed){overflow:hidden}
+/* ---- Sidebar -> bottom tab bar on mobile (full-width content, thumb-reachable nav) ---- */
+.sidebar,body.sidebar-collapsed .sidebar,body:not(.sidebar-collapsed) .sidebar{position:fixed;left:0;right:0;bottom:0;top:auto;width:100%;height:calc(60px + env(safe-area-inset-bottom));padding:0 6px env(safe-area-inset-bottom);flex-direction:row;align-items:center;z-index:120;background:#fff;border-top:1px solid #ececec;box-shadow:0 -4px 18px rgba(0,0,0,.06);overflow:visible;transition:none}
+.sidebar-toggle,.sidebar-bottom{display:none}
+.sidebar-nav,body.sidebar-collapsed .sidebar-nav{flex-direction:row;gap:2px;width:100%;justify-content:space-around}
+.sidebar-link,body.sidebar-collapsed .sidebar-link{flex:1 1 0;min-width:0;justify-content:center;padding:10px 0;gap:0;border-radius:12px;width:auto}
+.sidebar-link-label,body.sidebar-collapsed .sidebar-link-label{display:none}
+.sidebar-link-icon svg{width:22px;height:22px}
+body:not(.sidebar-collapsed)::after{display:none}
+body:not(.sidebar-collapsed){overflow:visible}
 
 /* ---- Topbar: stack logo above a compact greeting/location+clock row ---- */
 .topbar{grid-template-columns:1fr 1fr;grid-template-areas:"logo logo" "left right";row-gap:6px;padding:10px 14px}
@@ -472,7 +471,8 @@ body:not(.sidebar-collapsed){overflow:hidden}
 .topbar-left svg{width:16px;height:16px}
 .topbar-right{grid-area:right;font-size:11px;gap:6px}
 
-main{padding:16px 16px 40px}
+main{padding:16px 16px calc(84px + env(safe-area-inset-bottom))}
+.resources-head-row,.budget-head-row{top:72px}
 h1{font-size:32px}
 .page-heading{font-size:20px}
 .page-search-input{width:100%}
@@ -515,14 +515,18 @@ h1{font-size:32px}
 .sp-shot-row{grid-template-columns:20px 1fr;grid-template-areas:"grip num" "thumb thumb" "desc desc" "tags tags";row-gap:8px}
 .sp-shot-row .drag-handle{grid-area:grip}
 .sp-shot-row .sp-shot-num{grid-area:num}
-.sp-shot-row .sp-shot-thumb{grid-area:thumb;width:100%;max-width:220px}
+.sp-shot-row .sp-shot-thumb{grid-area:thumb;width:100%;max-width:100%;aspect-ratio:16/9}
+.thumb-box{height:150px}
 .sp-shot-row .sp-shot-desc{grid-area:desc}
 .sp-shot-row .sp-shot-tags{grid-area:tags;flex-direction:row;align-items:flex-start;flex-wrap:wrap}
 .cat-row{flex-wrap:wrap}
 .cat-name-input{width:100%}
 .tag-pill{max-width:100%;white-space:normal}
 .sub-pill-input{width:150px;max-width:100%;white-space:normal}
-.rp-filters{flex-wrap:wrap}
+.rp-filters{flex-wrap:wrap;align-content:flex-start}
+.budget-head-row .rp-filters{flex:0 0 auto;min-width:0;width:100%}
+.search-filter-box.wide{flex:0 0 auto}
+.search-filter-row{flex:0 0 auto}
 .rp-filters input,.rp-filters select{flex:1 1 100%;width:100%}
 .rp-filters .view-toggle{flex:1 1 100%;justify-content:center}
 .budget-head-row{position:static;background:none;border-bottom:none;padding:0;flex-direction:column;align-items:stretch;gap:10px}
@@ -1710,8 +1714,14 @@ else if(currentTab==='shotPlanning'){ content.innerHTML=renderShotPlanningTab(p)
 else if(currentTab==='budgeting'){ content.innerHTML=renderBudgetingTab(p); renderResourcePlannerList(); }
 else if(currentTab==='shootTracking') content.innerHTML=renderShootTrackingTab(p);
 else content.innerHTML=renderDeliveryTab(p);
-
+autosizeTextareas();
 }
+function autosizeTextareas(root){
+(root||document).querySelectorAll('textarea.f-input').forEach(t=>{ if(!t.offsetParent) return; t.style.height='auto'; t.style.height=(t.scrollHeight+2)+'px'; });
+}
+document.addEventListener('input',function(ev){ const t=ev.target; if(t&&t.matches&&t.matches('textarea.f-input')){ t.style.height='auto'; t.style.height=(t.scrollHeight+2)+'px'; } });
+window.addEventListener('resize',function(){ autosizeTextareas(); });
+(function(){ let tm; new MutationObserver(function(){ clearTimeout(tm); tm=setTimeout(function(){ autosizeTextareas(); },60); }).observe(document.body,{childList:true,subtree:true}); })();
 function fmtDateShort(iso){ if(!iso) return ''; const d=new Date(iso+'T00:00:00'); if(isNaN(d)) return ''; return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}); }
 function metaDateRange(p){
 if(!p.first) return '';
