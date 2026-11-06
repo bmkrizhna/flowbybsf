@@ -375,6 +375,9 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .rp-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;align-items:start}
 .rp-filters{display:flex;gap:8px;margin-bottom:14px}
 .rp-filters select{width:190px;flex-shrink:0}
+.rb-head-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+.rb-head-row .box-title{margin-bottom:0;flex-shrink:0}
+.rb-head-row .rp-filters{margin-bottom:0;flex:1 1 320px;min-width:280px}
 .rp-row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-top:1px solid #f2f2f2;font-size:13px;gap:10px;cursor:pointer;border-radius:8px;transition:background .15s}
 .rp-row:first-child{border-top:none}
 .rp-row:hover{background:#fafafa}
@@ -505,6 +508,7 @@ h1{font-size:32px}
 .rp-filters{flex-wrap:wrap}
 .rp-filters input,.rp-filters select{flex:1 1 100%;width:100%}
 .rp-filters .view-toggle{flex:1 1 100%;justify-content:center}
+.rb-head-row{flex-direction:column;align-items:stretch;gap:10px}
 
 
 /* ---- Version table: stack each row into a labeled card instead of scrolling sideways ---- */
@@ -2392,6 +2396,7 @@ const summary=resourceBudgetingSummary(p);
 setStageHeaderExtras('budgeting');
 return `<div id="pdBody">
 <div class="box">
+<div class="rb-head-row">
 <div class="box-title">Resource Budgeting</div>
 <div class="rp-filters">
 <input class="f-input" placeholder="Search resources" value="${esc(rpSearch)}" data-no-lock="1" oninput="setRpSearch(this.value)">
@@ -2400,6 +2405,7 @@ return `<div id="pdBody">
 ${allCategoryNames().map(n=>`<option value="${esc(n)}" ${rpCategoryFilter===n?'selected':''}>${n}</option>`).join('')}
 </select>
 <div class="view-toggle" data-no-lock="1"><button class="vt-btn ${!rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(false)">All</button><button class="vt-btn ${rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(true)">Allocated</button></div>
+</div>
 </div>
 <div id="rpResourceList"></div>
 <div class="rb-summary">
