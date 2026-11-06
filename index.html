@@ -56,7 +56,7 @@ select:disabled{cursor:default}
 .sidebar-user{display:flex;align-items:center;gap:12px;padding:13px 14px;font-size:13px;font-weight:700;color:#1a1a1a}
 .sidebar-user-name{white-space:nowrap;overflow:hidden;opacity:1;transition:opacity .2s ease,width .2s ease}
 .sidebar-bottom{display:flex;align-items:center;margin-top:auto;padding-top:14px}
-.sidebar-toggle{width:34px;height:34px;border-radius:8px;border:none;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#1a1a1a;flex-shrink:0;align-self:flex-start;margin:0 0 40px 14px;transition:background .15s,color .15s,margin .25s ease}
+.sidebar-toggle{width:34px;height:34px;border-radius:8px;border:none;background:none;display:flex;align-items:center;justify-content:flex-start;cursor:pointer;color:#1a1a1a;flex-shrink:0;align-self:flex-start;margin:0 0 40px 14px;transition:background .15s,color .15s,margin .25s ease}
 .sidebar-toggle:hover{background:#f0f0f0;color:#1a1a1a}
 .sidebar-toggle svg{width:18px;height:18px;transition:opacity .2s}
 body.sidebar-collapsed .sidebar{width:64px;padding:22px 6px 22px 14px}
@@ -132,7 +132,8 @@ main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
 .ov-readiness{margin-bottom:24px}
 .ov-readiness-title{font-family:'Satoshi',sans-serif;font-size:18px;font-weight:700;margin-bottom:16px}
 .ov-readiness-pct{font-family:'Satoshi',sans-serif;font-weight:700;font-size:32px;line-height:1;margin-bottom:18px}
-.ov-readiness-bar{height:10px}
+.ov-readiness-bar{height:40px;border-radius:12px}
+.ov-readiness-bar .stage-progress-fill{border-radius:12px}
 .ov-phase-rows{margin-top:22px;display:flex;flex-direction:column;gap:18px}
 .ov-phase-row{display:flex;align-items:center;gap:12px}
 .ov-phase-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#1a1a1a}
@@ -259,7 +260,7 @@ main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
 .proj-head-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;border-left:1px solid #eee;padding-left:20px}
 .pd-stage-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .proj-meta-line{font-size:13px;color:#999}
-.status-inline{font-size:13px;font-weight:500;color:#999;white-space:nowrap}
+.status-inline{font-size:inherit;font-weight:500;color:#999;white-space:nowrap}
 .stage-progress{flex:1;height:7px;border-radius:4px;overflow:hidden;background-image:repeating-linear-gradient(135deg,#f0f0f0 0,#f0f0f0 5px,#f4f4f4 5px,#f4f4f4 10px)}
 .stage-progress-fill{height:100%;width:0%;background:var(--accent);border-radius:4px;transition:width .7s cubic-bezier(.4,0,.2,1)}
 .stage-progress-label{font-size:11px;font-weight:700;color:#999;white-space:nowrap}
@@ -994,7 +995,7 @@ const n=daysBetween(p.startDate, dateStr||todayISO());
 return n===null ? '—' : ('Day '+n);
 }
 
-let currentView='overview', currentProjectId=null, currentTab='brief', forceEditStage=null;
+let currentView='overview', currentProjectId=null, currentTab='brief';
 let shotPlannerView='list', rpSearch='', rpCategoryFilter='', rpAllocatedFilter=false, completedSearch='', resourcesSearch='', resourcesCategoryFilter='';
 function setCompletedSearch(v){ completedSearch=v; renderCompleted(); }
 function setResourcesSearch(v){ resourcesSearch=v; renderResources(); }
@@ -1153,7 +1154,7 @@ document.getElementById('ovActiveList').innerHTML = activeSorted.length ? active
 const pct=Math.round(STAGE_ORDER.filter(k=>p.sections[k].confirmed).length/5*100);
 const thumbStyle=p.thumbnail?`background-image:url('${p.thumbnail}')`:'';
 const status=getProjectStatus(p);
-return `<div class="ov-project-row" onclick="openProject('${p.id}')"><div class="ov-project-thumb" style="${thumbStyle}"></div><div class="ov-project-info"><div class="ov-project-title">${esc(p.title)} <span class="status-inline">(${statusLabel(status)})</span></div><div class="ov-project-sub">${esc(p.format||'')}</div></div><div class="ov-project-progress"><div class="usage-bar"><div class="usage-bar-fill" style="width:${pct}%"></div></div><span class="ov-project-pct">${pct}%</span></div></div>`;
+return `<div class="ov-project-row" onclick="openProject('${p.id}')"><div class="ov-project-thumb" style="${thumbStyle}"></div><div class="ov-project-info"><div class="ov-project-title">${esc(p.title)} <span class="status-inline">(${status})</span></div><div class="ov-project-sub">${esc(p.format||'')}</div></div><div class="ov-project-progress"><div class="usage-bar"><div class="usage-bar-fill" style="width:${pct}%"></div></div><span class="ov-project-pct">${pct}%</span></div></div>`;
 }).join('') : '<div style="font-size:13px;color:#999;padding:8px 0;">Nothing in flight.</div>';
 
 /* Completed projects preview */
@@ -1539,7 +1540,6 @@ renderProjectDetail(); renderOverview(); renderCompleted();
 /* ---------- PROJECT DETAIL ---------- */
 function openProject(id){
 currentProjectId=id;
-forceEditStage=null;
 shotPlannerView='list';
 rpSearch=''; rpCategoryFilter=''; rpAllocatedFilter=false;
 const p=STATE.projects.find(x=>x.id===id);
@@ -1551,18 +1551,44 @@ showView('projectDetail');
 renderProjectDetail();
 }
 function currentProject(){ return STATE.projects.find(x=>x.id===currentProjectId); }
-function setTab(t){ currentTab=t; forceEditStage=null; renderProjectDetail(); }
-function toggleEditStage(key){ forceEditStage = (forceEditStage===key) ? null : key; renderProjectDetail(); }
+function setTab(t){ currentTab=t; renderProjectDetail(); }
 function proceedStage(key){
 const p=currentProject();
 p.sections[key].confirmed=true;
 p.phaseLog=p.phaseLog||{};
 p.phaseLog[key]=todayISO();
-forceEditStage=null;
 saveState();
 logActivity(STAGE_NAMES[key]+' confirmed',p.title);
 renderProjectDetail(); renderOverview(); renderCompleted();
 }
+/* A stage marked Completed stays fully editable; touching any field or control inside
+   it asks for confirmation first (since that reopens the stage) and, if confirmed,
+   flips it back to Proceed. Controls flagged data-no-lock (view toggles, search/filter
+   inputs) are never real edits and skip the prompt. */
+const EDITABLE_STAGES=['brief','shotPlanning','budgeting'];
+function guardStageEdit(e){
+if(currentView!=='projectDetail') return;
+const key=currentTab;
+if(!EDITABLE_STAGES.includes(key)) return;
+const p=currentProject();
+if(!p || !p.sections[key].confirmed) return;
+const bodyEl=document.getElementById('pdBody');
+if(!bodyEl || !bodyEl.contains(e.target)) return;
+if(e.target.closest('[data-no-lock="1"]')) return;
+const tag=e.target.tagName;
+const isField = e.type==='change' && (tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT');
+const isAction = e.type==='click' && e.target.closest('[onclick]');
+if(!isField && !isAction) return;
+if(!confirm('This stage is marked Completed. Making this change will mark it incomplete again until you click Proceed.\n\nContinue?')){
+e.preventDefault();
+e.stopPropagation();
+return;
+}
+p.sections[key].confirmed=false;
+setStageHeaderExtras(key);
+}
+document.addEventListener('change',guardStageEdit,true);
+document.addEventListener('click',guardStageEdit,true);
 
 function resourceTotals(p){
 const crewTotal=(p.crewIds||[]).map(resolveCrew).filter(Boolean).reduce((a,c)=>a+(c.rate||0),0);
@@ -1571,16 +1597,12 @@ const othersTotal=(p.sections.budgeting.lines||[]).reduce((a,l)=>a+(Number(l.amo
 return {crewTotal,eqTotal,othersTotal,total:crewTotal+eqTotal+othersTotal};
 }
 
-function statusLabel(status){
-return status==='Delivered' ? status : 'In '+status;
-}
-
 function renderProjectDetail(){
 const p=currentProject();
 if(!p) return;
 const status=getProjectStatus(p);
 document.getElementById('pdTitle').textContent=p.title;
-document.getElementById('pdStatusInline').textContent='('+statusLabel(status)+')';
+document.getElementById('pdStatusInline').textContent='('+status+')';
 const thumbBox=document.getElementById('pdThumbBox');
 if(p.thumbnail){ thumbBox.style.backgroundImage=`url('${p.thumbnail}')`; thumbBox.classList.add('has-image'); } else { thumbBox.style.backgroundImage=''; thumbBox.classList.remove('has-image'); }
 document.getElementById('pdMeta').textContent=[p.format,p.place,metaDateRange(p)].filter(Boolean).join(' · ');
@@ -1601,11 +1623,6 @@ else if(currentTab==='budgeting'){ content.innerHTML=renderBudgetingTab(p); rend
 else if(currentTab==='shootTracking') content.innerHTML=renderShootTrackingTab(p);
 else content.innerHTML=renderDeliveryTab(p);
 
-const locked = p.sections[currentTab].confirmed && forceEditStage!==currentTab;
-if(locked){
-const bodyEl=content.querySelector('#pdBody');
-if(bodyEl) bodyEl.querySelectorAll('input,textarea,select,button').forEach(el=>{ if(el.dataset.noLock!=='1') el.disabled=true; });
-}
 }
 function fmtDateShort(iso){ if(!iso) return ''; const d=new Date(iso+'T00:00:00'); if(isNaN(d)) return ''; return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}); }
 function metaDateRange(p){
@@ -1623,20 +1640,20 @@ if(mon1===mon2) return `${day1}–${day2} ${mon2}`;
 return `${day1} ${mon1} – ${day2} ${mon2}`;
 }
 
-function setStageHeaderExtras(key,opts){
-opts=opts||{};
+function setStageHeaderExtras(key){
 const p=currentProject();
 const confirmed=p.sections[key].confirmed;
-const editing=forceEditStage===key;
-const locked=confirmed && !editing;
 const actionsEl=document.getElementById('pdStageActions');
-let actionHtml='';
-if(opts.noProceed){
-actionHtml = confirmed ? `<span class="section-badge confirmed">Completed</span><button class="btn-ghost" onclick="toggleEditStage('${key}')">Edit</button>` : '';
-} else {
-actionHtml = locked ? `<span class="section-badge confirmed">Completed</span><button class="btn-ghost" onclick="toggleEditStage('${key}')">Edit</button>` : `<button class="confirm-btn" onclick="proceedStage('${key}')">Proceed</button>`;
-}
+const actionHtml = confirmed ? `<span class="section-badge confirmed">Completed</span>` : `<button class="confirm-btn" onclick="proceedStage('${key}')">Proceed</button>`;
 if(actionsEl) actionsEl.innerHTML = `<button class="btn-ghost" title="Save PDF" aria-label="Save PDF" onclick="printStage('${key}')">Save PDF</button>${actionHtml}`;
+}
+/* Tracker and Review complete themselves from their own internal logic (every shot
+   resolved; both delivery segments done) — no manual Proceed/Save PDF for these. */
+function setStageHeaderExtrasAuto(key){
+const p=currentProject();
+const confirmed=p.sections[key].confirmed;
+const actionsEl=document.getElementById('pdStageActions');
+if(actionsEl) actionsEl.innerHTML = confirmed ? `<span class="section-badge confirmed">Completed</span>` : '';
 }
 function printStage(key){
 const p=currentProject();
@@ -2174,20 +2191,18 @@ let rows=resourcePlannerPool().filter(r=>
 );
 if(rpAllocatedFilter) rows=rows.filter(r=> r.type==='crew' ? crewSet.has(r.id) : (eqCounts[r.id]||0)>0);
 const typeLabel={crew:'Crew',equipment:'Equipment'};
-const locked = p.sections.budgeting.confirmed && forceEditStage!=='budgeting';
 const emptyMsg = rpAllocatedFilter ? 'Nothing allocated yet. Switch to All to select resources.' : 'No resources match.';
 el.innerHTML = rows.map(r=>{
 const qty = r.type==='crew' ? (crewSet.has(r.id)?1:0) : (eqCounts[r.id]||0);
 const selected = qty>0;
-return `<div class="rp-row ${selected?'selected':''}" ${locked?'':`onclick="selectResource('${r.type}','${r.id}')"`}>
+return `<div class="rp-row ${selected?'selected':''}" onclick="selectResource('${r.type}','${r.id}')">
 <div><div class="nm">${esc(r.name)}${r.type==='equipment'&&qty>1?` <span class="rp-qty-badge">×${qty}</span>`:''}</div><div class="ct">${typeLabel[r.type]} · ${esc(r.role||r.cat)}</div></div>
-<div class="rp-row-right"><span>${fmt(r.rate)}</span>${selected&&!locked?`<button class="rp-qty-dec" onclick="event.stopPropagation();deselectResource('${r.type}','${r.id}')" title="Remove">−</button>`:''}</div>
+<div class="rp-row-right"><span>${fmt(r.rate)}</span>${selected?`<button class="rp-qty-dec" onclick="event.stopPropagation();deselectResource('${r.type}','${r.id}')" title="Remove">−</button>`:''}</div>
 </div>`;
 }).join('') || `<div style="font-size:13px;color:#999;padding:12px 0;">${emptyMsg}</div>`;
 }
 function selectResource(type,id){
 const p=currentProject();
-if(p.sections.budgeting.confirmed && forceEditStage!=='budgeting') return;
 if(type==='crew'){
 p.crewIds=p.crewIds||[];
 const idx=p.crewIds.indexOf(id);
@@ -2205,7 +2220,6 @@ renderProjectDetail();
 }
 function deselectResource(type,id){
 const p=currentProject();
-if(p.sections.budgeting.confirmed && forceEditStage!=='budgeting') return;
 const key=type==='crew'?'crewIds':'equipmentIds';
 p[key]=p[key]||[];
 const idx=p[key].indexOf(id);
@@ -2299,7 +2313,7 @@ const shotRows=(d.scenes||[]).map((sc,si)=>sceneItemRows(sc).filter(r=>r.type===
 </div>`; }).join('')).join('');
 return `<div class="tr-day-date">${fmtDateShort(d.date)||'Unscheduled'}</div>${shotRows||'<div style="font-size:13px;color:#999;padding:8px 0;">No shots planned for this day yet.</div>'}`;
 }).join('');
-setStageHeaderExtras('shootTracking');
+setStageHeaderExtrasAuto('shootTracking');
 return `<div id="pdBody">
 <div class="box">
 <div class="box-title">Final shot report</div>
@@ -2307,11 +2321,20 @@ ${rows || '<div style="font-size:13px;color:#999;padding:20px 0;">No shots sched
 </div>
 </div>`;
 }
+function allShotsResolved(p){
+let total=0, resolved=0;
+(p.days||[]).forEach(d=>(d.scenes||[]).forEach(sc=>sceneShots(sc).forEach(sh=>{
+total++;
+if(sh.status==='Completed' || sh.status==='Cancelled') resolved++;
+})));
+return total>0 && resolved===total;
+}
 function setShotTrackStatus(di,si,shi,status,btn){
 const apply=()=>{
 const p=currentProject();
 const shot=p.days[di].scenes[si].items[shi];
 shot.status=status;
+p.sections.shootTracking.confirmed=allShotsResolved(p);
 if(status==='Postponed'){
 p.unscheduledShots=p.unscheduledShots||[];
 p.unscheduledShots.push({id:'u'+Date.now(),desc:shot.desc,size:shot.size,movement:shot.movement,image:shot.image||''});
@@ -2341,7 +2364,7 @@ const ir=d.initialReview, fm=d.finalMaster;
 const headerRow=`<div class="del-version-row del-version-header" style="font-size:11px;color:#999;font-weight:700;border-top:none;font-family:'Satoshi',sans-serif;"><span>Ver.</span><span>Title</span><span>Link</span><span>Date</span><span>Duration</span></div>`;
 const irRows=(ir.versions||[]).map(v=>`<div class="del-version-row"><span data-label="Ver.">v${v.num}</span><span data-label="Title">${esc(v.title)}</span><span data-label="Link">${esc(v.link)}</span><span data-label="Date">${fmtDateShort(v.date)}</span><span data-label="Duration">${phaseDurationLabel(p,v.date)}</span></div>`).join('');
 const fmRows=(fm.versions||[]).map(v=>`<div class="del-version-row"><span data-label="Ver.">v${v.num}</span><span data-label="Title">${esc(v.title)}</span><span data-label="Link">${esc(v.link)}</span><span data-label="Date">${fmtDateShort(v.date)}</span><span data-label="Duration">${phaseDurationLabel(p,v.date)}</span></div>`).join('');
-setStageHeaderExtras('delivery',{noProceed:true});
+setStageHeaderExtrasAuto('delivery');
 return `<div id="pdBody">
 <div class="box">
 <div class="box-title">Segment 01 · Initial Review</div>
