@@ -277,9 +277,9 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .thumb-box{border:1px dashed #ccc;border-radius:14px;height:240px;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;color:#999;font-size:13px;background:#fafafa;text-align:center}
 .thumb-box:hover{border-color:#bbb}
 .thumb-preview{width:100%;height:100%;object-fit:cover}
-.shoot-day-box{border:1px solid #e5e5e5;border-radius:8px;margin-bottom:14px;padding:14px 16px;background:#fff}
-.shoot-day-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:13px;flex-wrap:wrap;row-gap:8px}
-.sp-day-date-label{font-family:'Satoshi',sans-serif;font-size:14px;font-weight:700;color:#1a1a1a}
+/* ---- Shot Planner: simplified row list (Day band / Scene band / Shot row) ---- */
+.sp-day-band{background:#f8d978;color:#1a1a1a;font-weight:800;font-size:14px;text-align:center;padding:10px 16px;border-radius:8px;margin:20px 0 10px}
+.sp-day-band:first-child{margin-top:0}
 .day-badge{font-family:'Satoshi',sans-serif;font-size:11px;padding:5px 10px;border-radius:999px;font-weight:700}
 .day-badge.Wrapped{background:var(--accent-bg);color:var(--accent-text)}
 .day-badge.Shooting{background:var(--accent-text);color:#fff}
@@ -287,16 +287,14 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .day-badge.Postponed{background:#eee;color:#666}
 .day-badge.Completed{background:var(--accent-bg);color:var(--accent-text)}
 .day-badge.Cancelled{background:#eee;color:#999}
-.scene-box{border-top:1px solid #f0f0f0;padding-top:14px;margin-top:14px;transition:opacity .15s}
-.scene-box.dragging{opacity:.4}
-.scene-box.drag-over{outline:2px dashed var(--accent);outline-offset:4px;border-radius:8px}
-.scene-head{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap;row-gap:8px}
-.scene-head input,.scene-head select{padding:7px 9px;border:1px solid #eee;border-radius:5px}
-.scene-head select{padding:7px 26px 7px 10px}
-.scene-head input{flex:1 1 140px;min-width:120px}
-.scene-head input[type="date"]{flex:0 0 150px;min-width:150px}
-.scene-num{font-size:13px;font-weight:700;color:#999;flex-shrink:0}
-.scene-shot-count{font-size:12px;color:#999;background:#f5f5f5;padding:5px 10px;border-radius:999px;white-space:nowrap;flex-shrink:0}
+.sp-scene-row{display:flex;align-items:center;gap:8px;background:#fbf6e3;border-radius:8px;padding:10px 16px;margin-bottom:6px;cursor:pointer;transition:background .15s,opacity .15s}
+.sp-scene-row:hover{background:#f7efd3}
+.sp-scene-row.dragging{opacity:.4}
+.sp-scene-row.drag-over{outline:2px dashed var(--accent);outline-offset:2px;border-radius:8px}
+.sp-scene-row-text{flex:1;text-align:center;font-size:13px;color:#666}
+.sp-scene-row-text b{color:#1a1a1a;font-weight:700}
+.sp-scene-row-text .sep{color:#d9cd9c;margin:0 8px}
+.sp-scene-row .drag-handle-spacer{width:26px;flex-shrink:0}
 .add-link{display:inline-block;margin-top:8px}
 .drag-handle{display:inline-flex;align-items:center;justify-content:center;color:#ccc;cursor:grab;flex-shrink:0;padding:4px}
 .drag-handle:hover{color:#999}
@@ -313,27 +311,22 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .shot-fields .form-grid.tight{margin-bottom:0;gap:8px}
 .shot-num{font-size:13px;color:#1a1a1a;font-weight:700;letter-spacing:0.3px}
 /* ---- Shot Planner: List view table rows ---- */
-.shot-list-wrap{overflow-x:auto;margin-top:6px}
-.shot-list-head,.shot-list-row{display:grid;grid-template-columns:20px 56px 240px minmax(260px,2fr) 180px 32px;gap:12px;align-items:center;min-width:850px}
-.shot-list-head{padding:0 0 8px;border-bottom:1px solid #eee}
-.shot-list-head span{font-family:'Satoshi',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.5px;color:#999}
-.shot-list-row{padding:12px 0;border-top:1px solid #f2f2f2;align-items:start}
-.shot-list-row .drag-handle,.shot-list-row .shot-list-del{margin-top:4px}
-.shot-list-row:first-child{border-top:none}
-.shot-list-thumb{width:240px;height:180px;border-radius:10px;background:#f2f2f2;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#999;cursor:pointer;overflow:hidden;text-align:center;line-height:1.1}
-.shot-list-thumb img{width:100%;height:100%;object-fit:cover}
-.shot-list-num{font-size:13px;font-weight:700;color:#1a1a1a;margin-top:4px}
-.shot-list-row textarea.f-input{padding:9px 10px;font-size:13px;min-height:80px;resize:vertical}
-.shot-camera-info{display:flex;flex-direction:column;gap:6px}
 .f-input.mini{padding:6px 8px;font-size:12px}
-.shot-list-del{width:26px;height:26px;border-radius:6px;border:none;background:none;color:#4a4a4a;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;line-height:1}
-.shot-list-del:hover{background:#eee}
-.shot-list-row.dragging,.shot-activity-row.dragging{opacity:.4}
-.shot-list-row.drag-over,.shot-activity-row.drag-over{outline:2px dashed var(--accent);outline-offset:-2px;border-radius:8px}
-.item-add-row{display:flex;align-items:center;justify-content:center;gap:6px;padding:14px;border:1.5px dashed #ddd;border-radius:10px;margin-top:10px;color:#999;font-size:13px;font-weight:600;cursor:pointer;transition:border-color .15s,color .15s,background .15s}
-.item-add-row:hover{border-color:#bbb;color:#1a1a1a;background:#fafafa}
+.sp-shot-row{display:grid;grid-template-columns:20px 40px 200px minmax(200px,1fr) 150px;gap:16px;align-items:center;padding:12px 6px;border-top:1px solid #f2f2f2;cursor:pointer;transition:background .15s}
+.sp-shot-row:hover{background:#fafafa}
+.sp-shot-row:first-child{border-top:none}
+.sp-shot-num{font-size:13px;font-weight:700;color:#1a1a1a}
+.sp-shot-thumb{width:100%;aspect-ratio:4/3;border-radius:10px;background:#f2f2f2;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#999;overflow:hidden;text-align:center;line-height:1.1}
+.sp-shot-thumb img{width:100%;height:100%;object-fit:cover}
+.sp-shot-desc{font-size:14px;color:#1a1a1a;line-height:1.4}
+.sp-shot-tags{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.shot-tag{background:#f0f0f0;color:#555;padding:5px 12px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.sp-shot-row.dragging,.sp-scene-row.dragging,.shot-activity-row.dragging{opacity:.4}
+.sp-shot-row.drag-over,.shot-activity-row.drag-over{outline:2px dashed var(--accent);outline-offset:-2px;border-radius:8px}
+.sp-add-details-row{display:flex;align-items:center;justify-content:center;gap:6px;padding:16px;border:1.5px dashed #ddd;border-radius:10px;margin-top:10px;color:#999;font-size:13px;font-weight:600;cursor:pointer;transition:border-color .15s,color .15s,background .15s}
+.sp-add-details-row:hover{border-color:#bbb;color:#1a1a1a;background:#fafafa}
 /* ---- Shot Planner: Activity (Break/Setup/Shifting) banner rows ---- */
-.shot-activity-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;border-radius:8px;margin:10px 0;font-size:13px;font-weight:700;color:#fff}
+.shot-activity-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;border-radius:8px;margin:10px 0;font-size:13px;font-weight:700;color:#fff;cursor:pointer}
 .shot-activity-row.break{background:#1a1a1a}
 .shot-activity-row.setup{background:var(--accent);color:#1a1a1a}
 .shot-activity-row.shifting{background:var(--lavender-bg);color:var(--lavender-text)}
@@ -371,14 +364,14 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .view-toggle{display:flex;gap:4px;background:#f0f0f0;border-radius:999px;padding:3px}
 .vt-btn{padding:7px 16px;border:none;border-radius:999px;background:none;font-size:13px;font-weight:600;color:#6b6b6b;transition:background .15s,color .15s}
 .vt-btn.active{background:#1a1a1a;color:#fff}
-.sb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
-.sb-card{border:1px solid #eee;border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color .15s}
+.sb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.sb-card{border:1px solid #eee;border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .15s}
 .sb-card:hover{border-color:#ccc}
-.sb-img{height:100px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:11px;color:#999}
+.sb-img{aspect-ratio:3/2;background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:12px;color:#999}
 .sb-img img{width:100%;height:100%;object-fit:cover}
-.sb-body{padding:8px 10px}
-.sb-num{font-size:11px;color:#999;font-weight:700}
-.sb-desc{font-size:13px;font-weight:600;margin:2px 0 8px;line-height:1.3}
+.sb-body{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#f7f7f7}
+.sb-num{font-size:13px;color:#1a1a1a;font-weight:700;flex-shrink:0;padding-right:10px;border-right:1px solid #ddd}
+.sb-desc{font-size:13px;color:#555;margin:0;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 /* ---- Resource Planner ---- */
 .rp-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;align-items:start}
 .rp-filters{display:flex;gap:8px;margin-bottom:14px}
@@ -499,11 +492,13 @@ h1{font-size:32px}
 .tr-status-icons{width:100%;justify-content:flex-start}
 .shot-grid{grid-template-columns:1fr}
 .shot-img-box{height:110px}
-.shoot-day-head{flex-wrap:wrap;row-gap:6px}
-.shoot-day-head input[type="date"]{width:150px!important}
-.scene-head{flex-direction:column;align-items:stretch;row-gap:8px}
-.scene-head input,.scene-head select{flex:none;width:100%}
-.scene-head .word-link{align-self:flex-end}
+.sp-scene-row-text{text-align:left}
+.sp-shot-row{grid-template-columns:20px 1fr;grid-template-areas:"grip num" "thumb thumb" "desc desc" "tags tags";row-gap:8px}
+.sp-shot-row .drag-handle{grid-area:grip}
+.sp-shot-row .sp-shot-num{grid-area:num}
+.sp-shot-row .sp-shot-thumb{grid-area:thumb;width:100%;max-width:220px}
+.sp-shot-row .sp-shot-desc{grid-area:desc}
+.sp-shot-row .sp-shot-tags{grid-area:tags;flex-direction:row;align-items:flex-start;flex-wrap:wrap}
 .cat-row{flex-wrap:wrap}
 .cat-name-input{width:100%}
 .tag-pill{max-width:100%;white-space:normal}
@@ -1854,9 +1849,9 @@ const btn=document.getElementById('sidebarToggle');
 if(btn) btn.title='Show sidebar';
 });
 const ICON_GRIP='<svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg>';
-let autoOpenedSceneProjects=new Set();
 let dragItem=null, dragScene=null;
-let itemModalType='shot', itemModalImageData='';
+let addDetailsType='scene', addDetailsImageData='';
+let editImageData='';
 function sceneShots(sc){ return (sc.items||[]).filter(it=>it.type==='shot'); }
 function sceneItemRows(sc){
 let shotCount=0;
@@ -1877,12 +1872,10 @@ return day;
 function renumberScenesContinuous(p){ let n=1; (p.days||[]).forEach(d=>(d.scenes||[]).forEach(sc=>{ sc.num=n++; })); }
 function renderShotPlanningTab(p){
 const days=p.days||[];
-const totalScenes=days.reduce((a,d)=>a+(d.scenes||[]).length,0);
 const unscheduled=p.unscheduledShots||[];
 setStageHeaderExtras('shotPlanning');
 const toolbar=`<div class="sp-toolbar">
 <div class="view-toggle"><button class="vt-btn ${shotPlannerView==='list'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('list')">List</button><button class="vt-btn ${shotPlannerView==='storyboard'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('storyboard')">Storyboard</button></div>
-<div style="display:flex;gap:8px;"><button class="btn-ghost" onclick="openSceneModal()">Add scene</button></div>
 </div>`;
 const unschedHtml = unscheduled.length ? `<div class="box" style="border-color:#fec92d;border-width:2px;">
 <div class="box-title">Unscheduled shots</div>
@@ -1904,71 +1897,51 @@ const unschedHtml = unscheduled.length ? `<div class="box" style="border-color:#
 </div>`).join('')}</div>
 </div>` : '';
 const body = shotPlannerView==='list' ? renderShotPlannerListBody(days) : renderShotPlannerStoryboardBody(days);
-if(totalScenes===0 && !autoOpenedSceneProjects.has(p.id)){
-autoOpenedSceneProjects.add(p.id);
-setTimeout(()=>openSceneModal(),80);
-}
 return `<div id="pdBody">
 ${toolbar}${unschedHtml}${body}
 </div>`;
 }
+function dayBandLabel(d,di){ return `Day ${di+1} — ${fmtDateShort(d.date)||'Unscheduled'}`; }
+const ADD_DETAILS_ROW=`<div class="sp-add-details-row" data-no-lock="1" onclick="openAddDetailsModal()">+ Add details</div>`;
 function renderShotPlannerListBody(days){
-return days.map((d,di)=>{
+const hasScenes=days.some(d=>(d.scenes||[]).length>0);
+if(!hasScenes) return ADD_DETAILS_ROW;
+const dayBlocks=days.map((d,di)=>{
 if(!(d.scenes||[]).length) return '';
-return `
-<div class="shoot-day-box">
-<div class="shoot-day-head">
-<span class="sp-day-date-label">${fmtDateShort(d.date)||'Unscheduled'}</span>
-<span style="color:#999;">${(d.scenes||[]).reduce((a,s)=>a+sceneShots(s).length,0)} shots</span>
-<button class="word-link" onclick="removeDay(${di})">Remove day</button>
-</div>
-${(d.scenes||[]).map((sc,si)=>{
+const sceneBlocks=(d.scenes||[]).map((sc,si)=>{
 const rows=sceneItemRows(sc);
-return `
-<div class="scene-box" id="scene-${di}-${si}" ondragover="onSceneDragOver(event,${di},${si})" ondragleave="onSceneDragLeave(event)" ondrop="onSceneDrop(event,${di},${si})">
-<div class="scene-head">
-<span class="drag-handle" draggable="true" ondragstart="onSceneDragStart(event,${di},${si})" ondragend="onSceneDragEnd(event)" title="Drag to reorder scene">${ICON_GRIP}</span>
-<span class="scene-num">${sc.num}</span>
-<input value="${esc(sc.title)}" placeholder="Scene title" onchange="updateScene(${di},${si},'title',this.value)">
-<input value="${esc(sc.location)}" placeholder="Location" onchange="updateScene(${di},${si},'location',this.value)">
-<select onchange="updateScene(${di},${si},'ie',this.value)"><option ${sc.ie==='INT'?'selected':''}>INT</option><option ${sc.ie==='EXT'?'selected':''}>EXT</option></select>
-<input type="date" value="${sc.date||''}" onchange="updateSceneDate(${di},${si},this.value)">
-<span class="scene-shot-count">${sceneShots(sc).length} shots</span>
-<button class="word-link" onclick="removeScene(${di},${si})">Delete</button>
-</div>
-<div class="shot-list-wrap"><div class="shot-list-head"><span></span><span>Shot</span><span>Image</span><span>Description</span><span>Camera Info</span><span></span></div>
-${rows.map(r=>{
+const sceneRow=`<div class="sp-scene-row" id="scene-${di}-${si}" draggable="true" data-no-lock="1" ondragstart="onSceneDragStart(event,${di},${si})" ondragend="onSceneDragEnd(event)" ondragover="onSceneDragOver(event,${di},${si})" ondragleave="onSceneDragLeave(event)" ondrop="onSceneDrop(event,${di},${si})" onclick="openEditSceneModal(${di},${si})">
+<span class="drag-handle" onclick="event.stopPropagation()" title="Drag to reorder scene">${ICON_GRIP}</span>
+<span class="sp-scene-row-text"><b>Scene ${sc.num} — ${esc(sc.title)||'Untitled'}</b><span class="sep">|</span>${esc(sc.location)||'No location'}<span class="sep">|</span>${sceneShots(sc).length} Shots</span>
+<span class="drag-handle-spacer"></span>
+</div>`;
+const itemRows=rows.map(r=>{
 if(r.type==='activity'){
 const a=r.item;
-return `<div class="shot-activity-row ${a.actType}" draggable="true" ondragstart="onItemDragStart(event,${di},${si},${r.idx})" ondragend="onItemDragEnd(event)" ondragover="onItemDragOver(event,${di},${si},${r.idx})" ondragleave="onItemDragLeave(event)" ondrop="onItemDrop(event,${di},${si},${r.idx})">
-<div class="act-main"><span class="drag-handle" title="Drag to reorder">${ICON_GRIP}</span><span class="act-label">${activityDisplayText(a)}</span></div>
-<button class="act-remove" title="Remove" onclick="removeItem(${di},${si},${r.idx})">×</button>
+return `<div class="shot-activity-row ${a.actType}" draggable="true" data-no-lock="1" ondragstart="onItemDragStart(event,${di},${si},${r.idx})" ondragend="onItemDragEnd(event)" ondragover="onItemDragOver(event,${di},${si},${r.idx})" ondragleave="onItemDragLeave(event)" ondrop="onItemDrop(event,${di},${si},${r.idx})" onclick="openEditItemModal(${di},${si},${r.idx})">
+<div class="act-main"><span class="drag-handle" onclick="event.stopPropagation()" title="Drag to reorder">${ICON_GRIP}</span><span class="act-label">${activityDisplayText(a)}</span></div>
 </div>`;
 }
 const sh=r.item;
 const anchorId='shot-'+di+'-'+si+'-'+r.idx;
-const fileId='shotimg-'+anchorId;
-return `<div class="shot-list-row" id="${anchorId}" draggable="true" ondragstart="onItemDragStart(event,${di},${si},${r.idx})" ondragend="onItemDragEnd(event)" ondragover="onItemDragOver(event,${di},${si},${r.idx})" ondragleave="onItemDragLeave(event)" ondrop="onItemDrop(event,${di},${si},${r.idx})">
-<span class="drag-handle" title="Drag to reorder">${ICON_GRIP}</span>
-<div class="shot-list-num">${r.num}</div>
-<div class="shot-list-thumb" onclick="document.getElementById('${fileId}').click()">${sh.image?`<img src="${sh.image}">`:'Add'}<input type="file" accept="image/*" id="${fileId}" style="display:none;" onchange="handleShotImageUpload(event,${di},${si},${r.idx})"></div>
-<textarea class="f-input" placeholder="Description" onchange="updateShot(${di},${si},${r.idx},'desc',this.value)">${esc(sh.desc)}</textarea>
-<div class="shot-camera-info">
-<select class="f-input mini" onchange="updateShot(${di},${si},${r.idx},'size',this.value)">${['Wide shot','Medium shot','Close-up','Insert','Low angle','High angle','—'].map(s=>`<option ${sh.size===s?'selected':''}>${s}</option>`).join('')}</select>
-<select class="f-input mini" onchange="updateShot(${di},${si},${r.idx},'movement',this.value)">${['Static','Handheld','Slow push in','Slow tilt up','Pan','Dolly','—'].map(s=>`<option ${sh.movement===s?'selected':''}>${s}</option>`).join('')}</select>
-</div>
-<button class="shot-list-del" title="Delete shot" onclick="removeItem(${di},${si},${r.idx})">×</button>
-</div>`;
-}).join('')}
-<div class="item-add-row" onclick="openItemModal(${di},${si})">+ Add</div>
-</div>
-</div>`;
-}).join('')}
+const tags=[sh.size,sh.movement].filter(v=>v && v!=='—');
+return `<div class="sp-shot-row" id="${anchorId}" draggable="true" data-no-lock="1" ondragstart="onItemDragStart(event,${di},${si},${r.idx})" ondragend="onItemDragEnd(event)" ondragover="onItemDragOver(event,${di},${si},${r.idx})" ondragleave="onItemDragLeave(event)" ondrop="onItemDrop(event,${di},${si},${r.idx})" onclick="openEditItemModal(${di},${si},${r.idx})">
+<span class="drag-handle" onclick="event.stopPropagation()" title="Drag to reorder">${ICON_GRIP}</span>
+<div class="sp-shot-num">${r.num}</div>
+<div class="sp-shot-thumb">${sh.image?`<img src="${sh.image}">`:'No image'}</div>
+<div class="sp-shot-desc">${esc(sh.desc)||'Untitled shot'}</div>
+<div class="sp-shot-tags">${tags.map(t=>`<span class="shot-tag">${esc(t)}</span>`).join('')}</div>
 </div>`;
 }).join('');
+return sceneRow+itemRows;
+}).join('');
+return `<div class="sp-day-band">${dayBandLabel(d,di)}</div>${sceneBlocks}`;
+}).join('');
+return dayBlocks+ADD_DETAILS_ROW;
 }
 function renderShotPlannerStoryboardBody(days){
 const html = days.map((d,di)=>{
+if(!(d.scenes||[]).length) return '';
 const cards=(d.scenes||[]).map((sc,si)=>{
 const rows=sceneItemRows(sc);
 return rows.map(r=>{
@@ -1979,48 +1952,19 @@ const sh=r.item;
 const anchorId='shot-'+di+'-'+si+'-'+r.idx;
 return `<div class="sb-card" onclick="focusShotInList('${anchorId}')">
 <div class="sb-img">${sh.image?`<img src="${sh.image}">`:'No image'}</div>
-<div class="sb-body"><div class="sb-num">${r.num}</div><div class="sb-desc">${sh.desc||'Untitled shot'}</div></div>
+<div class="sb-body"><div class="sb-num">${r.num}</div><div class="sb-desc">${esc(sh.desc)||'Untitled shot'}</div></div>
 </div>`;
 }).join('');
 }).join('');
-if(!cards) return '';
-return `<div style="margin-bottom:22px;">
-<div class="tr-day-date">${fmtDateShort(d.date)||'Unscheduled'}</div>
-<div class="sb-grid">${cards}</div>
-</div>`;
+return `<div class="sp-day-band">${dayBandLabel(d,di)}</div><div class="sb-grid">${cards}</div>`;
 }).join('');
-return html || '<div style="font-size:13px;color:#999;padding:20px 0;">No shots yet — switch to List view to add a scene and shots.</div>';
+return html ? html+ADD_DETAILS_ROW : ADD_DETAILS_ROW;
 }
 function focusShotInList(anchorId){
 shotPlannerView='list';
 renderProjectDetail();
 setTimeout(function(){ const el=document.getElementById(anchorId); if(el) el.scrollIntoView({behavior:'smooth',block:'center'}); },60);
 }
-function removeDay(di){ if(!confirm('Remove this day and all its scenes and shots?'))return; const p=currentProject(); p.days.splice(di,1); renumberScenesContinuous(p); saveProjectChange(p); renderProjectDetail(); }
-function removeScene(di,si){
-if(!confirm('Delete this scene and its shots?'))return;
-const p=currentProject();
-p.days[di].scenes.splice(si,1);
-if(!p.days[di].scenes.length) p.days.splice(di,1);
-renumberScenesContinuous(p);
-saveProjectChange(p); renderProjectDetail();
-}
-function updateScene(di,si,field,val){ const p=currentProject(); p.days[di].scenes[si][field]=val; saveProjectChange(p); }
-function updateSceneDate(di,si,newDate){
-const p=currentProject();
-const day=p.days[di];
-const sc=day.scenes[si];
-sc.date=newDate;
-day.scenes.splice(si,1);
-const target=findOrCreateDay(p,newDate);
-target.scenes.push(sc);
-if(!day.scenes.length && day!==target) p.days.splice(p.days.indexOf(day),1);
-renumberScenesContinuous(p);
-saveProjectChange(p);
-renderProjectDetail();
-}
-function updateShot(di,si,idx,field,val){ const p=currentProject(); p.days[di].scenes[si].items[idx][field]=val; saveProjectChange(p); }
-function removeItem(di,si,idx){ const p=currentProject(); p.days[di].scenes[si].items.splice(idx,1); saveProjectChange(p); logActivity('Shot list updated',p.title); renderProjectDetail(); }
 /* ---------- SHOT PLANNER: drag to reorder (items within a scene, scenes within a day) ---------- */
 function reorderArray(arr,from,to){ const [moved]=arr.splice(from,1); arr.splice(to,0,moved); }
 function onItemDragStart(ev,di,si,idx){ dragItem={di,si,idx}; ev.stopPropagation(); ev.dataTransfer.effectAllowed='move'; ev.currentTarget.classList.add('dragging'); }
@@ -2037,8 +1981,8 @@ saveProjectChange(p);
 dragItem=null;
 renderProjectDetail();
 }
-function onSceneDragStart(ev,di,si){ dragScene={di,si}; ev.stopPropagation(); ev.dataTransfer.effectAllowed='move'; ev.currentTarget.closest('.scene-box').classList.add('dragging'); }
-function onSceneDragEnd(ev){ ev.stopPropagation(); const box=ev.currentTarget.closest('.scene-box'); if(box) box.classList.remove('dragging'); }
+function onSceneDragStart(ev,di,si){ dragScene={di,si}; ev.stopPropagation(); ev.dataTransfer.effectAllowed='move'; ev.currentTarget.classList.add('dragging'); }
+function onSceneDragEnd(ev){ ev.stopPropagation(); ev.currentTarget.classList.remove('dragging'); }
 function onSceneDragOver(ev,di,si){ ev.preventDefault(); if(!dragScene||dragScene.di!==di) return; ev.currentTarget.classList.add('drag-over'); }
 function onSceneDragLeave(ev){ ev.currentTarget.classList.remove('drag-over'); }
 function onSceneDrop(ev,di,si){
@@ -2068,112 +2012,263 @@ return esc(a.label)+noteStr+range;
 const timeStr=[a.start&&fmtTime12(a.start),a.end&&fmtTime12(a.end)].filter(Boolean).join('–');
 return esc(a.label)+noteStr+(timeStr?` (${timeStr})`:'');
 }
-function openSceneModal(){
+function sceneOptionsHtml(days){
+const opts=[];
+days.forEach((d,di)=>(d.scenes||[]).forEach((sc,si)=>{
+opts.push({di,si,html:`Day ${di+1} — Scene ${sc.num}: ${esc(sc.title)||'Untitled'}`});
+}));
+return opts.map((o,i)=>`<option value="${o.di}-${o.si}" ${i===opts.length-1?'selected':''}>${o.html}</option>`).join('');
+}
+function openAddDetailsModal(){
+addDetailsType='scene'; addDetailsImageData='';
+const p=currentProject(); const days=p?p.days||[]:[];
+const scenesExist=days.some(d=>(d.scenes||[]).length>0);
 const box=document.getElementById('sceneModalBox');
 box.innerHTML=`<button class="modal-close" onclick="closeModal('sceneModal')">×</button>
-<div class="modal-title">Add scene</div>
-<div class="field-box"><span class="field-label">Scene title</span><input class="f-input" id="smTitle" placeholder="e.g. Launch, Rain tower"></div>
-<div class="field-box"><span class="field-label">Location</span><input class="f-input" id="smLocation" placeholder="e.g. Drain mouth"></div>
-<div class="form-grid">
-<div><span class="field-label">Interior / Exterior</span><select class="f-input" id="smIE"><option value="EXT">EXT</option><option value="INT">INT</option></select></div>
-<div><span class="field-label">Date</span><input class="f-input" type="date" id="smDate"></div>
+<div class="modal-title">Add details</div>
+<div class="item-type-toggle">
+<button type="button" class="itt-btn active" id="adtScene" onclick="setAddDetailsType('scene')">Scene</button>
+<button type="button" class="itt-btn" id="adtShot" onclick="setAddDetailsType('shot')">Shot</button>
+<button type="button" class="itt-btn" id="adtActivity" onclick="setAddDetailsType('activity')">Activity</button>
 </div>
-<button class="btn-primary" style="width:100%;margin-top:6px;" onclick="saveSceneModal()">Add scene</button>`;
+<div id="adSceneFields">
+<div class="field-box"><span class="field-label">Scene title</span><input class="f-input" id="adTitle" placeholder="e.g. Launch, Rain tower"></div>
+<div class="field-box"><span class="field-label">Location</span><input class="f-input" id="adLocation" placeholder="e.g. Drain mouth"></div>
+<div class="form-grid">
+<div><span class="field-label">Interior / Exterior</span><select class="f-input" id="adIE"><option value="EXT">EXT</option><option value="INT">INT</option></select></div>
+<div><span class="field-label">Date</span><input class="f-input" type="date" id="adDate"></div>
+</div>
+</div>
+<div id="adTargetField" style="display:none;">
+${scenesExist ? `<div class="field-box"><span class="field-label">Scene</span><select class="f-input" id="adSceneTarget">${sceneOptionsHtml(days)}</select></div>` : `<div style="font-size:13px;color:#999;padding:8px 0 4px;">Add a scene first.</div>`}
+</div>
+<div id="adShotFields" style="display:none;">
+<div class="field-box"><span class="field-label">Image</span><div class="sp-shot-thumb" style="width:140px;height:100px;aspect-ratio:auto;cursor:pointer;" onclick="document.getElementById('adImage').click()" id="adThumb">No image<input type="file" accept="image/*" id="adImage" style="display:none;" onchange="handleAddShotImage(event)"></div></div>
+<div class="field-box"><span class="field-label">Description</span><textarea class="f-input" id="adDesc" placeholder="Shot description"></textarea></div>
+<div class="form-grid">
+<div><span class="field-label">Shot size</span><select class="f-input" id="adSize">${['Wide shot','Medium shot','Close-up','Insert','Low angle','High angle','—'].map(s=>`<option>${s}</option>`).join('')}</select></div>
+<div><span class="field-label">Movement</span><select class="f-input" id="adMovement">${['Static','Handheld','Slow push in','Slow tilt up','Pan','Dolly','—'].map(s=>`<option>${s}</option>`).join('')}</select></div>
+</div>
+</div>
+<div id="adActivityFields" style="display:none;">
+<div class="field-box"><span class="field-label">Type</span><select class="f-input" id="adActType" onchange="setActivitySubtype('ad',this.value)"><option value="setup">Setup</option><option value="break">Break</option><option value="shifting">Shifting</option></select></div>
+<div class="field-box"><span class="field-label">Label</span><input class="f-input" id="adActLabel" placeholder="e.g. Meal Break, Shifting to beach"></div>
+<div class="field-box"><span class="field-label">Note</span><input class="f-input" id="adActNote" placeholder="Optional note"></div>
+<div class="form-grid" id="adActTimeFields">
+<div><span class="field-label">Start time</span><input class="f-input" type="time" id="adActStart"></div>
+<div><span class="field-label">End time</span><input class="f-input" type="time" id="adActEnd"></div>
+</div>
+<div class="form-grid" id="adActLocFields" style="display:none;">
+<div><span class="field-label">From</span><input class="f-input" id="adActFrom" placeholder="e.g. Studio"></div>
+<div><span class="field-label">To</span><input class="f-input" id="adActTo" placeholder="e.g. Beach"></div>
+</div>
+</div>
+<button class="btn-primary" style="width:100%;margin-top:6px;" onclick="saveAddDetailsModal()">Add</button>`;
 document.getElementById('sceneModal').classList.add('show');
 }
-function saveSceneModal(){
+function setAddDetailsType(t){
+addDetailsType=t;
+document.getElementById('adtScene').classList.toggle('active',t==='scene');
+document.getElementById('adtShot').classList.toggle('active',t==='shot');
+document.getElementById('adtActivity').classList.toggle('active',t==='activity');
+document.getElementById('adSceneFields').style.display=t==='scene'?'':'none';
+document.getElementById('adTargetField').style.display=t==='scene'?'none':'';
+document.getElementById('adShotFields').style.display=t==='shot'?'':'none';
+document.getElementById('adActivityFields').style.display=t==='activity'?'':'none';
+}
+function handleAddShotImage(ev){
+const file=ev.target.files[0]; if(!file) return;
+readAndDownscaleImage(file,800,function(dataUrl){
+addDetailsImageData=dataUrl;
+const t=document.getElementById('adThumb');
+if(t) t.innerHTML=`<img src="${dataUrl}">`;
+});
+}
+function saveAddDetailsModal(){
 const p=currentProject(); if(!p) return;
-const title=(document.getElementById('smTitle').value||'').trim();
-const location=(document.getElementById('smLocation').value||'').trim();
-const ie=document.getElementById('smIE').value;
-const date=document.getElementById('smDate').value||'';
+if(addDetailsType==='scene'){
+const title=(document.getElementById('adTitle').value||'').trim();
+const location=(document.getElementById('adLocation').value||'').trim();
+const ie=document.getElementById('adIE').value;
+const date=document.getElementById('adDate').value||'';
 const day=findOrCreateDay(p,date);
 day.scenes=day.scenes||[];
 day.scenes.push({num:0,title,location,ie,date,items:[]});
 renumberScenesContinuous(p);
-saveProjectChange(p);
 logActivity('Scene added',p.title);
+} else {
+const sel=document.getElementById('adSceneTarget');
+if(!sel||!sel.value){ alert('Add a scene first.'); return; }
+const [di,si]=sel.value.split('-').map(Number);
+const sc=p.days[di].scenes[si];
+sc.items=sc.items||[];
+if(addDetailsType==='activity'){
+const actType=document.getElementById('adActType').value;
+let label=(document.getElementById('adActLabel').value||'').trim();
+if(!label) label = actType==='break'?'Break':actType==='shifting'?'Shifting':'Setup';
+const note=(document.getElementById('adActNote').value||'').trim();
+const item={type:'activity',actType,label,note};
+if(actType==='shifting'){ item.fromLoc=document.getElementById('adActFrom').value||''; item.toLoc=document.getElementById('adActTo').value||''; }
+else { item.start=document.getElementById('adActStart').value||''; item.end=document.getElementById('adActEnd').value||''; }
+sc.items.push(item);
+} else {
+sc.items.push({type:'shot',desc:document.getElementById('adDesc').value||'',size:document.getElementById('adSize').value,movement:document.getElementById('adMovement').value,status:'Scheduled',image:addDetailsImageData||''});
+}
+logActivity('Shot list updated',p.title);
+}
+p.sections.shotPlanning.confirmed=false;
+saveProjectChange(p);
 closeModal('sceneModal');
 renderProjectDetail();
-setTimeout(()=>{ const rows=document.querySelectorAll('.scene-box'); const last=rows[rows.length-1]; if(last) last.scrollIntoView({behavior:'smooth',block:'start'}); },60);
+if(addDetailsType==='scene'){
+setTimeout(()=>{ const rows=document.querySelectorAll('.sp-scene-row'); const last=rows[rows.length-1]; if(last) last.scrollIntoView({behavior:'smooth',block:'start'}); },60);
 }
-function openItemModal(di,si){
-itemModalType='shot'; itemModalImageData='';
+}
+/* ---------- SHOT PLANNER: edit popup for an existing Scene / Shot / Activity ---------- */
+function openEditSceneModal(di,si){
+const p=currentProject(); const sc=p.days[di].scenes[si];
 const box=document.getElementById('itemModalBox');
 box.innerHTML=`<button class="modal-close" onclick="closeModal('itemModal')">×</button>
-<div class="modal-title">Add to scene</div>
-<div class="item-type-toggle"><button type="button" class="itt-btn active" id="ittShot" onclick="setItemModalType('shot')">Shot</button><button type="button" class="itt-btn" id="ittActivity" onclick="setItemModalType('activity')">Activity</button></div>
-<div id="itemShotFields">
-<div class="field-box"><span class="field-label">Image</span><div class="shot-list-thumb" style="width:120px;height:90px;" onclick="document.getElementById('imItemImage').click()" id="imItemThumb">Add<input type="file" accept="image/*" id="imItemImage" style="display:none;" onchange="handleItemModalImage(event)"></div></div>
-<div class="field-box"><span class="field-label">Description</span><textarea class="f-input" id="imDesc" placeholder="Shot description"></textarea></div>
+<div class="modal-title">Edit scene</div>
+<div class="field-box"><span class="field-label">Scene title</span><input class="f-input" id="emTitle" value="${esc(sc.title)}" placeholder="e.g. Launch, Rain tower"></div>
+<div class="field-box"><span class="field-label">Location</span><input class="f-input" id="emLocation" value="${esc(sc.location)}" placeholder="e.g. Drain mouth"></div>
 <div class="form-grid">
-<div><span class="field-label">Shot size</span><select class="f-input" id="imSize">${['Wide shot','Medium shot','Close-up','Insert','Low angle','High angle','—'].map(s=>`<option>${s}</option>`).join('')}</select></div>
-<div><span class="field-label">Movement</span><select class="f-input" id="imMovement">${['Static','Handheld','Slow push in','Slow tilt up','Pan','Dolly','—'].map(s=>`<option>${s}</option>`).join('')}</select></div>
+<div><span class="field-label">Interior / Exterior</span><select class="f-input" id="emIE"><option value="EXT" ${sc.ie==='EXT'?'selected':''}>EXT</option><option value="INT" ${sc.ie==='INT'?'selected':''}>INT</option></select></div>
+<div><span class="field-label">Date</span><input class="f-input" type="date" id="emDate" value="${sc.date||''}"></div>
 </div>
-</div>
-<div id="itemActivityFields" style="display:none;">
-<div class="field-box"><span class="field-label">Type</span><select class="f-input" id="imActType" onchange="setActivitySubtype(this.value)"><option value="setup">Setup</option><option value="break">Break</option><option value="shifting">Shifting</option></select></div>
-<div class="field-box"><span class="field-label">Label</span><input class="f-input" id="imActLabel" placeholder="e.g. Meal Break, Shifting to beach"></div>
-<div class="field-box"><span class="field-label">Note</span><input class="f-input" id="imActNote" placeholder="Optional note"></div>
-<div class="form-grid" id="imActTimeFields">
-<div><span class="field-label">Start time</span><input class="f-input" type="time" id="imActStart"></div>
-<div><span class="field-label">End time</span><input class="f-input" type="time" id="imActEnd"></div>
-</div>
-<div class="form-grid" id="imActLocFields" style="display:none;">
-<div><span class="field-label">From</span><input class="f-input" id="imActFrom" placeholder="e.g. Studio"></div>
-<div><span class="field-label">To</span><input class="f-input" id="imActTo" placeholder="e.g. Beach"></div>
-</div>
-</div>
-<button class="btn-primary" style="width:100%;margin-top:6px;" onclick="saveItemModal(${di},${si})">Add</button>`;
+<div style="display:flex;gap:10px;margin-top:10px;">
+<button class="btn-primary" style="flex:1;" onclick="saveEditSceneModal(${di},${si})">Save</button>
+<button class="delete-btn" onclick="deleteSceneFromModal(${di},${si})">Delete</button>
+</div>`;
 document.getElementById('itemModal').classList.add('show');
 }
-function setItemModalType(t){
-itemModalType=t;
-document.getElementById('ittShot').classList.toggle('active',t==='shot');
-document.getElementById('ittActivity').classList.toggle('active',t==='activity');
-document.getElementById('itemShotFields').style.display=t==='shot'?'':'none';
-document.getElementById('itemActivityFields').style.display=t==='activity'?'':'none';
+function saveEditSceneModal(di,si){
+const p=currentProject();
+const day=p.days[di]; const sc=day.scenes[si];
+sc.title=(document.getElementById('emTitle').value||'').trim();
+sc.location=(document.getElementById('emLocation').value||'').trim();
+sc.ie=document.getElementById('emIE').value;
+const newDate=document.getElementById('emDate').value||'';
+if(newDate!==sc.date){
+sc.date=newDate;
+day.scenes.splice(si,1);
+const target=findOrCreateDay(p,newDate);
+target.scenes.push(sc);
+if(!day.scenes.length && day!==target) p.days.splice(p.days.indexOf(day),1);
+renumberScenesContinuous(p);
 }
-function setActivitySubtype(v){
-document.getElementById('imActTimeFields').style.display=v==='shifting'?'none':'';
-document.getElementById('imActLocFields').style.display=v==='shifting'?'':'none';
+p.sections.shotPlanning.confirmed=false;
+saveProjectChange(p);
+logActivity('Scene updated',p.title);
+closeModal('itemModal');
+renderProjectDetail();
 }
-function handleItemModalImage(ev){
+function deleteSceneFromModal(di,si){
+if(!confirm('Delete this scene and its shots?'))return;
+const p=currentProject();
+p.days[di].scenes.splice(si,1);
+if(!p.days[di].scenes.length) p.days.splice(di,1);
+renumberScenesContinuous(p);
+p.sections.shotPlanning.confirmed=false;
+saveProjectChange(p);
+logActivity('Scene deleted',p.title);
+closeModal('itemModal');
+renderProjectDetail();
+}
+function openEditItemModal(di,si,idx){
+const item=currentProject().days[di].scenes[si].items[idx];
+if(item.type==='activity') return openEditActivityModal(di,si,idx);
+return openEditShotModal(di,si,idx);
+}
+function openEditShotModal(di,si,idx){
+const sh=currentProject().days[di].scenes[si].items[idx];
+editImageData=sh.image||'';
+const box=document.getElementById('itemModalBox');
+box.innerHTML=`<button class="modal-close" onclick="closeModal('itemModal')">×</button>
+<div class="modal-title">Edit shot</div>
+<div class="field-box"><span class="field-label">Image</span><div class="sp-shot-thumb" style="width:140px;height:100px;aspect-ratio:auto;cursor:pointer;" onclick="document.getElementById('emImage').click()" id="emThumb">${sh.image?`<img src="${sh.image}">`:'No image'}<input type="file" accept="image/*" id="emImage" style="display:none;" onchange="handleEditShotImage(event)"></div></div>
+<div class="field-box"><span class="field-label">Description</span><textarea class="f-input" id="emDesc" placeholder="Shot description">${esc(sh.desc)}</textarea></div>
+<div class="form-grid">
+<div><span class="field-label">Shot size</span><select class="f-input" id="emSize">${['Wide shot','Medium shot','Close-up','Insert','Low angle','High angle','—'].map(s=>`<option ${sh.size===s?'selected':''}>${s}</option>`).join('')}</select></div>
+<div><span class="field-label">Movement</span><select class="f-input" id="emMovement">${['Static','Handheld','Slow push in','Slow tilt up','Pan','Dolly','—'].map(s=>`<option ${sh.movement===s?'selected':''}>${s}</option>`).join('')}</select></div>
+</div>
+<div style="display:flex;gap:10px;margin-top:10px;">
+<button class="btn-primary" style="flex:1;" onclick="saveEditShotModal(${di},${si},${idx})">Save</button>
+<button class="delete-btn" onclick="deleteItemFromModal(${di},${si},${idx})">Delete</button>
+</div>`;
+document.getElementById('itemModal').classList.add('show');
+}
+function handleEditShotImage(ev){
 const file=ev.target.files[0]; if(!file) return;
 readAndDownscaleImage(file,800,function(dataUrl){
-itemModalImageData=dataUrl;
-const t=document.getElementById('imItemThumb');
+editImageData=dataUrl;
+const t=document.getElementById('emThumb');
 if(t) t.innerHTML=`<img src="${dataUrl}">`;
 });
 }
-function saveItemModal(di,si){
-const p=currentProject(); const sc=p.days[di].scenes[si];
-sc.items=sc.items||[];
-if(itemModalType==='activity'){
-const actType=document.getElementById('imActType').value;
-let label=(document.getElementById('imActLabel').value||'').trim();
-if(!label) label = actType==='break'?'Break':actType==='shifting'?'Shifting':'Setup';
-const note=(document.getElementById('imActNote').value||'').trim();
-const item={type:'activity',actType,label,note};
-if(actType==='shifting'){ item.fromLoc=document.getElementById('imActFrom').value||''; item.toLoc=document.getElementById('imActTo').value||''; }
-else { item.start=document.getElementById('imActStart').value||''; item.end=document.getElementById('imActEnd').value||''; }
-sc.items.push(item);
-} else {
-sc.items.push({type:'shot',desc:document.getElementById('imDesc').value||'',size:document.getElementById('imSize').value,movement:document.getElementById('imMovement').value,status:'Scheduled',image:itemModalImageData||''});
-}
+function saveEditShotModal(di,si,idx){
+const p=currentProject(); const sh=p.days[di].scenes[si].items[idx];
+sh.desc=document.getElementById('emDesc').value||'';
+sh.size=document.getElementById('emSize').value;
+sh.movement=document.getElementById('emMovement').value;
+sh.image=editImageData||'';
+p.sections.shotPlanning.confirmed=false;
 saveProjectChange(p);
 logActivity('Shot list updated',p.title);
 closeModal('itemModal');
 renderProjectDetail();
 }
-function handleShotImageUpload(ev,di,si,idx){
-const file=ev.target.files[0]; if(!file) return;
-readAndDownscaleImage(file,800,function(dataUrl){
-const p=currentProject(); if(!p) return;
-p.days[di].scenes[si].items[idx].image=dataUrl;
+function openEditActivityModal(di,si,idx){
+const a=currentProject().days[di].scenes[si].items[idx];
+const box=document.getElementById('itemModalBox');
+box.innerHTML=`<button class="modal-close" onclick="closeModal('itemModal')">×</button>
+<div class="modal-title">Edit activity</div>
+<div class="field-box"><span class="field-label">Type</span><select class="f-input" id="emActType" onchange="setActivitySubtype('em',this.value)"><option value="setup" ${a.actType==='setup'?'selected':''}>Setup</option><option value="break" ${a.actType==='break'?'selected':''}>Break</option><option value="shifting" ${a.actType==='shifting'?'selected':''}>Shifting</option></select></div>
+<div class="field-box"><span class="field-label">Label</span><input class="f-input" id="emActLabel" value="${esc(a.label)}" placeholder="e.g. Meal Break, Shifting to beach"></div>
+<div class="field-box"><span class="field-label">Note</span><input class="f-input" id="emActNote" value="${esc(a.note)}" placeholder="Optional note"></div>
+<div class="form-grid" id="emActTimeFields" style="display:${a.actType==='shifting'?'none':''};">
+<div><span class="field-label">Start time</span><input class="f-input" type="time" id="emActStart" value="${a.start||''}"></div>
+<div><span class="field-label">End time</span><input class="f-input" type="time" id="emActEnd" value="${a.end||''}"></div>
+</div>
+<div class="form-grid" id="emActLocFields" style="display:${a.actType==='shifting'?'':'none'};">
+<div><span class="field-label">From</span><input class="f-input" id="emActFrom" value="${esc(a.fromLoc)}" placeholder="e.g. Studio"></div>
+<div><span class="field-label">To</span><input class="f-input" id="emActTo" value="${esc(a.toLoc)}" placeholder="e.g. Beach"></div>
+</div>
+<div style="display:flex;gap:10px;margin-top:10px;">
+<button class="btn-primary" style="flex:1;" onclick="saveEditActivityModal(${di},${si},${idx})">Save</button>
+<button class="delete-btn" onclick="deleteItemFromModal(${di},${si},${idx})">Delete</button>
+</div>`;
+document.getElementById('itemModal').classList.add('show');
+}
+function saveEditActivityModal(di,si,idx){
+const p=currentProject(); const a=p.days[di].scenes[si].items[idx];
+const actType=document.getElementById('emActType').value;
+let label=(document.getElementById('emActLabel').value||'').trim();
+if(!label) label = actType==='break'?'Break':actType==='shifting'?'Shifting':'Setup';
+a.actType=actType;
+a.label=label;
+a.note=(document.getElementById('emActNote').value||'').trim();
+if(actType==='shifting'){ a.fromLoc=document.getElementById('emActFrom').value||''; a.toLoc=document.getElementById('emActTo').value||''; delete a.start; delete a.end; }
+else { a.start=document.getElementById('emActStart').value||''; a.end=document.getElementById('emActEnd').value||''; delete a.fromLoc; delete a.toLoc; }
+p.sections.shotPlanning.confirmed=false;
 saveProjectChange(p);
+logActivity('Shot list updated',p.title);
+closeModal('itemModal');
 renderProjectDetail();
-});
+}
+function deleteItemFromModal(di,si,idx){
+if(!confirm('Delete this item?'))return;
+const p=currentProject();
+p.days[di].scenes[si].items.splice(idx,1);
+p.sections.shotPlanning.confirmed=false;
+saveProjectChange(p);
+logActivity('Shot list updated',p.title);
+closeModal('itemModal');
+renderProjectDetail();
+}
+function setActivitySubtype(prefix,v){
+document.getElementById(prefix+'ActTimeFields').style.display=v==='shifting'?'none':'';
+document.getElementById(prefix+'ActLocFields').style.display=v==='shifting'?'':'none';
 }
 function updateUnscheduled(ui,field,val){ const p=currentProject(); p.unscheduledShots[ui][field]=val; saveProjectChange(p); }
 function scheduleUnscheduled(ui){
