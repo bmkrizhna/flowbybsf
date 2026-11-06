@@ -1562,9 +1562,9 @@ logActivity(STAGE_NAMES[key]+' confirmed',p.title);
 renderProjectDetail(); renderOverview(); renderCompleted();
 }
 /* A stage marked Completed stays fully editable; touching any field or control inside
-   it asks for confirmation first (since that reopens the stage) and, if confirmed,
-   flips it back to Proceed. Controls flagged data-no-lock (view toggles, search/filter
-   inputs) are never real edits and skip the prompt. */
+   it silently reopens the stage, flipping its button back from Completed to Proceed.
+   Controls flagged data-no-lock (view toggles, search/filter inputs) are never real
+   edits and are skipped. */
 const EDITABLE_STAGES=['brief','shotPlanning','budgeting'];
 function guardStageEdit(e){
 if(currentView!=='projectDetail') return;
@@ -1579,11 +1579,6 @@ const tag=e.target.tagName;
 const isField = e.type==='change' && (tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT');
 const isAction = e.type==='click' && e.target.closest('[onclick]');
 if(!isField && !isAction) return;
-if(!confirm('This stage is marked Completed. Making this change will mark it incomplete again until you click Proceed.\n\nContinue?')){
-e.preventDefault();
-e.stopPropagation();
-return;
-}
 p.sections[key].confirmed=false;
 setStageHeaderExtras(key);
 }
