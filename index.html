@@ -371,10 +371,11 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .modal-footer-row .btn-primary{flex:1}
 .shot-ref-box{width:100%;aspect-ratio:16/9;border-radius:10px;background:#111;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#999;font-size:12px;cursor:pointer}
 .shot-ref-box img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.shot-ref-ratio{position:absolute;left:10px;bottom:10px;background:rgba(0,0,0,.6);color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:5px}
+.shot-ref-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#777;font-size:12px}
+.shot-ref-empty svg{width:26px;height:26px;color:#555}
 .shot-ref-actions{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:8px}
-.shot-ref-actions button{width:30px;height:30px;border-radius:8px;border:none;background:#fff;color:#1a1a1a;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.25)}
-.shot-ref-actions svg{width:14px;height:14px}
+.shot-ref-actions button{width:28px;height:28px;border-radius:50%;border:none;background:#fff;color:#1a1a1a;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.shot-ref-actions svg{width:13px;height:13px}
 .act-type-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
 .act-type-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 8px;border-radius:10px;border:none;background:#f5f5f5;color:#555;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s,color .15s}
 .act-type-tile svg{width:19px;height:19px}
@@ -875,6 +876,7 @@ const ICON_CAR='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strok
 const ICON_CLOCK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
 const ICON_UPLOAD='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>';
 const ICON_TRASH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
+const ICON_X='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
 const STAGE_ICONS={
 brief:ICON_DOC,
 shotPlanning:ICON_CAL_PLAIN,
@@ -2633,12 +2635,10 @@ function shotFieldsHtml(prefix,sh){
 sh=sh||{};
 return `<div class="form-grid cols-img-desc" style="margin-top:0;">
 <div class="shot-ref-box" onclick="$id('${prefix}Image').click()">
-<span id="${prefix}ThumbEmpty" style="display:${sh.image?'none':''};">No image</span>
+<div id="${prefix}ThumbEmpty" class="shot-ref-empty" style="display:${sh.image?'none':'flex'};">${ICON_SCENE}<span>Click to add image</span></div>
 <img id="${prefix}ThumbImg" style="display:${sh.image?'block':'none'};" ${sh.image?`src="${sh.image}"`:''}>
-<span class="shot-ref-ratio">16:9</span>
-<div class="shot-ref-actions">
-<button type="button" title="Upload" onclick="event.stopPropagation();$id('${prefix}Image').click()">${ICON_UPLOAD}</button>
-<button type="button" title="Remove image" onclick="event.stopPropagation();clearItemImage('${prefix}')">${ICON_TRASH}</button>
+<div class="shot-ref-actions" id="${prefix}ThumbActions" style="display:${sh.image?'flex':'none'};">
+<button type="button" title="Remove image" onclick="event.stopPropagation();clearItemImage('${prefix}')">${ICON_X}</button>
 </div>
 <input type="file" accept="image/*" id="${prefix}Image" style="display:none;" onchange="handleItemImage('${prefix}',event)">
 </div>
@@ -2654,16 +2654,18 @@ function handleItemImage(prefix,ev){
 const file=ev.target.files[0]; if(!file) return;
 readAndDownscaleImage(file,800,function(dataUrl){
 ITEMFORM.image=dataUrl;
-const img=$id(prefix+'ThumbImg'), empty=$id(prefix+'ThumbEmpty');
+const img=$id(prefix+'ThumbImg'), empty=$id(prefix+'ThumbEmpty'), actions=$id(prefix+'ThumbActions');
 if(img){ img.src=dataUrl; img.style.display='block'; }
 if(empty) empty.style.display='none';
+if(actions) actions.style.display='flex';
 });
 }
 function clearItemImage(prefix){
 ITEMFORM.image='';
-const img=$id(prefix+'ThumbImg'), empty=$id(prefix+'ThumbEmpty');
+const img=$id(prefix+'ThumbImg'), empty=$id(prefix+'ThumbEmpty'), actions=$id(prefix+'ThumbActions');
 if(img){ img.removeAttribute('src'); img.style.display='none'; }
-if(empty) empty.style.display='';
+if(empty) empty.style.display='flex';
+if(actions) actions.style.display='none';
 const fi=$id(prefix+'Image'); if(fi) fi.value='';
 }
 function timeBlockHtml(prefix,start,hours){
