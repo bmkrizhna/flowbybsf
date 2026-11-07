@@ -1857,7 +1857,7 @@ const progressPct=STAGE_ORDER.length>0?Math.round((confirmedCount/STAGE_ORDER.le
 const progressTrack=document.getElementById('pdProgress');
 progressTrack.innerHTML='<div class="stage-progress-fill" id="stageProgressFill"></div>';
 requestAnimationFrame(()=>{ requestAnimationFrame(()=>{ const f=document.getElementById('stageProgressFill'); if(f) f.style.width=progressPct+'%'; }); });
-document.getElementById('pdProgressLabel').textContent=`${confirmedCount}/${STAGE_ORDER.length} Stages`;
+document.getElementById('pdProgressLabel').textContent=`${progressPct}%`;
 
 renderSidebarNav();
 
