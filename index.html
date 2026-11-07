@@ -379,6 +379,11 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .act-type-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 8px;border-radius:10px;border:none;background:#f5f5f5;color:#555;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s,color .15s}
 .act-type-tile svg{width:19px;height:19px}
 .act-type-tile.active{background:var(--accent-bg);color:#1a1a1a}
+.act-type-tile.disabled{opacity:.4;cursor:not-allowed}
+.act-type-tile.disabled.active{opacity:1}
+.modal-header-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.modal-header-row .modal-title{margin-bottom:0}
+.modal-close-inline{position:static;top:auto;right:auto;flex-shrink:0}
 .act-duration-pill{background:var(--accent-bg);color:#1a1a1a;border-radius:12px;padding:10px 14px;font-size:14px;font-weight:700}
 .time-input-wrap{position:relative}
 .time-input-wrap svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:#999;pointer-events:none}
@@ -2079,7 +2084,7 @@ ${p.thumbnail?`<img src="${p.thumbnail}" class="thumb-preview">`:'Click to uploa
 <div><span class="field-label">Project Start Date</span><input class="f-input" type="date" value="${p.startDate||''}" onchange="updateMeta('startDate',this.value)"></div>
 <div><span class="field-label">First shoot day</span><input class="f-input" type="text" value="${fmtDateShort(p.first)||'Auto from Shot Planner'}" disabled title="Fetched automatically from the earliest scheduled day in Shot Planner"></div>
 <div><span class="field-label">Wrap (last shoot day)</span><input class="f-input" type="text" value="${fmtDateShort(p.wrap)||'Auto from Shot Planner'}" disabled title="Fetched automatically from the latest scheduled day in Shot Planner"></div>
-<div><span class="field-label">Delivery</span><input class="f-input" type="text" value="${fmtDateShort(p.delivery)||'Auto from Revision & Delivery'}" disabled title="Set automatically when the project is marked complete in Revision & Delivery"></div>
+<div><span class="field-label">Delivery</span><input class="f-input" type="text" value="${fmtDateShort(p.delivery)||''}" disabled title="Set automatically when the project is marked complete in Revision & Delivery"></div>
 </div>
 </div>
 </div>
@@ -2598,12 +2603,16 @@ renderProjectDetail();
 },{confirmLabel:'Delete'});
 }
 /* ---------- ADD / EDIT SHOT · SETUP · BREAK ---------- */
-function kindTilesHtml(prefix,includeScene,includeItems){
-if(includeItems===undefined) includeItems=true;
-const kinds=[];
-if(includeScene) kinds.push(['scene','Scene',ICON_SCENE]);
-if(includeItems) kinds.push(['shot','Shot',ICON_CAMERA],['setup','Setup',ICON_GEAR],['break','Break',ICON_COFFEE]);
-return `<div class="act-type-tiles" id="${prefix}Kinds" style="grid-template-columns:repeat(${kinds.length},1fr)">${kinds.map(([k,l,ic])=>`<button type="button" class="act-type-tile ${ITEMFORM.kind===k?'active':''}" data-v="${k}" onclick="setItemKind('${prefix}','${k}')">${ic}<span>${l}</span></button>`).join('')}</div>`;
+const KIND_LABELS={scene:'Scene',shot:'Shot',setup:'Setup',break:'Break'};
+function itemFormTitle(kind,isEdit){ return (isEdit?'Edit ':'Add ')+(KIND_LABELS[kind]||''); }
+function kindTilesHtml(prefix,isEdit,hasScenes){
+const all=[['scene','Scene',ICON_SCENE],['shot','Shot',ICON_CAMERA],['setup','Setup',ICON_GEAR],['break','Break',ICON_COFFEE]];
+const kinds = isEdit ? all : (hasScenes ? all : [all[0]]);
+return `<div class="act-type-tiles" id="${prefix}Kinds" style="grid-template-columns:repeat(${kinds.length},1fr)">${kinds.map(([k,l,ic])=>{
+const active=ITEMFORM.kind===k;
+const disabled=isEdit&&!active;
+return `<button type="button" class="act-type-tile ${active?'active':''}${disabled?' disabled':''}" data-v="${k}" ${disabled?'disabled':''} onclick="${disabled?'':`setItemKind('${prefix}','${k}')`}">${ic}<span>${l}</span></button>`;
+}).join('')}</div>`;
 }
 function shotFieldsHtml(prefix,sh){
 sh=sh||{};
@@ -2677,8 +2686,6 @@ ITEMFORM.kind=o.kind; ITEMFORM.image=(o.kind==='shot'&&it.image)||''; ITEMFORM.b
 const isEdit=o.mode==='edit';
 const isSceneEdit=isEdit&&o.kind==='scene';
 const hasScenes=allScenes(p).length>0;
-const includeScene=!isEdit;
-const includeItems=!isEdit&&hasScenes;
 const k=o.kind;
 const sceneFieldsData = isSceneEdit
 ? sceneFieldsInnerHtml(p,o.scene,null,true)
@@ -2687,8 +2694,11 @@ let secondaryBtn;
 if(isSceneEdit) secondaryBtn=`<button class="delete-btn" onclick="deleteSceneFromModal(${o.di},${o.si})">Delete</button>`;
 else if(isEdit) secondaryBtn=`<button class="delete-btn" onclick="deleteItemFromModal(${o.di},${o.si},${o.idx})">Delete</button>`;
 else secondaryBtn=`<button class="btn-ghost" onclick="closeModal('sceneModal')">Cancel</button>`;
-return `<button class="modal-close" onclick="closeModal('${isEdit?'itemModal':'sceneModal'}')">×</button>
-${kindTilesHtml(prefix,includeScene,includeItems)}
+return `<div class="modal-header-row">
+<div class="modal-title" id="${prefix}Title">${itemFormTitle(k,isEdit)}</div>
+<button class="modal-close modal-close-inline" onclick="closeModal('${isEdit?'itemModal':'sceneModal'}')">×</button>
+</div>
+${kindTilesHtml(prefix,isEdit,hasScenes)}
 <div id="${prefix}FScene" style="display:${k==='scene'?'':'none'};">${sceneFieldsData}</div>
 <div id="${prefix}SceneSelectWrap" class="field-box" style="display:${k==='scene'?'none':''};"><select class="f-input" id="${prefix}Scene" onchange="onItemSceneChange('${prefix}')">${sceneSelectOptions(p,o.selKey)}</select></div>
 <div id="${prefix}FShot" style="margin-top:16px;display:${k==='shot'?'':'none'};">${shotFieldsHtml(prefix,k==='shot'?it:{})}</div>
@@ -2711,6 +2721,7 @@ saveItemForm(prefix,editKey);
 function applyItemKindUI(prefix){
 const k=ITEMFORM.kind, bk=ITEMFORM.breakKind;
 $id(prefix+'Kinds').querySelectorAll('.act-type-tile').forEach(b=>b.classList.toggle('active',b.dataset.v===k));
+const titleEl=$id(prefix+'Title'); if(titleEl) titleEl.textContent=itemFormTitle(k,ITEMFORM.mode==='edit');
 const fScene=$id(prefix+'FScene'); if(fScene) fScene.style.display=k==='scene'?'':'none';
 const sceneSelWrap=$id(prefix+'SceneSelectWrap'); if(sceneSelWrap) sceneSelWrap.style.display=k==='scene'?'none':'';
 $id(prefix+'FShot').style.display=k==='shot'?'':'none';
