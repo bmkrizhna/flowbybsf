@@ -413,7 +413,7 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .sched-card{border-radius:14px;padding:14px;display:flex;flex-direction:column;min-height:184px}
 .sched-card.shot,.sched-card.activity{cursor:pointer;transition:box-shadow .15s}
 .sched-card.shot:hover,.sched-card.activity:hover{box-shadow:0 2px 10px rgba(0,0,0,.08)}
-.sched-card.day{background:var(--accent);align-items:center;justify-content:center;text-align:center}
+.sched-card.day{background:var(--accent-bg);align-items:center;justify-content:center;text-align:center}
 .sched-day-icon{color:#1a1a1a;margin-bottom:8px}
 .sched-day-icon svg{width:22px;height:22px}
 .sched-day-label{font-weight:700;font-size:15px;color:#1a1a1a}
@@ -3047,11 +3047,9 @@ ${allCategoryNames().map(n=>`<option value="${esc(n)}" ${rpCategoryFilter===n?'s
 </div>
 </div>
 <div class="resource-list-box">
-<div class="rb-head-row"><span></span><span>Resource</span><span>Price</span><span>Basis</span><span>Qty</span><span>Total</span></div>
 <div id="rpResourceList"></div>
 <div class="budget-expenses">
 <div class="box-title" data-bctype="expense">Production Expenses</div>
-${otherLines.length?`<div class="rb-expense-head"><span>Category</span><span>Price</span><span>Qty</span><span>Total</span><span></span></div>`:''}
 ${otherLines.map((l,i)=>{
 const price=l.price!=null?l.price:(l.amount||0);
 const qty=l.qty!=null?l.qty:1;
@@ -3113,7 +3111,7 @@ const grid=hasScenes?scheduleGridHtml(days,true):'';
 setStageHeaderExtrasAuto('shootTracking');
 return `<div id="pdBody">
 <div class="box">
-<div class="box-title">Final shot report</div>
+<div class="box-title">Production Tracker</div>
 ${grid || '<div style="font-size:13px;color:#999;padding:20px 0;">No shots scheduled yet — add days and shots in Shot Planner.</div>'}
 </div>
 </div>`;
