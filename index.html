@@ -448,24 +448,37 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 #budgetHeading{transition:opacity .1s ease}
 .budget-head-row .rp-filters{margin-bottom:0;flex:1 1 320px;min-width:280px}
 .budget-expenses{padding:16px 20px 20px}
-.rp-row{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-top:1px solid #f2f2f2;font-size:13px;gap:10px;cursor:pointer;transition:background .15s}
+.rb-head-row{display:grid;grid-template-columns:26px minmax(0,1fr) 88px 104px 56px 96px;column-gap:12px;padding:0 18px 8px;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.3px}
+.rb-head-row span:nth-child(3),.rb-head-row span:nth-child(5),.rb-head-row span:nth-child(6){text-align:right}
+.rp-row{display:grid;grid-template-columns:26px minmax(0,1fr) 88px 104px 56px 96px;column-gap:12px;align-items:center;padding:14px 18px;border-top:1px solid #f2f2f2;font-size:13px;transition:background .15s}
 .rp-row:first-child{border-top:none}
 .rp-row:hover{background:#fafafa}
 .rp-row.selected{background:var(--accent-bg)}
 .rp-row .nm{font-weight:600}
 .rp-row .ct{font-family:'Satoshi',sans-serif;font-size:11px;font-weight:700;color:#999;letter-spacing:0.4px;margin-top:2px}
-.rp-calc{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end}
-.rp-in{border:none;background:#fff;border-radius:8px;padding:7px 8px;font-size:13px;text-align:right;width:86px;font-family:inherit;color:#1a1a1a;box-shadow:inset 0 0 0 1px #eadcb0;-moz-appearance:textfield}
+.rp-calc{display:contents}
+.rp-checkbox-wrap{display:flex;align-items:center;justify-content:center}
+.rp-checkbox{width:16px;height:16px;cursor:pointer;accent-color:#1a1a1a}
+.rb-static{text-align:right;color:#555}
+.rb-dash{color:#bbb;text-align:right}
+.rp-in{border:none;background:transparent;border-radius:0;padding:4px 2px;font-size:13px;text-align:right;width:100%;font-family:inherit;color:#1a1a1a;-moz-appearance:textfield}
+.rp-in:focus{outline:none;box-shadow:inset 0 -1px 0 #ccc}
 .rp-in::-webkit-outer-spin-button,.rp-in::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-.rp-basis{width:auto;text-align:left;padding-right:4px}
-.rp-qty{width:52px}
-.rp-total{width:104px;font-weight:700}
-.rp-x{color:#999;font-size:13px}
-.rp-basis-hint{font-size:11px;color:#aaa;margin-left:8px}
-.rp-row-right{display:flex;align-items:center;gap:12px;flex-shrink:0}
-.rp-qty-badge{display:inline-block;font-size:11px;font-weight:700;color:var(--accent-text);background:#fff;padding:2px 7px;border-radius:999px;margin-left:2px}
-.rp-qty-dec{width:26px;height:26px;border-radius:50%;border:none;background:#eee;color:#1a1a1a;font-size:15px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rp-basis{text-align:left}
+.rp-total{font-weight:700}
+.rp-qty-badge{display:inline-block;font-size:11px;font-weight:700;color:var(--accent-text);background:#fff;padding:2px 7px;border-radius:999px;margin-left:6px}
+.rb-unit-stepper{display:inline-flex;align-items:center;gap:4px;margin-left:4px}
+.rb-unit-btn{width:18px;height:18px;border-radius:50%;border:none;background:#eee;color:#1a1a1a;font-size:12px;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.rb-unit-btn:hover{background:#e0e0e0}
+.rb-unit-btn:disabled{opacity:.4;cursor:not-allowed}
+.rp-qty-dec{width:22px;height:22px;border-radius:50%;border:none;background:#eee;color:#1a1a1a;font-size:14px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .rp-qty-dec:hover{background:#e0e0e0}
+.rb-expense-head{display:grid;grid-template-columns:minmax(0,1fr) 88px 56px 96px 24px;column-gap:12px;padding:0 0 8px;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.3px}
+.rb-expense-head span:nth-child(2),.rb-expense-head span:nth-child(3),.rb-expense-head span:nth-child(4){text-align:right}
+.rb-expense-row{display:grid;grid-template-columns:minmax(0,1fr) 88px 56px 96px 24px;column-gap:12px;align-items:center;padding:10px 0;border-top:1px solid #f2f2f2}
+.rb-expense-row:first-child{border-top:none}
+.rb-cat-field{border:none;background:transparent;font-size:13px;font-family:inherit;color:#1a1a1a;padding:4px 2px;width:100%}
+.rb-cat-field:focus{outline:none;box-shadow:inset 0 -1px 0 #ccc}
 /* ---- Edit & Delivery version table ---- */
 .del-version-row{display:grid;grid-template-columns:44px 1.1fr 1.3fr 90px 110px;gap:10px;align-items:center;padding:9px 0;border-top:1px solid #f2f2f2;font-size:13px}
 .del-version-row:first-child{border-top:none}
@@ -571,10 +584,11 @@ h1{font-size:32px}
 
 /* ---- Dense flex rows: allow wrapping instead of overflow ---- */
 .crew-row{flex-wrap:wrap;row-gap:6px}
-.rp-row{flex-wrap:wrap;row-gap:6px}
-.rp-calc{display:grid;width:100%;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) auto minmax(0,.5fr) auto minmax(0,1.1fr) auto;gap:4px;align-items:center}
-.rp-in,.rp-basis,.rp-qty,.rp-total{width:100%;min-width:0;font-size:12px;padding:7px 6px}
+.rp-row{grid-template-columns:20px minmax(0,1fr) 56px 72px 40px 68px;column-gap:6px;padding:12px 10px}
+.rb-head-row{grid-template-columns:20px minmax(0,1fr) 56px 72px 40px 68px;column-gap:6px;padding:0 10px 8px}
+.rp-in,.rp-basis{font-size:12px;padding:4px 1px}
 .rp-basis{text-align:left}
+.rb-expense-row,.rb-expense-head{grid-template-columns:minmax(0,1fr) 56px 36px 68px 20px;column-gap:6px}
 .tr-shot-row{flex-wrap:wrap;row-gap:8px}
 .tr-status-icons{width:100%;justify-content:flex-start}
 .sp-scene-row-text{text-align:left}
@@ -1933,6 +1947,7 @@ const node=bodyEl.cloneNode(true);
 node.querySelectorAll('#budgetHeadRow,.budget-head-row,.resources-head-row,.sp-add-row,.sp-add-item-row,.shot-res-add-btn,.res-picker,.drag-handle,.drag-handle-spacer').forEach(el=>el.remove());
 
 if(key==='budgeting'){
+node.querySelectorAll('.rb-head-row,.rb-expense-head,.rp-checkbox-wrap,.rb-unit-stepper').forEach(el=>el.remove());
 node.querySelectorAll('.rp-row:not(.selected)').forEach(el=>el.remove());
 node.querySelectorAll('.rp-calc').forEach(calc=>{
 const vals=[...calc.querySelectorAll('input,select')].map(i=>i.tagName==='SELECT'?(i.options[i.selectedIndex]?i.options[i.selectedIndex].text:''):i.value);
@@ -2919,21 +2934,50 @@ el.innerHTML = rows.map(r=>{
 const qty = r.type==='crew' ? (crewSet.has(r.id)?1:0) : (eqCounts[r.id]||0);
 const selected = qty>0;
 const ln = selected ? resourceLine(p,r.type,r.id) : null;
-const calc = selected ? `<div class="rp-calc" onclick="event.stopPropagation()">
-<input class="rp-in" type="number" min="0" value="${ln.rate}" title="Rate" aria-label="Rate" onchange="setResourceLine('${r.type}','${r.id}','rate',this.value)">
-<select class="rp-in rp-basis" aria-label="Rate basis" onchange="setResourceLine('${r.type}','${r.id}','basis',this.value)">${RATE_BASES.map(b=>`<option ${ln.basis===b?'selected':''}>${b}</option>`).join('')}</select>
-<span class="rp-x">×</span>
-<input class="rp-in rp-qty" type="number" min="0" step="1" value="${ln.qty}" title="Quantity" aria-label="Quantity" onchange="setResourceLine('${r.type}','${r.id}','qty',this.value)">
-<span class="rp-x">=</span>
-<input class="rp-in rp-total" type="number" min="0" value="${ln.total}" title="Click to adjust the final amount" aria-label="Final amount" onchange="setResourceLine('${r.type}','${r.id}','total',this.value)">
-<button class="rp-qty-dec" onclick="event.stopPropagation();deselectResource('${r.type}','${r.id}')" title="Remove">−</button>
-</div>` : `<div class="rp-row-right"><span>${fmt(r.rate)}</span><span class="rp-basis-hint">${r.type==='equipment'?'Per Day':'Per Project'}</span></div>`;
-return `<div class="rp-row ${selected?'selected':''}" data-bctype="${typeLabel[r.type]}" onclick="selectResource('${r.type}','${r.id}')">
-<div><div class="nm">${esc(r.name)}${r.type==='equipment'&&qty>1?` <span class="rp-qty-badge">×${qty} units</span>`:''}</div><div class="ct">${typeLabel[r.type]} · ${esc(r.role||r.cat)}</div></div>
-${calc}
+const defaultBasis = r.type==='equipment' ? 'Per Day' : 'Per Project';
+const priceCell = selected
+? `<input class="rp-in" type="number" min="0" value="${ln.rate}" title="Rate" aria-label="Rate" onchange="setResourceLine('${r.type}','${r.id}','rate',this.value)">`
+: `<span class="rb-static">${fmt(r.rate)}</span>`;
+const basisCell = selected
+? `<select class="rp-in rp-basis" aria-label="Rate basis" onchange="setResourceLine('${r.type}','${r.id}','basis',this.value)">${RATE_BASES.map(b=>`<option ${ln.basis===b?'selected':''}>${b}</option>`).join('')}</select>`
+: `<span class="rb-static" style="text-align:left;">${defaultBasis}</span>`;
+const qtyCell = selected
+? `<input class="rp-in rp-qty" type="number" min="0" step="1" value="${ln.qty}" title="Quantity" aria-label="Quantity" onchange="setResourceLine('${r.type}','${r.id}','qty',this.value)">`
+: `<span class="rb-dash">—</span>`;
+const totalCell = selected
+? `<input class="rp-in rp-total" type="number" min="0" value="${ln.total}" title="Click to adjust the final amount" aria-label="Final amount" onchange="setResourceLine('${r.type}','${r.id}','total',this.value)">`
+: `<span class="rb-dash">—</span>`;
+const unitStepper = r.type==='equipment' ? `<span class="rb-unit-stepper">${qty>1?`<span class="rp-qty-badge">×${qty}</span>`:''}${selected?`<button type="button" class="rb-unit-btn" onclick="selectResource('equipment','${r.id}')" title="Add one more unit">+</button><button type="button" class="rb-unit-btn" onclick="deselectResource('equipment','${r.id}')" title="Remove one unit">−</button>`:''}</span>` : '';
+return `<div class="rp-row ${selected?'selected':''}" data-bctype="${typeLabel[r.type]}">
+<span class="rp-checkbox-wrap"><input type="checkbox" class="rp-checkbox" ${selected?'checked':''} aria-label="Select ${esc(r.name)}" onchange="setResourceChecked('${r.type}','${r.id}',this.checked)"></span>
+<div><div class="nm">${esc(r.name)}${unitStepper}</div><div class="ct">${typeLabel[r.type]} · ${esc(r.role||r.cat)}</div></div>
+<div class="rp-calc">${priceCell}${basisCell}${qtyCell}${totalCell}</div>
 </div>`;
 }).join('') || `<div style="font-size:13px;color:#999;padding:12px 18px;">${emptyMsg}</div>`;
 updateBudgetBreadcrumb();
+}
+function setResourceChecked(type,id,checked){
+const p=currentProject();
+if(type==='crew'){
+p.crewIds=p.crewIds||[];
+const idx=p.crewIds.indexOf(id);
+if(checked && idx<0) p.crewIds.push(id);
+else if(!checked && idx>=0) p.crewIds.splice(idx,1);
+} else {
+p.equipmentIds=p.equipmentIds||[];
+if(checked){
+if(!p.equipmentIds.includes(id)){
+const r=resourcePlannerPool().find(x=>x.type==='equipment'&&x.id===id);
+const cap = r&&r.owned ? r.owned : 99;
+if(p.equipmentIds.filter(x=>x===id).length<cap) p.equipmentIds.push(id);
+}
+} else {
+p.equipmentIds=p.equipmentIds.filter(x=>x!==id);
+}
+}
+saveProjectChange(p);
+logActivity(checked?'Resource assigned':'Resource removed',p.title);
+renderProjectDetail();
 }
 function selectResource(type,id){
 const p=currentProject();
@@ -3003,12 +3047,24 @@ ${allCategoryNames().map(n=>`<option value="${esc(n)}" ${rpCategoryFilter===n?'s
 </div>
 </div>
 <div class="resource-list-box">
+<div class="rb-head-row"><span></span><span>Resource</span><span>Price</span><span>Basis</span><span>Qty</span><span>Total</span></div>
 <div id="rpResourceList"></div>
 <div class="budget-expenses">
 <div class="box-title" data-bctype="expense">Production Expenses</div>
-${otherLines.map((l,i)=>`<div class="lib-row"><span>${esc(l.category||'Misc')}</span><span>${fmt(l.amount)}</span></div>`).join('')}
+${otherLines.length?`<div class="rb-expense-head"><span>Category</span><span>Price</span><span>Qty</span><span>Total</span><span></span></div>`:''}
+${otherLines.map((l,i)=>{
+const price=l.price!=null?l.price:(l.amount||0);
+const qty=l.qty!=null?l.qty:1;
+return `<div class="rb-expense-row">
+<input class="rb-cat-field" value="${esc(l.category||'Misc')}" aria-label="Category" onchange="setBudgetLine(${i},'category',this.value)">
+<input class="rp-in" type="number" min="0" value="${price}" aria-label="Price" onchange="setBudgetLine(${i},'price',this.value)">
+<input class="rp-in rp-qty" type="number" min="0" step="1" value="${qty}" aria-label="Quantity" onchange="setBudgetLine(${i},'qty',this.value)">
+<input class="rp-in rp-total" type="number" min="0" value="${l.amount}" aria-label="Total" onchange="setBudgetLine(${i},'amount',this.value)">
+<button class="rp-qty-dec" onclick="removeBudgetLine(${i})" title="Remove">−</button>
+</div>`;
+}).join('')}
 ${!otherLines.length?'<div style="font-size:13px;color:#999;padding:4px 0;">None added yet.</div>':''}
-<div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;"><select class="f-input" id="miscLineCat" style="flex:1;min-width:140px;"><option value="">Select category</option>${STATE.categories.expenses.map(c=>`<option>${esc(c.name)}</option>`).join('')}</select><input class="f-input" id="miscLineAmt" type="number" placeholder="Amount" style="max-width:110px;"><button class="btn-ghost" onclick="addBudgetLine()">Add line item</button></div>
+<div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;"><select class="f-input" id="miscLineCat" style="flex:1;min-width:140px;"><option value="">Select category</option>${STATE.categories.expenses.map(c=>`<option>${esc(c.name)}</option>`).join('')}</select><input class="f-input" id="miscLineAmt" type="number" placeholder="Price" style="max-width:100px;"><input class="f-input" id="miscLineQty" type="number" placeholder="Qty" value="1" style="max-width:70px;"><button class="btn-ghost" onclick="addBudgetLine()">Add line item</button></div>
 </div>
 </div>
 <div style="height:100vh;" aria-hidden="true"></div>
@@ -3017,11 +3073,36 @@ ${!otherLines.length?'<div style="font-size:13px;color:#999;padding:4px 0;">None
 function addBudgetLine(){
 const p=currentProject();
 const cat=document.getElementById('miscLineCat').value||'';
-const amt=Number(document.getElementById('miscLineAmt').value)||0;
-if(!cat && !amt) return;
+const price=Number(document.getElementById('miscLineAmt').value)||0;
+const qtyEl=document.getElementById('miscLineQty');
+const qty=qtyEl&&qtyEl.value!==''?(Number(qtyEl.value)||1):1;
+if(!cat && !price) return;
 p.sections.budgeting.lines=p.sections.budgeting.lines||[];
-p.sections.budgeting.lines.push({category:cat||'Misc',amount:amt});
+p.sections.budgeting.lines.push({category:cat||'Misc',price:price,qty:qty,amount:Math.round(price*qty*100)/100});
 saveProjectChange(p); logActivity('Budget line added',p.title); renderProjectDetail();
+}
+function setBudgetLine(idx,field,val){
+const p=currentProject();
+const lines=p.sections.budgeting.lines||[];
+const l=lines[idx]; if(!l) return;
+if(field==='category'){ l.category=val||'Misc'; }
+else {
+let n=parseFloat(val); if(!isFinite(n)||n<0) n=0;
+if(field==='price'){ l.price=n; l.qty=l.qty!=null?l.qty:1; l.amount=Math.round(n*l.qty*100)/100; }
+else if(field==='qty'){ l.qty=n; const price=l.price!=null?l.price:(l.amount||0); l.price=price; l.amount=Math.round(price*n*100)/100; }
+else if(field==='amount'){ l.amount=n; const qty=l.qty||1; l.price=Math.round(n/qty*100)/100; }
+}
+saveProjectChange(p);
+logActivity('Budget line updated',p.title);
+renderProjectDetail();
+}
+function removeBudgetLine(idx){
+const p=currentProject();
+const lines=p.sections.budgeting.lines||[];
+lines.splice(idx,1);
+saveProjectChange(p);
+logActivity('Budget line removed',p.title);
+renderProjectDetail();
 }
 
 /* ---------- SHOOT TRACKER ---------- */
