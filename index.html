@@ -272,7 +272,7 @@ textarea.f-input{min-height:50px;overflow:hidden}
 select.f-input{padding:9px 30px 9px 12px}
 input:disabled.f-input,textarea:disabled.f-input{background:#fafafa;color:#444;border-color:#eee}
 select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
-.brief-top-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch}
+.brief-top-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch;margin-bottom:16px}
 .brief-thumb-box,.brief-details-box{margin-bottom:0;display:flex;flex-direction:column}
 .brief-thumb-box .thumb-box{flex:1;height:auto;min-height:220px}
 .form-grid.cols-2{grid-template-columns:1fr 1fr}
@@ -2134,8 +2134,7 @@ ${unschedHtml}${body}
 }
 function dayBandLabel(d,di){ return `Day ${di+1} — ${fmtDateShort(d.date)||'Unscheduled'}`; }
 function addRowHtml(days){
-const has=(days||[]).some(d=>(d.scenes||[]).length>0);
-return `<div class="sp-add-row"><div class="sp-add-details-row" data-no-lock="1" onclick="openAddSceneModal()">+ Add scene</div>${has?`<div class="sp-add-details-row" data-no-lock="1" onclick="openAddItemModal()">+ Add shot / activity</div>`:''}</div>`;
+return `<div class="sp-add-row"><div class="sp-add-details-row" data-no-lock="1" onclick="openAddItemModal()">+ Add</div></div>`;
 }
 function renderShotPlannerListBody(days){
 const hasScenes=days.some(d=>(d.scenes||[]).length>0);
@@ -2391,15 +2390,12 @@ if((STATE.crew||[]).some(c=>c.id===id)){ p.crewIds=p.crewIds||[]; if(!p.crewIds.
 else if((STATE.equipment||[]).some(e=>e.id===id)){ p.equipmentIds=p.equipmentIds||[]; if(!p.equipmentIds.includes(id)) p.equipmentIds.push(id); }
 });
 }
-function sceneFormHtml(p,sc,slot,editKey){
-const isEdit=!!editKey;
+function sceneFieldsInnerHtml(p,sc,slot,isEdit){
 const titles=[...new Set(allScenes(p).map(x=>(x.scene.title||'').trim()).filter(Boolean))];
 const date=isEdit?(sc.date||''):slot.date;
 const time=isEdit?(sc.time||''):slot.time;
 const num=isEdit?sc.num:previewSceneNum(p,date);
-return `<button class="modal-close" onclick="closeModal('${isEdit?'itemModal':'sceneModal'}')">×</button>
-<div class="modal-title">${isEdit?'Edit Scene':'Add Scene'}</div>
-<div class="form-grid cols-num-title">
+return `<div class="form-grid cols-num-title">
 <div><span class="field-label">Scene number</span><div class="auto-pill" id="scNum">Scene ${num}</div></div>
 <div><span class="field-label">Scene title *</span><input class="f-input" id="scTitle" list="scTitleList" autocomplete="off" value="${esc(isEdit?sc.title:'')}" placeholder="Type a new title or pick an existing scene" oninput="onSceneTitleInput()" onchange="onSceneTitlePicked()"><datalist id="scTitleList">${titles.map(t=>`<option value="${esc(t)}">`).join('')}</datalist></div>
 </div>
@@ -2411,7 +2407,13 @@ return `<button class="modal-close" onclick="closeModal('${isEdit?'itemModal':'s
 </div>
 ${!isEdit?`<div class="scene-hint" id="scSlotNote">${esc(slot.note)}. Change the date to add this scene to an existing day.</div>`:''}
 <div class="modal-section-title">Resources</div>
-<div class="field-box"><div class="shot-res-chips" id="scResChips"></div></div>
+<div class="field-box"><div class="shot-res-chips" id="scResChips"></div></div>`;
+}
+function sceneFormHtml(p,sc,slot,editKey){
+const isEdit=!!editKey;
+return `<button class="modal-close" onclick="closeModal('${isEdit?'itemModal':'sceneModal'}')">×</button>
+<div class="modal-title">${isEdit?'Edit Scene':'Add Scene'}</div>
+${sceneFieldsInnerHtml(p,sc,slot,isEdit)}
 <div class="modal-footer-row" style="margin-top:16px;">
 <button class="btn-primary" onclick="saveSceneForm(${isEdit?editKey.di:-1},${isEdit?editKey.si:-1})">${isEdit?'Save':'Add Scene'}</button>
 ${isEdit?`<button class="delete-btn" onclick="deleteSceneFromModal(${editKey.di},${editKey.si})">Delete</button>`:`<button class="btn-ghost" onclick="closeModal('sceneModal')">Cancel</button>`}
@@ -2504,9 +2506,12 @@ closeModal('itemModal');
 renderProjectDetail();
 }
 /* ---------- ADD / EDIT SHOT · SETUP · BREAK ---------- */
-function kindTilesHtml(prefix){
-const kinds=[['shot','Shot',ICON_CAMERA],['setup','Setup',ICON_GEAR],['break','Break',ICON_COFFEE]];
-return `<div class="act-type-tiles" id="${prefix}Kinds">${kinds.map(([k,l,ic])=>`<button type="button" class="act-type-tile ${ITEMFORM.kind===k?'active':''}" data-v="${k}" onclick="setItemKind('${prefix}','${k}')">${ic}<span>${l}</span></button>`).join('')}</div>`;
+function kindTilesHtml(prefix,includeScene,includeItems){
+if(includeItems===undefined) includeItems=true;
+const kinds=[];
+if(includeScene) kinds.push(['scene','Scene',ICON_SCENE]);
+if(includeItems) kinds.push(['shot','Shot',ICON_CAMERA],['setup','Setup',ICON_GEAR],['break','Break',ICON_COFFEE]);
+return `<div class="act-type-tiles" id="${prefix}Kinds" style="grid-template-columns:repeat(${kinds.length},1fr)">${kinds.map(([k,l,ic])=>`<button type="button" class="act-type-tile ${ITEMFORM.kind===k?'active':''}" data-v="${k}" onclick="setItemKind('${prefix}','${k}')">${ic}<span>${l}</span></button>`).join('')}</div>`;
 }
 function shotFieldsHtml(prefix,sh){
 sh=sh||{};
@@ -2578,30 +2583,40 @@ return `<div id="${prefix}FBreak">
 function itemFormHtml(prefix,p,o){
 /* o: {selKey, item, mode:'add'|'edit', di,si,idx} */
 const it=o.item||{};
-ITEMFORM.kind=o.kind; ITEMFORM.image=(o.kind==='shot'&&it.image)||''; ITEMFORM.breakKind=it.breakKind||'meal'; ITEMFORM.startAuto=(o.mode==='add');
+ITEMFORM.kind=o.kind; ITEMFORM.image=(o.kind==='shot'&&it.image)||''; ITEMFORM.breakKind=it.breakKind||'meal'; ITEMFORM.startAuto=(o.mode==='add'); ITEMFORM.mode=o.mode;
 const isEdit=o.mode==='edit';
-const title = {shot:'Shot',setup:'Setup',break:'Break'};
+const hasScenes=allScenes(p).length>0;
+const includeScene=!isEdit;
+const includeItems=isEdit||hasScenes;
+const k=o.kind;
 return `<button class="modal-close" onclick="closeModal('${isEdit?'itemModal':'sceneModal'}')">×</button>
-<div class="modal-title" id="${prefix}Title">${isEdit?'Edit':'Add'} Shot / Activity</div>
-<div class="field-box"><span class="field-label">Scene</span><select class="f-input" id="${prefix}Scene" onchange="onItemSceneChange('${prefix}')">${sceneSelectOptions(p,o.selKey)}</select></div>
-${kindTilesHtml(prefix)}
-<div id="${prefix}FShot" style="margin-top:16px;">${shotFieldsHtml(prefix,o.kind==='shot'?it:{})}</div>
-<div id="${prefix}FSetup" style="margin-top:16px;display:none;"><div class="field-box"><span class="field-label">Setup info</span><textarea class="f-input" id="${prefix}SetupInfo" placeholder="e.g. Rig lights, lay dolly track">${esc(o.kind==='setup'?(it.note||''):'')}</textarea></div></div>
-<div style="display:none;margin-top:16px;" id="${prefix}FBreakWrap">${breakFieldsHtml(prefix,it)}</div>
+<div class="modal-title" id="${prefix}Title">${isEdit?'Edit Shot / Activity':(k==='scene'?'Add Scene':'Add Shot / Activity')}</div>
+${kindTilesHtml(prefix,includeScene,includeItems)}
+<div id="${prefix}FScene" style="display:${k==='scene'?'':'none'};">${sceneFieldsInnerHtml(p,null,nextSceneSlot(p),false)}</div>
+<div id="${prefix}SceneSelectWrap" class="field-box" style="display:${k==='scene'?'none':''};"><span class="field-label">Scene</span><select class="f-input" id="${prefix}Scene" onchange="onItemSceneChange('${prefix}')">${sceneSelectOptions(p,o.selKey)}</select></div>
+<div id="${prefix}FShot" style="margin-top:16px;display:${k==='shot'?'':'none'};">${shotFieldsHtml(prefix,k==='shot'?it:{})}</div>
+<div id="${prefix}FSetup" style="margin-top:16px;display:${k==='setup'?'':'none'};"><div class="field-box"><span class="field-label">Setup info</span><textarea class="f-input" id="${prefix}SetupInfo" placeholder="e.g. Rig lights, lay dolly track">${esc(k==='setup'?(it.note||''):'')}</textarea></div></div>
+<div style="display:${k==='break'?'':'none'};margin-top:16px;" id="${prefix}FBreakWrap">${breakFieldsHtml(prefix,it)}</div>
 ${timeBlockHtml(prefix,o.start,o.hours)}
 <div class="modal-footer-row" style="margin-top:16px;">
-<button class="btn-primary" onclick="saveItemForm('${prefix}',${isEdit?`{di:${o.di},si:${o.si},idx:${o.idx}}`:'null'})">${isEdit?'Save':'Add'}</button>
+<button class="btn-primary" id="${prefix}SubmitBtn" onclick="submitUnifiedForm('${prefix}',${isEdit?`{di:${o.di},si:${o.si},idx:${o.idx}}`:'null'})">${isEdit?'Save':(k==='scene'?'Add Scene':'Add')}</button>
 ${isEdit?`<button class="delete-btn" onclick="deleteItemFromModal(${o.di},${o.si},${o.idx})">Delete</button>`:`<button class="btn-ghost" onclick="closeModal('sceneModal')">Cancel</button>`}
 </div>`;
+}
+function submitUnifiedForm(prefix,editKey){
+if(ITEMFORM.kind==='scene'){ saveSceneForm(-1,-1); return; }
+saveItemForm(prefix,editKey);
 }
 function applyItemKindUI(prefix){
 const k=ITEMFORM.kind, bk=ITEMFORM.breakKind;
 $id(prefix+'Kinds').querySelectorAll('.act-type-tile').forEach(b=>b.classList.toggle('active',b.dataset.v===k));
+const fScene=$id(prefix+'FScene'); if(fScene) fScene.style.display=k==='scene'?'':'none';
+const sceneSelWrap=$id(prefix+'SceneSelectWrap'); if(sceneSelWrap) sceneSelWrap.style.display=k==='scene'?'none':'';
 $id(prefix+'FShot').style.display=k==='shot'?'':'none';
 $id(prefix+'FSetup').style.display=k==='setup'?'':'none';
 $id(prefix+'FBreakWrap').style.display=k==='break'?'':'none';
 const gap = k==='break' && bk!=='meal';
-$id(prefix+'TimeBlock').style.display=gap?'none':'';
+$id(prefix+'TimeBlock').style.display=(k==='scene'||gap)?'none':'';
 const dw=$id(prefix+'BreakDaysWrap');
 if(dw){
 dw.style.display=gap?'':'none';
@@ -2609,6 +2624,10 @@ $id(prefix+'BreakDaysLabel').textContent = bk==='schedule' ? 'Days off (equipmen
 $id(prefix+'BreakHint').textContent = bk==='schedule' ? 'Resource rent is not calculated between these days. The next scene starts after the break.' : 'The shoot day ends here and the next scene is scheduled automatically. Equipment stays on hire.';
 }
 const badgeEl=$id(prefix+'Badge'); if(badgeEl) badgeEl.innerHTML = k==='shot'?ICON_CAMERA:k==='setup'?ICON_GEAR:ICON_COFFEE;
+const titleEl=$id(prefix+'Title');
+if(titleEl && ITEMFORM.mode==='add') titleEl.textContent = k==='scene'?'Add Scene':'Add Shot / Activity';
+const submitBtn=$id(prefix+'SubmitBtn');
+if(submitBtn) submitBtn.textContent = ITEMFORM.mode==='edit' ? 'Save' : (k==='scene'?'Add Scene':'Add');
 }
 function setItemKind(prefix,k){ ITEMFORM.kind=k; applyItemKindUI(prefix); updateItemEnd(prefix); }
 function setBreakKind(prefix,v){ ITEMFORM.breakKind=v; applyItemKindUI(prefix); updateItemEnd(prefix); }
@@ -2631,15 +2650,17 @@ updateItemEnd(prefix);
 function openAddItemModal(di,si){
 const p=currentProject(); if(!p) return;
 const scenes=allScenes(p);
-if(!scenes.length){ alert('Add a scene first.'); return; }
-let key;
+let key=null;
 if(di!=null && si!=null) key=di+'-'+si;
-else { const l=scenes[scenes.length-1]; key=l.di+'-'+l.si; }
-const [kd,ks]=key.split('-').map(Number);
-const sc=p.days[kd].scenes[ks];
-$id('sceneModalBox').innerHTML=itemFormHtml('ad',p,{mode:'add',kind:'shot',selKey:key,start:nextItemStart(sc),hours:''});
+else if(scenes.length){ const l=scenes[scenes.length-1]; key=l.di+'-'+l.si; }
+const sc = key ? p.days[+key.split('-')[0]].scenes[+key.split('-')[1]] : null;
+const defaultKind = scenes.length ? 'shot' : 'scene';
+SCENEFORM={resourceIds:[]};
+$id('sceneModalBox').innerHTML=itemFormHtml('ad',p,{mode:'add',kind:defaultKind,selKey:key,start:sc?nextItemStart(sc):'',hours:''});
+renderSceneResChips();
 applyItemKindUI('ad'); updateItemEnd('ad');
 $id('sceneModal').classList.add('show');
+setTimeout(()=>{ const i=defaultKind==='scene'?$id('scTitle'):$id('adDesc'); if(i) i.focus(); },50);
 }
 function readItemFromForm(prefix){
 const k=ITEMFORM.kind;
