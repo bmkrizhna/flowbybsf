@@ -388,18 +388,6 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .shot-res-chip button:hover{background:#d8d8d8}
 .shot-res-add-btn{background:var(--accent-bg);color:#1a1a1a;border:none;border-radius:999px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer}
 .shot-res-add-btn:hover{background:var(--accent)}
-.sb-activity-marker{font-family:'Satoshi',sans-serif;text-align:center;font-size:11px;font-weight:700;color:#999;letter-spacing:0.4px;padding:6px 0;grid-column:1/-1}
-/* ---- Shoot Tracker report rows ---- */
-.tr-day-date{font-family:'Satoshi',sans-serif;font-size:11px;font-weight:700;color:#999;letter-spacing:0.5px;margin:22px 0 6px;display:flex;align-items:center;gap:10px}
-.tr-day-date:first-child{margin-top:0}
-.tr-shot-row{display:flex;align-items:center;gap:14px;padding:10px 0;border-top:1px solid #f2f2f2}
-.tr-shot-thumb{width:168px;height:126px;border-radius:10px;background:#f1f1f1;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;color:#bbb;overflow:hidden;text-align:center}
-.tr-shot-thumb img{width:100%;height:100%;object-fit:cover}
-.tr-shot-main{flex:1;min-width:0}
-.tr-shot-num{font-size:11px;color:#999;font-weight:700}
-.tr-shot-title{font-size:13px;font-weight:600;color:#1a1a1a}
-.tr-shot-sub{font-size:13px;color:#999}
-.tr-status-icons{display:flex;gap:6px;flex-shrink:0}
 .tr-status-icon{width:36px;height:36px;border-radius:50%;border:none;background:#f0f0f0;display:flex;align-items:center;justify-content:center;color:#aaa;transition:color .15s,background-color .15s,transform .12s}
 .tr-status-icon svg{width:17px;height:17px}
 .tr-status-icon:hover{background:#e5e5e5;color:#777}
@@ -410,18 +398,37 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .tr-status-icon.active.completed .tr-check-path,.tr-status-icon.drawing .tr-check-path{stroke-dashoffset:0}
 @keyframes tr-pop{0%{transform:scale(1)}45%{transform:scale(1.25)}100%{transform:scale(1)}}
 .tr-status-icon.just-set{animation:tr-pop .3s ease}
-/* ---- Shot Planner toolbar + Storyboard ---- */
+/* ---- Shot Planner toolbar ---- */
 .view-toggle{display:flex;gap:4px;background:#f0f0f0;border-radius:999px;padding:3px}
 .vt-btn{padding:7px 16px;border:none;border-radius:999px;background:none;font-size:13px;font-weight:600;color:#6b6b6b;transition:background .15s,color .15s}
 .vt-btn.active{background:#1a1a1a;color:#fff}
-.sb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
-.sb-card{border:1px solid #eee;border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .15s}
-.sb-card:hover{border-color:#ccc}
-.sb-img{aspect-ratio:3/2;background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:12px;color:#999}
-.sb-img img{width:100%;height:100%;object-fit:cover}
-.sb-body{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#f7f7f7}
-.sb-num{font-size:13px;color:#1a1a1a;font-weight:700;flex-shrink:0;padding-right:10px;border-right:1px solid #ddd}
-.sb-desc{font-size:13px;color:#555;margin:0;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* ---- Storyboard / Shoot Tracker: shared schedule card grid ---- */
+.sched-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px}
+.sched-card{border-radius:14px;padding:14px;display:flex;flex-direction:column;min-height:184px}
+.sched-card.shot,.sched-card.activity{cursor:pointer;transition:box-shadow .15s}
+.sched-card.shot:hover,.sched-card.activity:hover{box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.sched-card.day{background:var(--accent);align-items:center;justify-content:center;text-align:center}
+.sched-day-icon{color:#1a1a1a;margin-bottom:8px}
+.sched-day-icon svg{width:22px;height:22px}
+.sched-day-label{font-weight:700;font-size:15px;color:#1a1a1a}
+.sched-day-date{font-size:12px;color:#6b5a16;margin-top:2px}
+.sched-card.shot{background:#f0f0f0}
+.sched-card.activity{background:var(--accent-bg)}
+.sched-top-row{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;min-height:24px}
+.sched-badge{background:#fff;border-radius:999px;padding:4px 10px;font-size:11px;font-weight:700;color:#1a1a1a;flex-shrink:0}
+.sched-tag{background:#fff;border-radius:999px;padding:4px 10px;font-size:11px;font-weight:600;color:#1a1a1a;flex-shrink:0}
+.sched-icon-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#1a1a1a;padding:8px 0}
+.sched-icon-wrap svg{width:26px;height:26px}
+.sched-icon-wrap img{width:100%;height:100%;object-fit:cover;border-radius:8px}
+.sched-activity-title{font-weight:700;font-size:14px;color:#1a1a1a;text-align:center}
+.sched-activity-time{font-size:12px;color:#7a6a2e;text-align:center}
+.sched-desc{font-size:13px;color:#1a1a1a;line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.sched-status-dot{align-self:flex-end;width:22px;height:22px;border-radius:50%;border:1.5px solid #d6d6d6;background:#fff;display:flex;align-items:center;justify-content:center;color:#fff;margin-top:10px;flex-shrink:0}
+.sched-status-dot svg{width:12px;height:12px}
+.sched-status-dot.done{background:var(--accent);border-color:var(--accent);color:#1a1a1a}
+.sched-actions{display:flex;gap:6px;justify-content:center;margin-top:10px}
+.sched-action-btn.tr-status-icon{width:28px;height:28px}
+.sched-action-btn.tr-status-icon svg{width:13px;height:13px}
 /* ---- Resource Planner / Budgeting ---- */
 .rp-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;align-items:start}
 .rp-filters{display:flex;gap:8px;margin-bottom:14px}
@@ -2157,12 +2164,13 @@ const sceneRow=`<div class="sp-scene-row" id="scene-${di}-${si}" draggable="true
 const itemRows=rows.map(r=>{
 if(r.type==='activity'){
 const a=r.item;
-return `<div class="shot-activity-row ${a.actType}" draggable="true" data-no-lock="1" ondragstart="onItemDragStart(event,${di},${si},${r.idx})" ondragend="onItemDragEnd(event)" ondragover="onItemDragOver(event,${di},${si},${r.idx})" ondragleave="onItemDragLeave(event)" ondrop="onItemDrop(event,${di},${si},${r.idx})" onclick="openEditItemModal(${di},${si},${r.idx})">
+const actAnchorId='item-'+di+'-'+si+'-'+r.idx;
+return `<div class="shot-activity-row ${a.actType}" id="${actAnchorId}" draggable="true" data-no-lock="1" ondragstart="onItemDragStart(event,${di},${si},${r.idx})" ondragend="onItemDragEnd(event)" ondragover="onItemDragOver(event,${di},${si},${r.idx})" ondragleave="onItemDragLeave(event)" ondrop="onItemDrop(event,${di},${si},${r.idx})" onclick="openEditItemModal(${di},${si},${r.idx})">
 <div class="act-main"><span class="drag-handle" onclick="event.stopPropagation()" title="Drag to reorder">${ICON_GRIP}</span><span class="act-label">${activityDisplayText(a,d.date)}</span></div>
 </div>`;
 }
 const sh=r.item;
-const anchorId='shot-'+di+'-'+si+'-'+r.idx;
+const anchorId='item-'+di+'-'+si+'-'+r.idx;
 const tags=[sh.size,sh.movement].filter(v=>v && v!=='—');
 if(sh.ie) tags.push(sh.ie);
 const tr=timeRangeText(sh); if(tr) tags.push(tr);
@@ -2181,28 +2189,73 @@ return `<div class="sp-day-band">${dayBandLabel(d,di)}</div>${sceneBlocks}`;
 }).join('');
 return dayBlocks;
 }
-function renderShotPlannerStoryboardBody(days){
-const html = days.map((d,di)=>{
-if(!(d.scenes||[]).length) return '';
-const cards=(d.scenes||[]).map((sc,si)=>{
-const rows=sceneItemRows(sc);
-return rows.map(r=>{
-if(r.type==='activity'){
-return `<div class="sb-activity-marker">${activityDisplayText(r.item,d.date)}</div>`;
-}
-const sh=r.item;
-const anchorId='shot-'+di+'-'+si+'-'+r.idx;
-return `<div class="sb-card" onclick="focusShotInList('${anchorId}')">
-<div class="sb-img">${sh.image?`<img src="${sh.image}">`:'No image'}</div>
-<div class="sb-body"><div class="sb-num">${r.num}</div><div class="sb-desc">${esc(sh.desc)||'Untitled shot'}</div></div>
+/* ---------- Shared schedule card grid (Storyboard + Shoot Tracker) ---------- */
+function scheduleDayCardHtml(d,di){
+return `<div class="sched-card day">
+<div class="sched-day-icon">${ICON_CAL_PLAIN}</div>
+<div class="sched-day-label">Day ${di+1}</div>
+<div class="sched-day-date">${esc(fmtDateShort(d.date))||'No date'}</div>
 </div>`;
-}).join('');
-}).join('');
-return `<div class="sp-day-band">${dayBandLabel(d,di)}</div><div class="sb-grid">${cards}</div>`;
-}).join('');
-return (html||'')+addRowHtml(days);
 }
-function focusShotInList(anchorId){
+function scheduleShotCardHtml(sh,r,anchorId,trackerMode){
+const tags=[sh.size,sh.movement].filter(v=>v && v!=='—');
+const tag=tags[0]||'';
+const isDone=sh.status==='Completed';
+const statusArea = trackerMode
+? scheduleActionsHtml('shot',anchorId,sh.status)
+: `<div class="sched-status-dot ${isDone?'done':''}">${isDone?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 9 17 20 6"/></svg>':''}</div>`;
+return `<div class="sched-card shot" onclick="focusItemInList('${anchorId}')">
+<div class="sched-top-row"><span class="sched-badge">${esc(r.num)}</span>${tag?`<span class="sched-tag">${esc(tag)}</span>`:'<span></span>'}</div>
+<div class="sched-icon-wrap">${sh.image?`<img src="${sh.image}">`:ICON_CAMERA}</div>
+<div class="sched-desc">${esc(sh.desc)||'Untitled shot'}</div>
+${statusArea}
+</div>`;
+}
+function scheduleActivityCardHtml(a,d,anchorId,trackerMode){
+const isDone=a.status==='Completed';
+const statusArea = trackerMode
+? scheduleActionsHtml('activity',anchorId,a.status)
+: `<div class="sched-status-dot ${isDone?'done':''}">${isDone?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 9 17 20 6"/></svg>':''}</div>`;
+return `<div class="sched-card activity" onclick="focusItemInList('${anchorId}')">
+<div class="sched-icon-wrap">${ICON_COFFEE}</div>
+<div class="sched-activity-title">${esc(activityDisplayText(a,d.date))}</div>
+${statusArea}
+</div>`;
+}
+function scheduleActionsHtml(kind,anchorId,status){
+const parts=anchorId.split('-'); // item-di-si-idx
+const di=parts[1], si=parts[2], idx=parts[3];
+return `<div class="sched-actions" onclick="event.stopPropagation()">
+<button type="button" class="tr-status-icon sched-action-btn ${status==='Completed'?'active completed':''}" title="Completed" onclick="setTrackStatus(${di},${si},${idx},'${kind}','Completed',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline class="tr-check-path" points="4 12 9 17 20 6"/></svg></button>
+<button type="button" class="tr-status-icon sched-action-btn ${status==='Postponed'?'active postponed':''}" title="Postponed" onclick="setTrackStatus(${di},${si},${idx},'${kind}','Postponed',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></button>
+<button type="button" class="tr-status-icon sched-action-btn ${status==='Cancelled'?'active cancelled':''}" title="Cancelled" onclick="setTrackStatus(${di},${si},${idx},'${kind}','Cancelled',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="M6 6l12 12"/></svg></button>
+</div>`;
+}
+function scheduleGridHtml(days,trackerMode){
+const cards=[];
+days.forEach((d,di)=>{
+if(!(d.scenes||[]).length) return;
+cards.push(scheduleDayCardHtml(d,di));
+(d.scenes||[]).forEach((sc,si)=>{
+const rows=sceneItemRows(sc);
+rows.forEach(r=>{
+const anchorId='item-'+di+'-'+si+'-'+r.idx;
+if(r.type==='activity'){
+cards.push(scheduleActivityCardHtml(r.item,d,anchorId,trackerMode));
+} else {
+cards.push(scheduleShotCardHtml(r.item,r,anchorId,trackerMode));
+}
+});
+});
+});
+return `<div class="sched-grid">${cards.join('')}</div>`;
+}
+function renderShotPlannerStoryboardBody(days){
+const hasScenes=days.some(d=>(d.scenes||[]).length>0);
+if(!hasScenes) return addRowHtml(days);
+return scheduleGridHtml(days,false)+addRowHtml(days);
+}
+function focusItemInList(anchorId){
 shotPlannerView='list';
 renderProjectDetail();
 setTimeout(function(){ const el=document.getElementById(anchorId); if(el) el.scrollIntoView({behavior:'smooth',block:'center'}); },60);
@@ -2594,8 +2647,8 @@ ITEMFORM.kind=o.kind; ITEMFORM.image=(o.kind==='shot'&&it.image)||''; ITEMFORM.b
 const isEdit=o.mode==='edit';
 const isSceneEdit=isEdit&&o.kind==='scene';
 const hasScenes=allScenes(p).length>0;
-const includeScene=!isEdit||isSceneEdit;
-const includeItems=isSceneEdit?false:(isEdit||hasScenes);
+const includeScene=!isEdit;
+const includeItems=!isEdit&&hasScenes;
 const k=o.kind;
 const sceneFieldsData = isSceneEdit
 ? sceneFieldsInnerHtml(p,o.scene,null,true)
@@ -2931,24 +2984,13 @@ saveProjectChange(p); logActivity('Budget line added',p.title); renderProjectDet
 /* ---------- SHOOT TRACKER ---------- */
 function renderShootTrackingTab(p){
 const days=p.days||[];
-const rows=days.map((d,di)=>{
-const shotRows=(d.scenes||[]).map((sc,si)=>sceneItemRows(sc).filter(r=>r.type==='shot').map(r=>{ const sh=r.item; return `
-<div class="tr-shot-row">
-<div class="tr-shot-thumb">${sh.image?`<img src="${sh.image}">`:'No image'}</div>
-<div class="tr-shot-main"><div class="tr-shot-num">${r.num}</div><div class="tr-shot-title">${sh.desc||'Untitled shot'}</div><div class="tr-shot-sub">${sc.title||sc.location||'—'}${sh.size?' · '+sh.size:''}</div></div>
-<div class="tr-status-icons">
-<button type="button" class="tr-status-icon ${sh.status==='Completed'?'active completed':''}" title="Completed" onclick="setShotTrackStatus(${di},${si},${r.idx},'Completed',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline class="tr-check-path" points="4 12 9 17 20 6"/></svg></button>
-<button type="button" class="tr-status-icon ${sh.status==='Postponed'?'active postponed':''}" title="Postponed" onclick="setShotTrackStatus(${di},${si},${r.idx},'Postponed',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></button>
-<button type="button" class="tr-status-icon ${sh.status==='Cancelled'?'active cancelled':''}" title="Cancelled" onclick="setShotTrackStatus(${di},${si},${r.idx},'Cancelled',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="M6 6l12 12"/></svg></button>
-</div>
-</div>`; }).join('')).join('');
-return `<div class="tr-day-date">${fmtDateShort(d.date)||'Unscheduled'}</div>${shotRows||'<div style="font-size:13px;color:#999;padding:8px 0;">No shots planned for this day yet.</div>'}`;
-}).join('');
+const hasScenes=days.some(d=>(d.scenes||[]).length>0);
+const grid=hasScenes?scheduleGridHtml(days,true):'';
 setStageHeaderExtrasAuto('shootTracking');
 return `<div id="pdBody">
 <div class="box">
 <div class="box-title">Final shot report</div>
-${rows || '<div style="font-size:13px;color:#999;padding:20px 0;">No shots scheduled yet — add days and shots in Shot Planner.</div>'}
+${grid || '<div style="font-size:13px;color:#999;padding:20px 0;">No shots scheduled yet — add days and shots in Shot Planner.</div>'}
 </div>
 </div>`;
 }
@@ -2960,15 +3002,15 @@ if(sh.status==='Completed' || sh.status==='Cancelled') resolved++;
 })));
 return total>0 && resolved===total;
 }
-function setShotTrackStatus(di,si,shi,status,btn){
+function setTrackStatus(di,si,idx,kind,status,btn){
 const apply=()=>{
 const p=currentProject();
-const shot=p.days[di].scenes[si].items[shi];
-shot.status=status;
+const item=p.days[di].scenes[si].items[idx];
+item.status=status;
 p.sections.shootTracking.confirmed=allShotsResolved(p);
-if(status==='Postponed'){
+if(kind==='shot' && status==='Postponed'){
 p.unscheduledShots=p.unscheduledShots||[];
-p.unscheduledShots.push({id:'u'+Date.now(),desc:shot.desc,size:shot.size,movement:shot.movement,image:shot.image||'',ie:shot.ie||'',hours:shot.hours||0});
+p.unscheduledShots.push({id:'u'+Date.now(),desc:item.desc,size:item.size,movement:item.movement,image:item.image||'',ie:item.ie||'',hours:item.hours||0});
 saveProjectChange(p);
 logActivity('Shoot status updated',p.title);
 renderProjectDetail(); renderOverview();
