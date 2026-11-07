@@ -206,6 +206,7 @@ main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
 .search-filter-box{display:flex;align-items:center;border:none;border-radius:999px;background:#f0f0f0;width:360px;max-width:100%;height:38px}
 .search-filter-box.wide{flex:1 1 320px;max-width:none}
 .search-filter-box input{flex:1;min-width:0;border:none;background:transparent;padding:0 16px;font-size:14px;outline:none;height:100%}
+.search-filter-box select{border:none;background:transparent;border-left:1px solid #ddd;padding:0 24px 0 12px;font-size:13px;color:#666;outline:none;height:60%;align-self:center;flex-shrink:0;max-width:40%}
 .filter-select-pill{border:none;border-radius:999px;background-color:#f0f0f0;padding:0 28px 0 16px;font-size:13px;color:#666;outline:none;height:38px;max-width:150px;flex-shrink:0}
 .search-filter-icons{display:flex;gap:8px;flex-shrink:0}
 .icon-btn-text{display:flex;align-items:center;gap:7px;padding:0 16px;height:38px;border-radius:999px;border:none;background:#f0f0f0;color:#1a1a1a;flex-shrink:0;cursor:pointer;font-size:13px;font-weight:600;white-space:nowrap;transition:background .15s;font-family:inherit}
@@ -249,6 +250,7 @@ main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
 .icon-del{border:none;background:none;color:#4a4a4a;font-size:11px;font-weight:700;flex-shrink:0;padding:7px 4px}
 /* ---- Project detail ---- */
 .proj-head-row{display:flex;align-items:center;margin-bottom:16px;gap:20px;flex-wrap:wrap;position:sticky;top:var(--topbar-h,62.5px);z-index:18;background:var(--page-bg);padding:14px 0;border-bottom:1px solid #f0f0f0}
+.phr-top,.phr-bottom{display:contents}
 .pd-stage-block{display:flex;flex-direction:column;justify-content:center;min-width:0;flex-shrink:0}
 .pd-stage-title{margin:0 0 1px;font-size:20px;line-height:1.2;font-weight:600;white-space:nowrap}
 .proj-title-wrap{display:flex;align-items:center;gap:14px;min-width:0;border-left:1px solid #eee;padding-left:20px}
@@ -257,8 +259,7 @@ main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
 .pd-progress-inline{display:flex;align-items:center;gap:12px;flex:1 1 200px;min-width:160px;border-left:1px solid #eee;padding-left:20px}
 .pd-tab-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-left:1px solid #eee;padding-left:20px}
 .pd-tab-controls:empty{display:none;border:none;padding:0}
-.pd-tab-controls input.f-input{width:180px;flex:0 0 auto}
-.pd-tab-controls select.f-input{width:150px;flex:0 0 auto}
+.pd-tab-controls .search-filter-box{width:280px}
 .proj-head-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;border-left:1px solid #eee;padding-left:20px}
 .pd-stage-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .pd-icon-btn{width:34px;height:34px;border-radius:50%;border:none;background:#f0f0f0;color:#666;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background .15s ease,color .15s ease}
@@ -545,13 +546,14 @@ body{overflow-x:hidden}
 body:not(.sidebar-collapsed)::after{display:none}
 body:not(.sidebar-collapsed){overflow:visible}
 
-/* ---- Topbar: stack logo above a compact greeting/location+clock row ---- */
-.topbar{grid-template-columns:1fr 1fr;grid-template-areas:"logo logo" "left right";row-gap:6px;padding:10px 14px}
-.topbar-logo{grid-area:logo}
-.topbar-logo img{height:26px}
-.topbar-left{grid-area:left;font-size:13px;gap:6px}
-.topbar-left svg{width:16px;height:16px}
-.topbar-right{grid-area:right;font-size:11px;gap:6px}
+/* ---- Topbar: keep greeting / logo / location+clock on one row ---- */
+.topbar{gap:8px;padding:10px 14px}
+.topbar-logo img{height:22px}
+.topbar-left{font-size:12px;gap:4px}
+.topbar-left svg{width:14px;height:14px}
+.topbar-right{font-size:10px;gap:4px}
+.topbar-right svg{width:11px;height:11px}
+.topbar-clock{white-space:nowrap}
 
 main{padding:16px 16px calc(84px + env(safe-area-inset-bottom))}
 h1{font-size:32px}
@@ -566,17 +568,24 @@ h1{font-size:32px}
 .filter-select-pill{width:100%;max-width:100%}
 .search-filter-icons{width:100%}
 .icon-btn-text{flex:1 1 0;justify-content:center;padding:0 10px}
-.proj-head-row{gap:8px 12px;padding:10px 0}
-.pd-stage-block{flex:1 1 100%;order:1}
-.pd-stage-title{font-size:16px}
-.proj-title-wrap{flex:1 1 100%;border-left:none;padding-left:0;order:2}
+.proj-head-row{flex-direction:column;align-items:stretch;gap:8px;padding:10px 0}
+.phr-top,.phr-bottom{display:flex;align-items:center;width:100%;gap:10px}
+.phr-top{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+.phr-top::-webkit-scrollbar{display:none}
+.pd-stage-block{flex:0 0 auto;white-space:nowrap}
+.pd-stage-title{font-size:14px;white-space:nowrap}
+.pd-stage-block .proj-meta-line{white-space:nowrap}
+.proj-title-wrap{flex:0 0 auto;border-left:1px solid #eee;padding-left:10px}
 .stage-progress-label{font-size:11px}
-.pd-title-block .proj-meta-line{font-size:12px}
-.pd-title-block h1{font-size:16px}
-.pd-progress-inline{border-left:none;padding-left:0;flex:1 1 110px;min-width:0;order:3}
-.pd-tab-controls{border-left:none;padding-left:0;flex:1 1 100%;order:4}
-.pd-tab-controls input.f-input,.pd-tab-controls select.f-input{width:100%;flex:1 1 140px}
-.proj-head-actions{border-left:none;padding-left:0;flex:0 0 auto;order:5;max-width:100%}
+.pd-title-block{min-width:0}
+.pd-title-block .proj-meta-line{font-size:12px;white-space:nowrap}
+.pd-title-block h1{font-size:14px;white-space:nowrap;display:block}
+.pd-tab-controls{border-left:1px solid #eee;padding-left:10px;flex:0 0 auto}
+.pd-tab-controls .search-filter-box{width:150px;height:32px;flex-shrink:0}
+.pd-tab-controls .view-toggle{flex-shrink:0}
+.pd-tab-controls .vt-btn{padding:6px 10px;font-size:11px;white-space:nowrap}
+.pd-progress-inline{border-left:none;padding-left:0;flex:1 1 auto;min-width:0}
+.proj-head-actions{border-left:none;padding-left:0;flex:0 0 auto}
 .proj-head-actions .btn-ghost,.proj-head-actions .confirm-btn,.proj-head-actions .section-badge{padding:7px 14px;font-size:12px}
 .proj-head-actions .vt-btn{padding:6px 12px;font-size:12px}
 .stage-progress-label{white-space:normal;text-align:right}
@@ -740,12 +749,12 @@ setTimeout(dismissIntro, 4500);
 
 <div id="resources" class="page">
 <div class="page-head-row resources-head-row" id="resourcesHeadRow">
-<h1 class="page-heading compact" id="resourcesHeading">Manage Resources</h1>
+<h1 class="page-heading compact" id="resourcesHeading">Resource Manager</h1>
 <div class="search-filter-row" id="resourcesSearchRow">
 <div class="search-filter-box wide">
 <input type="text" id="resourcesSearchInput" placeholder="Search crew or equipment" oninput="setResourcesSearch(this.value)">
+<select id="resourcesCategoryFilter" onchange="setResourcesCategoryFilter(this.value)"><option value="">All items</option></select>
 </div>
-<select id="resourcesCategoryFilter" class="filter-select-pill" onchange="setResourcesCategoryFilter(this.value)"><option value="">All items</option></select>
 <div class="search-filter-icons">
 <button type="button" class="icon-btn-text primary" title="Add resource" onclick="openAddResourceModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span>Add Resource</span></button>
 <button type="button" class="icon-btn-text" title="Manage categories" onclick="openManageCategoriesModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.58 3.3L4 3a1 1 0 0 0-1 1l.3 5.58a2 2 0 0 0 .58 1.42l9.6 9.59a2 2 0 0 0 2.82 0l4.3-4.3a2 2 0 0 0 0-2.83Z"/><circle cx="7.5" cy="7.5" r="1.3" fill="currentColor" stroke="none"/></svg><span>Categories</span></button>
@@ -769,6 +778,7 @@ setTimeout(dismissIntro, 4500);
 
 <div id="projectDetail" class="page">
 <div class="proj-head-row">
+<div class="phr-top">
 <div class="pd-stage-block">
 <h1 class="pd-stage-title" id="pdStageTitle">—</h1>
 <div class="proj-meta-line" id="pdStageSubtitle">—</div>
@@ -779,13 +789,16 @@ setTimeout(dismissIntro, 4500);
 <div class="proj-meta-line" id="pdMeta">—</div>
 </div>
 </div>
+<div class="pd-tab-controls" id="pdTabControls"></div>
+</div>
+<div class="phr-bottom">
 <div class="pd-progress-inline">
 <div class="stage-progress" id="pdProgress"></div>
 <div class="stage-progress-label" id="pdProgressLabel">—</div>
 </div>
-<div class="pd-tab-controls" id="pdTabControls"></div>
 <div class="proj-head-actions">
 <div class="pd-stage-actions" id="pdStageActions"></div>
+</div>
 </div>
 </div>
 <div id="pdContent"></div>
@@ -875,7 +888,7 @@ expenses:[
 /* ---------- DATA MODEL ---------- */
 const STAGE_ORDER=['brief','shotPlanning','budgeting','shootTracking','delivery'];
 const STAGE_NAMES={brief:'Brief',shotPlanning:'Planner',budgeting:'Budgeting',shootTracking:'Tracker',delivery:'Review'};
-const STAGE_PAGE_TITLES={brief:'Project Brief',shotPlanning:'Short Planner',budgeting:'Budgeting',shootTracking:'Production Tracker',delivery:'Editing & Review'};
+const STAGE_PAGE_TITLES={brief:'Project Brief',shotPlanning:'Shot Planner',budgeting:'Budgeting',shootTracking:'Production Tracker',delivery:'Editing & Review'};
 const ICON_HOUSE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5l9-7 9 7V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9.5z"/><path d="M9 21v-7h6v7"/></svg>';
 const ICON_DOC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>';
 const ICON_CAL_PLAIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
@@ -1427,13 +1440,13 @@ const headRect=headRow.getBoundingClientRect();
    last-row match. */
 if(headRect.width===0 && headRect.height===0) return;
 const rows=document.querySelectorAll('#resourceList .crew-row');
-if(!rows.length){ heading.textContent='Manage Resources'; return; }
+if(!rows.length){ heading.textContent='Resource Manager'; return; }
 const threshold=headRect.bottom;
 let current=null;
 for(const row of rows){
 if(row.getBoundingClientRect().top<=threshold) current=row; else break;
 }
-heading.textContent = current ? `Manage Resources / ${current.dataset.type} / ${current.dataset.cat||'Uncategorised'}` : 'Manage Resources';
+heading.textContent = current ? `Resource Manager / ${current.dataset.type} / ${current.dataset.cat||'Uncategorised'}` : 'Resource Manager';
 }
 let resourcesScrollTicking=false;
 window.addEventListener('scroll',()=>{
@@ -1887,7 +1900,7 @@ if(tabControlsEl){
 if(currentTab==='shotPlanning'){
 tabControlsEl.innerHTML=`<div class="view-toggle" data-no-lock="1"><button class="vt-btn ${shotPlannerView==='list'?'active':''}" id="pdVtList" data-no-lock="1" onclick="setShotPlannerView('list')">List</button><button class="vt-btn ${shotPlannerView==='storyboard'?'active':''}" id="pdVtStoryboard" data-no-lock="1" onclick="setShotPlannerView('storyboard')">Storyboard</button></div>`;
 } else if(currentTab==='budgeting'){
-tabControlsEl.innerHTML=`<input class="f-input" placeholder="Search resources" value="${esc(rpSearch)}" data-no-lock="1" oninput="setRpSearch(this.value)"><select class="f-input" data-no-lock="1" onchange="setRpCategoryFilter(this.value)"><option value="">All categories</option>${allCategoryNames().map(n=>`<option value="${esc(n)}" ${rpCategoryFilter===n?'selected':''}>${n}</option>`).join('')}</select><div class="view-toggle" data-no-lock="1"><button class="vt-btn ${!rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(false)">All</button><button class="vt-btn ${rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(true)">Allocated</button></div>`;
+tabControlsEl.innerHTML=`<div class="search-filter-box" data-no-lock="1"><input type="text" placeholder="Search resources" value="${esc(rpSearch)}" data-no-lock="1" oninput="setRpSearch(this.value)"><select data-no-lock="1" onchange="setRpCategoryFilter(this.value)"><option value="">All categories</option>${allCategoryNames().map(n=>`<option value="${esc(n)}" ${rpCategoryFilter===n?'selected':''}>${n}</option>`).join('')}</select></div><div class="view-toggle" data-no-lock="1"><button class="vt-btn ${!rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(false)">All</button><button class="vt-btn ${rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(true)">Allocated</button></div>`;
 } else {
 tabControlsEl.innerHTML='';
 }
