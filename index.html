@@ -249,15 +249,30 @@ main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
 .icon-del{border:none;background:none;color:#4a4a4a;font-size:11px;font-weight:700;flex-shrink:0;padding:7px 4px}
 /* ---- Project detail ---- */
 .proj-head-row{display:flex;align-items:center;margin-bottom:16px;gap:20px;flex-wrap:wrap;position:sticky;top:var(--topbar-h,62.5px);z-index:18;background:var(--page-bg);padding:14px 0;border-bottom:1px solid #f0f0f0}
-.proj-title-wrap{display:flex;align-items:center;gap:14px;min-width:0}
+.pd-stage-block{display:flex;flex-direction:column;justify-content:center;min-width:0;flex-shrink:0}
+.pd-stage-title{margin:0 0 1px;font-size:20px;line-height:1.2;font-weight:600;white-space:nowrap}
+.proj-title-wrap{display:flex;align-items:center;gap:14px;min-width:0;border-left:1px solid #eee;padding-left:20px}
 .pd-thumb{width:58px;height:50px;border-radius:10px;flex-shrink:0;background:#f0f0f0;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;color:#c9c9c9}
 .pd-thumb svg{width:18px;height:18px}
 .pd-thumb.has-image svg{display:none}
 .pd-title-block{min-width:0;border-left:1px solid #eee;padding-left:14px}
 .pd-title-block h1{margin-bottom:1px;font-size:20px;line-height:1.2;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
 .pd-progress-inline{display:flex;align-items:center;gap:12px;flex:1 1 200px;min-width:160px;border-left:1px solid #eee;padding-left:20px}
+.pd-tab-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-left:1px solid #eee;padding-left:20px}
+.pd-tab-controls:empty{display:none;border:none;padding:0}
+.pd-tab-controls input.f-input{width:180px;flex:0 0 auto}
+.pd-tab-controls select.f-input{width:150px;flex:0 0 auto}
 .proj-head-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;border-left:1px solid #eee;padding-left:20px}
 .pd-stage-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pd-icon-btn{width:34px;height:34px;border-radius:50%;border:none;background:#f0f0f0;color:#666;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background .15s ease,color .15s ease}
+.pd-icon-btn svg{width:16px;height:16px}
+.pd-icon-btn:hover{background:#e5e5e5}
+.pd-icon-btn.save-btn{background:#1a1a1a;color:#fff}
+.pd-icon-btn.save-btn:hover{background:#333}
+.pd-icon-btn.tick{background:var(--accent-bg,#eaf6ec);color:var(--accent-text,#2e9e4f);cursor:default}
+.pd-icon-btn.tick:hover{background:var(--accent-bg,#eaf6ec)}
+.pd-icon-btn.tick.just-saved{animation:pd-tick-pop .35s ease}
+@keyframes pd-tick-pop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
 .proj-meta-line{font-size:13px;color:#999}
 .status-inline{font-size:inherit;font-weight:500;color:#999;white-space:nowrap}
 .stage-progress{flex:1;height:7px;border-radius:4px;overflow:hidden;background-image:repeating-linear-gradient(135deg,#f0f0f0 0,#f0f0f0 5px,#f4f4f4 5px,#f4f4f4 10px)}
@@ -555,7 +570,9 @@ h1{font-size:32px}
 .search-filter-icons{width:100%}
 .icon-btn-text{flex:1 1 0;justify-content:center;padding:0 10px}
 .proj-head-row{gap:8px 12px;padding:10px 0}
-.proj-title-wrap{flex:1 1 100%}
+.pd-stage-block{flex:1 1 100%;order:1}
+.pd-stage-title{font-size:16px}
+.proj-title-wrap{flex:1 1 100%;border-left:none;padding-left:0;order:2}
 .pd-thumb{display:none}
 .stage-progress-label{font-size:11px}
 .pd-title-block .proj-meta-line{font-size:12px}
@@ -563,7 +580,9 @@ h1{font-size:32px}
 .pd-title-block{border-left:none;padding-left:0}
 .pd-title-block h1{font-size:16px}
 .pd-progress-inline{border-left:none;padding-left:0;flex:1 1 110px;min-width:0;order:3}
-.proj-head-actions{border-left:none;padding-left:0;flex:0 0 auto;order:4;max-width:100%}
+.pd-tab-controls{border-left:none;padding-left:0;flex:1 1 100%;order:4}
+.pd-tab-controls input.f-input,.pd-tab-controls select.f-input{width:100%;flex:1 1 140px}
+.proj-head-actions{border-left:none;padding-left:0;flex:0 0 auto;order:5;max-width:100%}
 .proj-head-actions .btn-ghost,.proj-head-actions .confirm-btn,.proj-head-actions .section-badge{padding:7px 14px;font-size:12px}
 .proj-head-actions .vt-btn{padding:6px 12px;font-size:12px}
 .stage-progress-label{white-space:normal;text-align:right}
@@ -756,6 +775,10 @@ setTimeout(dismissIntro, 4500);
 
 <div id="projectDetail" class="page">
 <div class="proj-head-row">
+<div class="pd-stage-block">
+<h1 class="pd-stage-title" id="pdStageTitle">—</h1>
+<div class="proj-meta-line" id="pdStageSubtitle">—</div>
+</div>
 <div class="proj-title-wrap">
 <div class="pd-thumb" id="pdThumbBox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3Z"/><path d="m6.2 5.3 3.1 5.4"/><path d="m12.4 3.4 3.1 5.4"/><path d="M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg></div>
 <div class="pd-title-block">
@@ -767,8 +790,8 @@ setTimeout(dismissIntro, 4500);
 <div class="stage-progress" id="pdProgress"></div>
 <div class="stage-progress-label" id="pdProgressLabel">—</div>
 </div>
+<div class="pd-tab-controls" id="pdTabControls"></div>
 <div class="proj-head-actions">
-<div class="view-toggle" id="pdViewToggle" style="display:none;"><button class="vt-btn" id="pdVtList" data-no-lock="1" onclick="setShotPlannerView('list')">List</button><button class="vt-btn" id="pdVtStoryboard" data-no-lock="1" onclick="setShotPlannerView('storyboard')">Storyboard</button></div>
 <div class="pd-stage-actions" id="pdStageActions"></div>
 </div>
 </div>
@@ -859,6 +882,7 @@ expenses:[
 /* ---------- DATA MODEL ---------- */
 const STAGE_ORDER=['brief','shotPlanning','budgeting','shootTracking','delivery'];
 const STAGE_NAMES={brief:'Brief',shotPlanning:'Planner',budgeting:'Budgeting',shootTracking:'Tracker',delivery:'Review'};
+const STAGE_PAGE_TITLES={brief:'Project Brief',shotPlanning:'Short Planner',budgeting:'Budgeting',shootTracking:'Production Tracker',delivery:'Editing & Review'};
 const ICON_HOUSE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5l9-7 9 7V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9.5z"/><path d="M9 21v-7h6v7"/></svg>';
 const ICON_DOC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>';
 const ICON_CAL_PLAIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
@@ -878,6 +902,9 @@ const ICON_CLOCK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
 const ICON_UPLOAD='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>';
 const ICON_TRASH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
 const ICON_X='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+const ICON_DOWNLOAD='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
+const ICON_SAVE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>';
+const ICON_CHECK_SM='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 9 17 20 6"/></svg>';
 const STAGE_ICONS={
 brief:ICON_DOC,
 shotPlanning:ICON_CAL_PLAIN,
@@ -1427,20 +1454,21 @@ requestAnimationFrame(()=>{ updateResourcesBreadcrumb(); resourcesScrollTicking=
    Expenses, with the sticky title naming whichever section is currently at the
    top instead of inline dividers. */
 function updateBudgetBreadcrumb(){
-const heading=document.getElementById('budgetHeading');
-const headRow=document.getElementById('budgetHeadRow');
-if(!heading || !headRow) return;
+if(currentView!=='projectDetail' || currentTab!=='budgeting') return;
+const sub=document.getElementById('pdStageSubtitle');
+const headRow=document.querySelector('.proj-head-row');
+const p=currentProject();
+if(!sub || !headRow || !p) return;
 const headRect=headRow.getBoundingClientRect();
 if(headRect.width===0 && headRect.height===0) return;
 const rows=document.querySelectorAll('#pdBody [data-bctype]');
-if(!rows.length){ heading.textContent='Budgeting'; return; }
+if(!rows.length){ sub.textContent=stageStat(p,'budgeting'); return; }
 const threshold=headRect.bottom;
 let current=null;
 for(const row of rows){
 if(row.getBoundingClientRect().top<=threshold) current=row; else break;
 }
-if(!current){ heading.textContent='Budgeting'; return; }
-heading.textContent = current.dataset.bctype==='expense' ? 'Budgeting / Production Expense' : `Budgeting / Resources / ${current.dataset.bctype}`;
+sub.textContent = current ? (current.dataset.bctype==='expense' ? 'Production Expenses' : current.dataset.bctype) : stageStat(p,'budgeting');
 }
 let budgetScrollTicking=false;
 window.addEventListener('scroll',()=>{
@@ -1765,7 +1793,7 @@ const isField = e.type==='change' && (tag==='INPUT'||tag==='TEXTAREA'||tag==='SE
 const isAction = e.type==='click' && e.target.closest('[onclick]');
 if(!isField && !isAction) return;
 p.sections[key].confirmed=false;
-setStageHeaderExtras(key);
+renderStageStatusIcons(key);
 }
 document.addEventListener('change',guardStageEdit,true);
 document.addEventListener('click',guardStageEdit,true);
@@ -1829,9 +1857,9 @@ const d=p.sections.delivery||{};
 const n=((d.initialReview&&d.initialReview.versions)||[]).length+((d.finalMaster&&d.finalMaster.versions)||[]).length;
 return plural(n,'version');
 }
-function headerMetaLine(p,key){
+function headerMetaLine(p){
 const f=splitFormat(p.format);
-return [f.type,f.runtime,stageStat(p,key)].filter(Boolean).join(' · ');
+return [f.type,f.runtime].filter(Boolean).join(' · ');
 }
 function syncStickyOffsets(){
 const root=document.documentElement;
@@ -1850,7 +1878,9 @@ document.getElementById('pdTitle').textContent=p.title;
 document.getElementById('pdStatusInline').textContent='('+status+')';
 const thumbBox=document.getElementById('pdThumbBox');
 if(p.thumbnail){ thumbBox.style.backgroundImage=`url('${p.thumbnail}')`; thumbBox.classList.add('has-image'); } else { thumbBox.style.backgroundImage=''; thumbBox.classList.remove('has-image'); }
-document.getElementById('pdMeta').textContent=headerMetaLine(p,currentTab);
+document.getElementById('pdMeta').textContent=headerMetaLine(p);
+document.getElementById('pdStageTitle').textContent=STAGE_PAGE_TITLES[currentTab]||'';
+document.getElementById('pdStageSubtitle').textContent=stageStat(p,currentTab);
 
 const confirmedCount=STAGE_ORDER.filter(k=>p.sections[k].confirmed).length;
 const progressPct=STAGE_ORDER.length>0?Math.round((confirmedCount/STAGE_ORDER.length)*100):0;
@@ -1861,14 +1891,14 @@ document.getElementById('pdProgressLabel').textContent=`${progressPct}%`;
 
 renderSidebarNav();
 
-const vt=document.getElementById('pdViewToggle');
-if(vt){
+const tabControlsEl=document.getElementById('pdTabControls');
+if(tabControlsEl){
 if(currentTab==='shotPlanning'){
-vt.style.display='';
-document.getElementById('pdVtList').classList.toggle('active',shotPlannerView==='list');
-document.getElementById('pdVtStoryboard').classList.toggle('active',shotPlannerView==='storyboard');
+tabControlsEl.innerHTML=`<div class="view-toggle" data-no-lock="1"><button class="vt-btn ${shotPlannerView==='list'?'active':''}" id="pdVtList" data-no-lock="1" onclick="setShotPlannerView('list')">List</button><button class="vt-btn ${shotPlannerView==='storyboard'?'active':''}" id="pdVtStoryboard" data-no-lock="1" onclick="setShotPlannerView('storyboard')">Storyboard</button></div>`;
+} else if(currentTab==='budgeting'){
+tabControlsEl.innerHTML=`<input class="f-input" placeholder="Search resources" value="${esc(rpSearch)}" data-no-lock="1" oninput="setRpSearch(this.value)"><select class="f-input" data-no-lock="1" onchange="setRpCategoryFilter(this.value)"><option value="">All categories</option>${allCategoryNames().map(n=>`<option value="${esc(n)}" ${rpCategoryFilter===n?'selected':''}>${n}</option>`).join('')}</select><div class="view-toggle" data-no-lock="1"><button class="vt-btn ${!rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(false)">All</button><button class="vt-btn ${rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(true)">Allocated</button></div>`;
 } else {
-vt.style.display='none';
+tabControlsEl.innerHTML='';
 }
 }
 
@@ -1878,6 +1908,7 @@ else if(currentTab==='shotPlanning'){ content.innerHTML=renderShotPlanningTab(p)
 else if(currentTab==='budgeting'){ content.innerHTML=renderBudgetingTab(p); renderResourcePlannerList(); }
 else if(currentTab==='shootTracking') content.innerHTML=renderShootTrackingTab(p);
 else content.innerHTML=renderDeliveryTab(p);
+renderStageStatusIcons(currentTab);
 autosizeTextareas();
 syncStickyOffsets();
 }
@@ -1903,20 +1934,31 @@ if(mon1===mon2) return `${day1}–${day2} ${mon2}`;
 return `${day1} ${mon1} – ${day2} ${mon2}`;
 }
 
-function setStageHeaderExtras(key){
+/* Unified header status/action icons: download(PDF) + tick/save. brief, shotPlanning
+   and budgeting are user-editable, so an unconfirmed stage shows a clickable Save
+   button that confirms it (reusing proceedStage/guardStageEdit) and animates into a
+   tick; shootTracking and delivery complete themselves from their own internal logic
+   (every shot resolved; both delivery segments done), so they get a read-only tick
+   that simply reflects p.sections[key].confirmed. */
+let pdJustSaved=false;
+function renderStageStatusIcons(key){
 const p=currentProject();
+if(!p) return;
 const confirmed=p.sections[key].confirmed;
 const actionsEl=document.getElementById('pdStageActions');
-const actionHtml = confirmed ? `<span class="section-badge confirmed">Completed</span>` : `<button class="confirm-btn" onclick="proceedStage('${key}')">Proceed</button>`;
-if(actionsEl) actionsEl.innerHTML = `<button class="btn-ghost" title="Save PDF" aria-label="Save PDF" onclick="printStage('${key}')">Save PDF</button>${actionHtml}`;
+if(!actionsEl) return;
+const interactive=EDITABLE_STAGES.includes(key);
+const statusBtn = interactive
+? (confirmed
+? `<button type="button" class="pd-icon-btn tick${pdJustSaved?' just-saved':''}" title="Completed" disabled>${ICON_CHECK_SM}</button>`
+: `<button type="button" class="pd-icon-btn save-btn" title="Save" aria-label="Save" onclick="saveStageFromHeader('${key}')">${ICON_SAVE}</button>`)
+: `<button type="button" class="pd-icon-btn${confirmed?' tick':''}" title="${confirmed?'Completed':'In progress'}" disabled>${ICON_CHECK_SM}</button>`;
+actionsEl.innerHTML = `<button type="button" class="pd-icon-btn" title="Save PDF" aria-label="Save PDF" onclick="printStage('${key}')">${ICON_DOWNLOAD}</button>${statusBtn}`;
+pdJustSaved=false;
 }
-/* Tracker and Review complete themselves from their own internal logic (every shot
-   resolved; both delivery segments done) — no manual Proceed/Save PDF for these. */
-function setStageHeaderExtrasAuto(key){
-const p=currentProject();
-const confirmed=p.sections[key].confirmed;
-const actionsEl=document.getElementById('pdStageActions');
-if(actionsEl) actionsEl.innerHTML = confirmed ? `<span class="section-badge confirmed">Completed</span>` : '';
+function saveStageFromHeader(key){
+pdJustSaved=true;
+proceedStage(key);
 }
 function budgetExpenseGroupsHtml(otherLines){
 const byCat={};
@@ -2080,9 +2122,7 @@ setTimeout(()=>w.print(),300);
 
 function renderBriefTab(p){
 const b=p.brief;
-setStageHeaderExtras('brief');
 return `<div id="pdBody">
-<div class="page-head-row"><h1 class="page-heading compact">Project Brief</h1></div>
 <div class="brief-top-grid">
 <div class="box brief-thumb-box">
 <div class="box-title">Project thumbnail</div>
@@ -2178,7 +2218,6 @@ function renumberScenesContinuous(p){ let n=1; (p.days||[]).forEach(d=>(d.scenes
 function renderShotPlanningTab(p){
 const days=p.days||[];
 const unscheduled=p.unscheduledShots||[];
-setStageHeaderExtras('shotPlanning');
 const unschedHtml = unscheduled.length ? `<div class="box" style="border-color:#fec92d;border-width:2px;">
 <div class="box-title">Unscheduled shots</div>
 ${unscheduled.map((u,ui)=>{
@@ -2196,7 +2235,6 @@ return `<div class="sp-shot-row" data-no-lock="1" onclick="openEditUnscheduledSh
 </div>` : '';
 const body = shotPlannerView==='list' ? renderShotPlannerListBody(days) : renderShotPlannerStoryboardBody(days);
 return `<div id="pdBody">
-<div class="page-head-row"><h1 class="page-heading compact">Short Planner</h1></div>
 ${unschedHtml}${body}
 </div>`;
 }
@@ -3038,19 +3076,7 @@ return {crewHtml:groupSection(crewRows,false), eqHtml:groupSection(eqRows,true)}
 }
 function renderBudgetingTab(p){
 const otherLines=p.sections.budgeting.lines||[];
-setStageHeaderExtras('budgeting');
 return `<div id="pdBody">
-<div class="budget-head-row" id="budgetHeadRow">
-<h1 class="page-heading compact" id="budgetHeading">Budgeting</h1>
-<div class="rp-filters">
-<input class="f-input" placeholder="Search resources" value="${esc(rpSearch)}" data-no-lock="1" oninput="setRpSearch(this.value)">
-<select class="f-input" data-no-lock="1" onchange="setRpCategoryFilter(this.value)">
-<option value="">All categories</option>
-${allCategoryNames().map(n=>`<option value="${esc(n)}" ${rpCategoryFilter===n?'selected':''}>${n}</option>`).join('')}
-</select>
-<div class="view-toggle" data-no-lock="1"><button class="vt-btn ${!rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(false)">All</button><button class="vt-btn ${rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(true)">Allocated</button></div>
-</div>
-</div>
 <div class="resource-list-box">
 <div id="rpResourceList"></div>
 <div class="budget-expenses">
@@ -3113,9 +3139,7 @@ function renderShootTrackingTab(p){
 const days=p.days||[];
 const hasScenes=days.some(d=>(d.scenes||[]).length>0);
 const grid=hasScenes?scheduleGridHtml(days,true):'';
-setStageHeaderExtrasAuto('shootTracking');
 return `<div id="pdBody">
-<div class="page-head-row"><h1 class="page-heading compact">Production Tracker</h1></div>
 ${grid || '<div class="box" style="font-size:13px;color:#999;padding:20px 0;">No shots scheduled yet — add days and shots in Shot Planner.</div>'}
 </div>`;
 }
@@ -3162,9 +3186,7 @@ const ir=d.initialReview, fm=d.finalMaster;
 const headerRow=`<div class="del-version-row del-version-header" style="font-size:11px;color:#999;font-weight:700;border-top:none;font-family:'Satoshi',sans-serif;"><span>Ver.</span><span>Title</span><span>Link</span><span>Date</span><span>Duration</span></div>`;
 const irRows=(ir.versions||[]).map(v=>`<div class="del-version-row"><span data-label="Ver.">v${v.num}</span><span data-label="Title">${esc(v.title)}</span><span data-label="Link">${esc(v.link)}</span><span data-label="Date">${fmtDateShort(v.date)}</span><span data-label="Duration">${phaseDurationLabel(p,v.date)}</span></div>`).join('');
 const fmRows=(fm.versions||[]).map(v=>`<div class="del-version-row"><span data-label="Ver.">v${v.num}</span><span data-label="Title">${esc(v.title)}</span><span data-label="Link">${esc(v.link)}</span><span data-label="Date">${fmtDateShort(v.date)}</span><span data-label="Duration">${phaseDurationLabel(p,v.date)}</span></div>`).join('');
-setStageHeaderExtrasAuto('delivery');
 return `<div id="pdBody">
-<div class="page-head-row"><h1 class="page-heading compact">Editing &amp; Review</h1></div>
 <div class="box">
 <div class="box-title">Segment 01 · Initial Review</div>
 ${headerRow}${irRows||'<div style="font-size:13px;color:#999;padding:8px 0;">No versions logged yet.</div>'}
