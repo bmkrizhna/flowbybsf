@@ -375,7 +375,7 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .shot-ref-actions{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:8px}
 .shot-ref-actions button{width:30px;height:30px;border-radius:8px;border:none;background:#fff;color:#1a1a1a;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.25)}
 .shot-ref-actions svg{width:14px;height:14px}
-.act-type-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:4px}
+.act-type-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
 .act-type-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 8px;border-radius:10px;border:none;background:#f5f5f5;color:#555;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s,color .15s}
 .act-type-tile svg{width:19px;height:19px}
 .act-type-tile.active{background:var(--accent-bg);color:#1a1a1a}
@@ -2335,7 +2335,7 @@ const ap=h>=12?'pm':'am'; let hh=h%12; if(hh===0) hh=12;
 return hh+(m?':'+String(m).padStart(2,'0'):'')+' '+ap;
 }
 /* ===== SHOT PLANNER v3: Add Scene | Add Shot / Activity ===== */
-const ICON_SCENE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h18v12H3z"/><path d="M3 8l2-4h3L6 8M9 8l2-4h3l-2 4M15 8l2-4h3l-2 4"/></svg>';
+const ICON_SCENE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3Z"/><path d="m6.2 5.3 3.1 5.4"/><path d="m12.4 3.4 3.1 5.4"/><path d="M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg>';
 function $id(i){ return document.getElementById(i); }
 function pad2(n){ return String(n).padStart(2,'0'); }
 function localISO(d){ return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate()); }
