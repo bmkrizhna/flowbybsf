@@ -38,7 +38,7 @@ h3{font-size:16px;font-weight:700;margin:0}
 button,input,select,textarea{font-family:inherit}
 button{cursor:pointer;font-size:13px;font-weight:600}
 input,select,textarea{font-size:14px;font-weight:400}
-select{-webkit-appearance:none;-moz-appearance:none;appearance:none;text-align:center;text-align-last:center;-moz-text-align-last:center;cursor:pointer;color:#1a1a1a;background-color:#fff;background-repeat:no-repeat;background-position:right 10px center;background-size:10px;background-image:url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23666" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpolyline points="6 9 12 15 18 9"/%3E%3C/svg%3E')}
+select{-webkit-appearance:none;-moz-appearance:none;appearance:none;text-align:left;text-align-last:left;-moz-text-align-last:left;cursor:pointer;color:#1a1a1a;background-color:#fff;background-repeat:no-repeat;background-position:right 10px center;background-size:10px;background-image:url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23666" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpolyline points="6 9 12 15 18 9"/%3E%3C/svg%3E')}
 select:disabled{cursor:default}
 .page-shell{display:flex;flex-direction:column;min-height:100vh}
 .container{display:flex;flex-direction:row;align-items:stretch;flex:1}
@@ -305,14 +305,14 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 
 /* ---- Shot Planner: List view table rows ---- */
 .f-input.mini{padding:6px 8px;font-size:12px}
-.sp-shot-row{display:grid;grid-template-columns:20px 40px 200px minmax(200px,1fr) 150px;gap:16px;align-items:center;padding:12px 6px;border-top:1px solid #f2f2f2;cursor:pointer;transition:background .15s}
+.sp-shot-row{display:grid;grid-template-columns:20px 40px 160px minmax(160px,1fr) 190px 150px;gap:16px;align-items:center;padding:12px 6px;border-top:1px solid #f2f2f2;cursor:pointer;transition:background .15s}
 .sp-shot-row:hover{background:#fafafa}
 .sp-shot-row:first-child{border-top:none}
 .sp-shot-num{font-size:13px;font-weight:700;color:#1a1a1a}
 .sp-shot-thumb{width:100%;aspect-ratio:4/3;border-radius:10px;background:#f2f2f2;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#999;overflow:hidden;text-align:center;line-height:1.1}
 .sp-shot-thumb img{width:100%;height:100%;object-fit:cover}
 .sp-shot-desc{font-size:14px;color:#1a1a1a;line-height:1.4}
-.sp-shot-tags{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.sp-shot-tags,.sp-shot-camera,.sp-shot-time{display:flex;flex-direction:row;flex-wrap:wrap;gap:6px;align-items:center;justify-content:flex-start}
 .shot-tag{background:#f0f0f0;color:#555;padding:5px 12px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
 .sp-shot-row.dragging,.sp-scene-row.dragging,.shot-activity-row.dragging{opacity:.4}
 .sp-shot-row.drag-over,.shot-activity-row.drag-over{outline:2px dashed var(--accent);outline-offset:-2px;border-radius:8px}
@@ -572,7 +572,7 @@ h1{font-size:32px}
 .tr-shot-row{flex-wrap:wrap;row-gap:8px}
 .tr-status-icons{width:100%;justify-content:flex-start}
 .sp-scene-row-text{text-align:left}
-.sp-shot-row{grid-template-columns:20px 1fr;grid-template-areas:"grip num" "thumb thumb" "desc desc" "tags tags";row-gap:8px}
+.sp-shot-row{grid-template-columns:20px 1fr;grid-template-areas:"grip num" "thumb thumb" "desc desc" "camera camera" "time time";row-gap:8px}
 .sp-shot-row .drag-handle{grid-area:grip}
 .sp-shot-row .sp-shot-num{grid-area:num}
 .sp-shot-row .sp-shot-thumb{grid-area:thumb;width:100%;max-width:100%;aspect-ratio:16/9}
@@ -580,7 +580,9 @@ h1{font-size:32px}
 .thumb-box{height:150px}
 .worksheet-area{min-height:200px}
 .sp-shot-row .sp-shot-desc{grid-area:desc}
-.sp-shot-row .sp-shot-tags{grid-area:tags;flex-direction:row;align-items:flex-start;flex-wrap:wrap}
+.sp-shot-row .sp-shot-tags{grid-area:camera;align-items:flex-start}
+.sp-shot-row .sp-shot-camera{grid-area:camera;align-items:flex-start}
+.sp-shot-row .sp-shot-time{grid-area:time;align-items:flex-start}
 .cat-row{flex-wrap:wrap}
 .cat-name-input{width:100%}
 .tag-pill{max-width:100%;white-space:normal}
@@ -766,6 +768,9 @@ setTimeout(dismissIntro, 4500);
 </div>
 <div class="modal-overlay" id="itemModal">
 <div class="modal-box" id="itemModalBox"></div>
+</div>
+<div class="modal-overlay" id="confirmModal">
+<div class="modal-box" id="confirmModalBox" style="max-width:380px;"></div>
 </div>
 <div class="modal-overlay" id="categoriesModal">
 <div class="modal-box xwide">
@@ -1018,7 +1023,14 @@ delete s.shots; delete s.activities;
 }
 }); });
 renumberScenesContinuous(p);
+syncComputedDates(p);
 });
+function syncComputedDates(p){
+const dated=(p.days||[]).map(d=>d.date).filter(Boolean).sort();
+p.first=dated[0]||'';
+p.wrap=dated[dated.length-1]||'';
+p.delivery=(p.phaseLog&&p.phaseLog.delivered)||'';
+}
 function saveState(){ try{localStorage.setItem('bsf_data_v2', JSON.stringify(STATE));}catch(e){} }
 function logActivity(message,sub){
 STATE.activityLog = STATE.activityLog || [];
@@ -1048,7 +1060,7 @@ p.phaseLog.delivered=null;
 p.sections.delivery.confirmed=false;
 }
 }
-function saveProjectChange(p){ touchProject(p); saveState(); }
+function saveProjectChange(p){ touchProject(p); syncComputedDates(p); saveState(); }
 function daysBetween(a,b){
 if(!a||!b) return null;
 const d1=new Date(a+'T00:00:00'), d2=new Date(b+'T00:00:00');
@@ -1447,9 +1459,10 @@ STATE.categories[type].push({name,subs:[]});
 saveState(); renderResources(); closeModal('addResourceModal');
 }
 function deleteCategory(type,ci){
-if(!confirm('Remove this category? Resources already tagged with it will keep showing under it until re-tagged.'))return;
+confirmAction('Remove this category?','Resources already tagged with it will keep showing under it until re-tagged.',function(){
 STATE.categories[type].splice(ci,1);
 saveState(); setTimeout(renderResources,0);
+},{confirmLabel:'Remove'});
 }
 function addSubcategory(type,ci,value){
 const name=(value||'').trim();
@@ -1617,10 +1630,11 @@ r.history.push({d:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'sh
 saveState(); renderResources(); openResourceModal(type,id);
 }
 function deleteResource(type,id){
-if(!confirm('Delete this resource?'))return;
+confirmAction('Delete this resource?','This cannot be undone.',function(){
 if(type==='crew') STATE.crew=STATE.crew.filter(x=>x.id!==id);
 else STATE.equipment=STATE.equipment.filter(x=>x.id!==id);
 saveState(); renderResources(); closeModal('resourceModal');
+},{confirmLabel:'Delete'});
 }
 function closeModal(id){
 const overlay=document.getElementById(id);
@@ -1628,6 +1642,21 @@ if(!overlay) return;
 overlay.classList.remove('show');
 const box=document.getElementById(id+'Box');
 if(box) box.innerHTML='';
+}
+function confirmAction(title,message,onConfirm,opts){
+opts=opts||{};
+const box=document.getElementById('confirmModalBox');
+box.innerHTML=`<div class="modal-title">${esc(title)}</div>
+<p class="body-text" style="margin:0 0 20px;color:#666;">${esc(message)}</p>
+<div class="modal-footer-row">
+<button class="btn-primary" id="confirmActionBtn">${esc(opts.confirmLabel||'Confirm')}</button>
+<button class="btn-ghost" onclick="closeModal('confirmModal')">Cancel</button>
+</div>`;
+document.getElementById('confirmActionBtn').onclick=function(){
+closeModal('confirmModal');
+onConfirm();
+};
+document.getElementById('confirmModal').classList.add('show');
 }
 
 /* ---------- NEW PROJECT ---------- */
@@ -2014,7 +2043,7 @@ footer{margin-top:50px;padding-top:14px;border-top:1px solid #333;font-size:13px
 <div class="row"><span>Delivered</span><span>${p.phaseLog&&p.phaseLog.delivered?fmtDateShort(p.phaseLog.delivered):'Not yet'}</span></div>
 
 <h2>Duration log</h2>
-<div class="label">Green light: ${fmtDateShort(p.startDate)||'Not set'}</div>
+<div class="label">Project start: ${fmtDateShort(p.startDate)||'Not set'}</div>
 ${phases.map(ph=>`<div class="row"><span>${ph.label}</span><span>${ph.date?fmtDateShort(ph.date)+' · '+phaseDurationLabel(p,ph.date):'Not completed'}</span></div>`).join('')}
 ${p.phaseLog&&p.phaseLog.delivered?`<div class="row" style="font-weight:700;"><span>Total project duration</span><span>${phaseDurationLabel(p,p.phaseLog.delivered)}</span></div>`:''}
 
@@ -2046,10 +2075,10 @@ ${p.thumbnail?`<img src="${p.thumbnail}" class="thumb-preview">`:'Click to uploa
 <div><span class="field-label">Run time (min)</span><input class="f-input" type="number" min="0" value="${esc((splitFormat(p.format).runtime.match(/\d+/)||[''])[0])}" placeholder="e.g. 10" onchange="updateFormat('runtime',this.value)"></div>
 <div><span class="field-label">Genre / mood</span><input class="f-input" value="${esc(b.genre||'')}" placeholder="e.g. Playful drama" onchange="updateBrief('genre',this.value);setTimeout(renderProjectDetail,0)"></div>
 <div><span class="field-label">Place</span><input class="f-input" value="${esc(p.place==='—'?'':p.place)}" placeholder="Location" onchange="updateMeta('place',this.value)"></div>
-<div><span class="field-label">Green light date</span><input class="f-input" type="date" value="${p.startDate||''}" onchange="updateMeta('startDate',this.value)"></div>
-<div><span class="field-label">First shoot day</span><input class="f-input" type="date" value="${p.first||''}" onchange="updateMeta('first',this.value)"></div>
-<div><span class="field-label">Wrap</span><input class="f-input" type="date" value="${p.wrap||''}" onchange="updateMeta('wrap',this.value)"></div>
-<div><span class="field-label">Delivery</span><input class="f-input" type="date" value="${p.delivery||''}" onchange="updateMeta('delivery',this.value)"></div>
+<div><span class="field-label">Project Start Date</span><input class="f-input" type="date" value="${p.startDate||''}" onchange="updateMeta('startDate',this.value)"></div>
+<div><span class="field-label">First shoot day</span><input class="f-input" type="text" value="${fmtDateShort(p.first)||'Auto from Shot Planner'}" disabled title="Fetched automatically from the earliest scheduled day in Shot Planner"></div>
+<div><span class="field-label">Wrap (last shoot day)</span><input class="f-input" type="text" value="${fmtDateShort(p.wrap)||'Auto from Shot Planner'}" disabled title="Fetched automatically from the latest scheduled day in Shot Planner"></div>
+<div><span class="field-label">Delivery</span><input class="f-input" type="text" value="${fmtDateShort(p.delivery)||'Auto from Revision & Delivery'}" disabled title="Set automatically when the project is marked complete in Revision & Delivery"></div>
 </div>
 </div>
 </div>
@@ -2128,15 +2157,15 @@ setStageHeaderExtras('shotPlanning');
 const unschedHtml = unscheduled.length ? `<div class="box" style="border-color:#fec92d;border-width:2px;">
 <div class="box-title">Unscheduled shots</div>
 ${unscheduled.map((u,ui)=>{
-const tags=[u.size,u.movement].filter(v=>v && v!=='—');
-if(u.ie) tags.push(u.ie);
-if(Number(u.hours)>0) tags.push(fmtHours(u.hours));
+const tags=[u.size,u.movement,u.ie].filter(v=>v && v!=='—');
+const timeTags=[]; if(Number(u.hours)>0) timeTags.push(fmtHours(u.hours));
 return `<div class="sp-shot-row" data-no-lock="1" onclick="openEditUnscheduledShotModal(${ui})">
 <span class="drag-handle">${ICON_GRIP}</span>
 <div class="sp-shot-num">—</div>
 <div class="sp-shot-thumb">${u.image?`<img src="${u.image}">`:'No image'}</div>
 <div class="sp-shot-desc">${esc(u.desc)||'Untitled shot'}</div>
-<div class="sp-shot-tags">${tags.map(t=>`<span class="shot-tag">${esc(t)}</span>`).join('')}</div>
+<div class="sp-shot-camera">${tags.map(t=>`<span class="shot-tag">${esc(t)}</span>`).join('')}</div>
+<div class="sp-shot-time">${timeTags.map(t=>`<span class="shot-tag">${esc(t)}</span>`).join('')}</div>
 </div>`;
 }).join('')}
 </div>` : '';
@@ -2171,16 +2200,17 @@ return `<div class="shot-activity-row ${a.actType}" id="${actAnchorId}" draggabl
 }
 const sh=r.item;
 const anchorId='item-'+di+'-'+si+'-'+r.idx;
-const tags=[sh.size,sh.movement].filter(v=>v && v!=='—');
-if(sh.ie) tags.push(sh.ie);
-const tr=timeRangeText(sh); if(tr) tags.push(tr);
-if(Number(sh.hours)>0) tags.push(fmtHours(sh.hours));
+const cameraTags=[sh.size,sh.movement,sh.ie].filter(v=>v && v!=='—');
+const timeTags=[];
+const tr=timeRangeText(sh); if(tr) timeTags.push(tr);
+if(Number(sh.hours)>0) timeTags.push(fmtHours(sh.hours));
 return `<div class="sp-shot-row" id="${anchorId}" draggable="true" data-no-lock="1" ondragstart="onItemDragStart(event,${di},${si},${r.idx})" ondragend="onItemDragEnd(event)" ondragover="onItemDragOver(event,${di},${si},${r.idx})" ondragleave="onItemDragLeave(event)" ondrop="onItemDrop(event,${di},${si},${r.idx})" onclick="openEditItemModal(${di},${si},${r.idx})">
 <span class="drag-handle" onclick="event.stopPropagation()" title="Drag to reorder">${ICON_GRIP}</span>
 <div class="sp-shot-num">${r.num}</div>
 <div class="sp-shot-thumb">${sh.image?`<img src="${sh.image}">`:'No image'}</div>
 <div class="sp-shot-desc">${esc(sh.desc)||'Untitled shot'}</div>
-<div class="sp-shot-tags">${tags.map(t=>`<span class="shot-tag">${esc(t)}</span>`).join('')}</div>
+<div class="sp-shot-camera">${cameraTags.map(t=>`<span class="shot-tag">${esc(t)}</span>`).join('')}</div>
+<div class="sp-shot-time">${timeTags.length?timeTags.map(t=>`<span class="shot-tag">${esc(t)}</span>`).join(''):'<span class="shot-tag" style="background:none;color:#bbb;padding-left:0;">No time set</span>'}</div>
 </div>`;
 }).join('');
 return sceneRow+itemRows+`<div class="sp-add-item-row" data-no-lock="1" onclick="openAddItemModal(${di},${si})">+ Add</div>`;
@@ -2554,7 +2584,7 @@ closeModal('sceneModal'); closeModal('itemModal');
 renderProjectDetail();
 }
 function deleteSceneFromModal(di,si){
-if(!confirm('Delete this scene and its shots?'))return;
+confirmAction('Delete this scene?','This will also delete all of its shots and activities.',function(){
 const p=currentProject();
 p.days[di].scenes.splice(si,1);
 if(!p.days[di].scenes.length) p.days.splice(di,1);
@@ -2564,6 +2594,7 @@ saveProjectChange(p);
 logActivity('Scene deleted',p.title);
 closeModal('itemModal');
 renderProjectDetail();
+},{confirmLabel:'Delete'});
 }
 /* ---------- ADD / EDIT SHOT · SETUP · BREAK ---------- */
 function kindTilesHtml(prefix,includeScene,includeItems){
@@ -2822,7 +2853,7 @@ closeModal('itemModal');
 renderProjectDetail();
 }
 function deleteUnscheduledShotModal(ui){
-if(!confirm('Delete this shot?'))return;
+confirmAction('Delete this shot?','This cannot be undone.',function(){
 const p=currentProject();
 p.unscheduledShots.splice(ui,1);
 p.sections.shotPlanning.confirmed=false;
@@ -2830,9 +2861,10 @@ saveProjectChange(p);
 logActivity('Shot list updated',p.title);
 closeModal('itemModal');
 renderProjectDetail();
+},{confirmLabel:'Delete'});
 }
 function deleteItemFromModal(di,si,idx){
-if(!confirm('Delete this item?'))return;
+confirmAction('Delete this item?','This cannot be undone.',function(){
 const p=currentProject();
 p.days[di].scenes[si].items.splice(idx,1);
 p.sections.shotPlanning.confirmed=false;
@@ -2840,6 +2872,7 @@ saveProjectChange(p);
 logActivity('Shot list updated',p.title);
 closeModal('itemModal');
 renderProjectDetail();
+},{confirmLabel:'Delete'});
 }
 
 /* ---------- RESOURCE PLANNER ---------- */
@@ -3076,14 +3109,16 @@ p.sections.delivery.initialReview.locked=!p.sections.delivery.initialReview.lock
 saveProjectChange(p); renderProjectDetail();
 }
 function markProjectComplete(){
-if(!confirm('Mark this project as complete? It will move to Completed Projects.')) return;
+confirmAction('Mark this project as complete?','It will move to Completed Projects.',function(){
 const p=currentProject();
 p.phaseLog=p.phaseLog||{};
 p.phaseLog.delivered=todayISO();
 p.sections.delivery.confirmed=true;
+syncComputedDates(p);
 saveState();
 logActivity('Project delivered',p.title);
 renderProjectDetail(); renderOverview(); renderCompleted();
+});
 }
 
 /* ---------- INIT ---------- */
