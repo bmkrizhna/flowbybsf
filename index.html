@@ -401,8 +401,9 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .tr-status-icon.active.completed{background:var(--accent-bg);color:var(--accent-text)}
 .tr-status-icon.active.postponed{background:#1a1a1a;color:#fff}
 .tr-status-icon.active.cancelled{background:#1a1a1a;color:#fff}
-.tr-check-path{stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset .3s ease}
-.tr-status-icon.active.completed .tr-check-path,.tr-status-icon.drawing .tr-check-path{stroke-dashoffset:0}
+.tr-check-path{stroke-dasharray:24;stroke-dashoffset:0;transition:stroke-dashoffset .3s ease}
+.tr-status-icon.drawing .tr-check-path{stroke-dashoffset:24;animation:tr-draw .3s ease forwards}
+@keyframes tr-draw{0%{stroke-dashoffset:24}100%{stroke-dashoffset:0}}
 @keyframes tr-pop{0%{transform:scale(1)}45%{transform:scale(1.25)}100%{transform:scale(1)}}
 .tr-status-icon.just-set{animation:tr-pop .3s ease}
 /* ---- Shot Planner toolbar ---- */
@@ -726,7 +727,7 @@ setTimeout(dismissIntro, 4500);
 
 <div id="resources" class="page">
 <div class="page-head-row resources-head-row" id="resourcesHeadRow">
-<h1 class="page-heading compact" id="resourcesHeading">Resources</h1>
+<h1 class="page-heading compact" id="resourcesHeading">Manage Resources</h1>
 <div class="search-filter-row" id="resourcesSearchRow">
 <div class="search-filter-box wide">
 <input type="text" id="resourcesSearchInput" placeholder="Search crew or equipment" oninput="setResourcesSearch(this.value)">
@@ -1406,13 +1407,13 @@ const headRect=headRow.getBoundingClientRect();
    last-row match. */
 if(headRect.width===0 && headRect.height===0) return;
 const rows=document.querySelectorAll('#resourceList .crew-row');
-if(!rows.length){ heading.textContent='Resources'; return; }
+if(!rows.length){ heading.textContent='Manage Resources'; return; }
 const threshold=headRect.bottom;
 let current=null;
 for(const row of rows){
 if(row.getBoundingClientRect().top<=threshold) current=row; else break;
 }
-heading.textContent = current ? `Resources / ${current.dataset.type} / ${current.dataset.cat||'Uncategorised'}` : 'Resources';
+heading.textContent = current ? `Manage Resources / ${current.dataset.type} / ${current.dataset.cat||'Uncategorised'}` : 'Manage Resources';
 }
 let resourcesScrollTicking=false;
 window.addEventListener('scroll',()=>{
@@ -2081,6 +2082,7 @@ function renderBriefTab(p){
 const b=p.brief;
 setStageHeaderExtras('brief');
 return `<div id="pdBody">
+<div class="page-head-row"><h1 class="page-heading compact">Project Brief</h1></div>
 <div class="brief-top-grid">
 <div class="box brief-thumb-box">
 <div class="box-title">Project thumbnail</div>
@@ -2194,6 +2196,7 @@ return `<div class="sp-shot-row" data-no-lock="1" onclick="openEditUnscheduledSh
 </div>` : '';
 const body = shotPlannerView==='list' ? renderShotPlannerListBody(days) : renderShotPlannerStoryboardBody(days);
 return `<div id="pdBody">
+<div class="page-head-row"><h1 class="page-heading compact">Short Planner</h1></div>
 ${unschedHtml}${body}
 </div>`;
 }
@@ -3112,10 +3115,8 @@ const hasScenes=days.some(d=>(d.scenes||[]).length>0);
 const grid=hasScenes?scheduleGridHtml(days,true):'';
 setStageHeaderExtrasAuto('shootTracking');
 return `<div id="pdBody">
-<div class="box">
-<div class="box-title">Production Tracker</div>
-${grid || '<div style="font-size:13px;color:#999;padding:20px 0;">No shots scheduled yet — add days and shots in Shot Planner.</div>'}
-</div>
+<div class="page-head-row"><h1 class="page-heading compact">Production Tracker</h1></div>
+${grid || '<div class="box" style="font-size:13px;color:#999;padding:20px 0;">No shots scheduled yet — add days and shots in Shot Planner.</div>'}
 </div>`;
 }
 function allShotsResolved(p){
@@ -3163,6 +3164,7 @@ const irRows=(ir.versions||[]).map(v=>`<div class="del-version-row"><span data-l
 const fmRows=(fm.versions||[]).map(v=>`<div class="del-version-row"><span data-label="Ver.">v${v.num}</span><span data-label="Title">${esc(v.title)}</span><span data-label="Link">${esc(v.link)}</span><span data-label="Date">${fmtDateShort(v.date)}</span><span data-label="Duration">${phaseDurationLabel(p,v.date)}</span></div>`).join('');
 setStageHeaderExtrasAuto('delivery');
 return `<div id="pdBody">
+<div class="page-head-row"><h1 class="page-heading compact">Editing &amp; Review</h1></div>
 <div class="box">
 <div class="box-title">Segment 01 · Initial Review</div>
 ${headerRow}${irRows||'<div style="font-size:13px;color:#999;padding:8px 0;">No versions logged yet.</div>'}
