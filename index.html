@@ -272,6 +272,11 @@ textarea.f-input{min-height:50px;overflow:hidden}
 select.f-input{padding:9px 30px 9px 12px}
 input:disabled.f-input,textarea:disabled.f-input{background:#fafafa;color:#444;border-color:#eee}
 select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
+.brief-top-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch}
+.brief-thumb-box,.brief-details-box{margin-bottom:0;display:flex;flex-direction:column}
+.brief-thumb-box .thumb-box{flex:1;height:auto;min-height:220px}
+.form-grid.cols-2{grid-template-columns:1fr 1fr}
+.worksheet-area{min-height:360px;resize:vertical}
 .thumb-box{border:1px dashed #ccc;border-radius:14px;height:240px;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;color:#999;font-size:13px;background:#fafafa;text-align:center}
 .thumb-box:hover{border-color:#bbb}
 .thumb-preview{width:100%;height:100%;object-fit:cover}
@@ -328,7 +333,18 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .hours-quick{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px}
 .hours-quick button{border:none;background:#f0f0f0;border-radius:999px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer}
 .hours-quick button:hover{background:#e6e6e6}
-.end-pill{margin-left:auto;font-size:13px;font-weight:600;color:#1a1a1a;background:var(--accent-bg);padding:7px 14px;border-radius:999px}
+.end-pill{margin-left:auto;font-size:13px;font-weight:600;color:#1a1a1a;background:var(--accent-bg);padding:7px 14px;border-radius:999px;white-space:nowrap}
+.form-grid.cols-3{grid-template-columns:1fr 1fr 1fr}
+.form-grid.cols-num-title{grid-template-columns:140px 1fr}
+.form-grid.cols-img-desc{grid-template-columns:200px 1fr;align-items:stretch}
+.form-grid.cols-img-desc .shot-ref-box{margin:0}
+.form-grid.cols-img-desc textarea.f-input{min-height:100%;height:100%}
+.time-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.time-row-start{flex:1 1 140px;min-width:130px;margin-bottom:0}
+.time-row-start input{margin-bottom:0}
+.time-row-hours{flex:0 1 90px;min-width:70px}
+.time-row-btn{border:none;background:#f0f0f0;border-radius:999px;padding:9px 14px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+.time-row-btn:hover{background:#e6e6e6}
 .sp-add-details-row{display:flex;align-items:center;justify-content:center;gap:6px;padding:16px;border:1.5px dashed #ddd;border-radius:10px;margin-top:10px;color:#999;font-size:13px;font-weight:600;cursor:pointer;transition:border-color .15s,color .15s,background .15s}
 .sp-add-details-row:hover{border-color:#bbb;color:#1a1a1a;background:#fafafa}
 /* ---- Shot Planner: Activity (Break/Setup/Shifting) banner rows ---- */
@@ -533,6 +549,9 @@ h1{font-size:32px}
 .resources-main{grid-template-columns:minmax(0,1fr)}
 .rp-grid{grid-template-columns:minmax(0,1fr)}
 .form-grid{grid-template-columns:minmax(0,1fr)}
+.form-grid.cols-num-title,.form-grid.cols-img-desc,.form-grid.cols-3{grid-template-columns:minmax(0,1fr)}
+.form-grid.cols-img-desc .shot-ref-box{height:160px}
+.time-row-start,.time-row-hours{flex:1 1 100%}
 .stat-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}
 .usage-sidebar{position:static;top:auto}
 .resources-main>*,.rp-grid>*{min-width:0}
@@ -550,7 +569,9 @@ h1{font-size:32px}
 .sp-shot-row .drag-handle{grid-area:grip}
 .sp-shot-row .sp-shot-num{grid-area:num}
 .sp-shot-row .sp-shot-thumb{grid-area:thumb;width:100%;max-width:100%;aspect-ratio:16/9}
+.brief-top-grid{grid-template-columns:1fr}
 .thumb-box{height:150px}
+.worksheet-area{min-height:200px}
 .sp-shot-row .sp-shot-desc{grid-area:desc}
 .sp-shot-row .sp-shot-tags{grid-area:tags;flex-direction:row;align-items:flex-start;flex-wrap:wrap}
 .cat-row{flex-wrap:wrap}
@@ -929,7 +950,7 @@ completed:[
 ]
 };
 }
-function defaultBrief(){return {logline:'',synopsis:'',creativeBrief:'',treatment:'',visualDirection:'',research:'',tone:'',locations:'',outputRequirements:''};}
+function defaultBrief(){return {logline:'',synopsis:'',creativeBrief:'',treatment:'',visualDirection:'',research:'',tone:'',locations:'',outputRequirements:'',genre:'',worksheet:'',script:''};}
 function mkProject(id,title,client,format,place,first,wrap,delivery,brief,days,refs,team,seedConfirmed){
 return {id,title,client,format,place,first,wrap,delivery,thumbnail:'',startDate:first||'',
 phaseLog:{brief:null,shotPlanning:null,budgeting:null,shootTracking:null,delivery:null,delivered:null},
@@ -1854,15 +1875,38 @@ return `
 }
 function printStage(key){
 const p=currentProject();
-let bodyHtml;
-if(key==='budgeting'){
-bodyHtml=buildBudgetingPrintHtml(p);
-} else {
 const bodyEl=document.getElementById('pdBody');
 if(!bodyEl) return;
 const node=bodyEl.cloneNode(true);
+
+/* Strip filter/search headers and anything purely interactive — the rest keeps
+   its real site classes (box, lib-row, sp-shot-row, shot-tag, rp-row, chips…)
+   so the printed page is a frozen snapshot of the live design, not a re-skin. */
+node.querySelectorAll('#budgetHeadRow,.budget-head-row,.resources-head-row,.sp-add-row,.sp-add-item-row,.shot-res-add-btn,.res-picker,.drag-handle,.drag-handle-spacer').forEach(el=>el.remove());
+
+if(key==='budgeting'){
+node.querySelectorAll('.rp-row:not(.selected)').forEach(el=>el.remove());
+node.querySelectorAll('.rp-calc').forEach(calc=>{
+const vals=[...calc.querySelectorAll('input,select')].map(i=>i.tagName==='SELECT'?(i.options[i.selectedIndex]?i.options[i.selectedIndex].text:''):i.value);
+const [rate,basis,qty,total]=vals;
+const div=document.createElement('div'); div.className='rp-calc-print';
+div.innerHTML=`<span>${fmt(rate)} ${esc(basis)} × ${esc(qty)}</span><span class="rp-calc-print-total">${fmt(total)}</span>`;
+calc.replaceWith(div);
+});
+const totals=resourceTotals(p);
+node.insertAdjacentHTML('beforeend',`<div class="box"><div class="box-title">Totals</div>
+<div class="lib-row rp-grand-sub"><span>Crew total</span><span>${fmt(totals.crewTotal)}</span></div>
+<div class="lib-row rp-grand-sub"><span>Equipment total</span><span>${fmt(totals.eqTotal)}</span></div>
+<div class="lib-row rp-grand-sub"><span>Production expenses</span><span>${fmt(totals.othersTotal)}</span></div>
+<div class="lib-row rp-grand-total"><span>Grand total</span><span>${fmt(totals.total)}</span></div>
+</div>`);
+}
+
+/* Remaining form controls (brief fields, scene/shot edit fields that happen to be
+   on-page, misc-expense inputs) become static text, keeping their field-box/
+   field-label wrapper so spacing and type stay identical to the live page. */
 node.querySelectorAll('input,textarea').forEach(el=>{
-if(el.type==='file') { el.remove(); return; }
+if(el.type==='file'){ el.remove(); return; }
 const div=document.createElement('div'); div.className='print-value'; div.textContent=el.value||'—'; el.replaceWith(div);
 });
 node.querySelectorAll('select').forEach(el=>{
@@ -1870,35 +1914,43 @@ const div=document.createElement('div'); div.className='print-value';
 div.textContent = el.options[el.selectedIndex] ? el.options[el.selectedIndex].text : '';
 el.replaceWith(div);
 });
-node.querySelectorAll('button,.sp-add-row,.sp-add-item-row').forEach(el=>el.remove());
-bodyHtml=node.innerHTML;
-}
+node.querySelectorAll('button').forEach(el=>el.remove());
+node.querySelectorAll('.rp-qty-dec,.shot-ref-actions,.scene-hint').forEach(el=>el.remove());
+const bodyHtml=node.innerHTML;
+
+const siteStyleEl=document.querySelector('style');
+const siteCss = siteStyleEl ? siteStyleEl.textContent : '';
+
 const w=window.open('','_blank');
 if(!w){ alert('Allow pop-ups to print this stage.'); return; }
-w.document.write(`<!DOCTYPE html><html><head><title>${p.title} — ${STAGE_NAMES[key]}</title><meta charset="UTF-8"><style>
-body{font-family:'Bevellier',sans-serif;padding:48px;color:#111;max-width:760px;margin:0 auto;}
-h1{font-size:20px;font-weight:400;margin-bottom:4px;}
-.meta{font-size:13px;color:#666;letter-spacing:0.5px;margin-bottom:28px;font-family:'Satoshi',sans-serif;}
-.field-label{font-size:11px;color:#999;font-family:'Satoshi',sans-serif;letter-spacing:0.5px;font-weight:700;display:block;margin-bottom:4px;}
-.print-value{border-bottom:1px solid #ddd;padding:6px 0 10px;margin-bottom:12px;font-family:'Satoshi',Arial,sans-serif;font-size:14px;white-space:pre-wrap;}
-.box{margin-bottom:22px;}
-.box-title{font-family:'Bevellier',sans-serif;font-size:16px;margin-bottom:10px;}
-.box-label{font-size:11px;color:#999;font-family:'Satoshi',sans-serif;letter-spacing:0.5px;font-weight:700;}
-.rb-cat-block{margin-bottom:10px;}
-.rb-cat-title{font-family:'Satoshi',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.5px;color:#999;margin-bottom:2px;text-transform:uppercase;}
-.lib-row{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;font-family:'Satoshi',Arial,sans-serif;}
-.rb-total-row{display:flex;justify-content:space-between;padding:10px 0 0;border-top:1px solid #ddd;margin-top:6px;font-weight:700;font-size:13px;font-family:'Satoshi',Arial,sans-serif;}
-.rb-grand-row{display:flex;justify-content:space-between;padding:16px 0;border-top:2px solid #111;margin-top:10px;font-weight:700;font-size:17px;}
-footer{margin-top:50px;padding-top:14px;border-top:1px solid #333;font-size:13px;color:#666;font-family:'Satoshi',Arial,sans-serif;display:flex;justify-content:space-between;}
-</style></head><body>
-<h1>${p.title} — ${STAGE_NAMES[key]}</h1>
-<div class="meta">${p.client} · ${p.format} · ${p.place}</div>
-${bodyHtml}
-<footer><span>Archive Film Labs · Big Short Films</span><span>Printed ${new Date().toLocaleDateString('en-GB')}</span></footer>
+w.document.write(`<!DOCTYPE html><html><head><title>${p.title} — ${STAGE_NAMES[key]}</title><meta charset="UTF-8">
+<style>${siteCss}</style>
+<style>
+@media print{ body{-webkit-print-color-adjust:exact;print-color-adjust:exact;} }
+body{background:#fff;padding:40px 48px 60px;max-width:900px;margin:0 auto;}
+.print-header{display:flex;align-items:baseline;justify-content:space-between;gap:16px;border-bottom:1px solid #eee;padding-bottom:16px;margin-bottom:26px;}
+.print-header h1{font-size:22px;font-weight:700;margin:0 0 4px;}
+.print-header .meta{font-size:13px;color:#999;}
+.print-header .stage-tag{font-size:12px;font-weight:700;letter-spacing:.4px;color:var(--accent-text);background:var(--accent-bg);padding:5px 12px;border-radius:999px;white-space:nowrap;}
+.print-value{font-size:14px;padding:10px 14px;background:#f6f6f6;border-radius:12px;white-space:pre-wrap;min-height:18px;}
+.rp-calc-print{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13px;font-weight:600;color:#1a1a1a;}
+.rp-calc-print-total{font-weight:700;}
+.rp-grand-sub{font-weight:600;}
+.rp-grand-total{font-weight:800;font-size:16px;border-top:2px solid #1a1a1a;padding-top:12px;margin-top:6px;}
+.sidebar,.topbar,.header-hint{display:none !important;}
+footer.print-footer{margin-top:48px;padding-top:14px;border-top:1px solid #333;font-size:12px;color:#888;display:flex;justify-content:space-between;}
+</style>
+</head><body>
+<div class="print-header">
+<div><h1>${esc(p.title)}</h1><div class="meta">${esc(p.client)} · ${esc(p.format)} · ${esc(p.place)}</div></div>
+<span class="stage-tag">${STAGE_NAMES[key]}</span>
+</div>
+<div id="pdBody">${bodyHtml}</div>
+<footer class="print-footer"><span>Archive Film Labs · Big Short Films</span><span>Printed ${new Date().toLocaleDateString('en-GB')}</span></footer>
 </body></html>`);
 w.document.close();
 w.focus();
-setTimeout(()=>w.print(),300);
+setTimeout(()=>w.print(),400);
 }
 function generateMasterReport(){
 const p=currentProject();
@@ -1964,10 +2016,18 @@ function renderBriefTab(p){
 const b=p.brief;
 setStageHeaderExtras('brief');
 return `<div id="pdBody">
-<div class="box">
+<div class="brief-top-grid">
+<div class="box brief-thumb-box">
+<div class="box-title">Project thumbnail</div>
+<div class="thumb-box" onclick="document.getElementById('thumbInput').click()">
+${p.thumbnail?`<img src="${p.thumbnail}" class="thumb-preview">`:'Click to upload a thumbnail image'}
+</div>
+<input type="file" accept="image/*" id="thumbInput" style="display:none;" onchange="handleThumbnailUpload(event)">
+</div>
+<div class="box brief-details-box">
 <div class="box-title">Project details</div>
-<div class="field-box"><span class="field-label">Project name</span><input class="f-input" id="pdTitleInput" value="${esc(p.title)}" placeholder="Project title" onchange="updateMeta('title',this.value.trim()||'Untitled project')"></div>
-<div class="form-grid">
+<div class="form-grid cols-2">
+<div><span class="field-label">Project name</span><input class="f-input" id="pdTitleInput" value="${esc(p.title)}" placeholder="Project title" onchange="updateMeta('title',this.value.trim()||'Untitled project')"></div>
 <div><span class="field-label">Client</span><input class="f-input" value="${esc(p.client==='—'?'':p.client)}" placeholder="Client" onchange="updateMeta('client',this.value)"></div>
 <div><span class="field-label">Type</span><select class="f-input" onchange="updateFormat('type',this.value)">${typeOptionsHtml(splitFormat(p.format).type)}</select></div>
 <div><span class="field-label">Run time (min)</span><input class="f-input" type="number" min="0" value="${esc((splitFormat(p.format).runtime.match(/\d+/)||[''])[0])}" placeholder="e.g. 10" onchange="updateFormat('runtime',this.value)"></div>
@@ -1979,34 +2039,14 @@ return `<div id="pdBody">
 <div><span class="field-label">Delivery</span><input class="f-input" type="date" value="${p.delivery||''}" onchange="updateMeta('delivery',this.value)"></div>
 </div>
 </div>
-<div class="box">
-<div class="box-title">Project thumbnail</div>
-<div class="thumb-box" onclick="document.getElementById('thumbInput').click()">
-${p.thumbnail?`<img src="${p.thumbnail}" class="thumb-preview">`:'Click to upload a thumbnail image'}
-</div>
-<input type="file" accept="image/*" id="thumbInput" style="display:none;" onchange="handleThumbnailUpload(event)">
 </div>
 <div class="box">
-<div class="box-title">Narrative</div>
-<div class="field-box"><span class="field-label">Logline</span><textarea class="f-input" onchange="updateBrief('logline',this.value)">${b.logline}</textarea></div>
-<div class="field-box"><span class="field-label">Synopsis</span><textarea class="f-input" style="min-height:70px;" onchange="updateBrief('synopsis',this.value)">${b.synopsis}</textarea></div>
-<div class="field-box"><span class="field-label">Creative brief</span><textarea class="f-input" style="min-height:60px;" onchange="updateBrief('creativeBrief',this.value)">${b.creativeBrief}</textarea></div>
-<div class="field-box"><span class="field-label">Treatment</span><textarea class="f-input" style="min-height:60px;" onchange="updateBrief('treatment',this.value)">${b.treatment}</textarea></div>
-<div class="field-box"><span class="field-label">Visual direction</span><textarea class="f-input" onchange="updateBrief('visualDirection',this.value)">${b.visualDirection}</textarea></div>
-<div class="field-box"><span class="field-label">Tone</span><textarea class="f-input" onchange="updateBrief('tone',this.value)">${b.tone}</textarea></div>
-<div class="field-box"><span class="field-label">Locations</span><textarea class="f-input" onchange="updateBrief('locations',this.value)">${b.locations}</textarea></div>
-<div class="field-box"><span class="field-label">Research & references</span><textarea class="f-input" onchange="updateBrief('research',this.value)">${b.research}</textarea></div>
-<div class="field-box" style="margin-bottom:0;"><span class="field-label">Output requirements</span><textarea class="f-input" onchange="updateBrief('outputRequirements',this.value)">${b.outputRequirements}</textarea></div>
+<div class="box-title">Worksheet</div>
+<textarea class="f-input worksheet-area" placeholder="Write your ideas and thoughts here — logline, tone, references, anything." onchange="updateBrief('worksheet',this.value)">${b.worksheet||''}</textarea>
 </div>
 <div class="box">
-<div class="box-label">Concept</div><div class="box-title">Before green light</div>
-${(p.conceptTasks||[]).map((t)=>`<div class="log-line">${t}</div>`).join('')||'<div style="font-size:13px;color:#999;padding:8px 0;">Nothing here yet — add the first task below.</div>'}
-<div style="display:flex;gap:8px;margin-top:8px;"><input class="f-input" id="conceptTaskInput" placeholder="Add a task"><button class="btn-ghost" onclick="addConceptTask()">Add</button></div>
-</div>
-<div class="box">
-<div class="box-label">Inspiration</div><div class="box-title">References</div>
-${(p.refs||[]).map(r=>`<div class="lib-row"><a href="${r.url}" target="_blank" style="color:#1a1a1a;text-decoration:underline;">${esc(r.title)}</a></div>`).join('')}
-<div style="display:flex;gap:8px;margin-top:10px;"><input class="f-input" id="refTitleInput" placeholder="Title"><input class="f-input" id="refUrlInput" placeholder="https://..."><button class="btn-ghost" onclick="addRef()">Add</button></div>
+<div class="box-title">Script</div>
+<textarea class="f-input worksheet-area" placeholder="Paste or write the script here." onchange="updateBrief('script',this.value)">${b.script||''}</textarea>
 </div>
 </div>`;
 }
@@ -2358,15 +2398,18 @@ const date=isEdit?(sc.date||''):slot.date;
 const time=isEdit?(sc.time||''):slot.time;
 const num=isEdit?sc.num:previewSceneNum(p,date);
 return `<button class="modal-close" onclick="closeModal('${isEdit?'itemModal':'sceneModal'}')">×</button>
-<div class="modal-icon-header"><div class="modal-icon-badge">${ICON_SCENE}</div><div class="modal-title">${isEdit?'Edit Scene':'Add Scene'}</div></div>
-<div class="field-box"><span class="field-label">Scene number</span><div class="auto-pill" id="scNum">Scene ${num} <span>Auto</span></div></div>
-<div class="field-box"><span class="field-label">Scene title *</span><input class="f-input" id="scTitle" list="scTitleList" autocomplete="off" value="${esc(isEdit?sc.title:'')}" placeholder="Type a new title or pick an existing scene" oninput="onSceneTitleInput()" onchange="onSceneTitlePicked()"><datalist id="scTitleList">${titles.map(t=>`<option value="${esc(t)}">`).join('')}</datalist><div class="scene-hint" id="scTitleHint"></div></div>
-<div class="form-grid">
+<div class="modal-title">${isEdit?'Edit Scene':'Add Scene'}</div>
+<div class="form-grid cols-num-title">
+<div><span class="field-label">Scene number</span><div class="auto-pill" id="scNum">Scene ${num}</div></div>
+<div><span class="field-label">Scene title *</span><input class="f-input" id="scTitle" list="scTitleList" autocomplete="off" value="${esc(isEdit?sc.title:'')}" placeholder="Type a new title or pick an existing scene" oninput="onSceneTitleInput()" onchange="onSceneTitlePicked()"><datalist id="scTitleList">${titles.map(t=>`<option value="${esc(t)}">`).join('')}</datalist></div>
+</div>
+<div class="scene-hint" id="scTitleHint"></div>
+<div class="form-grid cols-3">
 <div><span class="field-label">Date *</span><input class="f-input" type="date" id="scDate" value="${date}" onchange="onSceneDateChange()"></div>
 <div><span class="field-label">Start time</span><div class="time-input-wrap">${ICON_CLOCK}<input class="f-input" type="time" id="scTime" value="${time}"></div></div>
+<div><span class="field-label">Location</span><input class="f-input" id="scLocation" list="scLocList" autocomplete="off" value="${esc(isEdit?sc.location:'')}" placeholder="e.g. Drain mouth"><datalist id="scLocList">${locationOptionsHtml(p)}</datalist></div>
 </div>
 ${!isEdit?`<div class="scene-hint" id="scSlotNote">${esc(slot.note)}. Change the date to add this scene to an existing day.</div>`:''}
-<div class="field-box"><span class="field-label">Location</span><input class="f-input" id="scLocation" list="scLocList" autocomplete="off" value="${esc(isEdit?sc.location:'')}" placeholder="e.g. Drain mouth"><datalist id="scLocList">${locationOptionsHtml(p)}</datalist></div>
 <div class="modal-section-title">Resources</div>
 <div class="field-box"><div class="shot-res-chips" id="scResChips"></div></div>
 <div class="modal-footer-row" style="margin-top:16px;">
@@ -2467,9 +2510,9 @@ return `<div class="act-type-tiles" id="${prefix}Kinds">${kinds.map(([k,l,ic])=>
 }
 function shotFieldsHtml(prefix,sh){
 sh=sh||{};
-return `<div class="field-box"><span class="field-label">Description *</span><textarea class="f-input" id="${prefix}Desc" placeholder="Shot description">${esc(sh.desc)}</textarea></div>
-<div class="modal-section-title">Reference</div>
-<div class="field-box"><div class="shot-ref-box" onclick="$id('${prefix}Image').click()">
+return `<div class="modal-section-title" style="margin-top:0;">Reference &amp; description</div>
+<div class="form-grid cols-img-desc">
+<div class="shot-ref-box" onclick="$id('${prefix}Image').click()">
 <span id="${prefix}ThumbEmpty" style="display:${sh.image?'none':''};">No image</span>
 <img id="${prefix}ThumbImg" style="display:${sh.image?'block':'none'};" ${sh.image?`src="${sh.image}"`:''}>
 <span class="shot-ref-ratio">16:9</span>
@@ -2478,13 +2521,15 @@ return `<div class="field-box"><span class="field-label">Description *</span><te
 <button type="button" title="Remove image" onclick="event.stopPropagation();clearItemImage('${prefix}')">${ICON_TRASH}</button>
 </div>
 <input type="file" accept="image/*" id="${prefix}Image" style="display:none;" onchange="handleItemImage('${prefix}',event)">
-</div></div>
+</div>
+<textarea class="f-input" id="${prefix}Desc" placeholder="Shot description *">${esc(sh.desc)}</textarea>
+</div>
 <div class="modal-section-title">Camera info</div>
-<div class="form-grid">
+<div class="form-grid cols-3">
 <div><span class="field-label">Shot size</span><select class="f-input" id="${prefix}Size">${SHOT_SIZES.map(s=>`<option ${sh.size===s?'selected':''}>${s}</option>`).join('')}</select></div>
 <div><span class="field-label">Camera movement</span><select class="f-input" id="${prefix}Movement">${SHOT_MOVES.map(s=>`<option ${sh.movement===s?'selected':''}>${s}</option>`).join('')}</select></div>
-</div>
-<div class="field-box" style="margin-top:12px;"><span class="field-label">INT / EXT</span><select class="f-input" id="${prefix}IE"><option value="EXT" ${sh.ie!=='INT'?'selected':''}>EXT</option><option value="INT" ${sh.ie==='INT'?'selected':''}>INT</option></select></div>`;
+<div><span class="field-label">INT / EXT</span><select class="f-input" id="${prefix}IE"><option value="EXT" ${sh.ie!=='INT'?'selected':''}>EXT</option><option value="INT" ${sh.ie==='INT'?'selected':''}>INT</option></select></div>
+</div>`;
 }
 function handleItemImage(prefix,ev){
 const file=ev.target.files[0]; if(!file) return;
@@ -2505,11 +2550,13 @@ const fi=$id(prefix+'Image'); if(fi) fi.value='';
 function timeBlockHtml(prefix,start,hours){
 return `<div id="${prefix}TimeBlock">
 <div class="modal-section-title">Time</div>
-<div class="form-grid">
-<div><span class="field-label">Start time</span><div class="time-input-wrap">${ICON_CLOCK}<input class="f-input" type="time" id="${prefix}Start" value="${start||''}" oninput="onItemStartEdited('${prefix}')"></div></div>
-<div><span class="field-label">Estimated time (hours)</span><input class="f-input" type="number" min="0" step="0.25" id="${prefix}Hours" value="${hours||''}" placeholder="e.g. 1.5" oninput="updateItemEnd('${prefix}')"></div>
+<div class="time-row">
+<div class="time-input-wrap time-row-start">${ICON_CLOCK}<input class="f-input" type="time" id="${prefix}Start" value="${start||''}" oninput="onItemStartEdited('${prefix}')"></div>
+<input class="f-input time-row-hours" type="number" min="0" step="0.25" id="${prefix}Hours" value="${hours||''}" placeholder="Hours" oninput="updateItemEnd('${prefix}')">
+<button type="button" class="time-row-btn" onclick="bumpHours('${prefix}',0.5)">+ 30 min</button>
+<button type="button" class="time-row-btn" onclick="bumpHours('${prefix}',1)">+ 1 hour</button>
+<span class="end-pill" id="${prefix}End">Ends —</span>
 </div>
-<div class="hours-quick"><button type="button" onclick="bumpHours('${prefix}',0.5)">+ 30 min</button><button type="button" onclick="bumpHours('${prefix}',1)">+ 1 hour</button><span class="end-pill" id="${prefix}End">Ends —</span></div>
 </div>`;
 }
 function breakFieldsHtml(prefix,a){
@@ -2535,7 +2582,7 @@ ITEMFORM.kind=o.kind; ITEMFORM.image=(o.kind==='shot'&&it.image)||''; ITEMFORM.b
 const isEdit=o.mode==='edit';
 const title = {shot:'Shot',setup:'Setup',break:'Break'};
 return `<button class="modal-close" onclick="closeModal('${isEdit?'itemModal':'sceneModal'}')">×</button>
-<div class="modal-icon-header"><div class="modal-icon-badge" id="${prefix}Badge">${ICON_CAMERA}</div><div class="modal-title" id="${prefix}Title">${isEdit?'Edit':'Add'} Shot / Activity</div></div>
+<div class="modal-title" id="${prefix}Title">${isEdit?'Edit':'Add'} Shot / Activity</div>
 <div class="field-box"><span class="field-label">Scene</span><select class="f-input" id="${prefix}Scene" onchange="onItemSceneChange('${prefix}')">${sceneSelectOptions(p,o.selKey)}</select></div>
 ${kindTilesHtml(prefix)}
 <div id="${prefix}FShot" style="margin-top:16px;">${shotFieldsHtml(prefix,o.kind==='shot'?it:{})}</div>
@@ -2561,7 +2608,7 @@ dw.style.display=gap?'':'none';
 $id(prefix+'BreakDaysLabel').textContent = bk==='schedule' ? 'Days off (equipment rent paused)' : 'Days until next shoot day (1 = next day)';
 $id(prefix+'BreakHint').textContent = bk==='schedule' ? 'Resource rent is not calculated between these days. The next scene starts after the break.' : 'The shoot day ends here and the next scene is scheduled automatically. Equipment stays on hire.';
 }
-$id(prefix+'Badge').innerHTML = k==='shot'?ICON_CAMERA:k==='setup'?ICON_GEAR:ICON_COFFEE;
+const badgeEl=$id(prefix+'Badge'); if(badgeEl) badgeEl.innerHTML = k==='shot'?ICON_CAMERA:k==='setup'?ICON_GEAR:ICON_COFFEE;
 }
 function setItemKind(prefix,k){ ITEMFORM.kind=k; applyItemKindUI(prefix); updateItemEnd(prefix); }
 function setBreakKind(prefix,v){ ITEMFORM.breakKind=v; applyItemKindUI(prefix); updateItemEnd(prefix); }
@@ -2653,7 +2700,7 @@ function openEditUnscheduledShotModal(ui){
 const p=currentProject(); const u=p.unscheduledShots[ui];
 ITEMFORM={kind:'shot',image:u.image||'',breakKind:'meal',startAuto:false};
 $id('itemModalBox').innerHTML=`<button class="modal-close" onclick="closeModal('itemModal')">×</button>
-<div class="modal-icon-header"><div class="modal-icon-badge">${ICON_CAMERA}</div><div class="modal-title">Edit Shot</div></div>
+<div class="modal-title">Edit Shot</div>
 ${shotFieldsHtml('eu',u)}
 <div class="field-box" style="margin-top:12px;"><span class="field-label">Estimated time (hours)</span><input class="f-input" type="number" min="0" step="0.25" id="euHours" value="${u.hours||''}" placeholder="e.g. 1.5"></div>
 <div class="modal-section-title">Scheduling</div>
