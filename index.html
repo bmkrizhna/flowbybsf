@@ -369,10 +369,9 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .modal-section-title:first-of-type{margin-top:0}
 .modal-footer-row{display:flex;gap:10px;margin-top:8px}
 .modal-footer-row .btn-primary{flex:1}
-.shot-ref-box{width:100%;aspect-ratio:16/9;border-radius:10px;background:#111;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#999;font-size:12px;cursor:pointer}
+.shot-ref-box{width:100%;aspect-ratio:16/9;border-radius:10px;background:#fff;border:1.5px dashed #ddd;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#999;font-size:12px;cursor:pointer}
 .shot-ref-box img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.shot-ref-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#777;font-size:12px}
-.shot-ref-empty svg{width:26px;height:26px;color:#555}
+.shot-ref-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#999;font-size:12px}
 .shot-ref-actions{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:8px}
 .shot-ref-actions button{width:28px;height:28px;border-radius:50%;border:none;background:#fff;color:#1a1a1a;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.25)}
 .shot-ref-actions svg{width:13px;height:13px}
@@ -2259,7 +2258,7 @@ const statusArea = trackerMode
 : `<div class="sched-status-dot ${isDone?'done':''}">${isDone?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 9 17 20 6"/></svg>':''}</div>`;
 return `<div class="sched-card shot" onclick="focusItemInList('${anchorId}')">
 <div class="sched-top-row"><span class="sched-badge">${esc(r.num)}</span>${tag?`<span class="sched-tag">${esc(tag)}</span>`:'<span></span>'}</div>
-<div class="sched-icon-wrap">${sh.image?`<img src="${sh.image}">`:ICON_CAMERA}</div>
+<div class="sched-icon-wrap">${sh.image?`<img src="${sh.image}">`:ICON_SCENE}</div>
 <div class="sched-desc">${esc(sh.desc)||'Untitled shot'}</div>
 ${statusArea}
 </div>`;
@@ -2635,7 +2634,7 @@ function shotFieldsHtml(prefix,sh){
 sh=sh||{};
 return `<div class="form-grid cols-img-desc" style="margin-top:0;">
 <div class="shot-ref-box" onclick="$id('${prefix}Image').click()">
-<div id="${prefix}ThumbEmpty" class="shot-ref-empty" style="display:${sh.image?'none':'flex'};">${ICON_SCENE}<span>Click to add image</span></div>
+<div id="${prefix}ThumbEmpty" class="shot-ref-empty" style="display:${sh.image?'none':'flex'};"><span>Click to add image</span></div>
 <img id="${prefix}ThumbImg" style="display:${sh.image?'block':'none'};" ${sh.image?`src="${sh.image}"`:''}>
 <div class="shot-ref-actions" id="${prefix}ThumbActions" style="display:${sh.image?'flex':'none'};">
 <button type="button" title="Remove image" onclick="event.stopPropagation();clearItemImage('${prefix}')">${ICON_X}</button>
