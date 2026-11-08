@@ -265,7 +265,13 @@ main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
 .proj-title-wrap{display:flex;align-items:center;gap:14px;min-width:0;border-left:1px solid #eee;padding-left:20px}
 .pd-title-block{min-width:0}
 .pd-title-block h1{margin-bottom:1px;font-size:20px;line-height:1.2;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
-.pd-progress-inline{display:flex;align-items:center;gap:12px;flex:1 1 200px;min-width:160px;border-left:1px solid #eee;padding-left:20px}
+.pd-status-cluster{display:flex;align-items:center;gap:12px;flex:1 1 200px;min-width:160px;border-left:1px solid #eee;padding-left:20px}
+.pd-ring{position:relative;width:38px;height:38px;border-radius:50%;background:conic-gradient(var(--accent) calc(var(--pct,0)*1%),#ededed 0);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.pd-ring::after{content:'';position:absolute;inset:4px;border-radius:50%;background:var(--page-bg,#fff)}
+.pd-ring span{position:relative;z-index:1;font-size:10px;font-weight:700;color:#1a1a1a;white-space:nowrap}
+.pd-status-text{display:flex;align-items:center;gap:7px;min-width:0}
+.pd-status-icon{width:18px;height:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--accent)}
+.pd-status-icon svg{width:100%;height:100%}
 .pd-tab-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-left:1px solid #eee;padding-left:20px}
 .pd-tab-controls:empty{display:none;border:none;padding:0}
 .pd-tab-controls .search-filter-box{width:280px}
@@ -286,6 +292,7 @@ main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
 @keyframes pd-tick-pop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
 .proj-meta-line{font-size:13px;color:#999}
 .status-inline{font-size:inherit;font-weight:500;color:#999;white-space:nowrap}
+#pdStatusInline{font-size:13px;font-weight:600;color:#1a1a1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .stage-progress{flex:1;height:7px;border-radius:4px;overflow:hidden;background-image:repeating-linear-gradient(135deg,#f0f0f0 0,#f0f0f0 5px,#f4f4f4 5px,#f4f4f4 10px)}
 .stage-progress-fill{height:100%;width:0%;background:var(--accent);border-radius:4px;transition:width .7s cubic-bezier(.4,0,.2,1)}
 .stage-progress-label{font-size:11px;font-weight:700;color:#999;white-space:nowrap}
@@ -732,7 +739,7 @@ h1{font-size:32px}
 .pd-tab-controls .view-toggle:only-child{flex:1 1 100%}
 .pd-tab-controls .view-toggle:only-child .vt-btn{flex:1 1 0;text-align:center}
 .pd-tab-controls .vt-btn{padding:8px 14px;font-size:12px;white-space:nowrap}
-.pd-progress-inline{border-left:none;padding-left:0;flex:1 1 auto;min-width:0}
+.pd-status-cluster{border-left:none;padding-left:0;flex:1 1 auto;min-width:0}
 .pd-budget-total{border-left:none;padding-left:0;flex:0 0 auto}
 .proj-head-actions{border-left:none;padding-left:0;flex:0 0 auto}
 .proj-head-actions .btn-ghost,.proj-head-actions .confirm-btn,.proj-head-actions .section-badge{padding:7px 14px;font-size:12px}
@@ -1103,16 +1110,16 @@ setTimeout(dismissIntro, 4500);
 </div>
 <div class="proj-title-wrap">
 <div class="pd-title-block">
-<h1><span id="pdTitle">—</span> <span class="status-inline" id="pdStatusInline"></span></h1>
+<h1><span id="pdTitle">—</span></h1>
 <div class="proj-meta-line" id="pdMeta">—</div>
 </div>
 </div>
 <div class="pd-tab-controls" id="pdTabControls"></div>
 </div>
 <div class="phr-bottom">
-<div class="pd-progress-inline">
-<div class="stage-progress" id="pdProgress"></div>
-<div class="stage-progress-label" id="pdProgressLabel">—</div>
+<div class="pd-status-cluster">
+<div class="pd-ring" id="pdRing"><span id="pdRingPct">—</span></div>
+<div class="pd-status-text"><span class="pd-status-icon" id="pdStatusIcon"></span><span id="pdStatusInline">—</span></div>
 </div>
 <div class="pd-budget-total" id="pdBudgetTotal"></div>
 <div class="proj-head-actions">
@@ -1240,6 +1247,7 @@ const ICON_UPLOAD='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
 const ICON_TRASH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
 const ICON_X='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
 const ICON_DOWNLOAD='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
+const ICON_SHARE_NODES='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="10.51" x2="15.42" y2="6.49"/><line x1="8.59" y1="13.49" x2="15.42" y2="17.51"/></svg>';
 const ICON_SAVE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>';
 const ICON_CHECK_SM='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 9 17 20 6"/></svg>';
 const STAGE_ICONS={
@@ -1442,6 +1450,7 @@ if(!p.sections.brief.confirmed || !p.sections.shotPlanning.confirmed || !p.secti
 if(!p.sections.shootTracking.confirmed) return 'Production';
 return 'Post Production';
 }
+const STATUS_ICONS={'Pre Production':ICON_PENCIL,'Production':ICON_PROD_REF,'Post Production':ICON_POST_REF,'Delivered':ICON_CHECK_SM};
 function touchProject(p){
 if(p.phaseLog && p.phaseLog.delivered){
 p.phaseLog.delivered=null;
@@ -2215,17 +2224,17 @@ const p=currentProject();
 if(!p) return;
 const status=getProjectStatus(p);
 document.getElementById('pdTitle').textContent=p.title;
-document.getElementById('pdStatusInline').textContent='('+status+')';
 document.getElementById('pdMeta').textContent=headerMetaLine(p);
 document.getElementById('pdStageTitle').textContent=STAGE_PAGE_TITLES[currentTab]||'';
 document.getElementById('pdStageSubtitle').textContent=stageStat(p,currentTab);
 
 const confirmedCount=STAGE_ORDER.filter(k=>p.sections[k].confirmed).length;
 const progressPct=STAGE_ORDER.length>0?Math.round((confirmedCount/STAGE_ORDER.length)*100):0;
-const progressTrack=document.getElementById('pdProgress');
-progressTrack.innerHTML='<div class="stage-progress-fill" id="stageProgressFill"></div>';
-requestAnimationFrame(()=>{ requestAnimationFrame(()=>{ const f=document.getElementById('stageProgressFill'); if(f) f.style.width=progressPct+'%'; }); });
-document.getElementById('pdProgressLabel').textContent=`${progressPct}%`;
+const ringEl=document.getElementById('pdRing');
+if(ringEl) ringEl.style.setProperty('--pct',progressPct);
+document.getElementById('pdRingPct').textContent=progressPct+'%';
+document.getElementById('pdStatusIcon').innerHTML=STATUS_ICONS[status]||'';
+document.getElementById('pdStatusInline').textContent=status;
 
 renderSidebarNav();
 
@@ -2293,7 +2302,7 @@ const statusBtn = interactive
 : (key==='delivery' && !confirmed && dlHasApproved(p)
 ? `<button type="button" class="pd-icon-btn save-btn" title="Mark as delivered" aria-label="Mark as delivered" onclick="markProjectComplete()">${ICON_CHECK_SM}</button>`
 : `<button type="button" class="pd-icon-btn${confirmed?' tick':''}" title="${confirmed?'Delivered':(key==='delivery'?'Approve a version to deliver':'In progress')}" disabled>${ICON_CHECK_SM}</button>`);
-actionsEl.innerHTML = `<button type="button" class="pd-icon-btn" title="Save PDF" aria-label="Save PDF" onclick="printStage('${key}')">${ICON_DOWNLOAD}</button>${statusBtn}`;
+actionsEl.innerHTML = `<button type="button" class="pd-icon-btn" title="Share" aria-label="Share" onclick="dlShareMenu(event,'${p.id}')">${ICON_SHARE_NODES}</button><button type="button" class="pd-icon-btn" title="Save PDF" aria-label="Save PDF" onclick="printStage('${key}')">${ICON_DOWNLOAD}</button>${statusBtn}`;
 pdJustSaved=false;
 }
 function saveStageFromHeader(key){
