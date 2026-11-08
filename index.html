@@ -868,16 +868,21 @@ main{padding-left:14px;padding-right:14px}
 .dl-chip.on{background:#1a1a1a;border-color:#1a1a1a;color:#fff}
 .dl-chip.on span{background:rgba(255,255,255,.2);color:#fff}
 .dl-table{border:1px solid #e5e5e5;border-radius:10px;overflow:hidden;background:#fff}
-.dl-tr{display:grid;grid-template-columns:30px 62px minmax(0,1.5fr) minmax(0,1fr) 84px 124px 62px 34px;gap:10px;align-items:center;padding:12px 14px;border-top:1px solid #f0f0f0;font-size:13px;cursor:pointer}
+.dl-tr{display:grid;grid-template-columns:30px 54px 150px minmax(0,1fr) 150px 84px 124px 62px;gap:10px;align-items:center;padding:12px 14px;border-top:1px solid #f0f0f0;font-size:13px;cursor:pointer}
 .dl-tr:first-child{border-top:none}
 .dl-tr:not(.dl-th):hover{background:#fafafa}
 .dl-th{cursor:default;font-size:11px;font-weight:700;color:#999;background:#fafafa;padding-top:9px;padding-bottom:9px}
 .dl-tr>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dl-vpill{display:inline-block;background:#1a1a1a;color:#fff;border-radius:7px;padding:3px 9px;font-size:12px;font-weight:700}
 .c-title{font-weight:600}
+.c-title em{color:#bbb;font-style:normal;font-weight:400}
+.c-film select{width:100%;border:1px solid #e3e3e3;background:#fafafa;border-radius:7px;padding:6px 26px 6px 10px;font:inherit;font-size:12px;font-weight:600;color:#1a1a1a;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%23555' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='m1 1 4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center}
 .c-link a{color:#555;text-decoration:none;display:inline-flex;align-items:center;gap:5px;max-width:100%}
 .c-link a:hover{color:#1a1a1a;text-decoration:underline}
 .c-link em{color:#bbb;font-style:normal}
+.dl-field{display:block;font-size:12px}
+.dl-field>span{display:block;font-weight:700;color:#777;margin-bottom:6px}
+.dl-field select{width:100%;border:none;background:#f0f0f0;border-radius:10px;padding:11px 12px;font:inherit;font-size:14px;color:#1a1a1a;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%23555' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='m1 1 4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
 .dl-fbpill{display:inline-flex;align-items:center;gap:5px;font-style:normal;font-weight:700;font-size:12px;border-radius:999px;padding:3px 10px;background:#f0f0f0;color:#888}
 .dl-fbpill.has{background:#fff3cd;color:#1a1a1a}
 .c-date{color:#777}
@@ -933,8 +938,8 @@ main{padding-left:14px;padding-right:14px}
 .dl-search{max-width:none;flex-basis:100%;order:3}
 .dl-bar .btn-ghost,.dl-bar .btn-primary{flex:1}
 .dl-th{display:none}
-.dl-tr{grid-template-columns:24px auto minmax(0,1fr) 30px;grid-template-areas:"sel ver title act" ". link link link" ". fb stat date";row-gap:8px;padding:12px}
-.dl-tr .c-sel{grid-area:sel}.dl-tr .c-ver{grid-area:ver}.dl-tr .c-title{grid-area:title}.dl-tr .c-act{grid-area:act}.dl-tr .c-link{grid-area:link}.dl-tr .c-fb{grid-area:fb}.dl-tr .c-stat{grid-area:stat}.dl-tr .c-date{grid-area:date;justify-self:end;align-self:center}
+.dl-tr{grid-template-columns:24px auto minmax(0,1fr);grid-template-areas:"sel ver title" ". film film" ". link link" ". fb stat" ". date date";row-gap:8px;padding:12px}
+.dl-tr .c-sel{grid-area:sel}.dl-tr .c-ver{grid-area:ver}.dl-tr .c-title{grid-area:title}.dl-tr .c-film{grid-area:film;max-width:160px}.dl-tr .c-link{grid-area:link}.dl-tr .c-fb{grid-area:fb}.dl-tr .c-stat{grid-area:stat}.dl-tr .c-date{grid-area:date;color:#999;font-size:12px}
 .dl-dtitle h2{font-size:20px}
 .dl-reply,.dl-replyform{margin-left:28px}
 .dl-fbrow{grid-template-columns:18px auto minmax(0,1fr) 28px;gap:8px}
@@ -3543,103 +3548,117 @@ if(RV.ver){ const f=dlFindVersion(p,RV.ver); if(f) return `<div id="pdBody" clas
 return `<div id="pdBody" class="dl">${dlListHtml(p)}</div>`;
 }
 function dlListHtml(p){
-const vids=dlVideos(p), v=dlCurVideo(p); RV.vid=v.id;
-const all=(v.versions||[]);
-const cnt={all:all.length,'In Review':0,'Needs Changes':0,'Approved':0}; all.forEach(x=>{ cnt[x.status]=(cnt[x.status]||0)+1; });
+const vids=dlVideos(p), all=dlAllVersions(p);
+const cnt={all:all.length,'In Review':0,'Needs Changes':0,'Approved':0}; all.forEach(o=>{ cnt[o.ver.status]=(cnt[o.ver.status]||0)+1; });
 const chip=(k,label)=>`<button type="button" class="dl-chip ${RV.f===k?'on':''}" onclick="dlSetFilter('${k}')">${label}<span>${cnt[k]}</span></button>`;
 const s=getShare(p.id,'client');
 return `<div class="dl-bar">
-<div class="dl-vsel"><select aria-label="Video" onchange="dlSetVideo(this.value)">${vids.map(x=>`<option value="${esc(x.id)}" ${x.id===v.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select><button type="button" class="dl-iconbtn" title="New video" aria-label="New video" onclick="dlVideoModal()">+</button><button type="button" class="dl-iconbtn" title="Rename or delete video" aria-label="Video options" onclick="dlVideoMenu(event)">⋯</button></div>
+<div class="dl-chips">${chip('all','All Versions')}${chip('In Review','In Review')}${chip('Needs Changes','Needs Changes')}${chip('Approved','Approved')}</div>
 <label class="dl-search">${DL_ICON_SEARCH}<input type="text" placeholder="Search versions" value="${esc(RV.q)}" oninput="dlSetQ(this.value)"></label>
-<button type="button" class="btn-ghost" onclick="openShareModal('${p.id}','client')">${s?'Client link':'Share to client'}</button>
+<button type="button" class="btn-ghost" onclick="dlShareMenu(event,'${p.id}')">${s?'Share':'Share'}</button>
 <button type="button" class="btn-primary" onclick="dlVersionModal()">Add Version +</button>
 </div>
-<div class="dl-chips">${chip('all','All Versions')}${chip('In Review','In Review')}${chip('Needs Changes','Needs Changes')}${chip('Approved','Approved')}</div>
-<div id="dlTableWrap">${dlTableHtml(p,v)}</div>`;
+<div id="dlTableWrap">${dlTableHtml(p)}</div>`;
 }
-function dlFilteredVersions(v){
+function dlFilteredVersions(p){
 const q=RV.q.trim().toLowerCase();
-return (v.versions||[]).filter(x=>(RV.f==='all'||x.status===RV.f) && (!q || (('v'+x.num+' '+(x.title||'')+' '+(x.link||'')).toLowerCase().includes(q)))).slice().sort((a,b)=>b.num-a.num);
+return dlAllVersions(p).filter(o=>(RV.f==='all'||o.ver.status===RV.f) && (!q || ((o.video.name+' v'+o.ver.num+' '+(o.ver.title||'')+' '+(o.ver.link||'')).toLowerCase().includes(q)))).sort((a,b)=>(b.ver.statusTs||0)-(a.ver.statusTs||0) || b.ver.num-a.ver.num);
 }
-function dlTableHtml(p,v){
-const rows=dlFilteredVersions(v);
-if(!(v.versions||[]).length) return `<div class="dl-empty"><b>No versions yet</b>Add the first cut of ${esc(v.name)} to start collecting feedback.<div><button type="button" class="btn-primary" onclick="dlVersionModal()">Add Version +</button></div></div>`;
+function dlTableHtml(p){
+const all=dlAllVersions(p), rows=dlFilteredVersions(p);
+if(!all.length) return `<div class="dl-empty"><b>No versions yet</b>Add the first cut to start collecting feedback.<div><button type="button" class="btn-primary" onclick="dlVersionModal()">Add Version +</button></div></div>`;
 if(!rows.length) return `<div class="dl-empty"><b>No matches</b>Try a different search or status.</div>`;
-const selCount=rows.filter(x=>RV.sel[x.id]).length;
+const selCount=rows.filter(o=>RV.sel[o.ver.id]).length;
 const bulk=selCount?`<div class="dl-bulk"><span>${selCount} selected</span><button type="button" class="btn-ghost" onclick="dlBulkDelete()">Delete</button></div>`:'';
-return bulk+`<div class="dl-table"><div class="dl-tr dl-th"><span><input type="checkbox" aria-label="Select all" ${selCount===rows.length?'checked':''} onchange="dlSelectAll(this.checked)"></span><span>Version</span><span>Title</span><span>Link</span><span>Feedback</span><span>Status</span><span>Date</span><span></span></div>`+rows.map(x=>{
-const fb=dlFeedback(p,x).length, url=dlSafeUrl(x.link);
+const vids=dlVideos(p);
+return bulk+`<div class="dl-table"><div class="dl-tr dl-th"><span><input type="checkbox" aria-label="Select all" ${selCount===rows.length?'checked':''} onchange="dlSelectAll(this.checked)"></span><span>Version</span><span>Film Title</span><span>Note</span><span>Link</span><span>Feedback</span><span>Status</span><span>Date</span></div>`+rows.map(o=>{
+const x=o.ver, fb=dlFeedback(p,x).length, url=dlSafeUrl(x.link);
 return `<div class="dl-tr" onclick="dlOpen('${x.id}')">
 <span class="c-sel" onclick="event.stopPropagation()"><input type="checkbox" aria-label="Select v${x.num}" ${RV.sel[x.id]?'checked':''} onchange="dlSelect('${x.id}',this.checked)"></span>
 <span class="c-ver"><b class="dl-vpill">v${x.num}</b></span>
-<span class="c-title">${esc(x.title||('Version '+x.num))}</span>
+<span class="c-film" onclick="event.stopPropagation()"><select aria-label="Film title" onchange="dlReassign('${x.id}',this.value)">${vids.map(vv=>`<option value="${esc(vv.id)}" ${vv.id===o.video.id?'selected':''}>${esc(vv.name)}</option>`).join('')}<option value="__new">+ New film title…</option></select></span>
+<span class="c-title">${esc(x.title||'')||'<em>—</em>'}</span>
 <span class="c-link" onclick="event.stopPropagation()">${url?`<a href="${esc(url)}" target="_blank" rel="noopener">${esc(dlHost(url))}${DL_ICON_EXT}</a>`:'<em>No link</em>'}</span>
 <span class="c-fb"><i class="dl-fbpill ${fb?'has':''}">${DL_ICON_MSG}${fb}</i></span>
 <span class="c-stat">${dlStatusPill(x.status)}</span>
 <span class="c-date">${fmtDateShort(x.date)}</span>
-<span class="c-act" onclick="event.stopPropagation()"><button type="button" class="dl-dots" aria-label="Version actions" onclick="dlRowMenu(event,'${x.id}')">⋯</button></span>
 </div>`; }).join('')+`</div>`;
 }
-function dlRefreshTable(){ const p=currentProject(); const w=document.getElementById('dlTableWrap'); if(p&&w) w.innerHTML=dlTableHtml(p,dlCurVideo(p)); }
+function dlRefreshTable(){ const w=document.getElementById('dlTableWrap'); if(w) w.innerHTML=dlTableHtml(currentProject()); }
 function dlSetQ(v){ RV.q=v; dlRefreshTable(); }
 function dlSetFilter(k){ RV.f=k; renderProjectDetail(); }
-function dlSetVideo(id){ RV.vid=id; RV.sel={}; RV.f='all'; RV.q=''; renderProjectDetail(); }
 function dlSelect(id,on){ if(on) RV.sel[id]=1; else delete RV.sel[id]; dlRefreshTable(); }
-function dlSelectAll(on){ const p=currentProject(); dlFilteredVersions(dlCurVideo(p)).forEach(x=>{ if(on) RV.sel[x.id]=1; else delete RV.sel[x.id]; }); dlRefreshTable(); }
+function dlSelectAll(on){ const p=currentProject(); dlFilteredVersions(p).forEach(o=>{ if(on) RV.sel[o.ver.id]=1; else delete RV.sel[o.ver.id]; }); dlRefreshTable(); }
 function dlBulkDelete(){
-const p=currentProject(), v=dlCurVideo(p), ids=Object.keys(RV.sel).filter(id=>(v.versions||[]).some(x=>x.id===id));
+const p=currentProject(), all=dlAllVersions(p), ids=Object.keys(RV.sel).filter(id=>all.some(o=>o.ver.id===id));
 if(!ids.length) return;
 confirmAction(`Delete ${ids.length} version${ids.length>1?'s':''}?`,'Their feedback stays with the project but will no longer be shown.',function(){
-v.versions=v.versions.filter(x=>ids.indexOf(x.id)<0); dlRenumber(v); RV.sel={};
-saveProjectChange(p); logActivity('Review versions deleted',p.title); renderProjectDetail();
+dlVideos(p).forEach(v=>{ v.versions=(v.versions||[]).filter(x=>ids.indexOf(x.id)<0); dlRenumber(v); });
+RV.sel={}; saveProjectChange(p); logActivity('Review versions deleted',p.title); renderProjectDetail();
 },{confirmLabel:'Delete'});
 }
 function dlRenumber(v){ (v.versions||[]).forEach((x,i)=>{ x.num=i+1; }); }
-
-/* ----- modals: add / edit version, add video ----- */
-function dlOpenModal(html){ const box=document.getElementById('itemModalBox'); box.innerHTML=html; document.getElementById('itemModal').classList.add('show'); setTimeout(function(){ const f=box.querySelector('input,textarea'); if(f) f.focus(); },40); }
-function dlVersionModal(verId){
-const p=currentProject(), v=dlCurVideo(p), ex=verId?(v.versions||[]).find(x=>x.id===verId):null;
-dlOpenModal(`<div class="modal-header-row"><div class="modal-title">${ex?'Edit version':'Add version'}</div><button type="button" class="modal-close modal-close-inline" onclick="closeModal('itemModal')">×</button></div>
-<p class="body-text" style="margin:0 0 14px;color:#666;">${esc(v.name)}${ex?' · v'+ex.num:' · v'+((v.versions||[]).length+1)}</p>
-<div class="form-grid"><input class="f-input" id="dlvTitle" placeholder="Title (e.g. Review Cut 03)" value="${esc(ex?ex.title:'')}"><input class="f-input" id="dlvLink" placeholder="Review link (YouTube or Vimeo)" value="${esc(ex?ex.link:'')}"></div>
-<div class="vw-err" id="dlvErr" role="alert"></div>
-<div class="modal-footer-row"><button type="button" class="btn-primary" onclick="dlSaveVersion('${ex?ex.id:''}')">${ex?'Save':'Add version'}</button><button type="button" class="btn-ghost" onclick="closeModal('itemModal')">Cancel</button></div>`);
+function dlReassign(id,toVid){
+const p=currentProject(), f=dlFindVersion(p,id); if(!f) return;
+if(toVid==='__new'){
+const name=(prompt('New film title')||'').trim();
+if(!name){ dlRefreshTable(); return; }
+const v={id:dlNewId('vid'),name:name,versions:[]}; dlVideos(p).push(v); toVid=v.id;
 }
+if(toVid===f.video.id) return;
+const dest=dlVideos(p).find(v=>v.id===toVid); if(!dest) return;
+f.video.versions=(f.video.versions||[]).filter(x=>x.id!==id); dlRenumber(f.video);
+dest.versions=dest.versions||[]; dest.versions.push(f.ver); f.ver.num=dest.versions.length;
+saveProjectChange(p); logActivity('Version moved',p.title+' · '+dest.name); renderProjectDetail();
+}
+
+/* ----- modals: add / edit version ----- */
+function dlOpenModal(html){ const box=document.getElementById('itemModalBox'); box.innerHTML=html; document.getElementById('itemModal').classList.add('show'); setTimeout(function(){ const f=box.querySelector('input,select,textarea'); if(f) f.focus(); },40); }
+function dlVersionModal(verId){
+const p=currentProject(), vids=dlVideos(p);
+const f=verId?dlFindVersion(p,verId):null, ex=f?f.ver:null, exVid=f?f.video:dlCurVideo(p);
+const nextLabel=(vidId)=>{ const v=vids.find(x=>x.id===vidId)||vids[0]; return 'v'+((v.versions||[]).length+(ex?0:1)); };
+dlOpenModal(`<div class="modal-header-row"><div class="modal-title">${ex?'Edit version':'Add Version'}</div><button type="button" class="modal-close modal-close-inline" onclick="closeModal('itemModal')">×</button></div>
+<div class="form-grid cols-2" style="grid-template-columns:1fr;gap:12px;">
+<label class="dl-field"><span>Film Title</span><select id="dlvVid" onchange="dlVidChanged()">${vids.map(v=>`<option value="${esc(v.id)}" ${v.id===exVid.id?'selected':''}>${esc(v.name)}</option>`).join('')}<option value="__new">+ New film title…</option></select></label>
+<label class="dl-field" id="dlvNewWrap" hidden><span>New film title</span><input class="f-input" id="dlvNewName" placeholder="e.g. Trailer"></label>
+<label class="dl-field"><span>Version</span><input class="f-input" id="dlvLabel" value="${esc(ex?('v'+ex.num):nextLabel(exVid.id))}"></label>
+<label class="dl-field"><span>Note</span><input class="f-input" id="dlvTitle" placeholder="Add a note (e.g. Review Cut 05)" value="${esc(ex?ex.title:'')}"></label>
+<label class="dl-field"><span>Review Link</span><input class="f-input" id="dlvLink" placeholder="Paste review link (YouTube or Vimeo)" value="${esc(ex?ex.link:'')}"></label>
+</div>
+<div class="vw-err" id="dlvErr" role="alert"></div>
+<div class="modal-footer-row"><button type="button" class="btn-primary" onclick="dlSaveVersion('${ex?ex.id:''}')">${ex?'Save':'Add Version'}</button><button type="button" class="btn-ghost" onclick="closeModal('itemModal')">Cancel</button></div>`);
+}
+function dlVidChanged(){ const w=document.getElementById('dlvNewWrap'), sel=document.getElementById('dlvVid'); if(w) w.hidden=sel.value!=='__new'; }
 function dlSaveVersion(verId){
-const p=currentProject(), v=dlCurVideo(p);
+const p=currentProject(), vids=dlVideos(p);
+let vidSel=document.getElementById('dlvVid').value, video;
+if(vidSel==='__new'){
+const name=document.getElementById('dlvNewName').value.trim();
+if(!name){ document.getElementById('dlvErr').textContent='Name the new film title.'; return; }
+video={id:dlNewId('vid'),name:name,versions:[]}; vids.push(video);
+} else video=vids.find(v=>v.id===vidSel);
 const title=document.getElementById('dlvTitle').value.trim(), link=document.getElementById('dlvLink').value.trim();
 if(link && !dlSafeUrl(link)){ document.getElementById('dlvErr').textContent='Links need to start with https://'; return; }
-if(!title && !link){ document.getElementById('dlvTitle').focus(); return; }
-v.versions=v.versions||[];
-if(verId){ const x=v.versions.find(y=>y.id===verId); if(x){ x.title=title||x.title; x.link=link; } }
-else { const n=v.versions.length+1; v.versions.push({id:dlNewId('ver'),num:n,title:title||('Version '+n),link:link,date:todayISO(),status:'In Review',statusTs:Date.now()}); logActivity('Review version added',p.title+' · '+v.name); }
+if(verId){
+const f=dlFindVersion(p,verId);
+if(f){
+if(f.video.id!==video.id){ f.video.versions=(f.video.versions||[]).filter(x=>x.id!==verId); dlRenumber(f.video); video.versions=video.versions||[]; video.versions.push(f.ver); f.ver.num=video.versions.length; }
+f.ver.title=title; f.ver.link=link;
+}
+} else {
+video.versions=video.versions||[];
+const n=video.versions.length+1;
+video.versions.push({id:dlNewId('ver'),num:n,title:title,link:link,date:todayISO(),status:'In Review',statusTs:Date.now()});
+logActivity('Review version added',p.title+' · '+video.name);
+}
 closeModal('itemModal'); saveProjectChange(p); renderProjectDetail();
 }
-function dlVideoModal(){
-dlOpenModal(`<div class="modal-header-row"><div class="modal-title">New video</div><button type="button" class="modal-close modal-close-inline" onclick="closeModal('itemModal')">×</button></div>
-<p class="body-text" style="margin:0 0 14px;color:#666;">Each video keeps its own versions and feedback, like a teaser, trailer or the main film.</p>
-<div class="form-grid"><input class="f-input" id="dlvName" placeholder="Video name (e.g. Teaser)"></div>
-<div class="modal-footer-row"><button type="button" class="btn-primary" onclick="dlSaveVideo()">Add video</button><button type="button" class="btn-ghost" onclick="closeModal('itemModal')">Cancel</button></div>`);
-}
-function dlSaveVideo(){
-const p=currentProject(), name=document.getElementById('dlvName').value.trim();
-if(!name){ document.getElementById('dlvName').focus(); return; }
-const v={id:dlNewId('vid'),name:name,versions:[]}; dlVideos(p).push(v); RV.vid=v.id; RV.f='all'; RV.q=''; RV.sel={};
-closeModal('itemModal'); saveProjectChange(p); logActivity('Video added',p.title+' · '+name); renderProjectDetail();
-}
-function dlRenameVideoModal(){
-const p=currentProject(), v=dlCurVideo(p);
-dlOpenModal(`<div class="modal-header-row"><div class="modal-title">Rename video</div><button type="button" class="modal-close modal-close-inline" onclick="closeModal('itemModal')">×</button></div>
-<div class="form-grid"><input class="f-input" id="dlvName" value="${esc(v.name)}"></div>
-<div class="modal-footer-row"><button type="button" class="btn-primary" onclick="dlDoRename()">Save</button><button type="button" class="btn-ghost" onclick="closeModal('itemModal')">Cancel</button></div>`);
-}
-function dlDoRename(){ const p=currentProject(), v=dlCurVideo(p), n=document.getElementById('dlvName').value.trim(); if(!n) return; v.name=n; closeModal('itemModal'); saveProjectChange(p); renderProjectDetail(); }
-function dlDeleteVideo(){
-const p=currentProject(), vs=dlVideos(p), v=dlCurVideo(p);
-if(vs.length<2){ confirmAction('Can’t delete the only video','Add another video first.',function(){},{confirmLabel:'OK'}); return; }
+function dlDeleteVideo(vidId){
+const p=currentProject(), vs=dlVideos(p), v=vs.find(x=>x.id===vidId);
+if(!v || vs.length<2) return;
 confirmAction(`Delete ${v.name}?`,`Its ${(v.versions||[]).length} versions will be removed.`,function(){
-p.sections.delivery.videos=vs.filter(x=>x.id!==v.id); RV.vid=null; RV.sel={}; saveProjectChange(p); renderProjectDetail();
+p.sections.delivery.videos=vs.filter(x=>x.id!==v.id); saveProjectChange(p); renderProjectDetail();
 },{confirmLabel:'Delete'});
 }
 
@@ -3662,19 +3681,14 @@ m.style.top=(r.bottom+h+12>window.innerHeight ? Math.max(8,r.top-h-6) : r.bottom
 shareMenuEl=m;
 }
 function dlMenuDo(n){ const fn=DLM.fns[n]; closeProjectMenu(); if(fn) fn(); }
-function dlVideoMenu(ev){ dlMenu(ev,[{label:'Rename video',fn:dlRenameVideoModal},{label:'Delete video',danger:true,fn:dlDeleteVideo}]); }
-function dlRowMenu(ev,id){
-const items=[{label:'Open review',fn:()=>dlOpen(id)},{label:'Edit details',fn:()=>dlVersionModal(id)}];
-const p=currentProject(), x=(dlCurVideo(p).versions||[]).find(y=>y.id===id);
-if(x && dlSafeUrl(x.link)) items.push({label:'Open link',fn:()=>window.open(dlSafeUrl(x.link),'_blank','noopener')});
-items.push({label:'Delete version',danger:true,fn:()=>dlDeleteVersion(id)});
-dlMenu(ev,items);
+function dlShareMenu(ev,pid){
+const cs=getShare(pid,'client'), ts=getShare(pid,'team');
+dlMenu(ev,[{label:(cs?'Client link':'Share to client'),fn:()=>openShareModal(pid,'client')},{label:(ts?'Team link':'Share to team'),fn:()=>openShareModal(pid,'team')}]);
 }
 function dlDeleteVersion(id){
-const p=currentProject(), v=dlCurVideo(p), x=(v.versions||[]).find(y=>y.id===id);
-if(!x) return;
-confirmAction(`Delete v${x.num}?`,'This version and its notes will be removed from the list.',function(){
-v.versions=v.versions.filter(y=>y.id!==id); dlRenumber(v); delete RV.sel[id]; if(RV.ver===id) RV.ver=null;
+const p=currentProject(), f=dlFindVersion(p,id); if(!f) return;
+confirmAction(`Delete v${f.ver.num}?`,'This version and its notes will be removed from the list.',function(){
+f.video.versions=(f.video.versions||[]).filter(y=>y.id!==id); dlRenumber(f.video); delete RV.sel[id]; if(RV.ver===id) RV.ver=null;
 saveProjectChange(p); logActivity('Review version deleted',p.title); renderProjectDetail();
 },{confirmLabel:'Delete'});
 }
@@ -3725,9 +3739,9 @@ renderProjectDetail();
 }
 function dlDetailMenu(ev,id){
 const p=currentProject(), f=dlFindVersion(p,id); if(!f) return;
-const items=[{label:'Edit details',fn:()=>{ RV.vid=f.video.id; dlVersionModal(id); }}];
+const items=[{label:'Edit details',fn:()=>dlVersionModal(id)}];
 if(dlSafeUrl(f.ver.link)) items.push({label:'Open link',fn:()=>window.open(dlSafeUrl(f.ver.link),'_blank','noopener')});
-items.push({label:'Delete version',danger:true,fn:()=>{ RV.vid=f.video.id; dlDeleteVersion(id); }});
+items.push({label:'Delete version',danger:true,fn:()=>dlDeleteVersion(id)});
 dlMenu(ev,items);
 }
 function dlNoteMenu(ev,vid,src,fid){
