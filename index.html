@@ -2427,7 +2427,7 @@ const timeTags=[]; if(Number(u.hours)>0) timeTags.push(fmtHours(u.hours));
 return `<div class="sp-shot-row" data-no-lock="1" onclick="openEditUnscheduledShotModal(${ui})">
 <span class="drag-handle">${ICON_GRIP}</span>
 <div class="sp-shot-num">—</div>
-<div class="sp-shot-thumb">${u.image?`<img src="${u.image}">`:ICON_SCENE}</div>
+<div class="sp-shot-thumb">${u.image?`<img src="${u.image}">`:shotPlaceholderIcon()}</div>
 <div class="sp-shot-desc">${esc(u.desc)||'Untitled shot'}</div>
 <div class="sp-shot-camera">${tags.map(t=>`<span class="shot-tag">${esc(t)}</span>`).join('')}</div>
 <div class="sp-shot-time">${timeTags.map(t=>`<span class="shot-tag">${esc(t)}</span>`).join('')}</div>
@@ -2472,7 +2472,7 @@ if(Number(sh.hours)>0) timeTags.push(fmtHours(sh.hours));
 return `<div class="sp-shot-row" id="${anchorId}" draggable="true" data-no-lock="1" ondragstart="onItemDragStart(event,${di},${si},${r.idx})" ondragend="onItemDragEnd(event)" ondragover="onItemDragOver(event,${di},${si},${r.idx})" ondragleave="onItemDragLeave(event)" ondrop="onItemDrop(event,${di},${si},${r.idx})" onclick="openEditItemModal(${di},${si},${r.idx})">
 <span class="drag-handle" onclick="event.stopPropagation()" title="Drag to reorder">${ICON_GRIP}</span>
 <div class="sp-shot-num">${r.num}</div>
-<div class="sp-shot-thumb">${sh.image?`<img src="${sh.image}">`:ICON_SCENE}</div>
+<div class="sp-shot-thumb">${sh.image?`<img src="${sh.image}">`:shotPlaceholderIcon()}</div>
 <div class="sp-shot-desc">${esc(sh.desc)||'Untitled shot'}</div>
 <div class="sp-shot-camera">${cameraTags.map(t=>`<span class="shot-tag">${esc(t)}</span>`).join('')}</div>
 <div class="sp-shot-time">${timeTags.length?timeTags.map(t=>`<span class="shot-tag">${esc(t)}</span>`).join(''):'<span class="shot-tag" style="background:none;color:#bbb;padding-left:0;">No time set</span>'}</div>
@@ -2594,6 +2594,8 @@ const ap=h>=12?'pm':'am'; let hh=h%12; if(hh===0) hh=12;
 return hh+(m?':'+String(m).padStart(2,'0'):'')+' '+ap;
 }
 /* ===== SHOT PLANNER v3: Add Scene | Add Shot / Activity ===== */
+const ICON_PENCIL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/><path d="m15 5 4 4"/></svg>';
+function shotPlaceholderIcon(){ const p=currentProject(); return p && getProjectStatus(p)==='Pre Production' ? ICON_PENCIL : ICON_SCENE; }
 const ICON_SCENE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3Z"/><path d="m6.2 5.3 3.1 5.4"/><path d="m12.4 3.4 3.1 5.4"/><path d="M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg>';
 function $id(i){ return document.getElementById(i); }
 function pad2(n){ return String(n).padStart(2,'0'); }
