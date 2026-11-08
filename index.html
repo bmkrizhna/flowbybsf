@@ -303,7 +303,7 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .thumb-box:hover{border-color:#bbb}
 .thumb-preview{width:100%;height:100%;object-fit:cover}
 /* ---- Shot Planner: simplified row list (Day band / Scene band / Shot row) ---- */
-.sp-day-band{background:var(--accent-bg);color:var(--accent-text);font-weight:800;font-size:13px;text-align:left;padding:9px 14px;border-radius:8px;margin:20px 0 10px}
+.sp-day-band{background:var(--accent-bg);color:var(--accent-text);font-weight:800;font-size:13px;text-align:center;padding:9px 14px;border-radius:8px;margin:20px 0 10px}
 .sp-day-band:first-child{margin-top:0}
 .day-badge{font-family:'Satoshi',sans-serif;font-size:11px;padding:5px 10px;border-radius:999px;font-weight:700}
 .day-badge.Wrapped{background:var(--accent-bg);color:var(--accent-text)}
@@ -2193,7 +2193,7 @@ renderSidebarNav();
 
 const content=document.getElementById('pdContent');
 if(currentTab==='brief') content.innerHTML=renderBriefTab(p);
-else if(currentTab==='shotPlanning'){ content.innerHTML=`<div class="rp-toolbar" style="justify-content:flex-end"><div class="view-toggle" data-no-lock="1"><button class="vt-btn ${shotPlannerView==='list'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('list')">List</button><button class="vt-btn ${shotPlannerView==='storyboard'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('storyboard')">Storyboard</button></div></div>`+renderShotPlanningTab(p); }
+else if(currentTab==='shotPlanning'){ content.innerHTML=`<div class="rp-toolbar" style="justify-content:space-between"><button type="button" class="btn-ghost" data-no-lock="1" onclick="openAddItemModal()">+ Add</button><div class="view-toggle" data-no-lock="1"><button class="vt-btn ${shotPlannerView==='list'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('list')">List</button><button class="vt-btn ${shotPlannerView==='storyboard'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('storyboard')">Storyboard</button></div></div>`+renderShotPlanningTab(p); }
 else if(currentTab==='budgeting'){ content.innerHTML=renderBudgetingTab(p); renderResourcePlannerList(); }
 else if(currentTab==='shootTracking') content.innerHTML=renderShootTrackingTab(p);
 else { content.innerHTML=renderDeliveryTab(p); pullShares(); if(RV.ver) dlMountPlayer(); }
