@@ -852,6 +852,8 @@ main{padding-left:14px;padding-right:14px}
 .dl-pill.rev{background:#fff1cc;color:#8a5a00}
 .dl-pill.chg{background:#fde4ea;color:#b3244b}
 .dl-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.dl-chips,.dl-bar{height:auto}
+.dl-chip,.dl-search,.dl-bar .btn-ghost,.dl-bar .btn-primary{height:38px;box-sizing:border-box;display:inline-flex;align-items:center}
 .dl-vsel{display:flex;align-items:center;gap:6px}
 .dl-vsel select{border:none;background:#f0f0f0;border-radius:999px;padding:9px 34px 9px 16px;font:inherit;font-size:13px;font-weight:700;color:#1a1a1a;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%23555' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='m1 1 4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;max-width:220px}
 .dl-iconbtn,.dl-dots{width:34px;height:34px;border-radius:50%;border:none;background:#f0f0f0;color:#444;font:inherit;font-size:17px;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -860,10 +862,9 @@ main{padding-left:14px;padding-right:14px}
 .dl-search{flex:1;min-width:150px;max-width:320px;display:flex;align-items:center;gap:8px;background:#f0f0f0;border-radius:999px;padding:0 14px;color:#777}
 .dl-search input{border:none;background:none;outline:none;font:inherit;font-size:13px;padding:10px 0;width:100%;color:#1a1a1a;min-width:0}
 .dl-search:focus-within{box-shadow:0 0 0 2px var(--accent)}
-.dl-bar .btn-primary:first-of-type{margin-left:auto}
-.dl-bar .btn-ghost+.btn-primary{margin-left:0}
-.dl-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.dl-chip{display:inline-flex;align-items:center;gap:8px;border:1px solid #e3e3e3;background:#fff;border-radius:999px;padding:7px 14px;font:inherit;font-size:13px;font-weight:600;color:#555;cursor:pointer}
+.dl-bar .btn-primary{margin-left:auto}
+.dl-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.dl-chip{gap:8px;border:1px solid #e3e3e3;background:#fff;border-radius:999px;padding:0 14px;font:inherit;font-size:13px;font-weight:600;color:#555;cursor:pointer}
 .dl-chip span{background:#f0f0f0;border-radius:999px;padding:1px 8px;font-size:12px;font-weight:700;color:#444}
 .dl-chip.on{background:#1a1a1a;border-color:#1a1a1a;color:#fff}
 .dl-chip.on span{background:rgba(255,255,255,.2);color:#fff}
@@ -3552,8 +3553,8 @@ const vids=dlVideos(p), all=dlAllVersions(p);
 const cnt={all:all.length,'In Review':0,'Needs Changes':0,'Approved':0}; all.forEach(o=>{ cnt[o.ver.status]=(cnt[o.ver.status]||0)+1; });
 const chip=(k,label)=>`<button type="button" class="dl-chip ${RV.f===k?'on':''}" onclick="dlSetFilter('${k}')">${label}<span>${cnt[k]}</span></button>`;
 const s=getShare(p.id,'client');
-return `<div class="dl-bar">
-<div class="dl-chips">${chip('all','All Versions')}${chip('In Review','In Review')}${chip('Needs Changes','Needs Changes')}${chip('Approved','Approved')}</div>
+return `<div class="dl-chips">${chip('all','All Versions')}${chip('In Review','In Review')}${chip('Needs Changes','Needs Changes')}${chip('Approved','Approved')}</div>
+<div class="dl-bar">
 <label class="dl-search">${DL_ICON_SEARCH}<input type="text" placeholder="Search versions" value="${esc(RV.q)}" oninput="dlSetQ(this.value)"></label>
 <button type="button" class="btn-ghost" onclick="dlShareMenu(event,'${p.id}')">${s?'Share':'Share'}</button>
 <button type="button" class="btn-primary" onclick="dlVersionModal()">Add Version +</button>
@@ -3566,7 +3567,7 @@ return dlAllVersions(p).filter(o=>(RV.f==='all'||o.ver.status===RV.f) && (!q || 
 }
 function dlTableHtml(p){
 const all=dlAllVersions(p), rows=dlFilteredVersions(p);
-if(!all.length) return `<div class="dl-empty"><b>No versions yet</b>Add the first cut to start collecting feedback.<div><button type="button" class="btn-primary" onclick="dlVersionModal()">Add Version +</button></div></div>`;
+if(!all.length) return `<div class="dl-empty"><b>No versions yet</b>Add the first cut to start collecting feedback.</div>`;
 if(!rows.length) return `<div class="dl-empty"><b>No matches</b>Try a different search or status.</div>`;
 const selCount=rows.filter(o=>RV.sel[o.ver.id]).length;
 const bulk=selCount?`<div class="dl-bulk"><span>${selCount} selected</span><button type="button" class="btn-ghost" onclick="dlBulkDelete()">Delete</button></div>`:'';
@@ -3617,26 +3618,31 @@ function dlOpenModal(html){ const box=document.getElementById('itemModalBox'); b
 function dlVersionModal(verId){
 const p=currentProject(), vids=dlVideos(p);
 const f=verId?dlFindVersion(p,verId):null, ex=f?f.ver:null, exVid=f?f.video:dlCurVideo(p);
-const nextLabel=(vidId)=>{ const v=vids.find(x=>x.id===vidId)||vids[0]; return 'v'+((v.versions||[]).length+(ex?0:1)); };
 dlOpenModal(`<div class="modal-header-row"><div class="modal-title">${ex?'Edit version':'Add Version'}</div><button type="button" class="modal-close modal-close-inline" onclick="closeModal('itemModal')">×</button></div>
 <div class="form-grid cols-2" style="grid-template-columns:1fr;gap:12px;">
-<label class="dl-field"><span>Film Title</span><select id="dlvVid" onchange="dlVidChanged()">${vids.map(v=>`<option value="${esc(v.id)}" ${v.id===exVid.id?'selected':''}>${esc(v.name)}</option>`).join('')}<option value="__new">+ New film title…</option></select></label>
-<label class="dl-field" id="dlvNewWrap" hidden><span>New film title</span><input class="f-input" id="dlvNewName" placeholder="e.g. Trailer"></label>
-<label class="dl-field"><span>Version</span><input class="f-input" id="dlvLabel" value="${esc(ex?('v'+ex.num):nextLabel(exVid.id))}"></label>
+<label class="dl-field"><span>Film Title</span><select id="dlvVid" onchange="dlVidSelectChange(this)">${vids.map(v=>`<option value="${esc(v.id)}" ${v.id===exVid.id?'selected':''}>${esc(v.name)}</option>`).join('')}<option value="__new">+ New film title…</option></select></label>
 <label class="dl-field"><span>Note</span><input class="f-input" id="dlvTitle" placeholder="Add a note (e.g. Review Cut 05)" value="${esc(ex?ex.title:'')}"></label>
 <label class="dl-field"><span>Review Link</span><input class="f-input" id="dlvLink" placeholder="Paste review link (YouTube or Vimeo)" value="${esc(ex?ex.link:'')}"></label>
 </div>
 <div class="vw-err" id="dlvErr" role="alert"></div>
 <div class="modal-footer-row"><button type="button" class="btn-primary" onclick="dlSaveVersion('${ex?ex.id:''}')">${ex?'Save':'Add Version'}</button><button type="button" class="btn-ghost" onclick="closeModal('itemModal')">Cancel</button></div>`);
 }
-function dlVidChanged(){ const w=document.getElementById('dlvNewWrap'), sel=document.getElementById('dlvVid'); if(w) w.hidden=sel.value!=='__new'; }
+function dlVidSelectChange(sel){
+if(sel.value!=='__new') return;
+const name=(prompt('New film title')||'').trim();
+if(!name){ sel.value=sel.options[0].value; return; }
+const opt=document.createElement('option');
+opt.value='__pending:'+name; opt.textContent=name;
+sel.insertBefore(opt,sel.lastElementChild);
+sel.value=opt.value;
+}
 function dlSaveVersion(verId){
 const p=currentProject(), vids=dlVideos(p);
 let vidSel=document.getElementById('dlvVid').value, video;
-if(vidSel==='__new'){
-const name=document.getElementById('dlvNewName').value.trim();
-if(!name){ document.getElementById('dlvErr').textContent='Name the new film title.'; return; }
-video={id:dlNewId('vid'),name:name,versions:[]}; vids.push(video);
+if(vidSel.indexOf('__pending:')===0){
+video={id:dlNewId('vid'),name:vidSel.slice(10),versions:[]}; vids.push(video);
+} else if(vidSel==='__new'){
+document.getElementById('dlvErr').textContent='Name the new film title.'; return;
 } else video=vids.find(v=>v.id===vidSel);
 const title=document.getElementById('dlvTitle').value.trim(), link=document.getElementById('dlvLink').value.trim();
 if(link && !dlSafeUrl(link)){ document.getElementById('dlvErr').textContent='Links need to start with https://'; return; }
