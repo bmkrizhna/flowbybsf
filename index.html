@@ -846,6 +846,115 @@ main{padding-left:14px;padding-right:14px}
 .modal-overlay{padding:16px}
 .modal-box{padding:18px}
 }
+/* ---- Editing & Review (owner) ---- */
+.dl-pill{display:inline-flex;align-items:center;border-radius:999px;padding:4px 11px;font-size:12px;font-weight:700;white-space:nowrap;line-height:1.3}
+.dl-pill.ok{background:#e1f4e7;color:#1d7a3b}
+.dl-pill.rev{background:#fff1cc;color:#8a5a00}
+.dl-pill.chg{background:#fde4ea;color:#b3244b}
+.dl-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.dl-vsel{display:flex;align-items:center;gap:6px}
+.dl-vsel select{border:none;background:#f0f0f0;border-radius:999px;padding:9px 34px 9px 16px;font:inherit;font-size:13px;font-weight:700;color:#1a1a1a;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%23555' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='m1 1 4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;max-width:220px}
+.dl-iconbtn,.dl-dots{width:34px;height:34px;border-radius:50%;border:none;background:#f0f0f0;color:#444;font:inherit;font-size:17px;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.dl-iconbtn:hover,.dl-dots:hover{background:#e3e3e3}
+.dl-dots{background:none;width:30px;height:30px;font-size:18px;letter-spacing:1px}
+.dl-search{flex:1;min-width:150px;max-width:320px;display:flex;align-items:center;gap:8px;background:#f0f0f0;border-radius:999px;padding:0 14px;color:#777}
+.dl-search input{border:none;background:none;outline:none;font:inherit;font-size:13px;padding:10px 0;width:100%;color:#1a1a1a;min-width:0}
+.dl-search:focus-within{box-shadow:0 0 0 2px var(--accent)}
+.dl-bar .btn-primary:first-of-type{margin-left:auto}
+.dl-bar .btn-ghost+.btn-primary{margin-left:0}
+.dl-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.dl-chip{display:inline-flex;align-items:center;gap:8px;border:1px solid #e3e3e3;background:#fff;border-radius:999px;padding:7px 14px;font:inherit;font-size:13px;font-weight:600;color:#555;cursor:pointer}
+.dl-chip span{background:#f0f0f0;border-radius:999px;padding:1px 8px;font-size:12px;font-weight:700;color:#444}
+.dl-chip.on{background:#1a1a1a;border-color:#1a1a1a;color:#fff}
+.dl-chip.on span{background:rgba(255,255,255,.2);color:#fff}
+.dl-table{border:1px solid #e5e5e5;border-radius:10px;overflow:hidden;background:#fff}
+.dl-tr{display:grid;grid-template-columns:30px 62px minmax(0,1.5fr) minmax(0,1fr) 84px 124px 62px 34px;gap:10px;align-items:center;padding:12px 14px;border-top:1px solid #f0f0f0;font-size:13px;cursor:pointer}
+.dl-tr:first-child{border-top:none}
+.dl-tr:not(.dl-th):hover{background:#fafafa}
+.dl-th{cursor:default;font-size:11px;font-weight:700;color:#999;background:#fafafa;padding-top:9px;padding-bottom:9px}
+.dl-tr>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dl-vpill{display:inline-block;background:#1a1a1a;color:#fff;border-radius:7px;padding:3px 9px;font-size:12px;font-weight:700}
+.c-title{font-weight:600}
+.c-link a{color:#555;text-decoration:none;display:inline-flex;align-items:center;gap:5px;max-width:100%}
+.c-link a:hover{color:#1a1a1a;text-decoration:underline}
+.c-link em{color:#bbb;font-style:normal}
+.dl-fbpill{display:inline-flex;align-items:center;gap:5px;font-style:normal;font-weight:700;font-size:12px;border-radius:999px;padding:3px 10px;background:#f0f0f0;color:#888}
+.dl-fbpill.has{background:#fff3cd;color:#1a1a1a}
+.c-date{color:#777}
+.dl-bulk{display:flex;align-items:center;gap:12px;margin-bottom:10px;font-size:13px;font-weight:700}
+.dl-empty{border:1px dashed #d8d8d8;border-radius:10px;padding:32px 20px;text-align:center;color:#777;font-size:13px}
+.dl-empty b{display:block;color:#1a1a1a;font-size:15px;margin-bottom:4px}
+.dl-empty div{margin-top:14px}
+.dl-crumb{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;color:#777;margin-bottom:14px}
+.dl-crumb button{display:inline-flex;align-items:center;gap:6px;border:none;background:#f0f0f0;border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;font-weight:700;color:#1a1a1a;cursor:pointer}
+.dl-crumb i{font-style:normal;color:#ccc}
+.dl-crumb b{color:#1a1a1a}
+.dl-dhead{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.dl-dtitle h2{font-family:'Bevellier',sans-serif;font-weight:400;font-size:24px;margin:0 0 4px;word-break:break-word}
+.dl-dsub{font-size:13px;color:#777}
+.dl-dact{display:flex;align-items:center;gap:8px}
+.dl-status{border:none;border-radius:999px;padding:8px 32px 8px 14px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;appearance:none;-webkit-appearance:none;background-repeat:no-repeat;background-position:right 12px center;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%23555' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='m1 1 4 4 4-4'/%3E%3C/svg%3E")}
+.dl-status.ok{background-color:#e1f4e7;color:#1d7a3b}
+.dl-status.rev{background-color:#fff1cc;color:#8a5a00}
+.dl-status.chg{background-color:#fde4ea;color:#b3244b}
+.dl-dgrid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(300px,1fr);gap:20px;align-items:start}
+.dl-plink{margin-top:10px;font-size:13px}
+.dl-plink a{color:#555;display:inline-flex;align-items:center;gap:5px;text-decoration:none}
+.dl-plink a:hover{text-decoration:underline}
+.dl-fbp{border:1px solid #e5e5e5;border-radius:10px;padding:16px;background:#fff;max-height:70vh;overflow-y:auto}
+.dl-fbhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+.dl-fbhead h3{margin:0;font-size:15px;font-weight:800}
+.dl-fbempty{padding:22px 4px;text-align:center;font-size:13px;color:#777}
+.dl-fbempty b{display:block;color:#1a1a1a;margin-bottom:4px}
+.dl-fb{border-top:1px solid #f0f0f0;padding:12px 0}
+.dl-fb:first-of-type{border-top:none}
+.dl-fbrow{display:grid;grid-template-columns:18px auto minmax(0,1fr) 30px;gap:10px;align-items:start}
+.dl-fbrow input{margin-top:6px}
+.dl-tc{border:none;background:#f0f0f0;border-radius:999px;padding:4px 11px;font:inherit;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;cursor:pointer;color:#1a1a1a}
+.dl-tc:hover:not(:disabled){background:#fff3cd}
+.dl-tc:disabled{cursor:default;color:#999}
+.dl-fbmeta{font-size:12px;color:#888;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.dl-fbmsg{font-size:14px;line-height:1.45;margin-top:3px;word-break:break-word;white-space:pre-wrap}
+.dl-fb.done .dl-fbmsg{text-decoration:line-through;color:#999}
+.dl-reply{margin:10px 0 0 46px;background:#f7f7f7;border-radius:10px;padding:9px 12px}
+.dl-x{border:none;background:none;font:inherit;font-size:11px;font-weight:700;color:#999;cursor:pointer;margin-left:auto;padding:0}
+.dl-x:hover{color:#b3244b}
+.dl-replyform{display:flex;gap:8px;margin:10px 0 0 46px}
+.dl-replyform[hidden]{display:none}
+.dl-replyform .f-input{flex:1;min-width:0}
+.dl-noteform{display:grid;gap:10px;margin-bottom:10px}
+.proj-menu button.danger{color:#b3244b}
+@media (max-width:900px){
+.dl-dgrid{grid-template-columns:minmax(0,1fr)}
+.dl-fbp{max-height:none}
+}
+@media (max-width:720px){
+.dl-bar .btn-primary:first-of-type{margin-left:0}
+.dl-search{max-width:none;flex-basis:100%;order:3}
+.dl-bar .btn-ghost,.dl-bar .btn-primary{flex:1}
+.dl-th{display:none}
+.dl-tr{grid-template-columns:24px auto minmax(0,1fr) 30px;grid-template-areas:"sel ver title act" ". link link link" ". fb stat date";row-gap:8px;padding:12px}
+.dl-tr .c-sel{grid-area:sel}.dl-tr .c-ver{grid-area:ver}.dl-tr .c-title{grid-area:title}.dl-tr .c-act{grid-area:act}.dl-tr .c-link{grid-area:link}.dl-tr .c-fb{grid-area:fb}.dl-tr .c-stat{grid-area:stat}.dl-tr .c-date{grid-area:date;justify-self:end;align-self:center}
+.dl-dtitle h2{font-size:20px}
+.dl-reply,.dl-replyform{margin-left:28px}
+.dl-fbrow{grid-template-columns:18px auto minmax(0,1fr) 28px;gap:8px}
+}
+/* ---- Review & Feedback (viewer additions) ---- */
+.vw-vsel{width:100%;border:none;background:#f0f0f0;border-radius:12px;padding:11px 12px;font:inherit;font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:12px}
+.vw-vhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.vw-vhead .vw-vtitle{margin:0}
+.vw-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;padding-top:16px;border-top:1px solid #f0f0f0;align-items:center}
+.vw-act{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:11px 20px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;border:1.5px solid transparent;flex:1;min-width:150px}
+.vw-act.send{background:var(--accent);color:#1a1a1a}
+.vw-act.approve{background:#fff;border-color:#1a1a1a;color:#1a1a1a}
+.vw-act.approve.done{background:#2e9e4f;border-color:#2e9e4f;color:#fff}
+.vw-act:disabled{cursor:default}
+.vw-act.send:disabled{background:#e6e6e6;color:#999}
+.vw-hint{flex-basis:100%;font-size:12px;color:#888}
+.vw-nofb{text-align:center;padding:26px 10px;color:#888;font-size:13px}
+.vw-nofb b{display:block;color:#1a1a1a;font-size:14px;margin-bottom:4px}
+.vw-reply{margin-top:8px;margin-left:14px;background:#f7f7f7;border-radius:10px;padding:8px 11px;font-size:12px;color:#888}
+.vw-reply div{font-size:14px;color:#1a1a1a;margin-top:2px;word-break:break-word}
 </style>
 </head>
 <body>
@@ -1235,7 +1344,7 @@ brief:{confirmed:!!seedConfirmed},
 shotPlanning:{confirmed:!!seedConfirmed},
 budgeting:{confirmed:!!seedConfirmed,lines:[]},
 shootTracking:{confirmed:false},
-delivery:{confirmed:false,initialReview:{locked:false,versions:[]},finalMaster:{versions:[]}}
+delivery:{confirmed:false,videos:[{id:'main',name:'Main Film',versions:[]}]}
 },
 brief, days, refs:refs||[], conceptTasks:[], crewIds:(team&&team.crewIds)||[], equipmentIds:(team&&team.equipmentIds)||[], unscheduledShots:[]};
 }
@@ -1256,18 +1365,19 @@ if(!p.phaseLog) p.phaseLog={brief:null,shotPlanning:null,budgeting:null,shootTra
 if(!p.sections.shootTracking) p.sections.shootTracking={confirmed:false};
 delete p.sections.shootTracking.tasks;
 const d=p.sections.delivery;
-if(!d.initialReview || Array.isArray(d.finalMaster)){
+if(!d.videos){
+const t = todayISO(), vers=[];
 const oldFirst = Array.isArray(d.firstDraft) ? d.firstDraft : [];
 const oldFinalArr = Array.isArray(d.finalMaster) ? d.finalMaster : [];
-const t = todayISO();
-if(!d.initialReview){
-d.initialReview = { locked:false, versions: oldFirst.map((link,i)=>({num:i+1,title:'Version '+(i+1),link:link,date:t})) };
+let irv = (d.initialReview&&d.initialReview.versions)||oldFirst.map((link,i)=>({num:i+1,title:'Version '+(i+1),link:link,date:t}));
+let fmv = (d.finalMaster&&!Array.isArray(d.finalMaster)&&d.finalMaster.versions)||oldFinalArr.map((link,i)=>({num:i+1,title:'Master '+(i+1),link:link,date:t}));
+irv.forEach(v=>vers.push({id:'v'+v.num,num:vers.length+1,title:v.title||'',link:v.link||'',date:v.date||t,status:'In Review'}));
+fmv.forEach(v=>vers.push({id:'Master v'+v.num,num:vers.length+1,title:v.title||'',link:v.link||'',date:v.date||t,status:'In Review'}));
+if(d.confirmed && vers.length) vers[vers.length-1].status='Approved';
+d.videos=[{id:'main',name:'Main Film',versions:vers}];
 }
-if(Array.isArray(d.finalMaster)){
-d.finalMaster = { versions: oldFinalArr.map((link,i)=>({num:i+1,title:'Master '+(i+1),link:link,date:t})) };
-}
-}
-if(!d.finalMaster) d.finalMaster={versions:[]};
+delete d.initialReview; delete d.finalMaster;
+if(!d.replies) d.replies={};
 delete d.firstDraft; delete d.tasks;
 (p.days||[]).forEach(function(day){ (day.scenes||[]).forEach(function(s){
 if(s.date===undefined) s.date=day.date||'';
@@ -2070,8 +2180,8 @@ const remaining=shots.filter(s=>s.status!=='Completed'&&s.status!=='Cancelled').
 return shots.length+' planned · '+remaining+' remaining';
 }
 const d=p.sections.delivery||{};
-const n=((d.initialReview&&d.initialReview.versions)||[]).length+((d.finalMaster&&d.finalMaster.versions)||[]).length;
-return plural(n,'version');
+const vs=d.videos||[], n=vs.reduce((a,v)=>a+(v.versions||[]).length,0);
+return plural(vs.length,'video')+' · '+plural(n,'version');
 }
 function headerMetaLine(p){
 const f=splitFormat(p.format);
@@ -2121,7 +2231,7 @@ if(currentTab==='brief') content.innerHTML=renderBriefTab(p);
 else if(currentTab==='shotPlanning'){ content.innerHTML=renderShotPlanningTab(p); }
 else if(currentTab==='budgeting'){ content.innerHTML=renderBudgetingTab(p); renderResourcePlannerList(); }
 else if(currentTab==='shootTracking') content.innerHTML=renderShootTrackingTab(p);
-else { content.innerHTML=renderDeliveryTab(p); pullShares(); }
+else { content.innerHTML=renderDeliveryTab(p); pullShares(); if(RV.ver) dlMountPlayer(); }
 renderStageStatusIcons(currentTab);
 autosizeTextareas();
 syncStickyOffsets();
@@ -2166,7 +2276,9 @@ const statusBtn = interactive
 ? (confirmed
 ? `<button type="button" class="pd-icon-btn tick${pdJustSaved?' just-saved':''}" title="Completed" disabled>${ICON_CHECK_SM}</button>`
 : `<button type="button" class="pd-icon-btn save-btn" title="Save" aria-label="Save" onclick="saveStageFromHeader('${key}')">${ICON_SAVE}</button>`)
-: `<button type="button" class="pd-icon-btn${confirmed?' tick':''}" title="${confirmed?'Completed':'In progress'}" disabled>${ICON_CHECK_SM}</button>`;
+: (key==='delivery' && !confirmed && dlHasApproved(p)
+? `<button type="button" class="pd-icon-btn save-btn" title="Mark as delivered" aria-label="Mark as delivered" onclick="markProjectComplete()">${ICON_CHECK_SM}</button>`
+: `<button type="button" class="pd-icon-btn${confirmed?' tick':''}" title="${confirmed?'Delivered':(key==='delivery'?'Approve a version to deliver':'In progress')}" disabled>${ICON_CHECK_SM}</button>`);
 actionsEl.innerHTML = `<button type="button" class="pd-icon-btn" title="Save PDF" aria-label="Save PDF" onclick="printStage('${key}')">${ICON_DOWNLOAD}</button>${statusBtn}`;
 pdJustSaved=false;
 }
@@ -2318,8 +2430,7 @@ footer{margin-top:50px;padding-top:14px;border-top:1px solid #333;font-size:13px
 <div class="row"><span>Shots completed</span><span>${sh.done} / ${sh.total}</span></div>
 
 <h2>05 · Editing &amp; Review</h2>
-<div class="row"><span>Initial Review versions</span><span>${(p.sections.delivery.initialReview.versions||[]).length}</span></div>
-<div class="row"><span>Final Master versions</span><span>${(p.sections.delivery.finalMaster.versions||[]).length}</span></div>
+${(p.sections.delivery.videos||[]).map(v=>`<div class="row"><span>${esc(v.name)} versions</span><span>${(v.versions||[]).length}</span></div>`).join('')}
 <div class="row"><span>Delivered</span><span>${p.phaseLog&&p.phaseLog.delivered?fmtDateShort(p.phaseLog.delivered):'Not yet'}</span></div>
 
 <h2>Duration log</h2>
@@ -3394,50 +3505,312 @@ apply();
 }
 }
 
-/* ---------- EDIT AND DELIVERY ---------- */
-function renderDeliveryTab(p){
+/* ---------- EDITING & REVIEW ---------- */
+var RV={vid:null, ver:null, q:'', f:'all', sel:{}};
+var OWN={player:null, kind:null};
+var DLM={fns:[]};
+const DL_STATUSES=['In Review','Needs Changes','Approved'];
+const DL_ICON_EXT='<svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h4v4M13 3 7.5 8.5M12 9.5V12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h2.5"/></svg>';
+const DL_ICON_MSG='<svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 3.5h11v7h-6l-3 2.5v-2.5h-2z"/></svg>';
+const DL_ICON_SEARCH='<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg>';
+const DL_ICON_BACK='<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3 5 8l5 5"/></svg>';
+function dlSlug(s){ return s==='Approved'?'ok':s==='Needs Changes'?'chg':'rev'; }
+function dlStatusPill(s){ return `<span class="dl-pill ${dlSlug(s)}">${esc(s)}</span>`; }
+function dlSafeUrl(u){ u=String(u||'').trim(); return /^https?:\/\//i.test(u)?u:''; }
+function dlHost(u){ try{ return new URL(dlSafeUrl(u)).hostname.replace(/^www\./,''); }catch(e){ return ''; } }
+function dlDateTime(ts){ const d=new Date(ts); if(isNaN(d)) return ''; return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})+', '+d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}); }
+function dlNewId(pre){ return pre+Date.now().toString(36)+Math.random().toString(36).slice(2,5); }
+function dlVideos(p){ const d=p.sections.delivery; if(!d.videos||!d.videos.length) d.videos=[{id:'main',name:'Main Film',versions:[]}]; if(!d.replies) d.replies={}; return d.videos; }
+function dlCurVideo(p){ const vs=dlVideos(p); return vs.find(v=>v.id===RV.vid)||vs[0]; }
+function dlFindVersion(p,id){ for(const v of dlVideos(p)){ const x=(v.versions||[]).find(y=>y.id===id); if(x) return {video:v,ver:x}; } return null; }
+function dlAllVersions(p){ const out=[]; dlVideos(p).forEach(v=>(v.versions||[]).forEach(x=>out.push({video:v,ver:x}))); return out; }
+function dlHasApproved(p){ return dlAllVersions(p).some(o=>o.ver.status==='Approved'); }
+/* every feedback note on a version: the client's (from the server) plus the editor's own */
+function dlFeedback(p,ver){
 const d=p.sections.delivery;
-const ir=d.initialReview, fm=d.finalMaster;
-const headerRow=`<div class="del-version-row del-version-header" style="font-size:11px;color:#999;font-weight:700;border-top:none;font-family:'Satoshi',sans-serif;"><span>Ver.</span><span>Title</span><span>Link</span><span>Date</span><span>Duration</span></div>`;
-const irRows=(ir.versions||[]).map(v=>`<div class="del-version-row"><span data-label="Ver.">v${v.num}</span><span data-label="Title">${esc(v.title)}</span><span data-label="Link">${esc(v.link)}</span><span data-label="Date">${fmtDateShort(v.date)}</span><span data-label="Duration">${phaseDurationLabel(p,v.date)}</span></div>`).join('');
-const fmRows=(fm.versions||[]).map(v=>`<div class="del-version-row"><span data-label="Ver.">v${v.num}</span><span data-label="Title">${esc(v.title)}</span><span data-label="Link">${esc(v.link)}</span><span data-label="Date">${fmtDateShort(v.date)}</span><span data-label="Duration">${phaseDurationLabel(p,v.date)}</span></div>`).join('');
-return `<div id="pdBody">
-<div class="box">
-<div class="box-title">Segment 01 · Initial Review</div>
-${headerRow}${irRows||'<div style="font-size:13px;color:#999;padding:8px 0;">No versions logged yet.</div>'}
-${!ir.locked?`<div class="form-grid" style="margin-top:12px;"><input class="f-input" id="irTitleInput" placeholder="Version title"><input class="f-input" id="irLinkInput" placeholder="Review link"></div><div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;"><button class="btn-ghost" onclick="addInitialReviewVersion()">Add version</button><button class="btn-primary" onclick="toggleInitialReviewLock()">Edit lock</button></div>`:`<div style="display:flex;gap:10px;margin-top:12px;align-items:center;"><span class="section-badge confirmed">Locked</span><button class="btn-ghost" onclick="toggleInitialReviewLock()">Edit</button></div>`}
+const cl=((STATE.shareFeedback&&STATE.shareFeedback[p.id])||[]).filter(f=>f.version===ver.id).map(f=>({id:f.id,src:'client',author:f.author||'Client',seconds:f.seconds,timecode:f.timecode||'',message:f.message,resolved:!!f.resolved,ts:f.ts,replies:(d.replies&&d.replies[f.id])||[]}));
+const ed=(ver.notes||[]).map(n=>({id:n.id,src:'owner',author:'Editor',seconds:n.seconds,timecode:n.timecode||'',message:n.message,resolved:!!n.resolved,ts:n.ts,replies:[]}));
+return cl.concat(ed).sort((a,b)=>(a.seconds==null)-(b.seconds==null) || (a.seconds||0)-(b.seconds||0) || a.ts-b.ts);
+}
+function dlSetVideoStatus(p,ver,status,ts){
+if(ver.status===status) return false;
+ver.status=status; ver.statusTs=ts||Date.now(); return true;
+}
+
+function renderDeliveryTab(p){
+dlVideos(p);
+if(RV.ver){ const f=dlFindVersion(p,RV.ver); if(f) return `<div id="pdBody" class="dl">${dlDetailHtml(p,f.video,f.ver)}</div>`; RV.ver=null; }
+return `<div id="pdBody" class="dl">${dlListHtml(p)}</div>`;
+}
+function dlListHtml(p){
+const vids=dlVideos(p), v=dlCurVideo(p); RV.vid=v.id;
+const all=(v.versions||[]);
+const cnt={all:all.length,'In Review':0,'Needs Changes':0,'Approved':0}; all.forEach(x=>{ cnt[x.status]=(cnt[x.status]||0)+1; });
+const chip=(k,label)=>`<button type="button" class="dl-chip ${RV.f===k?'on':''}" onclick="dlSetFilter('${k}')">${label}<span>${cnt[k]}</span></button>`;
+const s=getShare(p.id,'client');
+return `<div class="dl-bar">
+<div class="dl-vsel"><select aria-label="Video" onchange="dlSetVideo(this.value)">${vids.map(x=>`<option value="${esc(x.id)}" ${x.id===v.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select><button type="button" class="dl-iconbtn" title="New video" aria-label="New video" onclick="dlVideoModal()">+</button><button type="button" class="dl-iconbtn" title="Rename or delete video" aria-label="Video options" onclick="dlVideoMenu(event)">⋯</button></div>
+<label class="dl-search">${DL_ICON_SEARCH}<input type="text" placeholder="Search versions" value="${esc(RV.q)}" oninput="dlSetQ(this.value)"></label>
+<button type="button" class="btn-ghost" onclick="openShareModal('${p.id}','client')">${s?'Client link':'Share to client'}</button>
+<button type="button" class="btn-primary" onclick="dlVersionModal()">Add Version +</button>
 </div>
-${renderClientFeedbackBox(p)}
-<div class="box">
-<div class="box-title">Segment 02 · Final Master</div>
-${ir.locked?`${headerRow}${fmRows||'<div style="font-size:13px;color:#999;padding:8px 0;">No versions logged yet.</div>'}<div class="form-grid" style="margin-top:12px;"><input class="f-input" id="fmTitleInput" placeholder="Version title"><input class="f-input" id="fmLinkInput" placeholder="Master link"></div><div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;"><button class="btn-ghost" onclick="addFinalMasterVersion()">Add version</button><button class="btn-primary" onclick="markProjectComplete()">Mark as complete</button><button class="btn-ghost" onclick="generateMasterReport()">Generate master report</button></div>`:'<div style="font-size:13px;color:#999;padding:8px 0;">Lock Initial Review to unlock Final Master.</div>'}
-</div>
-</div>`;
+<div class="dl-chips">${chip('all','All Versions')}${chip('In Review','In Review')}${chip('Needs Changes','Needs Changes')}${chip('Approved','Approved')}</div>
+<div id="dlTableWrap">${dlTableHtml(p,v)}</div>`;
 }
-function addInitialReviewVersion(){
-const p=currentProject();
-const title=(document.getElementById('irTitleInput').value||'').trim();
-const link=(document.getElementById('irLinkInput').value||'').trim();
-if(!title && !link) return;
-const ir=p.sections.delivery.initialReview;
-ir.versions=ir.versions||[];
-ir.versions.push({num:ir.versions.length+1,title:title||('Version '+(ir.versions.length+1)),link:link,date:todayISO()});
-saveProjectChange(p); logActivity('Review version added',p.title); renderProjectDetail();
+function dlFilteredVersions(v){
+const q=RV.q.trim().toLowerCase();
+return (v.versions||[]).filter(x=>(RV.f==='all'||x.status===RV.f) && (!q || (('v'+x.num+' '+(x.title||'')+' '+(x.link||'')).toLowerCase().includes(q)))).slice().sort((a,b)=>b.num-a.num);
 }
-function addFinalMasterVersion(){
-const p=currentProject();
-const title=(document.getElementById('fmTitleInput').value||'').trim();
-const link=(document.getElementById('fmLinkInput').value||'').trim();
-if(!title && !link) return;
-const fm=p.sections.delivery.finalMaster;
-fm.versions=fm.versions||[];
-fm.versions.push({num:fm.versions.length+1,title:title||('Master '+(fm.versions.length+1)),link:link,date:todayISO()});
-saveProjectChange(p); logActivity('Master version added',p.title); renderProjectDetail();
+function dlTableHtml(p,v){
+const rows=dlFilteredVersions(v);
+if(!(v.versions||[]).length) return `<div class="dl-empty"><b>No versions yet</b>Add the first cut of ${esc(v.name)} to start collecting feedback.<div><button type="button" class="btn-primary" onclick="dlVersionModal()">Add Version +</button></div></div>`;
+if(!rows.length) return `<div class="dl-empty"><b>No matches</b>Try a different search or status.</div>`;
+const selCount=rows.filter(x=>RV.sel[x.id]).length;
+const bulk=selCount?`<div class="dl-bulk"><span>${selCount} selected</span><button type="button" class="btn-ghost" onclick="dlBulkDelete()">Delete</button></div>`:'';
+return bulk+`<div class="dl-table"><div class="dl-tr dl-th"><span><input type="checkbox" aria-label="Select all" ${selCount===rows.length?'checked':''} onchange="dlSelectAll(this.checked)"></span><span>Version</span><span>Title</span><span>Link</span><span>Feedback</span><span>Status</span><span>Date</span><span></span></div>`+rows.map(x=>{
+const fb=dlFeedback(p,x).length, url=dlSafeUrl(x.link);
+return `<div class="dl-tr" onclick="dlOpen('${x.id}')">
+<span class="c-sel" onclick="event.stopPropagation()"><input type="checkbox" aria-label="Select v${x.num}" ${RV.sel[x.id]?'checked':''} onchange="dlSelect('${x.id}',this.checked)"></span>
+<span class="c-ver"><b class="dl-vpill">v${x.num}</b></span>
+<span class="c-title">${esc(x.title||('Version '+x.num))}</span>
+<span class="c-link" onclick="event.stopPropagation()">${url?`<a href="${esc(url)}" target="_blank" rel="noopener">${esc(dlHost(url))}${DL_ICON_EXT}</a>`:'<em>No link</em>'}</span>
+<span class="c-fb"><i class="dl-fbpill ${fb?'has':''}">${DL_ICON_MSG}${fb}</i></span>
+<span class="c-stat">${dlStatusPill(x.status)}</span>
+<span class="c-date">${fmtDateShort(x.date)}</span>
+<span class="c-act" onclick="event.stopPropagation()"><button type="button" class="dl-dots" aria-label="Version actions" onclick="dlRowMenu(event,'${x.id}')">⋯</button></span>
+</div>`; }).join('')+`</div>`;
 }
-function toggleInitialReviewLock(){
+function dlRefreshTable(){ const p=currentProject(); const w=document.getElementById('dlTableWrap'); if(p&&w) w.innerHTML=dlTableHtml(p,dlCurVideo(p)); }
+function dlSetQ(v){ RV.q=v; dlRefreshTable(); }
+function dlSetFilter(k){ RV.f=k; renderProjectDetail(); }
+function dlSetVideo(id){ RV.vid=id; RV.sel={}; RV.f='all'; RV.q=''; renderProjectDetail(); }
+function dlSelect(id,on){ if(on) RV.sel[id]=1; else delete RV.sel[id]; dlRefreshTable(); }
+function dlSelectAll(on){ const p=currentProject(); dlFilteredVersions(dlCurVideo(p)).forEach(x=>{ if(on) RV.sel[x.id]=1; else delete RV.sel[x.id]; }); dlRefreshTable(); }
+function dlBulkDelete(){
+const p=currentProject(), v=dlCurVideo(p), ids=Object.keys(RV.sel).filter(id=>(v.versions||[]).some(x=>x.id===id));
+if(!ids.length) return;
+confirmAction(`Delete ${ids.length} version${ids.length>1?'s':''}?`,'Their feedback stays with the project but will no longer be shown.',function(){
+v.versions=v.versions.filter(x=>ids.indexOf(x.id)<0); dlRenumber(v); RV.sel={};
+saveProjectChange(p); logActivity('Review versions deleted',p.title); renderProjectDetail();
+},{confirmLabel:'Delete'});
+}
+function dlRenumber(v){ (v.versions||[]).forEach((x,i)=>{ x.num=i+1; }); }
+
+/* ----- modals: add / edit version, add video ----- */
+function dlOpenModal(html){ const box=document.getElementById('itemModalBox'); box.innerHTML=html; document.getElementById('itemModal').classList.add('show'); setTimeout(function(){ const f=box.querySelector('input,textarea'); if(f) f.focus(); },40); }
+function dlVersionModal(verId){
+const p=currentProject(), v=dlCurVideo(p), ex=verId?(v.versions||[]).find(x=>x.id===verId):null;
+dlOpenModal(`<div class="modal-header-row"><div class="modal-title">${ex?'Edit version':'Add version'}</div><button type="button" class="modal-close modal-close-inline" onclick="closeModal('itemModal')">×</button></div>
+<p class="body-text" style="margin:0 0 14px;color:#666;">${esc(v.name)}${ex?' · v'+ex.num:' · v'+((v.versions||[]).length+1)}</p>
+<div class="form-grid"><input class="f-input" id="dlvTitle" placeholder="Title (e.g. Review Cut 03)" value="${esc(ex?ex.title:'')}"><input class="f-input" id="dlvLink" placeholder="Review link (YouTube or Vimeo)" value="${esc(ex?ex.link:'')}"></div>
+<div class="vw-err" id="dlvErr" role="alert"></div>
+<div class="modal-footer-row"><button type="button" class="btn-primary" onclick="dlSaveVersion('${ex?ex.id:''}')">${ex?'Save':'Add version'}</button><button type="button" class="btn-ghost" onclick="closeModal('itemModal')">Cancel</button></div>`);
+}
+function dlSaveVersion(verId){
+const p=currentProject(), v=dlCurVideo(p);
+const title=document.getElementById('dlvTitle').value.trim(), link=document.getElementById('dlvLink').value.trim();
+if(link && !dlSafeUrl(link)){ document.getElementById('dlvErr').textContent='Links need to start with https://'; return; }
+if(!title && !link){ document.getElementById('dlvTitle').focus(); return; }
+v.versions=v.versions||[];
+if(verId){ const x=v.versions.find(y=>y.id===verId); if(x){ x.title=title||x.title; x.link=link; } }
+else { const n=v.versions.length+1; v.versions.push({id:dlNewId('ver'),num:n,title:title||('Version '+n),link:link,date:todayISO(),status:'In Review',statusTs:Date.now()}); logActivity('Review version added',p.title+' · '+v.name); }
+closeModal('itemModal'); saveProjectChange(p); renderProjectDetail();
+}
+function dlVideoModal(){
+dlOpenModal(`<div class="modal-header-row"><div class="modal-title">New video</div><button type="button" class="modal-close modal-close-inline" onclick="closeModal('itemModal')">×</button></div>
+<p class="body-text" style="margin:0 0 14px;color:#666;">Each video keeps its own versions and feedback, like a teaser, trailer or the main film.</p>
+<div class="form-grid"><input class="f-input" id="dlvName" placeholder="Video name (e.g. Teaser)"></div>
+<div class="modal-footer-row"><button type="button" class="btn-primary" onclick="dlSaveVideo()">Add video</button><button type="button" class="btn-ghost" onclick="closeModal('itemModal')">Cancel</button></div>`);
+}
+function dlSaveVideo(){
+const p=currentProject(), name=document.getElementById('dlvName').value.trim();
+if(!name){ document.getElementById('dlvName').focus(); return; }
+const v={id:dlNewId('vid'),name:name,versions:[]}; dlVideos(p).push(v); RV.vid=v.id; RV.f='all'; RV.q=''; RV.sel={};
+closeModal('itemModal'); saveProjectChange(p); logActivity('Video added',p.title+' · '+name); renderProjectDetail();
+}
+function dlRenameVideoModal(){
+const p=currentProject(), v=dlCurVideo(p);
+dlOpenModal(`<div class="modal-header-row"><div class="modal-title">Rename video</div><button type="button" class="modal-close modal-close-inline" onclick="closeModal('itemModal')">×</button></div>
+<div class="form-grid"><input class="f-input" id="dlvName" value="${esc(v.name)}"></div>
+<div class="modal-footer-row"><button type="button" class="btn-primary" onclick="dlDoRename()">Save</button><button type="button" class="btn-ghost" onclick="closeModal('itemModal')">Cancel</button></div>`);
+}
+function dlDoRename(){ const p=currentProject(), v=dlCurVideo(p), n=document.getElementById('dlvName').value.trim(); if(!n) return; v.name=n; closeModal('itemModal'); saveProjectChange(p); renderProjectDetail(); }
+function dlDeleteVideo(){
+const p=currentProject(), vs=dlVideos(p), v=dlCurVideo(p);
+if(vs.length<2){ confirmAction('Can’t delete the only video','Add another video first.',function(){},{confirmLabel:'OK'}); return; }
+confirmAction(`Delete ${v.name}?`,`Its ${(v.versions||[]).length} versions will be removed.`,function(){
+p.sections.delivery.videos=vs.filter(x=>x.id!==v.id); RV.vid=null; RV.sel={}; saveProjectChange(p); renderProjectDetail();
+},{confirmLabel:'Delete'});
+}
+
+/* ----- small action menus (reuse the project-menu look) ----- */
+function dlMenu(ev,items){
+ev.stopPropagation();
+const btn=ev.currentTarget, wasOpen=shareMenuEl && shareMenuEl.dataset.owner===btn.dataset.mid;
+closeProjectMenu();
+if(wasOpen) return;
+const r=btn.getBoundingClientRect(), m=document.createElement('div');
+btn.dataset.mid=btn.dataset.mid||('m'+Math.random().toString(36).slice(2,7));
+m.className='proj-menu'; m.dataset.owner=btn.dataset.mid;
+DLM.fns=items.map(i=>i.fn);
+m.innerHTML=items.map((i,n)=>`<button type="button" class="${i.danger?'danger':''}" onclick="dlMenuDo(${n})"><span>${esc(i.label)}</span></button>`).join('');
+m.addEventListener('click',e=>e.stopPropagation());
+document.body.appendChild(m);
+const w=m.offsetWidth, h=m.offsetHeight;
+m.style.left=Math.max(8,Math.min(window.innerWidth-w-8,r.right-w))+'px';
+m.style.top=(r.bottom+h+12>window.innerHeight ? Math.max(8,r.top-h-6) : r.bottom+6)+'px';
+shareMenuEl=m;
+}
+function dlMenuDo(n){ const fn=DLM.fns[n]; closeProjectMenu(); if(fn) fn(); }
+function dlVideoMenu(ev){ dlMenu(ev,[{label:'Rename video',fn:dlRenameVideoModal},{label:'Delete video',danger:true,fn:dlDeleteVideo}]); }
+function dlRowMenu(ev,id){
+const items=[{label:'Open review',fn:()=>dlOpen(id)},{label:'Edit details',fn:()=>dlVersionModal(id)}];
+const p=currentProject(), x=(dlCurVideo(p).versions||[]).find(y=>y.id===id);
+if(x && dlSafeUrl(x.link)) items.push({label:'Open link',fn:()=>window.open(dlSafeUrl(x.link),'_blank','noopener')});
+items.push({label:'Delete version',danger:true,fn:()=>dlDeleteVersion(id)});
+dlMenu(ev,items);
+}
+function dlDeleteVersion(id){
+const p=currentProject(), v=dlCurVideo(p), x=(v.versions||[]).find(y=>y.id===id);
+if(!x) return;
+confirmAction(`Delete v${x.num}?`,'This version and its notes will be removed from the list.',function(){
+v.versions=v.versions.filter(y=>y.id!==id); dlRenumber(v); delete RV.sel[id]; if(RV.ver===id) RV.ver=null;
+saveProjectChange(p); logActivity('Review version deleted',p.title); renderProjectDetail();
+},{confirmLabel:'Delete'});
+}
+
+/* ----- version detail ----- */
+function dlOpen(id){ RV.ver=id; renderProjectDetail(); window.scrollTo(0,0); }
+function dlBack(){ RV.ver=null; OWN.player=null; OWN.kind=null; renderProjectDetail(); }
+function dlDetailHtml(p,video,ver){
+return `<div class="dl-crumb"><button type="button" onclick="dlBack()">${DL_ICON_BACK}<span>Editing &amp; Review</span></button><i>/</i><span>${esc(video.name)}</span><i>/</i><b>v${ver.num}</b></div>
+<div class="dl-dhead"><div class="dl-dtitle"><h2>v${ver.num} ${esc(ver.title||'')}</h2><div class="dl-dsub">${esc(p.title)} · ${esc(video.name)} · ${fmtDateShort(ver.date)}</div></div>
+<div class="dl-dact"><select class="dl-status ${dlSlug(ver.status)}" id="dlStatusSel" aria-label="Status" onchange="dlSetStatus('${ver.id}',this.value)">${DL_STATUSES.map(s=>`<option ${s===ver.status?'selected':''}>${s}</option>`).join('')}</select><button type="button" class="dl-dots" aria-label="More" onclick="dlDetailMenu(event,'${ver.id}')">⋯</button></div></div>
+<div class="dl-dgrid"><div class="dl-pl"><div class="vw-player" id="dlPlayer"></div><div class="dl-plink" id="dlPlink"></div></div>
+<aside class="dl-fbp" id="dlFbPanel">${dlPanelHtml(p,ver)}</aside></div>`;
+}
+function dlPanelHtml(p,ver){
+const fb=dlFeedback(p,ver), s=getShare(p.id,'client');
+const head=`<div class="dl-fbhead"><h3>Feedback (${fb.length})</h3><button type="button" class="btn-primary" onclick="dlNoteModal('${ver.id}')">Add Feedback</button></div>`;
+if(!fb.length) return head+`<div class="dl-fbempty"><b>No feedback yet</b>${s?'Notes from your client appear here as they add them.':'Share this project with your client to collect timecoded feedback, or add your own note.'}</div>`;
+return head+fb.map(f=>`<div class="dl-fb ${f.resolved?'done':''}">
+<div class="dl-fbrow"><input type="checkbox" ${f.resolved?'checked':''} aria-label="Mark done" onchange="dlResolve('${ver.id}','${f.src}','${esc(f.id)}',this.checked)">
+<button type="button" class="dl-tc" ${f.seconds==null?'disabled':''} onclick="dlSeek(${Number(f.seconds)||0})" title="Jump to this moment">${esc(f.timecode||'—')}</button>
+<div class="dl-fbmain"><div class="dl-fbmeta">${esc(f.author)} · ${dlDateTime(f.ts)}</div><div class="dl-fbmsg">${esc(f.message)}</div></div>
+<button type="button" class="dl-dots" aria-label="Note actions" onclick="dlNoteMenu(event,'${ver.id}','${f.src}','${esc(f.id)}')">⋯</button></div>
+${f.replies.map(r=>`<div class="dl-reply"><div class="dl-fbmeta"><b>Editor</b> · ${dlDateTime(r.ts)}<button type="button" class="dl-x" aria-label="Remove reply" onclick="dlDeleteReply('${esc(f.id)}','${r.id}')">Remove</button></div><div class="dl-fbmsg">${esc(r.text)}</div></div>`).join('')}
+${f.src==='client'?`<form class="dl-replyform" id="dlRF-${esc(f.id)}" hidden onsubmit="return dlSendReply(event,'${esc(f.id)}')"><input class="f-input" maxlength="1000" placeholder="Reply to the client" aria-label="Reply"><button type="submit" class="btn-primary">Send</button></form>`:''}
+</div>`).join('');
+}
+function dlRefresh(){
+if(currentView!=='projectDetail' || currentTab!=='delivery') return;
+const p=currentProject(); if(!p) return;
+const ae=document.activeElement;
+if(RV.ver){
+const f=dlFindVersion(p,RV.ver), el=document.getElementById('dlFbPanel');
+if(!f || !el) return;
+if(ae && el.contains(ae) && /INPUT|TEXTAREA/.test(ae.tagName) && ae.type!=='checkbox') return;
+el.innerHTML=dlPanelHtml(p,f.ver);
+const sel=document.getElementById('dlStatusSel');
+if(sel && document.activeElement!==sel){ sel.value=f.ver.status; sel.className='dl-status '+dlSlug(f.ver.status); }
+} else {
+if(ae && ae.closest && ae.closest('.dl-search')) return;
+dlRefreshTable();
+}
+}
+function dlSetStatus(id,status){
+const p=currentProject(), f=dlFindVersion(p,id); if(!f) return;
+if(dlSetVideoStatus(p,f.ver,status)){ saveProjectChange(p); logActivity('Version marked '+status,p.title+' · '+f.video.name+' v'+f.ver.num); }
+renderProjectDetail();
+}
+function dlDetailMenu(ev,id){
+const p=currentProject(), f=dlFindVersion(p,id); if(!f) return;
+const items=[{label:'Edit details',fn:()=>{ RV.vid=f.video.id; dlVersionModal(id); }}];
+if(dlSafeUrl(f.ver.link)) items.push({label:'Open link',fn:()=>window.open(dlSafeUrl(f.ver.link),'_blank','noopener')});
+items.push({label:'Delete version',danger:true,fn:()=>{ RV.vid=f.video.id; dlDeleteVersion(id); }});
+dlMenu(ev,items);
+}
+function dlNoteMenu(ev,vid,src,fid){
+const items=[];
+if(src==='client') items.push({label:'Reply',fn:()=>{ const f=document.getElementById('dlRF-'+fid); if(f){ f.hidden=false; const i=f.querySelector('input'); if(i) i.focus(); } }});
+if(src==='owner') items.push({label:'Delete note',danger:true,fn:()=>dlDeleteNote(vid,fid)});
+dlMenu(ev,items);
+}
+async function dlResolve(vid,src,fid,checked){
 const p=currentProject();
-p.sections.delivery.initialReview.locked=!p.sections.delivery.initialReview.locked;
-saveProjectChange(p); renderProjectDetail();
+if(src==='client'){ await setFeedbackResolved(p.id,fid,checked); return; }
+const f=dlFindVersion(p,vid); if(!f) return;
+const n=(f.ver.notes||[]).find(x=>x.id===fid); if(!n) return;
+n.resolved=checked; saveProjectChange(p); dlRefresh();
+}
+function dlSendReply(ev,fid){
+ev.preventDefault();
+const inp=ev.target.querySelector('input'), text=inp.value.trim(); if(!text) return false;
+const p=currentProject(), d=p.sections.delivery;
+d.replies=d.replies||{}; (d.replies[fid]=d.replies[fid]||[]).push({id:dlNewId('r'),text:text,ts:Date.now()});
+saveProjectChange(p); inp.value=''; inp.blur(); dlRefresh(); return false;
+}
+function dlDeleteReply(fid,rid){
+const p=currentProject(), d=p.sections.delivery;
+d.replies[fid]=(d.replies[fid]||[]).filter(r=>r.id!==rid); if(!d.replies[fid].length) delete d.replies[fid];
+saveProjectChange(p); dlRefresh();
+}
+function dlDeleteNote(vid,nid){
+const p=currentProject(), f=dlFindVersion(p,vid); if(!f) return;
+f.ver.notes=(f.ver.notes||[]).filter(n=>n.id!==nid); saveProjectChange(p); dlRefresh();
+}
+function dlNoteModal(vid){
+dlOpenModal(`<div class="modal-header-row"><div class="modal-title">Add feedback</div><button type="button" class="modal-close modal-close-inline" onclick="closeModal('itemModal')">×</button></div>
+<div class="dl-noteform"><div class="vw-tcwrap"><input id="dlnTc" class="vw-input vw-tc" inputmode="numeric" placeholder="0:00" maxlength="9" aria-label="Timecode"><button type="button" class="vw-now" onclick="dlFillNow()">Now</button></div>
+<textarea id="dlnMsg" class="vw-input vw-msg" rows="3" maxlength="2000" placeholder="What should change at this moment?" aria-label="Feedback"></textarea></div>
+<div class="vw-err" id="dlnErr" role="alert"></div>
+<div class="modal-footer-row"><button type="button" class="btn-primary" onclick="dlSaveNote('${vid}')">Add feedback</button><button type="button" class="btn-ghost" onclick="closeModal('itemModal')">Cancel</button></div>`);
+dlFillNow();
+}
+async function dlFillNow(){
+const tc=document.getElementById('dlnTc'); if(!tc) return;
+try{
+let t=null;
+if(OWN.kind==='youtube' && OWN.player && OWN.player.getCurrentTime) t=OWN.player.getCurrentTime();
+else if(OWN.kind==='vimeo' && OWN.player) t=await OWN.player.getCurrentTime();
+if(t!=null) tc.value=vwFmtTC(t);
+}catch(e){}
+}
+function dlSaveNote(vid){
+const p=currentProject(), f=dlFindVersion(p,vid); if(!f) return;
+const msg=document.getElementById('dlnMsg').value.trim(), secs=vwParseTC(document.getElementById('dlnTc').value);
+if(Number.isNaN(secs)){ document.getElementById('dlnErr').textContent='Use minutes and seconds, like 1:23.'; return; }
+if(!msg){ document.getElementById('dlnMsg').focus(); return; }
+f.ver.notes=f.ver.notes||[];
+f.ver.notes.push({id:dlNewId('n'),seconds:secs,timecode:secs==null?'':vwFmtTC(secs),message:msg,ts:Date.now(),resolved:false});
+closeModal('itemModal'); saveProjectChange(p); dlRefresh();
+}
+function dlSeek(sec){
+try{
+if(OWN.kind==='youtube' && OWN.player && OWN.player.seekTo){ OWN.player.seekTo(sec,true); OWN.player.playVideo(); }
+else if(OWN.kind==='vimeo' && OWN.player){ OWN.player.setCurrentTime(sec).then(()=>OWN.player.play()).catch(()=>{}); }
+}catch(e){}
+const pl=document.getElementById('dlPlayer'); if(pl) pl.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+async function dlMountPlayer(){
+const box=document.getElementById('dlPlayer'), p=currentProject();
+if(!box || !p || !RV.ver) return;
+OWN.player=null; OWN.kind=null;
+const f=dlFindVersion(p,RV.ver); if(!f) return;
+const link=f.ver.link||'', url=dlSafeUrl(link);
+const pl=document.getElementById('dlPlink'); if(pl) pl.innerHTML=url?`<a href="${esc(url)}" target="_blank" rel="noopener">${esc(dlHost(url))}${DL_ICON_EXT}</a>`:'';
+if(!link){ box.innerHTML='<div class="vw-empty vw-pad">No video linked yet. Use Edit details to add a link.</div>'; return; }
+const v=vwParseVideo(link);
+if(!v){ box.innerHTML=`<div class="vw-empty vw-pad">This link can’t be previewed here.${url?` <a href="${esc(url)}" target="_blank" rel="noopener">Open it in a new tab</a>.`:''}</div>`; return; }
+if(v.kind==='youtube'){
+box.innerHTML=`<iframe id="dlFrame" src="https://www.youtube-nocookie.com/embed/${v.id}?enablejsapi=1&rel=0&playsinline=1&origin=${encodeURIComponent(location.origin)}" allow="accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="Review video"></iframe>`;
+const mine=box.firstChild;
+try{ await vwLoadYT(); if(document.getElementById('dlFrame')===mine){ OWN.player=new YT.Player('dlFrame',{}); OWN.kind='youtube'; } }catch(e){}
+} else {
+box.innerHTML=`<iframe id="dlFrame" src="https://player.vimeo.com/video/${v.id}?${v.hash?'h='+v.hash+'&':''}dnt=1" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Review video"></iframe>`;
+const mine=box.firstChild;
+try{ await vwLoadScript('https://player.vimeo.com/api/player.js'); if(document.getElementById('dlFrame')===mine){ OWN.player=new Vimeo.Player(mine); OWN.kind='vimeo'; } }catch(e){}
+}
 }
 function markProjectComplete(){
 confirmAction('Mark this project as complete?','It will move to Completed Projects.',function(){
@@ -3530,10 +3903,10 @@ return {t:'act', title:plainText(activityDisplayText(it,d.date)), status:it.stat
 })
 }));
 const dl=p.sections.delivery||{};
-const review=[];
-((dl.initialReview&&dl.initialReview.versions)||[]).forEach(v=>review.push({label:'v'+v.num, title:v.title||'', link:v.link||'', date:v.date||'', kind:'review'}));
-((dl.finalMaster&&dl.finalMaster.versions)||[]).forEach(v=>review.push({label:'Master v'+v.num, title:v.title||'', link:v.link||'', date:v.date||'', kind:'master'}));
-const snap={v:1, audience, title:p.title, client:p.client||'', format:p.format||'', place:p.place||'', status:getProjectStatus(p), pct:Math.round(done/5*100), brief, review};
+const review=[], liveIds={};
+(dl.videos||[]).forEach(v=>(v.versions||[]).forEach(x=>{ liveIds[x.id]=1; review.push({id:x.id, label:'v'+x.num, video:v.name, title:x.title||'', link:x.link||'', date:x.date||'', status:x.status||'In Review', statusTs:x.statusTs||0, notes:(x.notes||[]).map(n=>({id:n.id, seconds:n.seconds==null?null:n.seconds, timecode:n.timecode||'', message:n.message||'', ts:n.ts||0, resolved:!!n.resolved}))}); }));
+const replies={}; Object.keys(dl.replies||{}).forEach(k=>{ if((dl.replies[k]||[]).length) replies[k]=dl.replies[k].map(r=>({id:r.id, text:r.text, ts:r.ts})); });
+const snap={v:1, audience, title:p.title, client:p.client||'', format:p.format||'', place:p.place||'', status:getProjectStatus(p), pct:Math.round(done/5*100), brief, review, replies};
 if(audience==='client'){
 snap.days=days.map(d=>({label:d.label, date:d.date, shots:d.scenes.reduce((a,s)=>a.concat(s.items.filter(i=>i.t==='shot').map(i=>({num:i.num, desc:i.desc, status:i.status}))),[])}));
 } else {
@@ -3692,7 +4065,7 @@ async function pullShares(){
 if(window.__VIEW_TOKEN || !supabase || !hasAnyShare() || sharePulling) return;
 sharePulling=true;
 try{
-let changed=false;
+let changed=false, stChanged=false;
 STATE.shareSeen=STATE.shareSeen||{}; STATE.shareFeedback=STATE.shareFeedback||{}; STATE.shareViewers=STATE.shareViewers||{};
 const all=STATE.shares;
 for(const pid of Object.keys(all)){
@@ -3719,6 +4092,20 @@ STATE.shareSeen[key]=1; changed=true;
 addActivityAt(`${f.author} left feedback${f.timecode?' at '+f.timecode:''}`,title+(f.version_label?' · '+f.version_label:''),Date.parse(f.created_at));
 });
 }
+if(aud==='client' && p){
+const dlv=p.sections.delivery;
+(data.statuses||[]).forEach(st=>{
+const key='st'+st.id;
+if(STATE.shareSeen[key]) return;
+STATE.shareSeen[key]=1;
+const f=dlFindVersion(p,st.version_key); if(!f) return;
+const ts=Date.parse(st.created_at);
+if(ts>(f.ver.statusTs||0)){
+f.ver.status=st.status; f.ver.statusTs=ts; changed=true; stChanged=true;
+addActivityAt(`${st.author} marked ${f.video.name} v${f.ver.num} ${st.status==='Approved'?'approved':'for changes'}`,title,ts);
+}
+});
+}
 const last={};
 (data.events||[]).forEach(ev=>{ last[ev.author]=Math.max(last[ev.author]||0,Date.parse(ev.created_at)); });
 STATE.shareViewers[pid+'|'+aud]=Object.keys(last).map(n=>({name:n,last:last[n]})).sort((a,b)=>b.last-a.last);
@@ -3726,7 +4113,8 @@ STATE.shareViewers[pid+'|'+aud]=Object.keys(last).map(n=>({name:n,last:last[n]})
 }
 saveState();
 if(changed) renderOverview();
-refreshFeedbackBox(); refreshShareModalViewers();
+if(stChanged && currentView==='projectDetail' && currentTab==='delivery' && !document.querySelector('#itemModal.show')) renderProjectDetail(); else refreshFeedbackBox();
+refreshShareModalViewers();
 }finally{ sharePulling=false; }
 }
 function startSharePolling(){
@@ -3737,23 +4125,7 @@ document.addEventListener('visibilitychange',()=>{ if(!document.hidden) pullShar
 }
 var sharePollingStarted=false;
 
-/* ----- Edit & Review: client feedback box ----- */
-function clientFeedbackInner(p){
-const s=getShare(p.id,'client');
-const fb=((STATE.shareFeedback&&STATE.shareFeedback[p.id])||[]).slice().sort((a,b)=>(a.version||'').localeCompare(b.version||'') || (a.seconds==null)-(b.seconds==null) || (a.seconds||0)-(b.seconds||0) || a.ts-b.ts);
-const head=`<div class="fb-head"><div class="box-title" style="margin:0">Client feedback</div><button type="button" class="btn-ghost" onclick="openShareModal('${p.id}','client')">${s?'Client link':'Share to client'}</button></div>`;
-if(!s) return head+'<div class="fb-empty">Share this project with your client to collect timecoded feedback here.</div>';
-if(!fb.length) return head+'<div class="fb-empty">No feedback yet. Notes your client adds on the review page will appear here.</div>';
-const open=fb.filter(f=>!f.resolved).length;
-return head+`<div class="fb-sub">${open} to do · ${fb.length-open} done</div>`+fb.map(f=>`<label class="fb-row ${f.resolved?'done':''}"><input type="checkbox" data-no-lock="1" ${f.resolved?'checked':''} onchange="setFeedbackResolved('${p.id}','${f.id}',this.checked)" aria-label="Mark done"><span class="fb-time">${esc(f.timecode||'—')}</span><span class="fb-body"><span class="fb-msg">${esc(f.message)}</span><span class="fb-meta">${esc(f.author)}${f.version?' · '+esc(f.version):''} · ${relTime(f.ts)}</span></span></label>`).join('');
-}
-function renderClientFeedbackBox(p){ return `<div class="box" id="clientFeedbackBox">${clientFeedbackInner(p)}</div>`; }
-function refreshFeedbackBox(){
-const el=document.getElementById('clientFeedbackBox');
-if(!el || currentView!=='projectDetail' || currentTab!=='delivery') return;
-const p=currentProject();
-if(p) el.innerHTML=clientFeedbackInner(p);
-}
+function refreshFeedbackBox(){ dlRefresh(); }
 async function setFeedbackResolved(pid,fid,checked){
 const list=(STATE.shareFeedback&&STATE.shareFeedback[pid])||[];
 const f=list.find(x=>x.id===fid), s=getShare(pid,'client');
@@ -3764,7 +4136,7 @@ catch(e){ f.resolved=!checked; saveState(); refreshFeedbackBox(); }
 }
 
 /* ---------- VIEWER: what a client / team member sees at ?s=<token> ---------- */
-var VW={token:null, name:'', data:null, snapJson:'', vIdx:0, feedback:[], player:null, kind:null, polls:[]};
+var VW={statuses:{}, armed:null, armTimer:null, token:null, name:'', data:null, snapJson:'', vIdx:0, feedback:[], player:null, kind:null, polls:[]};
 const VW_BRIEF_LABELS={logline:'Logline',synopsis:'Synopsis',creativeBrief:'Creative brief',treatment:'Treatment',visualDirection:'Visual direction',tone:'Tone',locations:'Locations',outputRequirements:'Output requirements',research:'Research',worksheet:'Worksheet',script:'Script'};
 const VW_COLLAPSED=['research','worksheet','script'];
 function vwRoot(){ return document.getElementById('viewerApp'); }
@@ -3848,12 +4220,13 @@ async function vwStart(){
 try{ shareRpc('share_open',{p_token:VW.token,p_author:VW.name}); }catch(e){}
 vwRenderAll();
 await vwLoadFeedback();
+await vwLoadStatuses();
 vwStartPolling();
 }
 function vwStopPolling(){ VW.polls.forEach(clearInterval); VW.polls=[]; }
 function vwStartPolling(){
 vwStopPolling();
-VW.polls.push(setInterval(()=>{ if(!document.hidden) vwLoadFeedback(); },12000));
+VW.polls.push(setInterval(()=>{ if(!document.hidden){ vwLoadFeedback(); vwLoadStatuses(); } },12000));
 VW.polls.push(setInterval(async()=>{
 if(document.hidden) return;
 try{
@@ -3861,10 +4234,12 @@ const res=await shareRpc('share_get',{p_token:VW.token});
 if(!res){ vwStopPolling(); vwRoot().innerHTML=vwUnavailable(); return; }
 const j=JSON.stringify(res.snapshot);
 if(j!==VW.snapJson){
-const oldReview=JSON.stringify(VW.data.snapshot.review);
+const shape=r=>JSON.stringify((r||[]).map(v=>[v.id,v.label,v.video,v.title,v.link]));
+const oldShape=shape(VW.data.snapshot.review), oldRest=JSON.stringify(Object.assign({},VW.data.snapshot,{review:0,replies:0}));
 VW.data=res; VW.snapJson=j;
-if(JSON.stringify(res.snapshot.review)!==oldReview){ if(VW.vIdx>=res.snapshot.review.length) VW.vIdx=0; vwRenderAll(); vwLoadFeedback(); }
-else vwRenderStatic();
+const rest=JSON.stringify(Object.assign({},res.snapshot,{review:0,replies:0}));
+if(shape(res.snapshot.review)!==oldShape){ if(VW.vIdx>=res.snapshot.review.length) VW.vIdx=0; vwRenderAll(); vwLoadFeedback(); }
+else { if(rest!==oldRest) vwRenderStatic(); vwRenderFeedbackList(); }
 }
 }catch(e){}
 },30000));
@@ -3922,20 +4297,82 @@ el.innerHTML=`<section class="vw-hero"><h1 class="vw-title">${esc(snap.title)}</
 }
 function vwVersions(){ return (VW.data.snapshot.review||[]); }
 function vwCurrentVersion(){ return vwVersions()[VW.vIdx]||null; }
+function vwVerStatus(ver){
+const st=(VW.statuses||{})[ver.id];
+if(st && Date.parse(st.created_at)>(ver.statusTs||0)) return st.status;
+return ver.status||'In Review';
+}
+const VW_ICON_CHECK='<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3.5 8.5 3 3 6-7"/></svg>';
 function vwRenderReview(){
 const sec=document.getElementById('vwReviewSec');
 if(!sec) return;
 const d=VW.data, vs=vwVersions(), isClient=d.audience==='client';
-if(!vs.length){ sec.innerHTML=`<h2 class="vw-h2">Review</h2><div class="vw-box"><div class="vw-empty">The first cut hasn’t been shared yet. It will appear here as soon as it’s ready.</div></div>`; return; }
+if(!vs.length){ sec.innerHTML=`<h2 class="vw-h2">Review &amp; Feedback</h2><div class="vw-box"><div class="vw-empty">The first cut hasn’t been shared yet. It will appear here as soon as it’s ready.</div></div>`; return; }
 if(VW.vIdx>=vs.length) VW.vIdx=vs.length-1;
-sec.innerHTML=`<h2 class="vw-h2">Review</h2><div class="vw-box">
-${vs.length>1?`<div class="vw-vers" role="tablist">${vs.map((v,i)=>`<button type="button" class="vw-ver ${i===VW.vIdx?'on':''}" onclick="vwSelectVersion(${i})">${esc(v.label)}${v.title?' · '+esc(v.title):''}</button>`).join('')}</div>`:`<div class="vw-vtitle">${esc(vs[0].label)}${vs[0].title?' · '+esc(vs[0].title):''}</div>`}
+const multiVideo=new Set(vs.map(v=>v.video)).size>1;
+const optLabel=v=>(multiVideo&&v.video?v.video+' · ':'')+v.label+(v.title?' · '+v.title:'');
+sec.innerHTML=`<h2 class="vw-h2">Review &amp; Feedback</h2><div class="vw-box">
+${vs.length>1?`<select class="vw-vsel" aria-label="Version" onchange="vwSelectVersion(Number(this.value))">${vs.map((v,i)=>`<option value="${i}" ${i===VW.vIdx?'selected':''}>${esc(optLabel(v))}</option>`).join('')}</select>`:''}
+<div class="vw-vhead"><div class="vw-vtitle" id="vwVTitle"></div><span id="vwVStat"></span></div>
 <div class="vw-player" id="vwPlayer"></div>
-<div class="vw-fb" id="vwFb"></div></div>`;
+<div class="vw-fb" id="vwFb"></div>
+${isClient?'<div class="vw-actions" id="vwActions"></div>':''}</div>`;
+vwRenderHead();
 vwMountPlayer();
 vwRenderFeedback();
+vwRenderActions();
 }
-function vwSelectVersion(i){ VW.vIdx=i; vwRenderReview(); }
+function vwRenderHead(){
+const ver=vwCurrentVersion(); if(!ver) return;
+const t=document.getElementById('vwVTitle'), s=document.getElementById('vwVStat');
+if(t) t.textContent=ver.label+(ver.title?' · '+ver.title:'');
+if(s){ const st=vwVerStatus(ver); s.innerHTML=`<span class="dl-pill ${dlSlug(st)}">${esc(st)}</span>`; }
+}
+function vwVerFeedback(ver){
+const sn=VW.data.snapshot, reps=sn.replies||{};
+const cl=(VW.feedback||[]).filter(f=>(f.version_label||'')===ver.id).map(f=>({id:f.id,author:f.author,seconds:f.seconds,timecode:f.timecode||'',message:f.message,resolved:!!f.resolved,ts:Date.parse(f.created_at),replies:reps[f.id]||[]}));
+const ed=(ver.notes||[]).map(n=>({id:n.id,author:'Editor',seconds:n.seconds,timecode:n.timecode||'',message:n.message,resolved:!!n.resolved,ts:n.ts,replies:[]}));
+return cl.concat(ed).sort((a,b)=>(a.seconds==null)-(b.seconds==null) || (a.seconds||0)-(b.seconds||0) || a.ts-b.ts);
+}
+function vwRenderActions(){
+const el=document.getElementById('vwActions'), ver=vwCurrentVersion();
+vwRenderHead();
+if(!el || !ver) return;
+const st=vwVerStatus(ver), approved=st==='Approved', hasFb=vwVerFeedback(ver).some(f=>f.author!=='Editor');
+const armed=VW.armed===ver.id;
+el.innerHTML=`<button type="button" class="vw-act send" id="vwSend" ${(approved||!hasFb)?'disabled':''} onclick="vwSetStatus('Needs Changes')">${VW_ICON_CHECK}<span>${st==='Needs Changes'?'Sent for Review':'Send for Review'}</span></button>
+<button type="button" class="vw-act approve ${approved?'done':''}" id="vwApprove" ${approved?'disabled':''} onclick="vwSetStatus('Approved')">${approved?VW_ICON_CHECK:''}<span>${approved?'Version Approved':(armed?'Tap again to approve':'Version Approved')}</span></button>
+${(!approved&&!hasFb)?'<div class="vw-hint">Add at least one note to send this version for review.</div>':''}<div class="vw-err" id="vwActErr" role="alert"></div>`;
+}
+async function vwSetStatus(status){
+const ver=vwCurrentVersion(); if(!ver) return;
+if(status==='Approved' && VW.armed!==ver.id){
+VW.armed=ver.id; vwRenderActions();
+clearTimeout(VW.armTimer); VW.armTimer=setTimeout(()=>{ if(VW.armed===ver.id){ VW.armed=null; vwRenderActions(); } },4000);
+return;
+}
+VW.armed=null; clearTimeout(VW.armTimer);
+const btns=document.querySelectorAll('#vwActions .vw-act'); btns.forEach(b=>b.disabled=true);
+try{
+const r=await shareRpc('share_status_set',{p_token:VW.token,p_version:ver.id,p_status:status,p_author:VW.name});
+if(!r) throw new Error('rejected');
+VW.statuses=VW.statuses||{}; VW.statuses[ver.id]={version:ver.id,status:r.status,created_at:r.created_at};
+vwRenderActions();
+}catch(err){
+vwRenderActions();
+const e=document.getElementById('vwActErr'); if(e) e.textContent='That didn’t go through. Check your connection and try again.';
+}
+}
+async function vwLoadStatuses(){
+try{
+const list=await shareRpc('share_status_list',{p_token:VW.token});
+const m={}; (list||[]).forEach(x=>{ m[x.version]=x; });
+const before=JSON.stringify(VW.statuses||{});
+VW.statuses=m;
+if(JSON.stringify(m)!==before) vwRenderActions();
+}catch(e){}
+}
+function vwSelectVersion(i){ VW.vIdx=i; VW.armed=null; vwRenderReview(); }
 async function vwMountPlayer(){
 const box=document.getElementById('vwPlayer');
 if(!box) return;
@@ -4003,10 +4440,11 @@ vwRenderFeedbackList();
 function vwRenderFeedbackList(){
 const el=document.getElementById('vwFbList');
 if(!el) return;
-const ver=vwCurrentVersion(), label=ver?ver.label:'';
-const rows=(VW.feedback||[]).filter(f=>(f.version_label||'')===label).sort((a,b)=>(a.seconds==null)-(b.seconds==null) || (a.seconds||0)-(b.seconds||0) || String(a.created_at).localeCompare(String(b.created_at)));
-if(!rows.length){ el.innerHTML='<div class="vw-empty">No feedback on this version yet.</div>'; return; }
-el.innerHTML=rows.map(f=>`<div class="vw-fb-row ${f.resolved?'done':''}"><button type="button" class="vw-tcbtn" ${f.seconds==null?'disabled':''} onclick="vwSeek(${Number(f.seconds)||0})" title="Jump to this moment">${esc(f.timecode||'—')}</button><div class="vw-fb-body"><div class="vw-fb-msg">${esc(f.message)}</div><div class="vw-fb-meta">${esc(f.author)} · ${relTime(Date.parse(f.created_at))}${f.resolved?' · <b>Done</b>':''}</div></div></div>`).join('');
+const ver=vwCurrentVersion();
+const rows=ver?vwVerFeedback(ver):[];
+if(!rows.length){ el.innerHTML='<div class="vw-nofb"><b>No Feedback Yet</b>There are no feedback comments for this version.</div>'; vwRenderActions(); return; }
+el.innerHTML=rows.map(f=>`<div class="vw-fb-row ${f.resolved?'done':''}"><button type="button" class="vw-tcbtn" ${f.seconds==null?'disabled':''} onclick="vwSeek(${Number(f.seconds)||0})" title="Jump to this moment">${esc(f.timecode||'—')}</button><div class="vw-fb-body"><div class="vw-fb-msg">${esc(f.message)}</div><div class="vw-fb-meta">${esc(f.author)} · ${relTime(f.ts)}${f.resolved?' · <b>Done</b>':''}</div>${f.replies.map(r=>`<div class="vw-reply"><b>Editor</b> · ${relTime(r.ts)}<div>${esc(r.text)}</div></div>`).join('')}</div></div>`).join('');
+vwRenderActions();
 }
 async function vwSubmitFeedback(e){
 if(e && e.preventDefault) e.preventDefault();
@@ -4019,7 +4457,7 @@ if(Number.isNaN(secs)){ errEl.textContent='Use minutes and seconds, like 1:23.';
 const ver=vwCurrentVersion();
 btn.disabled=true;
 try{
-const r=await shareRpc('share_feedback_add',{p_token:VW.token,p_author:VW.name,p_version:ver?ver.label:'',p_timecode:secs==null?'':vwFmtTC(secs),p_seconds:secs,p_message:msg});
+const r=await shareRpc('share_feedback_add',{p_token:VW.token,p_author:VW.name,p_version:ver?ver.id:'',p_timecode:secs==null?'':vwFmtTC(secs),p_seconds:secs,p_message:msg});
 VW.feedback.push(r);
 msgEl.value=''; tcEl.value=''; tcEl.dataset.touched='0';
 vwRenderFeedbackList();
