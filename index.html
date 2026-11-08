@@ -221,6 +221,9 @@ main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
 .modal-box.xwide{max-width:920px}
 .resources-main{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:start}
 .resource-list-box{border:1px solid #e5e5e5;border-radius:8px;overflow:hidden;background:#fff}
+.rp-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.rp-toolbar .search-filter-box{flex:1 1 220px;min-width:200px;max-width:none}
+.rp-toolbar .view-toggle{flex-shrink:0}
 .crew-row{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-top:1px solid #f2f2f2;cursor:pointer;transition:background .1s}
 .crew-row:first-child{border-top:none}
 .crew-row:hover{background:#fafafa}
@@ -266,6 +269,10 @@ main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
 .pd-tab-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-left:1px solid #eee;padding-left:20px}
 .pd-tab-controls:empty{display:none;border:none;padding:0}
 .pd-tab-controls .search-filter-box{width:280px}
+.pd-budget-total{display:flex;flex-direction:column;justify-content:center;gap:1px;flex-shrink:0;border-left:1px solid #eee;padding-left:20px}
+.pd-budget-total:empty{display:none;border:none;padding:0}
+.pd-budget-total .lbl{font-size:11px;font-weight:700;color:#999;white-space:nowrap}
+.pd-budget-total .val{font-size:18px;font-weight:700;color:#1a1a1a;white-space:nowrap}
 .proj-head-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;border-left:1px solid #eee;padding-left:20px}
 .pd-stage-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .pd-icon-btn{width:34px;height:34px;border-radius:50%;border:none;background:#f0f0f0;color:#666;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background .15s ease,color .15s ease}
@@ -726,6 +733,7 @@ h1{font-size:32px}
 .pd-tab-controls .view-toggle:only-child .vt-btn{flex:1 1 0;text-align:center}
 .pd-tab-controls .vt-btn{padding:8px 14px;font-size:12px;white-space:nowrap}
 .pd-progress-inline{border-left:none;padding-left:0;flex:1 1 auto;min-width:0}
+.pd-budget-total{border-left:none;padding-left:0;flex:0 0 auto}
 .proj-head-actions{border-left:none;padding-left:0;flex:0 0 auto}
 .proj-head-actions .btn-ghost,.proj-head-actions .confirm-btn,.proj-head-actions .section-badge{padding:7px 14px;font-size:12px}
 .proj-head-actions .vt-btn{padding:6px 12px;font-size:12px}
@@ -1106,6 +1114,7 @@ setTimeout(dismissIntro, 4500);
 <div class="stage-progress" id="pdProgress"></div>
 <div class="stage-progress-label" id="pdProgressLabel">—</div>
 </div>
+<div class="pd-budget-total" id="pdBudgetTotal"></div>
 <div class="proj-head-actions">
 <div class="pd-stage-actions" id="pdStageActions"></div>
 </div>
@@ -2178,7 +2187,7 @@ if(key==='shotPlanning'){
 const days=(p.days||[]).filter(d=>(d.scenes||[]).length).length;
 return plural(days,'day')+' · '+plural(allShotItems(p).length,'shot');
 }
-if(key==='budgeting') return 'Total '+fmt(resourceTotals(p).total);
+if(key==='budgeting'){ const t=resourceTotals(p); const n=[...new Set(p.crewIds||[])].length+[...new Set(p.equipmentIds||[])].length; return plural(n,'resource')+' allocated'; }
 if(key==='shootTracking'){
 const shots=allShotItems(p);
 const remaining=shots.filter(s=>s.status!=='Completed'&&s.status!=='Cancelled').length;
@@ -2224,12 +2233,12 @@ const tabControlsEl=document.getElementById('pdTabControls');
 if(tabControlsEl){
 if(currentTab==='shotPlanning'){
 tabControlsEl.innerHTML=`<div class="view-toggle" data-no-lock="1"><button class="vt-btn ${shotPlannerView==='list'?'active':''}" id="pdVtList" data-no-lock="1" onclick="setShotPlannerView('list')">List</button><button class="vt-btn ${shotPlannerView==='storyboard'?'active':''}" id="pdVtStoryboard" data-no-lock="1" onclick="setShotPlannerView('storyboard')">Storyboard</button></div>`;
-} else if(currentTab==='budgeting'){
-tabControlsEl.innerHTML=`<div class="search-filter-box" data-no-lock="1"><input type="text" placeholder="Search resources" value="${esc(rpSearch)}" data-no-lock="1" oninput="setRpSearch(this.value)"><select data-no-lock="1" onchange="setRpCategoryFilter(this.value)"><option value="">All categories</option>${allCategoryNames().map(n=>`<option value="${esc(n)}" ${rpCategoryFilter===n?'selected':''}>${n}</option>`).join('')}</select></div><div class="view-toggle" data-no-lock="1"><button class="vt-btn ${!rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(false)">All</button><button class="vt-btn ${rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(true)">Allocated</button></div>`;
 } else {
 tabControlsEl.innerHTML='';
 }
 }
+const budgetTotalEl=document.getElementById('pdBudgetTotal');
+if(budgetTotalEl) budgetTotalEl.innerHTML = currentTab==='budgeting' ? `<span class="lbl">Total Budget</span><span class="val">₹${fmt(resourceTotals(p).total)}</span>` : '';
 
 const content=document.getElementById('pdContent');
 if(currentTab==='brief') content.innerHTML=renderBriefTab(p);
@@ -3408,6 +3417,10 @@ return {crewHtml:groupSection(crewRows,false), eqHtml:groupSection(eqRows,true)}
 function renderBudgetingTab(p){
 const otherLines=p.sections.budgeting.lines||[];
 return `<div id="pdBody">
+<div class="rp-toolbar">
+<div class="search-filter-box wide" data-no-lock="1"><input type="text" placeholder="Search resources" value="${esc(rpSearch)}" data-no-lock="1" oninput="setRpSearch(this.value)"><select data-no-lock="1" onchange="setRpCategoryFilter(this.value)"><option value="">All categories</option>${allCategoryNames().map(n=>`<option value="${esc(n)}" ${rpCategoryFilter===n?'selected':''}>${n}</option>`).join('')}</select></div>
+<div class="view-toggle" data-no-lock="1"><button class="vt-btn ${!rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(false)">All</button><button class="vt-btn ${rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(true)">Allocated</button></div>
+</div>
 <div class="resource-list-box">
 <div id="rpResourceList"></div>
 <div class="budget-expenses">
