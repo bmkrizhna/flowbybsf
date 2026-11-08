@@ -748,12 +748,16 @@ h1{font-size:32px}
 .resources-main>*,.rp-grid>*{min-width:0}
 
 /* ---- Dense flex rows: allow wrapping instead of overflow ---- */
-.crew-row{flex-direction:row;align-items:flex-start;justify-content:space-between;gap:12px;padding:16px 4px}
-.crew-left{flex:1 1 auto;min-width:0}
-.crew-left .nm{font-size:16px;gap:8px}
-.crew-left .rl{font-size:14px;margin-top:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.crew-right{flex:0 0 auto;flex-direction:column-reverse;align-items:flex-end;gap:8px}
-.crew-right .rate-num{font-size:15px;min-width:0}
+.crew-row{flex-direction:row;align-items:center;justify-content:space-between;gap:10px;padding:13px 4px}
+.crew-left{display:flex;align-items:center;gap:6px;flex:1 1 auto;min-width:0;overflow:hidden}
+.crew-left .nm{font-size:14px;gap:6px;flex:0 0 auto;white-space:nowrap}
+.crew-left .rl{font-size:13px;margin-top:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1 1 auto;min-width:0}
+.crew-left .rl::before{content:'| ';color:#ccc;margin-right:2px}
+@media (max-width:360px){.rl-contact{display:none}}
+.crew-right{flex:0 0 auto;flex-direction:row;align-items:center;gap:8px}
+.crew-right .rate-num{font-size:13px;min-width:0 !important;text-align:right}
+.crew-right .status-pill{font-size:12px;padding:4px 9px}
+.crew-left .nm .avail-chip{font-size:10px;padding:2px 7px}
 .gr-full{display:none}.gr-short{display:inline}
 .resource-list-box{border:none;border-radius:0;background:none}
 .crew-left .nm-t{font-weight:700}
@@ -1583,7 +1587,7 @@ return a.name.localeCompare(b.name);
 });
 document.getElementById('resourceList').innerHTML=allResources.map(item=>{
 if(item._type==='crew'){
-return `<div class="crew-row" data-type="Crew" data-cat="${esc(item.cat||'')}" onclick="openResourceModal('crew','${item.id}')"><div class="crew-left"><div class="nm"><span class="nm-t">${esc(item.name)}</span>${availabilityChip('crew',item.id)}</div><div class="rl">${esc(item.role)}${item.contact?' · '+esc(item.contact):''}</div></div><div class="crew-right"><span class="status-pill ${item.status}">${item.status==='inhouse'?'In-house':'Freelance'}</span><span class="rate-num">${fmt(item.rate)}</span></div></div>`;
+return `<div class="crew-row" data-type="Crew" data-cat="${esc(item.cat||'')}" onclick="openResourceModal('crew','${item.id}')"><div class="crew-left"><div class="nm"><span class="nm-t">${esc(item.name)}</span>${availabilityChip('crew',item.id)}</div><div class="rl"><span class="rl-role">${esc(item.role)}</span>${item.contact?`<span class="rl-contact"> | ${esc(item.contact)}</span>`:''}</div></div><div class="crew-right"><span class="status-pill ${item.status}">${item.status==='inhouse'?'In-house':'Freelance'}</span><span class="rate-num">${fmt(item.rate)}</span></div></div>`;
 }
 return `<div class="crew-row" data-type="Equipment" data-cat="${esc(item.cat||'')}" onclick="openResourceModal('equipment','${item.id}')"><div class="crew-left"><div class="nm"><span class="nm-t">${esc(item.name)}</span>${availabilityChip('equipment',item.id)}</div><div class="rl">${esc(item.sub||'')}</div></div><div class="crew-right"><span class="status-pill ${item.status}">${item.status==='inhouse'?'In-house':'Rental'}</span><span class="rate-num">${item.rate>0?fmt(item.rate):'—'}</span></div></div>`;
 }).join('');
@@ -3475,7 +3479,7 @@ const next=resourceBookings(type,id).filter(b=>b.to>=today).sort((a,b)=>a.from<b
 if(!next.length) return '<span class="avail-chip free">Available</span>';
 const b=next[0], now=b.from<=today;
 const detail=next.map(x=>x.p.title+' · '+fmtRange(x.from,x.to)).join('\n');
-const text=full ? next.map(x=>esc(x.p.title)+' · '+fmtRange(x.from,x.to)).join(' / ') : (now?'Busy until '+fmtRange(b.to,b.to):'Booked '+fmtRange(b.from,b.from));
+const text=full ? next.map(x=>esc(x.p.title)+' · '+fmtRange(x.from,x.to)).join(' / ') : (now?'Busy':'Booked');
 return `<span class="avail-chip ${now?'busy':'soon'}" title="${esc(detail)}">${text}</span>`;
 }
 
