@@ -859,11 +859,10 @@ main{padding-left:14px;padding-right:14px}
 .dl-iconbtn,.dl-dots{width:34px;height:34px;border-radius:50%;border:none;background:#f0f0f0;color:#444;font:inherit;font-size:17px;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
 .dl-iconbtn:hover,.dl-dots:hover{background:#e3e3e3}
 .dl-dots{background:none;width:30px;height:30px;font-size:18px;letter-spacing:1px}
-.dl-search{flex:1;min-width:150px;max-width:320px;display:flex;align-items:center;gap:8px;background:#f0f0f0;border-radius:999px;padding:0 14px;color:#777}
+.dl-search{flex:1 1 140px;min-width:120px;max-width:280px;display:flex;align-items:center;gap:8px;background:#f0f0f0;border-radius:999px;padding:0 14px;color:#777}
 .dl-search input{border:none;background:none;outline:none;font:inherit;font-size:13px;padding:10px 0;width:100%;color:#1a1a1a;min-width:0}
 .dl-search:focus-within{box-shadow:0 0 0 2px var(--accent)}
-.dl-bar .btn-primary{margin-left:auto}
-.dl-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.dl-chips{display:flex;gap:8px;flex-wrap:wrap}
 .dl-chip{gap:8px;border:1px solid #e3e3e3;background:#fff;border-radius:999px;padding:0 14px;font:inherit;font-size:13px;font-weight:600;color:#555;cursor:pointer}
 .dl-chip span{background:#f0f0f0;border-radius:999px;padding:1px 8px;font-size:12px;font-weight:700;color:#444}
 .dl-chip.on{background:#1a1a1a;border-color:#1a1a1a;color:#fff}
@@ -935,8 +934,8 @@ main{padding-left:14px;padding-right:14px}
 .dl-fbp{max-height:none}
 }
 @media (max-width:720px){
-.dl-bar .btn-primary:first-of-type{margin-left:0}
-.dl-search{max-width:none;flex-basis:100%;order:3}
+.dl-chips{flex-basis:100%}
+.dl-search{max-width:none;flex-basis:100%}
 .dl-bar .btn-ghost,.dl-bar .btn-primary{flex:1}
 .dl-th{display:none}
 .dl-tr{grid-template-columns:24px auto minmax(0,1fr);grid-template-areas:"sel ver title" ". film film" ". link link" ". fb stat" ". date date";row-gap:8px;padding:12px}
@@ -3553,8 +3552,8 @@ const vids=dlVideos(p), all=dlAllVersions(p);
 const cnt={all:all.length,'In Review':0,'Needs Changes':0,'Approved':0}; all.forEach(o=>{ cnt[o.ver.status]=(cnt[o.ver.status]||0)+1; });
 const chip=(k,label)=>`<button type="button" class="dl-chip ${RV.f===k?'on':''}" onclick="dlSetFilter('${k}')">${label}<span>${cnt[k]}</span></button>`;
 const s=getShare(p.id,'client');
-return `<div class="dl-chips">${chip('all','All Versions')}${chip('In Review','In Review')}${chip('Needs Changes','Needs Changes')}${chip('Approved','Approved')}</div>
-<div class="dl-bar">
+return `<div class="dl-bar">
+<div class="dl-chips">${chip('all','All Versions')}${chip('In Review','In Review')}${chip('Needs Changes','Needs Changes')}${chip('Approved','Approved')}</div>
 <label class="dl-search">${DL_ICON_SEARCH}<input type="text" placeholder="Search versions" value="${esc(RV.q)}" oninput="dlSetQ(this.value)"></label>
 <button type="button" class="btn-ghost" onclick="dlShareMenu(event,'${p.id}')">${s?'Share':'Share'}</button>
 <button type="button" class="btn-primary" onclick="dlVersionModal()">Add Version +</button>
