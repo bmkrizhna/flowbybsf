@@ -1086,14 +1086,20 @@ expenses:[
 
 /* ---------- DATA MODEL ---------- */
 const STAGE_ORDER=['brief','shotPlanning','budgeting','shootTracking','delivery'];
-const STAGE_NAMES={brief:'Brief',shotPlanning:'Planner',budgeting:'Budgeting',shootTracking:'Tracker',delivery:'Review'};
-const STAGE_PAGE_TITLES={brief:'Project Brief',shotPlanning:'Shot Planner',budgeting:'Budgeting',shootTracking:'Production Tracker',delivery:'Editing & Review'};
+const STAGE_NAMES={brief:'Project Brief',shotPlanning:'Shot Planner',budgeting:'Budget & Allocation',shootTracking:'Shoot Tracker',delivery:'Editing & Review'};
+const STAGE_PAGE_TITLES={brief:'Project Brief',shotPlanning:'Shot Planner',budgeting:'Budget & Allocation',shootTracking:'Shoot Tracker',delivery:'Editing & Review'};
 const ICON_HOUSE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5l9-7 9 7V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9.5z"/><path d="M9 21v-7h6v7"/></svg>';
 const ICON_DOC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>';
 const ICON_CAL_PLAIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
 const ICON_SLIDERS_H='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><circle cx="13" cy="6" r="2"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="8" cy="12" r="2"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="15" cy="18" r="2"/></svg>';
 const ICON_PLAY_BOX='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg>';
 const ICON_RESOURCES='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M15.5 3.13a4 4 0 0 1 0 7.75"/></svg>';
+const ICON_BRIEF2='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7"/><polyline points="13 3 13 8 18 8"/><path d="M21.4 13.6a1.4 1.4 0 0 0-2-2L14 17v3h3z"/></svg>';
+const ICON_SHOTLIST='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M7 3v6M11 3v6M15 3v6"/></svg>';
+const ICON_BUDGET2='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 7h2M9 6v2"/><path d="M14 6.6l2.4 2.4M16.4 6.6 14 9"/><path d="M6.5 14h11M6.5 17h7.5"/></svg>';
+const ICON_TRACKER2='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="17" rx="2"/><path d="M9 2.6h6a1 1 0 0 1 1 1V5a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3.6a1 1 0 0 1 1-1z"/><path d="M7.3 11.5l1.4 1.4 2.8-2.8"/><line x1="13.5" y1="11.5" x2="17" y2="11.5"/><path d="M7.3 16.8l1.4 1.4 2.8-2.8"/><line x1="13.5" y1="16.8" x2="17" y2="16.8"/></svg>';
+const ICON_EDITBOX='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l3-4h6l3 4"/><path d="M3 8v10a2 2 0 0 0 2 2h4"/><path d="M15 8H3"/><circle cx="17" cy="17" r="3.1"/><path d="M17 12.4v1.1M17 20.5v1.1M21.1 17h-1.1M13.9 17h-1.1M19.9 14.1l-.8.8M15.9 19.1l-.8.8M19.9 19.9l-.8-.8M15.9 14.9l-.8-.8"/></svg>';
+const ICON_RESOURCEBOX='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l2-3h6l2 3"/><rect x="3" y="7" width="10" height="11" rx="1"/><path d="M6 11.5h4"/><circle cx="17.5" cy="16.5" r="2.9"/><path d="M17.5 12.4v1M17.5 20.1v1M21.4 16.5h-1M14.6 16.5h-1M19.9 14l-.7.7M15.8 19.3l-.7.7M19.9 19l-.7-.7M15.8 13.7l-.7.7"/></svg>';
 const ICON_CLAPPER='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l1.3-3.5h3L6 8M9.4 8l1.3-3.5h3L12.4 8M15.7 8l1.3-3.5h3L19 8"/><rect x="3" y="8" width="18" height="12" rx="2"/></svg>';
 const ICON_PENCIL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/><path d="m15 5 4 4"/></svg>';
 const ICON_CAMERA='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>';
@@ -1112,11 +1118,11 @@ const ICON_DOWNLOAD='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" 
 const ICON_SAVE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>';
 const ICON_CHECK_SM='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 9 17 20 6"/></svg>';
 const STAGE_ICONS={
-brief:ICON_DOC,
-shotPlanning:ICON_CAL_PLAIN,
-budgeting:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>',
-shootTracking:ICON_SLIDERS_H,
-delivery:ICON_PLAY_BOX
+brief:ICON_BRIEF2,
+shotPlanning:ICON_SHOTLIST,
+budgeting:ICON_BUDGET2,
+shootTracking:ICON_TRACKER2,
+delivery:ICON_EDITBOX
 };
 const TRACK_STATUSES=['Scheduled','Shooting','Completed','Postponed','Cancelled'];
 
@@ -1354,13 +1360,13 @@ const wrap=document.getElementById('sidebarNav');
 if(!wrap) return;
 const p = (currentView==='projectDetail' && currentProjectId) ? currentProject() : null;
 const items=[];
-items.push(`<button class="sidebar-link ${currentView==='overview'?'active':''}" onclick="showView('overview')" title="Overview"><span class="sidebar-link-icon">${ICON_HOUSE}</span><span class="sidebar-link-label">Overview</span></button>`);
+items.push(`<button class="sidebar-link ${currentView==='overview'?'active':''}" onclick="showView('overview')" title="Dashboard"><span class="sidebar-link-icon">${ICON_HOUSE}</span><span class="sidebar-link-label">Dashboard</span></button>`);
 items.push(...STAGE_ORDER.map(k=>{
 if(!p) return `<button class="sidebar-link disabled" onclick="openLatestProject('${k}')" title="Open your latest project on this stage"><span class="sidebar-link-icon">${STAGE_ICONS[k]}</span><span class="sidebar-link-label">${STAGE_NAMES[k]}</span></button>`;
 const active=currentView==='projectDetail' && currentTab===k;
 return `<button class="sidebar-link ${active?'active':''}" onclick="setTab('${k}')" title="${STAGE_NAMES[k]}"><span class="sidebar-link-icon">${STAGE_ICONS[k]}</span><span class="sidebar-link-label">${STAGE_NAMES[k]}</span></button>`;
 }));
-items.push(`<button class="sidebar-link ${currentView==='resources'?'active':''}" onclick="goToView('resources')" title="Resources"><span class="sidebar-link-icon">${ICON_RESOURCES}</span><span class="sidebar-link-label">Resources</span></button>`);
+items.push(`<button class="sidebar-link ${currentView==='resources'?'active':''}" onclick="goToView('resources')" title="Resource Manager"><span class="sidebar-link-icon">${ICON_RESOURCEBOX}</span><span class="sidebar-link-label">Resource Manager</span></button>`);
 wrap.innerHTML = items.join('');
 }
 const WMO_WEATHER={0:'Clear sky',1:'Mostly clear',2:'Partly cloudy',3:'Overcast',45:'Foggy',48:'Foggy',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',66:'Freezing rain',67:'Freezing rain',71:'Light snow',73:'Snow',75:'Heavy snow',80:'Rain showers',81:'Rain showers',82:'Heavy showers',95:'Thunderstorm',96:'Thunderstorm',99:'Thunderstorm'};
@@ -2287,7 +2293,7 @@ footer{margin-top:50px;padding-top:14px;border-top:1px solid #333;font-size:13px
 <h1>${p.title}</h1>
 <div class="meta">Master Report · ${p.client} · ${p.format} · ${p.place}</div>
 
-<h2>01 · Overview</h2>
+<h2>01 · Project Brief</h2>
 <p class="body-text"><b>Logline:</b> ${esc(b.logline)||'—'}</p>
 <p class="body-text"><b>Synopsis:</b> ${esc(b.synopsis)||'—'}</p>
 <p class="body-text"><b>Treatment:</b> ${esc(b.treatment)||'—'}</p>
@@ -2300,7 +2306,7 @@ footer{margin-top:50px;padding-top:14px;border-top:1px solid #333;font-size:13px
 <div class="row"><span>Scenes</span><span>${(p.days||[]).reduce((a,d)=>a+(d.scenes||[]).length,0)}</span></div>
 <div class="row"><span>Shots</span><span>${sh.total} (${sh.done} completed)</span></div>
 
-<h2>03 · Resource Planner</h2>
+<h2>03 · Budget &amp; Allocation</h2>
 <div class="row"><span>Crew</span><span>${fmt(totals.crewTotal)}</span></div>
 <div class="row"><span>Equipment</span><span>${fmt(totals.eqTotal)}</span></div>
 <div class="row"><span>Production expense</span><span>${fmt(totals.othersTotal)}</span></div>
@@ -2309,7 +2315,7 @@ footer{margin-top:50px;padding-top:14px;border-top:1px solid #333;font-size:13px
 <h2>04 · Shoot Tracker</h2>
 <div class="row"><span>Shots completed</span><span>${sh.done} / ${sh.total}</span></div>
 
-<h2>05 · Edit & Delivery</h2>
+<h2>05 · Editing &amp; Review</h2>
 <div class="row"><span>Initial Review versions</span><span>${(p.sections.delivery.initialReview.versions||[]).length}</span></div>
 <div class="row"><span>Final Master versions</span><span>${(p.sections.delivery.finalMaster.versions||[]).length}</span></div>
 <div class="row"><span>Delivered</span><span>${p.phaseLog&&p.phaseLog.delivered?fmtDateShort(p.phaseLog.delivered):'Not yet'}</span></div>
