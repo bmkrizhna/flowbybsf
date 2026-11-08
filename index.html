@@ -259,27 +259,17 @@ main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
 .icon-del{border:none;background:none;color:#4a4a4a;font-size:11px;font-weight:700;flex-shrink:0;padding:7px 4px}
 /* ---- Project detail ---- */
 .proj-head-row{display:flex;align-items:center;margin-bottom:16px;gap:20px;flex-wrap:wrap;position:sticky;top:var(--topbar-h,62.5px);z-index:18;background:var(--page-bg);padding:14px 0;border-bottom:1px solid #f0f0f0}
-.phr-top,.phr-bottom{display:contents}
-.pd-stage-block{display:flex;flex-direction:column;justify-content:center;min-width:0;flex-shrink:0}
-.pd-stage-title{margin:0 0 1px;font-size:20px;line-height:1.2;font-weight:600;white-space:nowrap}
-.proj-title-wrap{display:flex;align-items:center;gap:14px;min-width:0;border-left:1px solid #eee;padding-left:20px}
-.pd-title-block{min-width:0}
-.pd-title-block h1{margin-bottom:1px;font-size:20px;line-height:1.2;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
-.pd-status-cluster{display:flex;align-items:center;gap:12px;flex:1 1 200px;min-width:160px;border-left:1px solid #eee;padding-left:20px}
-.pd-ring{position:relative;width:38px;height:38px;border-radius:50%;background:conic-gradient(var(--accent) calc(var(--pct,0)*1%),#ededed 0);flex-shrink:0;display:flex;align-items:center;justify-content:center}
-.pd-ring::after{content:'';position:absolute;inset:4px;border-radius:50%;background:var(--page-bg,#fff)}
-.pd-ring span{position:relative;z-index:1;font-size:10px;font-weight:700;color:#1a1a1a;white-space:nowrap}
-.pd-status-text{display:flex;align-items:center;gap:7px;min-width:0}
-.pd-status-icon{width:18px;height:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--accent)}
-.pd-status-icon svg{width:100%;height:100%}
-.pd-tab-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-left:1px solid #eee;padding-left:20px}
-.pd-tab-controls:empty{display:none;border:none;padding:0}
-.pd-tab-controls .search-filter-box{width:280px}
-.pd-budget-total{display:flex;flex-direction:column;justify-content:center;gap:1px;flex-shrink:0;border-left:1px solid #eee;padding-left:20px}
-.pd-budget-total:empty{display:none;border:none;padding:0}
-.pd-budget-total .lbl{font-size:11px;font-weight:700;color:#999;white-space:nowrap}
-.pd-budget-total .val{font-size:18px;font-weight:700;color:#1a1a1a;white-space:nowrap}
-.proj-head-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;border-left:1px solid #eee;padding-left:20px}
+.pd-heading{display:flex;align-items:baseline;gap:10px;min-width:0;flex-shrink:0}
+.pd-heading i{font-style:normal;color:#ccc;font-size:18px}
+.pd-stage-title,.pd-proj{margin:0;font-size:20px;line-height:1.2;font-weight:600;white-space:nowrap}
+.pd-status-cluster{display:flex;align-items:center;gap:8px;min-width:0;margin-left:10px;font-size:14px;font-weight:500;color:#1a1a1a;white-space:nowrap}
+.pd-status-cluster b{font-weight:500;color:#999}
+.pd-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.pd-ring{width:26px;height:26px;border-radius:50%;flex-shrink:0;background:conic-gradient(var(--accent) calc(var(--pct,0)*1%),#ededed 0);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3.5px),#000 calc(100% - 3px));mask:radial-gradient(farthest-side,transparent calc(100% - 3.5px),#000 calc(100% - 3px))}
+.pd-stat{margin-left:auto;font-size:15px;font-weight:500;color:#1a1a1a;white-space:nowrap}
+.pd-stat:empty{display:none}
+.proj-head-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;border-left:1px solid #eee;padding-left:20px;margin-left:16px}
+.pd-stat:empty+.proj-head-actions{margin-left:auto}
 .pd-stage-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .pd-icon-btn{width:34px;height:34px;border-radius:50%;border:none;background:#f0f0f0;color:#666;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background .15s ease,color .15s ease}
 .pd-icon-btn svg{width:16px;height:16px}
@@ -292,7 +282,6 @@ main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
 @keyframes pd-tick-pop{0%{transform:scale(.5)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
 .proj-meta-line{font-size:13px;color:#999}
 .status-inline{font-size:inherit;font-weight:500;color:#999;white-space:nowrap}
-#pdStatusInline{font-size:13px;font-weight:600;color:#1a1a1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .stage-progress{flex:1;height:7px;border-radius:4px;overflow:hidden;background-image:repeating-linear-gradient(135deg,#f0f0f0 0,#f0f0f0 5px,#f4f4f4 5px,#f4f4f4 10px)}
 .stage-progress-fill{height:100%;width:0%;background:var(--accent);border-radius:4px;transition:width .7s cubic-bezier(.4,0,.2,1)}
 .stage-progress-label{font-size:11px;font-weight:700;color:#999;white-space:nowrap}
@@ -719,32 +708,13 @@ h1{font-size:32px}
 .filter-select-pill{width:100%;max-width:100%}
 .search-filter-icons{width:100%}
 .icon-btn-text{flex:1 1 0;justify-content:center;padding:0 10px}
-.proj-head-row{flex-direction:column;align-items:stretch;gap:12px;padding:4px 0 14px;position:static;margin-bottom:16px}
-.phr-top,.phr-bottom{display:flex;align-items:center;width:100%;gap:10px}
-.phr-top{flex-wrap:wrap;row-gap:12px;column-gap:0;align-items:flex-start}
-.pd-stage-block{flex:1 1 0;min-width:0;padding-right:12px}
-.pd-stage-title{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pd-stage-block .proj-meta-line{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.proj-title-wrap{flex:1 1 0;min-width:0;border-left:1px solid #eee;padding-left:12px}
-.stage-progress-label{font-size:11px}
-.pd-title-block{min-width:0}
-.pd-title-block .proj-meta-line{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pd-title-block h1{font-size:15px;line-height:1.2;white-space:normal;display:block}
-.pd-tab-controls{flex:1 1 100%;flex-wrap:wrap;border-left:none;padding-left:0;gap:8px;min-width:0}
-.pd-tab-controls:empty{display:none}
-.pd-tab-controls .search-filter-box{flex:1 1 100%;width:100%;min-width:0;height:40px}
-.pd-tab-controls .search-filter-box select{max-width:46%;font-size:13px}
-.pd-tab-controls .view-toggle{flex:1 1 100%}
-.pd-tab-controls .view-toggle .vt-btn{flex:1 1 0;text-align:center}
-.pd-tab-controls .view-toggle:only-child{flex:1 1 100%}
-.pd-tab-controls .view-toggle:only-child .vt-btn{flex:1 1 0;text-align:center}
-.pd-tab-controls .vt-btn{padding:8px 14px;font-size:12px;white-space:nowrap}
-.pd-status-cluster{border-left:none;padding-left:0;flex:1 1 auto;min-width:0}
-.pd-budget-total{border-left:none;padding-left:0;flex:0 0 auto}
-.proj-head-actions{border-left:none;padding-left:0;flex:0 0 auto}
-.proj-head-actions .btn-ghost,.proj-head-actions .confirm-btn,.proj-head-actions .section-badge{padding:7px 14px;font-size:12px}
-.proj-head-actions .vt-btn{padding:6px 12px;font-size:12px}
-.stage-progress-label{white-space:normal;text-align:right}
+.proj-head-row{flex-direction:row;flex-wrap:wrap;align-items:center;gap:10px 12px;padding:4px 0 14px;position:static;margin-bottom:16px}
+.pd-heading{flex:1 1 100%;min-width:0}
+.pd-stage-title,.pd-proj{font-size:16px;overflow:hidden;text-overflow:ellipsis}
+.pd-status-cluster{margin-left:0;font-size:13px;flex:1 1 auto}
+.pd-stat{margin-left:0;order:3;flex:1 1 100%;font-size:13px;color:#666;white-space:normal}
+.proj-head-actions{border-left:none;padding-left:0;margin-left:auto;flex:0 0 auto}
+.pd-stat:empty+.proj-head-actions{margin-left:auto}
 
 /* ---- Grids: collapse to 1 (or 2) columns ----
    minmax(0,1fr) (not bare 1fr) so a track's min-width can't be
@@ -1103,29 +1073,10 @@ setTimeout(dismissIntro, 4500);
 
 <div id="projectDetail" class="page">
 <div class="proj-head-row">
-<div class="phr-top">
-<div class="pd-stage-block">
-<h1 class="pd-stage-title" id="pdStageTitle">—</h1>
-<div class="proj-meta-line" id="pdStageSubtitle">—</div>
-</div>
-<div class="proj-title-wrap">
-<div class="pd-title-block">
-<h1><span id="pdTitle">—</span></h1>
-<div class="proj-meta-line" id="pdMeta">—</div>
-</div>
-</div>
-<div class="pd-tab-controls" id="pdTabControls"></div>
-</div>
-<div class="phr-bottom">
-<div class="pd-status-cluster">
-<div class="pd-ring" id="pdRing"><span id="pdRingPct">—</span></div>
-<div class="pd-status-text"><span class="pd-status-icon" id="pdStatusIcon"></span><span id="pdStatusInline">—</span></div>
-</div>
-<div class="pd-budget-total" id="pdBudgetTotal"></div>
-<div class="proj-head-actions">
-<div class="pd-stage-actions" id="pdStageActions"></div>
-</div>
-</div>
+<div class="pd-heading"><span class="pd-stage-title" id="pdStageTitle">—</span><i>/</i><span class="pd-proj" id="pdTitle">—</span></div>
+<div class="pd-status-cluster"><span class="pd-dot"></span><span id="pdStatusInline">—</span><b>·</b><span id="pdRingPct">—</span><div class="pd-ring" id="pdRing"></div></div>
+<div class="pd-stat" id="pdStat"></div>
+<div class="proj-head-actions"><div class="pd-stage-actions" id="pdStageActions"></div></div>
 </div>
 <div id="pdContent"></div>
 </div>
@@ -1450,7 +1401,6 @@ if(!p.sections.brief.confirmed || !p.sections.shotPlanning.confirmed || !p.secti
 if(!p.sections.shootTracking.confirmed) return 'Production';
 return 'Post Production';
 }
-const STATUS_ICONS={'Pre Production':ICON_PENCIL,'Production':ICON_PROD_REF,'Post Production':ICON_POST_REF,'Delivered':ICON_CHECK_SM};
 function touchProject(p){
 if(p.phaseLog && p.phaseLog.delivered){
 p.phaseLog.delivered=null;
@@ -1803,7 +1753,7 @@ requestAnimationFrame(()=>{ updateResourcesBreadcrumb(); resourcesScrollTicking=
    top instead of inline dividers. */
 function updateBudgetBreadcrumb(){
 if(currentView!=='projectDetail' || currentTab!=='budgeting') return;
-const sub=document.getElementById('pdStageSubtitle');
+const sub=null;
 const headRow=document.querySelector('.proj-head-row');
 const p=currentProject();
 if(!sub || !headRow || !p) return;
@@ -2224,34 +2174,26 @@ const p=currentProject();
 if(!p) return;
 const status=getProjectStatus(p);
 document.getElementById('pdTitle').textContent=p.title;
-document.getElementById('pdMeta').textContent=headerMetaLine(p);
 document.getElementById('pdStageTitle').textContent=STAGE_PAGE_TITLES[currentTab]||'';
-document.getElementById('pdStageSubtitle').textContent=stageStat(p,currentTab);
-
 const confirmedCount=STAGE_ORDER.filter(k=>p.sections[k].confirmed).length;
 const progressPct=STAGE_ORDER.length>0?Math.round((confirmedCount/STAGE_ORDER.length)*100):0;
 const ringEl=document.getElementById('pdRing');
 if(ringEl) ringEl.style.setProperty('--pct',progressPct);
 document.getElementById('pdRingPct').textContent=progressPct+'%';
-document.getElementById('pdStatusIcon').innerHTML=STATUS_ICONS[status]||'';
-document.getElementById('pdStatusInline').textContent=status;
-
+document.getElementById('pdStatusInline').textContent=status==='Delivered'?'Delivered':'In '+status;
+const statEl=document.getElementById('pdStat');
+if(statEl){
+let st;
+if(currentTab==='budgeting') st='Total Budget · ₹'+fmt(resourceTotals(p).total);
+else if(currentTab==='brief') st=splitFormat(p.format).type||stageStat(p,'brief');
+else st=stageStat(p,currentTab);
+statEl.textContent=st;
+}
 renderSidebarNav();
-
-const tabControlsEl=document.getElementById('pdTabControls');
-if(tabControlsEl){
-if(currentTab==='shotPlanning'){
-tabControlsEl.innerHTML=`<div class="view-toggle" data-no-lock="1"><button class="vt-btn ${shotPlannerView==='list'?'active':''}" id="pdVtList" data-no-lock="1" onclick="setShotPlannerView('list')">List</button><button class="vt-btn ${shotPlannerView==='storyboard'?'active':''}" id="pdVtStoryboard" data-no-lock="1" onclick="setShotPlannerView('storyboard')">Storyboard</button></div>`;
-} else {
-tabControlsEl.innerHTML='';
-}
-}
-const budgetTotalEl=document.getElementById('pdBudgetTotal');
-if(budgetTotalEl) budgetTotalEl.innerHTML = currentTab==='budgeting' ? `<span class="lbl">Total Budget</span><span class="val">₹${fmt(resourceTotals(p).total)}</span>` : '';
 
 const content=document.getElementById('pdContent');
 if(currentTab==='brief') content.innerHTML=renderBriefTab(p);
-else if(currentTab==='shotPlanning'){ content.innerHTML=renderShotPlanningTab(p); }
+else if(currentTab==='shotPlanning'){ content.innerHTML=`<div class="rp-toolbar" style="justify-content:flex-end"><div class="view-toggle" data-no-lock="1"><button class="vt-btn ${shotPlannerView==='list'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('list')">List</button><button class="vt-btn ${shotPlannerView==='storyboard'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('storyboard')">Storyboard</button></div></div>`+renderShotPlanningTab(p); }
 else if(currentTab==='budgeting'){ content.innerHTML=renderBudgetingTab(p); renderResourcePlannerList(); }
 else if(currentTab==='shootTracking') content.innerHTML=renderShootTrackingTab(p);
 else { content.innerHTML=renderDeliveryTab(p); pullShares(); if(RV.ver) dlMountPlayer(); }
