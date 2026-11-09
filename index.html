@@ -253,9 +253,23 @@ main:has(#projectDetail.active){padding-top:0}
 /* ---- Project detail ---- */
 #pdContent{padding-top:14px}
 .proj-head-row{display:flex;align-items:center;margin-bottom:0;gap:20px;flex-wrap:wrap;position:sticky;top:var(--topbar-h,62.5px);z-index:18;background:var(--page-bg);padding:12px 0;border-bottom:1px solid #f0f0f0}
-.pd-heading{display:flex;align-items:baseline;gap:10px;min-width:0;flex-shrink:0}
+.pd-heading{display:flex;align-items:baseline;gap:10px;min-width:0;flex-shrink:0;position:relative}
 .pd-heading i{font-style:normal;color:#ccc;font-size:15px}
 .pd-stage-title,.pd-proj{margin:0;font-size:15px;line-height:1.2;font-weight:600;white-space:nowrap}
+.pd-proj-switch{display:inline-flex;align-items:baseline;gap:5px;border:none;background:none;font:inherit;padding:2px 4px;margin:-2px -4px;border-radius:7px;cursor:pointer;color:inherit}
+.pd-proj-switch:hover{background:#f0f0f0}
+.pd-proj-switch .pd-caret{align-self:center;color:#999;flex-shrink:0}
+.proj-switcher-pop{position:absolute;top:calc(100% + 8px);left:0;z-index:60;width:280px;max-width:80vw;background:#fff;border:1px solid #e5e5e5;border-radius:12px;box-shadow:0 10px 32px rgba(0,0,0,.16);padding:8px}
+.proj-switcher-pop[hidden]{display:none}
+.proj-switcher-search{padding:4px 4px 8px}
+.proj-switcher-search input{width:100%;border:1px solid #e3e3e3;background:#fafafa;border-radius:9px;padding:9px 11px;font:inherit;font-size:13px;box-sizing:border-box}
+.proj-switcher-list{max-height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:2px}
+.proj-switcher-row{display:flex;align-items:center;justify-content:space-between;gap:8px;border:none;background:none;text-align:left;font:inherit;font-size:13.5px;font-weight:600;color:#1a1a1a;padding:9px 10px;border-radius:8px;cursor:pointer;white-space:nowrap;overflow:hidden}
+.proj-switcher-row:hover{background:#f6f6f6}
+.proj-switcher-row.current{background:#f0f0f0}
+.proj-switcher-row .ps-name{overflow:hidden;text-overflow:ellipsis}
+.proj-switcher-row .ps-tick{color:var(--accent-text,#1a1a1a);flex-shrink:0}
+.proj-switcher-empty{padding:14px 10px;text-align:center;font-size:13px;color:#999}
 .pd-status-cluster{display:flex;align-items:center;gap:8px;min-width:0;margin-left:10px;font-size:13px;font-weight:500;color:#1a1a1a;white-space:nowrap}
 .pd-status-cluster b{font-weight:500;color:#999}
 .pd-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex-shrink:0}
@@ -317,7 +331,7 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .sp-shot-row{display:grid;grid-template-columns:20px 40px 120px minmax(160px,1fr) 190px 150px;gap:14px;align-items:center;padding:8px 6px;border-top:1px solid #f2f2f2;cursor:pointer;transition:background .15s}
 .sp-shot-row:hover{background:#fafafa}
 .sp-shot-row:first-child{border-top:none}
-.sp-shot-num{font-size:13px;font-weight:700;color:#1a1a1a}
+.sp-shot-num{font-size:13px;font-weight:700;color:#1a1a1a;text-align:center}
 .sp-shot-thumb{width:100%;aspect-ratio:16/9;border-radius:10px;background:#f2f2f2;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#999;overflow:hidden;text-align:center;line-height:1.1}
 .sp-shot-thumb img{width:100%;height:100%;object-fit:cover}
 .sp-shot-thumb svg{width:20px;height:20px;color:#bbb;flex-shrink:0}
@@ -774,12 +788,18 @@ main{padding-left:14px;padding-right:14px}
 .dl-chip.on{background:#1a1a1a;border-color:#1a1a1a;color:#fff}
 .dl-chip.on span{background:rgba(255,255,255,.2);color:#fff}
 .dl-table{border:1px solid #e5e5e5;border-radius:10px;overflow:hidden;background:#fff}
-.dl-tr{display:grid;grid-template-columns:30px 54px 150px minmax(0,1fr) 150px 84px 124px 62px;gap:10px;align-items:center;padding:12px 14px;border-top:1px solid #f0f0f0;font-size:13px;cursor:pointer}
+.dl-tr{display:grid;grid-template-columns:30px 64px 54px 150px minmax(0,1fr) 150px 84px 124px 62px;gap:10px;align-items:center;padding:12px 14px;border-top:1px solid #f0f0f0;font-size:13px;cursor:pointer}
 .dl-tr:first-child{border-top:none}
 .dl-tr:not(.dl-th):hover{background:#fafafa}
+.dl-tr.open{background:#fafafa}
 .dl-th{cursor:default;font-size:11px;font-weight:700;color:#999;background:#fafafa;padding-top:9px;padding-bottom:9px}
 .dl-tr>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dl-vpill{display:inline-block;background:#1a1a1a;color:#fff;border-radius:7px;padding:3px 9px;font-size:12px;font-weight:700}
+.dl-thumb{width:100%;aspect-ratio:16/9;border-radius:7px;background:#f2f2f2;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#bbb}
+.dl-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.dl-thumb svg{width:16px;height:16px}
+.dl-expand{padding:18px 16px 20px;border-top:1px solid #f0f0f0;background:#fcfcfc;cursor:default}
+.dl-expand .dl-dhead{margin-bottom:14px}
 .c-title{font-weight:600}
 .c-title em{color:#bbb;font-style:normal;font-weight:400}
 .c-film select{width:100%;border:1px solid #e3e3e3;background:#fafafa;border-radius:7px;padding:6px 26px 6px 10px;font:inherit;font-size:12px;font-weight:600;color:#1a1a1a;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%23555' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='m1 1 4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center}
@@ -834,6 +854,9 @@ main{padding-left:14px;padding-right:14px}
 .dl-replyform[hidden]{display:none}
 .dl-replyform .f-input{flex:1;min-width:0}
 .dl-noteform{display:grid;gap:10px;margin-bottom:10px}
+.dl-fb.draft{background:#fffaf0;border-radius:8px;padding:10px 10px 12px;margin-bottom:4px}
+.dl-fb.draft .vw-tcwrap{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.dl-fb.draft .vw-msg{width:100%;box-sizing:border-box}
 .proj-menu button.danger{color:#b3244b}
 @media (max-width:900px){
 .dl-dgrid{grid-template-columns:minmax(0,1fr)}
@@ -844,8 +867,8 @@ main{padding-left:14px;padding-right:14px}
 .dl-search{max-width:none;flex-basis:100%}
 .dl-bar .btn-ghost,.dl-bar .btn-primary{flex:1}
 .dl-th{display:none}
-.dl-tr{grid-template-columns:24px auto minmax(0,1fr);grid-template-areas:"sel ver title" ". film film" ". link link" ". fb stat" ". date date";row-gap:8px;padding:12px}
-.dl-tr .c-sel{grid-area:sel}.dl-tr .c-ver{grid-area:ver}.dl-tr .c-title{grid-area:title}.dl-tr .c-film{grid-area:film;max-width:160px}.dl-tr .c-link{grid-area:link}.dl-tr .c-fb{grid-area:fb}.dl-tr .c-stat{grid-area:stat}.dl-tr .c-date{grid-area:date;color:#999;font-size:12px}
+.dl-tr{grid-template-columns:24px 50px auto minmax(0,1fr);grid-template-areas:"sel thumb ver title" ". thumb film film" ". thumb link link" ". fb fb stat" ". date date date";row-gap:8px;padding:12px}
+.dl-tr .c-sel{grid-area:sel}.dl-tr .c-thumb{grid-area:thumb}.dl-tr .c-ver{grid-area:ver}.dl-tr .c-title{grid-area:title}.dl-tr .c-film{grid-area:film;max-width:160px}.dl-tr .c-link{grid-area:link}.dl-tr .c-fb{grid-area:fb}.dl-tr .c-stat{grid-area:stat}.dl-tr .c-date{grid-area:date;color:#999;font-size:12px}
 .dl-dtitle h2{font-size:18px}
 .dl-reply,.dl-replyform{margin-left:28px}
 .dl-fbrow{grid-template-columns:18px auto minmax(0,1fr) 28px;gap:8px}
@@ -964,7 +987,12 @@ if(video) video.addEventListener('ended',finish);
 
 <div id="projectDetail" class="page">
 <div class="proj-head-row">
-<div class="pd-heading"><span class="pd-stage-title" id="pdStageTitle">—</span><i>/</i><span class="pd-proj" id="pdTitle">—</span></div>
+<div class="pd-heading"><span class="pd-stage-title" id="pdStageTitle">—</span><i>/</i><button type="button" class="pd-proj-switch" id="pdTitleBtn" onclick="toggleProjSwitcher(event)"><span class="pd-proj" id="pdTitle">—</span><svg class="pd-caret" viewBox="0 0 16 16" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l4 4 4-4"/></svg></button>
+<div class="proj-switcher-pop" id="projSwitcherPop" hidden>
+<div class="proj-switcher-search"><input type="text" id="projSwitcherInput" placeholder="Search projects" oninput="renderProjSwitcherList(this.value)"></div>
+<div class="proj-switcher-list" id="projSwitcherList"></div>
+</div>
+</div>
 <div class="pd-status-cluster"><span class="pd-dot"></span><span id="pdStatusInline">—</span><b>·</b><span id="pdRingPct">—</span><div class="pd-ring" id="pdRing"></div></div>
 <div class="pd-stat" id="pdStat"></div>
 <div class="proj-head-actions"><div class="pd-stage-actions" id="pdStageActions"></div></div>
@@ -2242,6 +2270,34 @@ renderProjectDetail();
 }
 function currentProject(){ return STATE.projects.find(x=>x.id===currentProjectId); }
 function setTab(t){ currentTab=t; renderProjectDetail(); }
+function toggleProjSwitcher(ev){
+ev.stopPropagation();
+const pop=document.getElementById('projSwitcherPop'); if(!pop) return;
+const opening=pop.hidden;
+pop.hidden=!opening;
+if(opening){
+const inp=document.getElementById('projSwitcherInput'); if(inp) inp.value='';
+renderProjSwitcherList('');
+setTimeout(()=>{ if(inp) inp.focus(); },20);
+}
+}
+document.addEventListener('click',function(ev){
+const pop=document.getElementById('projSwitcherPop');
+if(!pop || pop.hidden) return;
+if(ev.target.closest('#projSwitcherPop') || ev.target.closest('#pdTitleBtn')) return;
+pop.hidden=true;
+});
+function renderProjSwitcherList(q){
+const list=document.getElementById('projSwitcherList'); if(!list) return;
+const qq=(q||'').trim().toLowerCase();
+const items=(STATE.projects||[]).filter(p=>!qq || p.title.toLowerCase().includes(qq)).sort((a,b)=>a.title.localeCompare(b.title));
+if(!items.length){ list.innerHTML='<div class="proj-switcher-empty">No projects found</div>'; return; }
+list.innerHTML=items.map(p=>`<button type="button" class="proj-switcher-row ${p.id===currentProjectId?'current':''}" onclick="selectProjFromSwitcher('${p.id}')"><span class="ps-name">${esc(p.title)}</span>${p.id===currentProjectId?'<span class="ps-tick">✓</span>':''}</button>`).join('');
+}
+function selectProjFromSwitcher(id){
+const pop=document.getElementById('projSwitcherPop'); if(pop) pop.hidden=true;
+if(id!==currentProjectId) openProject(id);
+}
 function proceedStage(key){
 const p=currentProject();
 p.sections[key].confirmed=true;
@@ -2365,7 +2421,7 @@ if(currentTab==='brief') content.innerHTML=renderBriefTab(p);
 else if(currentTab==='shotPlanning'){ content.innerHTML=`<div class="rp-toolbar" style="justify-content:space-between"><button type="button" class="btn-ghost" data-no-lock="1" onclick="openAddItemModal()">+ Add</button><div class="view-toggle" data-no-lock="1"><button class="vt-btn ${shotPlannerView==='list'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('list')">List</button><button class="vt-btn ${shotPlannerView==='storyboard'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('storyboard')">Storyboard</button></div></div>`+renderShotPlanningTab(p); }
 else if(currentTab==='budgeting'){ content.innerHTML=renderBudgetingTab(p); renderResourcePlannerList(); }
 else if(currentTab==='shootTracking') content.innerHTML=renderShootTrackingTab(p);
-else { content.innerHTML=renderDeliveryTab(p); pullShares(); if(RV.ver) dlMountPlayer(); }
+else { content.innerHTML=renderDeliveryTab(p); dlLoadVimeoThumbs(); pullShares(); if(RV.ver) dlMountPlayer(); }
 renderStageStatusIcons(currentTab);
 autosizeTextareas();
 syncStickyOffsets();
@@ -3452,13 +3508,14 @@ ver.status=status; ver.statusTs=ts||Date.now(); return true;
 
 function renderDeliveryTab(p){
 dlVideos(p);
-if(RV.ver){ const f=dlFindVersion(p,RV.ver); if(f) return `<div id="pdBody" class="dl">${dlDetailHtml(p,f.video,f.ver)}</div>`; RV.ver=null; }
+if(RV.ver && !dlFindVersion(p,RV.ver)) RV.ver=null;
 return `<div id="pdBody" class="dl">${dlListHtml(p)}</div>`;
 }
 function dlListHtml(p){
 const vids=dlVideos(p), all=dlAllVersions(p);
 const cnt={all:all.length,'In Review':0,'Needs Changes':0,'Approved':0}; all.forEach(o=>{ cnt[o.ver.status]=(cnt[o.ver.status]||0)+1; });
-const chip=(k,label)=>`<button type="button" class="dl-chip ${RV.f===k?'on':''}" onclick="dlSetFilter('${k}')">${label}<span>${cnt[k]}</span></button>`;
+const chipKey=k=>'dlChipCnt-'+k.replace(/\s+/g,'');
+const chip=(k,label)=>`<button type="button" class="dl-chip ${RV.f===k?'on':''}" onclick="dlSetFilter('${k}')">${label}<span id="${chipKey(k)}">${cnt[k]}</span></button>`;
 const s=getShare(p.id,'client');
 return `<div class="dl-bar">
 <div class="dl-chips">${chip('all','All Versions')}${chip('In Review','In Review')}${chip('Needs Changes','Needs Changes')}${chip('Approved','Approved')}</div>
@@ -3479,20 +3536,44 @@ if(!rows.length) return `<div class="dl-empty"><b>No matches</b>Try a different 
 const selCount=rows.filter(o=>RV.sel[o.ver.id]).length;
 const bulk=selCount?`<div class="dl-bulk"><span>${selCount} selected</span><button type="button" class="btn-ghost" onclick="dlBulkDelete()">Delete</button></div>`:'';
 const vids=dlVideos(p);
-return bulk+`<div class="dl-table"><div class="dl-tr dl-th"><span><input type="checkbox" aria-label="Select all" ${selCount===rows.length?'checked':''} onchange="dlSelectAll(this.checked)"></span><span>Version</span><span>Film Title</span><span>Note</span><span>Link</span><span>Feedback</span><span>Status</span><span>Date</span></div>`+rows.map(o=>{
-const x=o.ver, fb=dlFeedback(p,x).length, url=dlSafeUrl(x.link);
-return `<div class="dl-tr" onclick="dlOpen('${x.id}')">
+return bulk+`<div class="dl-table"><div class="dl-tr dl-th"><span><input type="checkbox" aria-label="Select all" ${selCount===rows.length?'checked':''} onchange="dlSelectAll(this.checked)"></span><span></span><span>Version</span><span>Film Title</span><span>Note</span><span>Link</span><span>Feedback</span><span>Status</span><span>Date</span></div>`+rows.map(o=>{
+const x=o.ver, fb=dlFeedback(p,x).length, url=dlSafeUrl(x.link), open=RV.ver===x.id;
+return `<div class="dl-tr${open?' open':''}" onclick="dlOpen('${x.id}')">
 <span class="c-sel" onclick="event.stopPropagation()"><input type="checkbox" aria-label="Select v${x.num}" ${RV.sel[x.id]?'checked':''} onchange="dlSelect('${x.id}',this.checked)"></span>
+<span class="c-thumb">${dlThumbCell(x)}</span>
 <span class="c-ver"><b class="dl-vpill">v${x.num}</b></span>
 <span class="c-film" onclick="event.stopPropagation()"><select aria-label="Film title" onchange="dlReassign('${x.id}',this.value)">${vids.map(vv=>`<option value="${esc(vv.id)}" ${vv.id===o.video.id?'selected':''}>${esc(vv.name)}</option>`).join('')}<option value="__new">+ New film title…</option></select></span>
 <span class="c-title">${esc(x.title||'')||'<em>—</em>'}</span>
 <span class="c-link" onclick="event.stopPropagation()">${url?`<a href="${esc(url)}" target="_blank" rel="noopener">${esc(dlHost(url))}${DL_ICON_EXT}</a>`:'<em>No link</em>'}</span>
-<span class="c-fb"><i class="dl-fbpill ${fb?'has':''}">${DL_ICON_MSG}${fb}</i></span>
-<span class="c-stat">${dlStatusPill(x.status)}</span>
+<span class="c-fb" id="dlRowFb-${x.id}"><i class="dl-fbpill ${fb?'has':''}">${DL_ICON_MSG}${fb}</i></span>
+<span class="c-stat" id="dlRowStat-${x.id}">${dlStatusPill(x.status)}</span>
 <span class="c-date">${fmtDateShort(x.date)}</span>
-</div>`; }).join('')+`</div>`;
+</div>`+(open?dlExpandHtml(p,o.video,x):''); }).join('')+`</div>`;
 }
-function dlRefreshTable(){ const w=document.getElementById('dlTableWrap'); if(w) w.innerHTML=dlTableHtml(currentProject()); }
+function dlThumbCell(x){
+const v=vwParseVideo(x.link||'');
+if(!v) return `<div class="dl-thumb empty"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3.5" width="12" height="9" rx="1.5"/><path d="M6.5 6.5l3.5 2-3.5 2z"/></svg></div>`;
+if(v.kind==='youtube') return `<div class="dl-thumb"><img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" alt="" loading="lazy"></div>`;
+const cached=DL_VIMEO_THUMBS[v.id];
+if(cached && cached!=='pending') return `<div class="dl-thumb"><img src="${esc(cached)}" alt="" loading="lazy"></div>`;
+return `<div class="dl-thumb" data-vimeo="${esc(v.id)}"></div>`;
+}
+var DL_VIMEO_THUMBS={};
+function dlLoadVimeoThumbs(){
+document.querySelectorAll('.dl-thumb[data-vimeo]').forEach(function(el){
+const id=el.dataset.vimeo;
+if(DL_VIMEO_THUMBS[id]==='pending') return;
+if(DL_VIMEO_THUMBS[id]){ el.removeAttribute('data-vimeo'); el.innerHTML=`<img src="${esc(DL_VIMEO_THUMBS[id])}" alt="" loading="lazy">`; return; }
+DL_VIMEO_THUMBS[id]='pending';
+fetch('https://vimeo.com/api/oembed.json?url='+encodeURIComponent('https://vimeo.com/'+id)).then(function(r){ return r.json(); }).then(function(d){
+if(d && d.thumbnail_url){
+DL_VIMEO_THUMBS[id]=d.thumbnail_url;
+document.querySelectorAll('.dl-thumb[data-vimeo="'+id+'"]').forEach(function(e){ e.removeAttribute('data-vimeo'); e.innerHTML=`<img src="${esc(d.thumbnail_url)}" alt="" loading="lazy">`; });
+} else DL_VIMEO_THUMBS[id]='';
+}).catch(function(){ DL_VIMEO_THUMBS[id]=''; });
+});
+}
+function dlRefreshTable(){ const w=document.getElementById('dlTableWrap'); if(w){ w.innerHTML=dlTableHtml(currentProject()); dlLoadVimeoThumbs(); if(RV.ver) dlMountPlayer(); } }
 function dlSetQ(v){ RV.q=v; dlRefreshTable(); }
 function dlSetFilter(k){ RV.f=k; renderProjectDetail(); }
 function dlSelect(id,on){ if(on) RV.sel[id]=1; else delete RV.sel[id]; dlRefreshTable(); }
@@ -3607,20 +3688,54 @@ saveProjectChange(p); logActivity('Review version deleted',p.title); renderProje
 }
 
 /* ----- version detail ----- */
-function dlOpen(id){ RV.ver=id; renderProjectDetail(); window.scrollTo(0,0); }
-function dlBack(){ RV.ver=null; OWN.player=null; OWN.kind=null; renderProjectDetail(); }
-function dlDetailHtml(p,video,ver){
-return `<div class="dl-crumb"><button type="button" onclick="dlBack()">${DL_ICON_BACK}<span>Editing &amp; Review</span></button><i>/</i><span>${esc(video.name)}</span><i>/</i><b>v${ver.num}</b></div>
-<div class="dl-dhead"><div class="dl-dtitle"><h2>v${ver.num} ${esc(ver.title||'')}</h2><div class="dl-dsub">${esc(p.title)} · ${esc(video.name)} · ${fmtDateShort(ver.date)}</div></div>
-<div class="dl-dact"><select class="dl-status ${dlSlug(ver.status)}" id="dlStatusSel" aria-label="Status" onchange="dlSetStatus('${ver.id}',this.value)">${DL_STATUSES.map(s=>`<option ${s===ver.status?'selected':''}>${s}</option>`).join('')}</select><button type="button" class="dl-dots" aria-label="More" onclick="dlDetailMenu(event,'${ver.id}')">⋯</button></div></div>
+function dlOpen(id){
+DLDRAFT=null;
+RV.ver = RV.ver===id ? null : id;
+renderProjectDetail();
+if(RV.ver){ setTimeout(function(){ const el=document.getElementById('dl-exp-'+RV.ver); if(el) el.scrollIntoView({behavior:'smooth',block:'nearest'}); },30); }
+}
+function dlExpandHtml(p,video,ver){
+return `<div class="dl-expand" id="dl-exp-${ver.id}">
+<div class="dl-dhead"><div class="dl-dtitle"><h2>v${ver.num} ${esc(ver.title||'')}</h2><div class="dl-dsub">${esc(video.name)} · ${fmtDateShort(ver.date)}</div></div>
+<div class="dl-dact"><span id="dlExpStatus">${dlStatusPill(ver.status)}</span><button type="button" class="dl-dots" aria-label="More" onclick="dlDetailMenu(event,'${ver.id}')">⋯</button><button type="button" class="dl-dots" aria-label="Collapse" onclick="dlOpen('${ver.id}')"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l4-4 4 4"/></svg></button></div></div>
 <div class="dl-dgrid"><div class="dl-pl"><div class="vw-player" id="dlPlayer"></div><div class="dl-plink" id="dlPlink"></div></div>
-<aside class="dl-fbp" id="dlFbPanel">${dlPanelHtml(p,ver)}</aside></div>`;
+<aside class="dl-fbp" id="dlFbPanel">${dlPanelHtml(p,ver)}</aside></div>
+</div>`;
+}
+var DLDRAFT=null;
+function dlStartDraft(vid){
+DLDRAFT={verId:vid};
+dlRefresh();
+setTimeout(function(){ dlFillDraftNow(); const el=document.getElementById('dlDraftMsg'); if(el) el.focus(); },30);
+}
+function dlCancelDraft(){ DLDRAFT=null; dlRefresh(); }
+async function dlFillDraftNow(){
+const tc=document.getElementById('dlDraftTc'); if(!tc) return;
+try{
+let t=null;
+if(OWN.kind==='youtube' && OWN.player && OWN.player.getCurrentTime) t=OWN.player.getCurrentTime();
+else if(OWN.kind==='vimeo' && OWN.player) t=await OWN.player.getCurrentTime();
+if(t!=null) tc.value=vwFmtTC(t);
+}catch(e){}
+}
+function dlSaveDraft(vid){
+const p=currentProject(), f=dlFindVersion(p,vid); if(!f) return;
+const tcEl=document.getElementById('dlDraftTc'), msgEl=document.getElementById('dlDraftMsg'), errEl=document.getElementById('dlDraftErr');
+const msg=(msgEl?msgEl.value:'').trim(), secs=vwParseTC(tcEl?tcEl.value:'');
+if(Number.isNaN(secs)){ if(errEl) errEl.textContent='Use minutes and seconds, like 1:23.'; return; }
+if(!msg){ if(msgEl) msgEl.focus(); return; }
+f.ver.notes=f.ver.notes||[];
+f.ver.notes.push({id:dlNewId('n'),seconds:secs,timecode:secs==null?'':vwFmtTC(secs),message:msg,ts:Date.now(),resolved:false});
+DLDRAFT=null;
+saveProjectChange(p); dlRefresh();
 }
 function dlPanelHtml(p,ver){
 const fb=dlFeedback(p,ver), s=getShare(p.id,'client');
-const head=`<div class="dl-fbhead"><h3>Feedback (${fb.length})</h3><button type="button" class="btn-primary" onclick="dlNoteModal('${ver.id}')">Add Feedback</button></div>`;
-if(!fb.length) return head+`<div class="dl-fbempty"><b>No feedback yet</b>${s?'Notes from your client appear here as they add them.':'Share this project with your client to collect timecoded feedback, or add your own note.'}</div>`;
-return head+fb.map(f=>`<div class="dl-fb ${f.resolved?'done':''}">
+const draftOpen=DLDRAFT && DLDRAFT.verId===ver.id;
+const head=`<div class="dl-fbhead"><h3>Feedback (${fb.length})</h3><button type="button" class="btn-primary" onclick="${draftOpen?`dlSaveDraft('${ver.id}')`:`dlStartDraft('${ver.id}')`}">${draftOpen?'Save Feedback':'Add Feedback'}</button></div>`;
+const draftRow=draftOpen?`<div class="dl-fb draft"><div class="vw-tcwrap"><input id="dlDraftTc" class="vw-input vw-tc" inputmode="numeric" placeholder="0:00" maxlength="9" aria-label="Timecode"><button type="button" class="vw-now" onclick="dlFillDraftNow()">Now</button><button type="button" class="dl-x" style="margin-left:auto" aria-label="Cancel" onclick="dlCancelDraft()">Cancel</button></div><textarea id="dlDraftMsg" class="vw-input vw-msg" rows="2" maxlength="2000" placeholder="What should change at this moment?" aria-label="Feedback"></textarea><div class="vw-err" id="dlDraftErr" role="alert"></div></div>`:'';
+if(!fb.length) return head+draftRow+(draftOpen?'':`<div class="dl-fbempty"><b>No feedback yet</b>${s?'Notes from your client appear here as they add them.':'Share this project with your client to collect timecoded feedback, or add your own note.'}</div>`);
+return head+draftRow+fb.map(f=>`<div class="dl-fb ${f.resolved?'done':''}">
 <div class="dl-fbrow"><input type="checkbox" ${f.resolved?'checked':''} aria-label="Mark done" onchange="dlResolve('${ver.id}','${f.src}','${esc(f.id)}',this.checked)">
 <button type="button" class="dl-tc" ${f.seconds==null?'disabled':''} onclick="dlSeek(${Number(f.seconds)||0})" title="Jump to this moment">${esc(f.timecode||'—')}</button>
 <div class="dl-fbmain"><div class="dl-fbmeta">${esc(f.author)} · ${dlDateTime(f.ts)}</div><div class="dl-fbmsg">${esc(f.message)}</div></div>
@@ -3628,6 +3743,19 @@ return head+fb.map(f=>`<div class="dl-fb ${f.resolved?'done':''}">
 ${f.replies.map(r=>`<div class="dl-reply"><div class="dl-fbmeta"><b>Editor</b> · ${dlDateTime(r.ts)}<button type="button" class="dl-x" aria-label="Remove reply" onclick="dlDeleteReply('${esc(f.id)}','${r.id}')">Remove</button></div><div class="dl-fbmsg">${esc(r.text)}</div></div>`).join('')}
 ${f.src==='client'?`<form class="dl-replyform" id="dlRF-${esc(f.id)}" hidden onsubmit="return dlSendReply(event,'${esc(f.id)}')"><input class="f-input" maxlength="1000" placeholder="Reply to the client" aria-label="Reply"><button type="submit" class="btn-primary">Send</button></form>`:''}
 </div>`).join('');
+}
+/* status is derived from the client (approve / request changes via the share link)
+   and from whether the editor has struck off every piece of feedback — no manual override */
+function dlCheckAutoAdvance(p,verId){
+const f=dlFindVersion(p,verId); if(!f) return;
+if(f.ver.status==='Needs Changes'){
+const fb=dlFeedback(p,f.ver);
+if(fb.length && fb.every(x=>x.resolved)){
+f.ver.status='In Review'; f.ver.statusTs=Date.now();
+saveProjectChange(p);
+logActivity('Version back in review',p.title+' · '+f.video.name+' v'+f.ver.num);
+}
+}
 }
 function dlRefresh(){
 if(currentView!=='projectDetail' || currentTab!=='delivery') return;
@@ -3638,17 +3766,15 @@ const f=dlFindVersion(p,RV.ver), el=document.getElementById('dlFbPanel');
 if(!f || !el) return;
 if(ae && el.contains(ae) && /INPUT|TEXTAREA/.test(ae.tagName) && ae.type!=='checkbox') return;
 el.innerHTML=dlPanelHtml(p,f.ver);
-const sel=document.getElementById('dlStatusSel');
-if(sel && document.activeElement!==sel){ sel.value=f.ver.status; sel.className='dl-status '+dlSlug(f.ver.status); }
+const statRow=document.getElementById('dlRowStat-'+f.ver.id); if(statRow) statRow.innerHTML=dlStatusPill(f.ver.status);
+const fbRow=document.getElementById('dlRowFb-'+f.ver.id); if(fbRow){ const n=dlFeedback(p,f.ver).length; fbRow.innerHTML=`<i class="dl-fbpill ${n?'has':''}">${DL_ICON_MSG}${n}</i>`; }
+const expStat=document.getElementById('dlExpStatus'); if(expStat) expStat.innerHTML=dlStatusPill(f.ver.status);
+const all=dlAllVersions(p), cnt={all:all.length,'In Review':0,'Needs Changes':0,'Approved':0}; all.forEach(o=>{ cnt[o.ver.status]=(cnt[o.ver.status]||0)+1; });
+Object.keys(cnt).forEach(k=>{ const el=document.getElementById('dlChipCnt-'+k.replace(/\s+/g,'')); if(el) el.textContent=cnt[k]; });
 } else {
 if(ae && ae.closest && ae.closest('.dl-search')) return;
 dlRefreshTable();
 }
-}
-function dlSetStatus(id,status){
-const p=currentProject(), f=dlFindVersion(p,id); if(!f) return;
-if(dlSetVideoStatus(p,f.ver,status)){ saveProjectChange(p); logActivity('Version marked '+status,p.title+' · '+f.video.name+' v'+f.ver.num); }
-renderProjectDetail();
 }
 function dlDetailMenu(ev,id){
 const p=currentProject(), f=dlFindVersion(p,id); if(!f) return;
@@ -3665,10 +3791,14 @@ dlMenu(ev,items);
 }
 async function dlResolve(vid,src,fid,checked){
 const p=currentProject();
-if(src==='client'){ await setFeedbackResolved(p.id,fid,checked); return; }
+if(src==='client'){ await setFeedbackResolved(p.id,fid,checked); }
+else {
 const f=dlFindVersion(p,vid); if(!f) return;
 const n=(f.ver.notes||[]).find(x=>x.id===fid); if(!n) return;
-n.resolved=checked; saveProjectChange(p); dlRefresh();
+n.resolved=checked; saveProjectChange(p);
+}
+dlCheckAutoAdvance(p,vid);
+dlRefresh();
 }
 function dlSendReply(ev,fid){
 ev.preventDefault();
@@ -3685,32 +3815,6 @@ saveProjectChange(p); dlRefresh();
 function dlDeleteNote(vid,nid){
 const p=currentProject(), f=dlFindVersion(p,vid); if(!f) return;
 f.ver.notes=(f.ver.notes||[]).filter(n=>n.id!==nid); saveProjectChange(p); dlRefresh();
-}
-function dlNoteModal(vid){
-dlOpenModal(`<div class="modal-header-row"><div class="modal-title">Add feedback</div><button type="button" class="modal-close modal-close-inline" onclick="closeModal('itemModal')">×</button></div>
-<div class="dl-noteform"><div class="vw-tcwrap"><input id="dlnTc" class="vw-input vw-tc" inputmode="numeric" placeholder="0:00" maxlength="9" aria-label="Timecode"><button type="button" class="vw-now" onclick="dlFillNow()">Now</button></div>
-<textarea id="dlnMsg" class="vw-input vw-msg" rows="3" maxlength="2000" placeholder="What should change at this moment?" aria-label="Feedback"></textarea></div>
-<div class="vw-err" id="dlnErr" role="alert"></div>
-<div class="modal-footer-row"><button type="button" class="btn-primary" onclick="dlSaveNote('${vid}')">Add feedback</button><button type="button" class="btn-ghost" onclick="closeModal('itemModal')">Cancel</button></div>`);
-dlFillNow();
-}
-async function dlFillNow(){
-const tc=document.getElementById('dlnTc'); if(!tc) return;
-try{
-let t=null;
-if(OWN.kind==='youtube' && OWN.player && OWN.player.getCurrentTime) t=OWN.player.getCurrentTime();
-else if(OWN.kind==='vimeo' && OWN.player) t=await OWN.player.getCurrentTime();
-if(t!=null) tc.value=vwFmtTC(t);
-}catch(e){}
-}
-function dlSaveNote(vid){
-const p=currentProject(), f=dlFindVersion(p,vid); if(!f) return;
-const msg=document.getElementById('dlnMsg').value.trim(), secs=vwParseTC(document.getElementById('dlnTc').value);
-if(Number.isNaN(secs)){ document.getElementById('dlnErr').textContent='Use minutes and seconds, like 1:23.'; return; }
-if(!msg){ document.getElementById('dlnMsg').focus(); return; }
-f.ver.notes=f.ver.notes||[];
-f.ver.notes.push({id:dlNewId('n'),seconds:secs,timecode:secs==null?'':vwFmtTC(secs),message:msg,ts:Date.now(),resolved:false});
-closeModal('itemModal'); saveProjectChange(p); dlRefresh();
 }
 function dlSeek(sec){
 try{
