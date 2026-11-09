@@ -2320,13 +2320,15 @@ renderProjectDetail(); renderOverview(); renderCompleted();
 }
 
 /* ---------- PROJECT DETAIL ---------- */
-function openProject(id){
+function openProject(id,opts){
+opts=opts||{};
+const keepTab=opts.keepTab && currentView==='projectDetail' && currentTab;
 currentProjectId=id;
 shotPlannerView='list';
 rpSearch=''; rpCat=''; rpSub=''; rpAllocatedFilter=false;
 const p=STATE.projects.find(x=>x.id===id);
 if(!p) return;
-currentTab = STAGE_ORDER.find(k=>!p.sections[k].confirmed) || 'delivery';
+if(!keepTab) currentTab = STAGE_ORDER.find(k=>!p.sections[k].confirmed) || 'delivery';
 STATE.lastOpenedProjectId=id;
 saveState();
 showView('projectDetail');
@@ -2360,7 +2362,7 @@ list.innerHTML=items.map(p=>`<button type="button" class="proj-switcher-row ${p.
 }
 function selectProjFromSwitcher(id){
 const pop=document.getElementById('projSwitcherPop'); if(pop) pop.hidden=true;
-if(id!==currentProjectId) openProject(id);
+if(id!==currentProjectId) openProject(id,{keepTab:true});
 }
 function proceedStage(key){
 const p=currentProject();
