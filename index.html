@@ -521,18 +521,21 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .hist-table td{padding:7px 8px;border-bottom:1px solid #f5f5f5}
 #resourceModalBox{max-width:700px;padding-top:40px;padding-right:44px}
 #resourceModalBox .modal-close{top:22px;right:20px}
-.res-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-bottom:18px}
-.res-head-name{flex:1 1 150px;min-width:130px;font-size:19px;font-weight:700;border:none;background:none;padding:6px 2px;color:#1a1a1a;font-family:inherit}
-.res-head-name[readonly]{cursor:default}
-.res-head-name:not([readonly]){border-bottom:1.5px solid #1a1a1a}
-.res-head-name:focus{outline:none}
-.res-head select.f-input{width:auto;min-width:110px;flex:0 0 auto}
-.res-head .stat-tile{min-width:88px;flex:0 0 auto}
-.res-rate-prefix{font-weight:700;font-size:16px}
-.res-stat-input{font:inherit;font-weight:700;font-size:16px;border:none;background:none;padding:0;width:70px;color:#1a1a1a}
+input.f-input[readonly]{background:#fafafa;color:#444}
+.res-stats-row{display:flex;border:1px solid #eee;border-radius:10px;margin-bottom:22px;overflow:hidden}
+.res-stat{flex:1;padding:14px 18px;min-width:0}
+.res-stat:not(:last-child){border-right:1px solid #eee}
+.res-stat .l{font-family:'Satoshi',sans-serif;font-size:11px;color:#999;letter-spacing:0.4px;margin-bottom:6px;font-weight:700}
+.res-stat .v{font-weight:700;font-size:18px;color:#1a1a1a}
+.res-stat-input{font:inherit;font-weight:700;font-size:18px;border:none;background:none;padding:0;width:90px;color:#1a1a1a}
 .res-stat-input[readonly]{cursor:default}
 .res-stat-input:not([readonly]){border-bottom:1.5px solid #1a1a1a}
 .res-stat-input:focus{outline:none}
+.dot-chip{display:inline-flex;align-items:center;gap:7px;font-size:16px;font-weight:700;color:#1a1a1a}
+.dot-chip i{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+.dot-chip.free i{background:#2fb344}
+.dot-chip.soon i{background:#e0a300}
+.dot-chip.busy i{background:#e2463a}
 .chart-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;flex-wrap:wrap}
 .res-range-sel{font-size:12.5px;padding:6px 10px;border-radius:8px;border:1px solid #e5e5e5;background:#fff;color:#444;font-family:inherit}
 .res-foot-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:4px;flex-wrap:wrap}
@@ -2106,16 +2109,18 @@ return `<tr><td>${esc(p.title)}</td><td>${esc(r.sub||'—')}</td><td>${rupee(lin
 }).join('');
 document.getElementById('resourceModalBox').innerHTML=`
 <button class="modal-close" onclick="closeModal('resourceModal')">×</button>
-<div class="res-head">
-<input class="res-head-name" id="rmName" value="${esc(r.name)}" readonly>
-${type!=='production'?`<div class="stat-tile"><div class="l">Availability</div><div class="v" style="font-size:13px;font-weight:600;line-height:1.4">${availabilityChip(type,id,false)}</div></div>`:''}
-<select class="f-input" id="rmTypeSel" disabled style="width:auto;"><option>${RES_LABEL[type]}</option></select>
-<select class="f-input" id="rmSub" style="width:auto;">
+<div class="form-grid cols-3" style="margin-bottom:16px;">
+<div><span class="field-label">Name</span><input class="f-input" id="rmName" value="${esc(r.name)}" readonly></div>
+<div><span class="field-label">Category</span><select class="f-input" id="rmTypeSel" disabled><option>${RES_LABEL[type]}</option></select></div>
+<div><span class="field-label">Sub Category</span><select class="f-input" id="rmSub">
 <option value="">No role set</option>
 ${(STATE.categories[type]||[]).map(n=>`<option value="${esc(n)}" ${r.sub===n?'selected':''}>${esc(n)}</option>`).join('')}
-</select>
-<div class="stat-tile"><div class="l">Latest Rate</div><div class="v"><span id="rmRateView">${rupee(r.rate)}</span><input class="res-stat-input" id="rmRate" type="number" min="0" value="${r.rate||0}" hidden></div></div>
-<div class="stat-tile"><div class="l">Projects</div><div class="v">${usedIn.length}</div></div>
+</select></div>
+</div>
+<div class="res-stats-row">
+<div class="res-stat"><div class="l">Latest Price</div><div class="v"><span id="rmRateView">${rupee(r.rate)}</span><input class="res-stat-input" id="rmRate" type="number" min="0" value="${r.rate||0}" hidden></div></div>
+<div class="res-stat"><div class="l">Projects</div><div class="v">${usedIn.length}</div></div>
+${type!=='production'?`<div class="res-stat"><div class="l">Availability</div><div class="v">${availabilityDot(type,id)}</div></div>`:''}
 </div>
 <div class="chart-head"><span class="field-label" style="margin:0;">Reference Rate History</span><select class="res-range-sel" id="rmRange" onchange="renderRateChart('${type}','${id}')"><option value="6">Last 6 Months</option><option value="12">Last 12 Months</option><option value="0">All time</option></select></div>
 <div class="chart-box" id="rmChart">${rateChartSvg(r.history||[],6)}</div>
@@ -3955,6 +3960,14 @@ const b=next[0], now=b.from<=today;
 const detail=next.map(x=>x.p.title+' · '+fmtRange(x.from,x.to)).join('\n');
 const text=full ? next.map(x=>esc(x.p.title)+' · '+fmtRange(x.from,x.to)).join(' / ') : (now?'Busy':'Booked');
 return `<span class="avail-chip ${now?'busy':'soon'}" title="${esc(detail)}">${text}</span>`;
+}
+function availabilityDot(type,id){
+const today=new Date().toISOString().slice(0,10);
+const next=resourceBookings(type,id).filter(b=>b.to>=today).sort((a,b)=>a.from<b.from?-1:1);
+if(!next.length) return '<span class="dot-chip free"><i></i>Available</span>';
+const b=next[0], now=b.from<=today;
+const detail=next.map(x=>x.p.title+' · '+fmtRange(x.from,x.to)).join('\n');
+return `<span class="dot-chip ${now?'busy':'soon'}" title="${esc(detail)}"><i></i>${now?'Busy':'Booked'}</span>`;
 }
 
 /* ---------- SHARING: client + team links ----------
