@@ -2,8 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Flow - By Big Short Films</title>
+<meta name="description" content="Production management for Archive Film Labs — brief, shot planning, resources, shoot tracking and review, in one place.">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#fec92d">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Flow">
+<meta name="mobile-web-app-capable" content="yes">
+<script>
+if('serviceWorker' in navigator){
+window.addEventListener('load',function(){
+navigator.serviceWorker.register('/sw.js').catch(function(){});
+});
+}
+</script>
 <script>(function(){try{var t=new URLSearchParams(location.search).get("s");if(t&&/^[A-Za-z0-9]{10,64}$/.test(t)){window.__VIEW_TOKEN=t;document.documentElement.classList.add("viewer-mode");}}catch(e){}})();</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
 <script>
