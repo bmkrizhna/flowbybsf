@@ -3639,7 +3639,7 @@ const vids=dlVideos(p);
 const draftRow=RV.adding?dlDraftRowHtml(p):'';
 return bulk+`<div class="dl-table"><div class="dl-tr dl-th"><span><input type="checkbox" aria-label="Select all" ${rows.length&&selCount===rows.length?'checked':''} onchange="dlSelectAll(this.checked)"></span><span>Version</span><span>Thumbnail</span><span>Film Title</span><span>Note</span><span>Link</span><span>Feedback</span><span>Date</span></div>`+draftRow+rows.map(o=>{
 const x=o.ver, fb=dlFeedback(p,x).length, url=dlSafeUrl(x.link), open=RV.ver===x.id;
-return `<div class="dl-tr${open?' open':''}" onclick="dlOpen('${x.id}')">
+const compactRow=open?'':`<div class="dl-tr" onclick="dlOpen('${x.id}')">
 <span class="c-sel" onclick="event.stopPropagation()"><input type="checkbox" aria-label="Select v${x.num}" ${RV.sel[x.id]?'checked':''} onchange="dlSelect('${x.id}',this.checked)"></span>
 <span class="c-ver"><b class="dl-vpill">v${x.num}</b></span>
 <span class="c-thumb">${dlThumbCell(x)}</span>
@@ -3648,7 +3648,8 @@ return `<div class="dl-tr${open?' open':''}" onclick="dlOpen('${x.id}')">
 <span class="c-link" onclick="event.stopPropagation()">${url?`<a href="${esc(url)}" target="_blank" rel="noopener">${esc(dlHost(url))}${DL_ICON_EXT}</a>`:'<em>No link</em>'}</span>
 <span class="c-fb" id="dlRowFb-${x.id}"><i class="dl-fbpill ${fb?'has':''}">${DL_ICON_MSG}${fb}</i></span>
 <span class="c-date">${fmtDateShort(x.date)}</span>
-</div>`+(open?dlExpandHtml(p,o.video,x):''); }).join('')+`</div>`;
+</div>`;
+return compactRow+(open?dlExpandHtml(p,o.video,x):''); }).join('')+`</div>`;
 }
 function dlStartAdd(){
 RV.adding=true;
