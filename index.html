@@ -476,9 +476,8 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 /* ---- Edit & Delivery version table ---- */
 
 /* Modal */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:flex-start;justify-content:center;overflow-y:auto;padding:40px 20px}
-#sceneModal{align-items:center}
-#sceneModal .modal-box{margin:auto 0}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center;overflow-y:auto;padding:40px 20px}
+.modal-overlay .modal-box{margin:auto 0}
 .modal-overlay.show{display:flex}
 .modal-box{background:#fff;border-radius:10px;max-width:560px;width:100%;padding:28px;position:relative}
 .modal-box.wide{max-width:520px}
@@ -1465,7 +1464,13 @@ renderSidebarNav();
 if(currentView==='overview'){ renderOverview(); renderCompleted(); }
 else if(currentView==='resources'){ renderResources(); }
 else if(currentView==='completed'){ renderCompleted(); }
-else if(currentView==='projectDetail'){ renderProjectDetail(); }
+else if(currentView==='projectDetail'){
+if(currentTab==='delivery' && RV.ver && !document.querySelector('.modal-overlay.show')){
+refreshFeedbackBox();
+}else{
+renderProjectDetail();
+}
+}
 renderApprovalsModal();
 renderRoleBadge();
 }
@@ -2107,9 +2112,27 @@ if(!overlay) return;
 overlay.classList.remove('show');
 const box=document.getElementById(id+'Box');
 if(box) box.innerHTML='';
+if(id==='confirmModal') restoreModalsBehindConfirm();
+}
+let _hiddenBehindConfirm=[];
+function hideModalsBehindConfirm(){
+_hiddenBehindConfirm=[];
+document.querySelectorAll('.modal-overlay.show').forEach(el=>{
+if(el.id==='confirmModal' || el.id==='loginGate') return;
+el.classList.remove('show');
+_hiddenBehindConfirm.push(el.id);
+});
+}
+function restoreModalsBehindConfirm(){
+const ids=_hiddenBehindConfirm; _hiddenBehindConfirm=[];
+ids.forEach(id=>{
+const el=document.getElementById(id), box=document.getElementById(id+'Box');
+if(el && box && box.innerHTML.trim()) el.classList.add('show');
+});
 }
 function confirmAction(title,message,onConfirm,opts){
 opts=opts||{};
+hideModalsBehindConfirm();
 const box=document.getElementById('confirmModalBox');
 box.innerHTML=`<div class="modal-title">${esc(title)}</div>
 <p class="body-text" style="margin:0 0 20px;color:#666;">${esc(message)}</p>
@@ -2124,6 +2147,7 @@ onConfirm();
 document.getElementById('confirmModal').classList.add('show');
 }
 function notifyUser(message,title){
+hideModalsBehindConfirm();
 const box=document.getElementById('confirmModalBox');
 box.innerHTML=`<div class="modal-title">${esc(title||'Notice')}</div>
 <p class="body-text" style="margin:0 0 20px;color:#666;">${esc(message)}</p>
@@ -2133,6 +2157,7 @@ box.innerHTML=`<div class="modal-title">${esc(title||'Notice')}</div>
 document.getElementById('confirmModal').classList.add('show');
 }
 function promptUser(title,placeholder,onSubmit,onCancel){
+hideModalsBehindConfirm();
 const box=document.getElementById('confirmModalBox');
 box.innerHTML=`<div class="modal-title">${esc(title)}</div>
 <input class="f-input" id="promptModalInput" placeholder="${esc(placeholder||'')}" style="width:100%;box-sizing:border-box;margin-bottom:20px;">
