@@ -1322,7 +1322,10 @@ let STATE;
 try{ const s=localStorage.getItem('bsf_data_v2'); STATE = s?JSON.parse(s):seedState(); }catch(e){ STATE=seedState(); }
 if(!STATE.projects) STATE = seedState();
 function todayISO(){ return new Date().toISOString().slice(0,10); }
-/* Migration: bring older saved states up to date without losing user edits */
+/* Migration: bring older saved states up to date without losing user edits.
+   Callable more than once (e.g. after swapping in a state loaded from the
+   shared cloud copy) — every step here is a no-op once already applied. */
+function runMigrations(){
 if(STATE.schema!==RES_SCHEMA){
 Object.assign(STATE,csvResources()); STATE.schema=RES_SCHEMA;
 (STATE.projects||[]).forEach(p=>{
@@ -1382,13 +1385,88 @@ delete s.shots; delete s.activities;
 renumberScenesContinuous(p);
 syncComputedDates(p);
 });
+}
+runMigrations();
 function syncComputedDates(p){
 const dated=(p.days||[]).map(d=>d.date).filter(Boolean).sort();
 p.first=dated[0]||'';
 p.wrap=dated[dated.length-1]||'';
 p.delivery=(p.phaseLog&&p.phaseLog.delivered)||'';
 }
-function saveState(){ if(window.__VIEW_TOKEN) return; try{localStorage.setItem('bsf_data_v2', JSON.stringify(STATE));}catch(e){} try{ scheduleShareSync(); }catch(e){} }
+function saveState(){ if(window.__VIEW_TOKEN) return; try{localStorage.setItem('bsf_data_v2', JSON.stringify(STATE));}catch(e){} try{ scheduleShareSync(); }catch(e){} try{ scheduleCloudSync(); }catch(e){} }
+
+/* ---------- SHARED CLOUD STATE ----------
+   The whole STATE object is mirrored to one row in Supabase (public.app_state,
+   id='default') so every device/browser on this link sees the same projects,
+   not just whatever is cached in this one browser's localStorage. No login
+   exists, so this is link-level sharing, same trust model as the rest of the
+   app: anyone with the deployed URL can read and write it. */
+const CLOUD_STATE_ID='default';
+let cloudSyncTimer=null, cloudPushInFlight=false, cloudPushQueued=false, lastCloudPush='', applyingRemoteState=false, cloudChannel=null;
+function scheduleCloudSync(){
+if(!supabase || window.__VIEW_TOKEN || applyingRemoteState) return;
+clearTimeout(cloudSyncTimer);
+cloudSyncTimer=setTimeout(pushStateToCloud,900);
+}
+async function pushStateToCloud(){
+if(!supabase || window.__VIEW_TOKEN) return;
+const payload=JSON.stringify(STATE);
+if(payload===lastCloudPush) return;
+if(cloudPushInFlight){ cloudPushQueued=true; return; }
+cloudPushInFlight=true;
+try{
+const {error}=await supabase.from('app_state').upsert({id:CLOUD_STATE_ID,data:STATE,updated_at:new Date().toISOString()});
+if(!error) lastCloudPush=payload;
+else console.warn('Cloud save failed',error);
+}catch(e){ console.warn('Cloud save failed',e); }
+cloudPushInFlight=false;
+if(cloudPushQueued){ cloudPushQueued=false; pushStateToCloud(); }
+}
+async function loadCloudState(){
+if(!supabase) return false;
+try{
+const {data,error}=await supabase.from('app_state').select('data,updated_at').eq('id',CLOUD_STATE_ID).maybeSingle();
+if(error) throw error;
+if(data && data.data && Array.isArray(data.data.projects)){
+applyingRemoteState=true;
+STATE=data.data;
+runMigrations();
+applyingRemoteState=false;
+lastCloudPush=JSON.stringify(STATE);
+try{ localStorage.setItem('bsf_data_v2', JSON.stringify(STATE)); }catch(e){}
+return 'swapped';
+}
+// Nothing in the cloud yet — seed it from whatever we booted with (local cache or a fresh seed).
+pushStateToCloud();
+return 'pushed';
+}catch(e){ console.warn('Cloud load failed, continuing on local data only.',e); return false; }
+}
+function subscribeCloudState(){
+if(!supabase || window.__VIEW_TOKEN || cloudChannel) return;
+cloudChannel=supabase.channel('app_state_'+CLOUD_STATE_ID)
+.on('postgres_changes',{event:'UPDATE',schema:'public',table:'app_state',filter:'id=eq.'+CLOUD_STATE_ID},function(payload){
+const row=payload.new; if(!row||!row.data) return;
+const incoming=JSON.stringify(row.data);
+if(incoming===lastCloudPush) return; // our own write echoing back
+applyingRemoteState=true;
+STATE=row.data;
+runMigrations();
+applyingRemoteState=false;
+lastCloudPush=incoming;
+try{ localStorage.setItem('bsf_data_v2', incoming); }catch(e){}
+reapplyRemoteStateToUI();
+})
+.subscribe();
+}
+function reapplyRemoteStateToUI(){
+closeProjectMenu && closeProjectMenu();
+if(currentView==='projectDetail' && currentProjectId && !currentProject()){ currentView='overview'; currentProjectId=null; showView('overview'); }
+renderSidebarNav();
+if(currentView==='overview'){ renderOverview(); renderCompleted(); }
+else if(currentView==='resources'){ renderResources(); }
+else if(currentView==='completed'){ renderCompleted(); }
+else if(currentView==='projectDetail'){ renderProjectDetail(); }
+}
 function logActivity(message,sub){
 STATE.activityLog = STATE.activityLog || [];
 STATE.activityLog.unshift({id:'act'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),message,sub:sub||'',ts:Date.now()});
@@ -3982,25 +4060,20 @@ btn.disabled=false;
 }
 
 /* ---------- INIT ---------- */
-async function loadData(){
-if(!supabase) return;
-try{
-const {data:projects}=await supabase.from('projects').select('*');
-console.log('supabase projects',projects);
-}catch(e){console.error('Supabase load error',e);}
-}
-if(window.__VIEW_TOKEN){
-vwInit(window.__VIEW_TOKEN);
-} else {
+async function boot(){
+if(window.__VIEW_TOKEN){ vwInit(window.__VIEW_TOKEN); return; }
 try{ if(localStorage.getItem('flowSidebarCollapsed')!=='0') document.body.classList.add('sidebar-collapsed'); }catch(e){}
 renderOverview();renderCompleted();renderResources();renderSidebarNav();
 updateTopbarClock();
 setInterval(updateTopbarClock,30000);
 loadWeather();
 setInterval(loadWeather,900000);
-loadData();
+const cloudResult=await loadCloudState();
+if(cloudResult==='swapped') reapplyRemoteStateToUI();
+subscribeCloudState();
 if(hasAnyShare()){ startSharePolling(); pullShares(); syncAllShares(); }
 }
+boot();
 </script>
 <script>
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
