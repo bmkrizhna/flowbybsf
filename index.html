@@ -466,7 +466,7 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .rb-dash{color:#bbb;text-align:right}
 .rm-head,.rm-row{display:grid;grid-template-columns:28px minmax(0,1.5fr) minmax(0,.8fr) minmax(0,1.1fr) 176px 112px 118px;column-gap:12px;align-items:center;padding:11px 18px}
 .rm-head{font-size:12px;color:#999;padding-bottom:8px;border-bottom:1px solid #f0f0f0}
-.rm-row{border-top:1px solid #f2f2f2;font-size:13px;transition:background .15s}
+.rm-row{border-top:1px solid #f2f2f2;font-size:13px;transition:background .15s;min-height:42px;box-sizing:border-box}
 .rm-head+.rm-row{border-top:none}
 .rm-row:hover{background:#fafafa}
 .rm-row.selected{background:var(--accent-bg)}
@@ -474,7 +474,7 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .rm-name{display:flex;align-items:center;gap:9px;min-width:0}
 .rm-name .nm-t{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .rm-cat,.rm-sub{color:#666;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.rm-rate,.rm-qty,.rm-amt{display:flex;align-items:center;gap:4px;min-width:0}
+.rm-rate,.rm-qty,.rm-amt{display:flex;align-items:center;gap:4px;min-width:0;height:20px}
 .rm-amt{font-weight:600}
 .rm-cur{color:#888}
 .rm-step{width:20px;height:20px;border-radius:50%;border:none;background:rgba(0,0,0,.08);color:#1a1a1a;font-size:13px;line-height:1;cursor:pointer;flex-shrink:0}
@@ -482,10 +482,12 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .av-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;display:inline-block}
 .av-dot.free{background:#3bb273}.av-dot.busy{background:#f0922b}.av-dot.none{visibility:hidden}
 .rm-print-calc{grid-column:2/-1;font-size:12px;color:#555}
-.rp-in{border:none;background:transparent;border-radius:0;padding:4px 2px;font-size:13px;text-align:right;width:100%;font-family:inherit;color:#1a1a1a;-moz-appearance:textfield}
+.rp-in{border:none;background:transparent;border-radius:0;padding:0 2px;height:20px;line-height:18px;box-sizing:border-box;font-size:13px;text-align:right;width:100%;font-family:inherit;color:#1a1a1a;-moz-appearance:textfield}
 .rp-in:focus{outline:none;box-shadow:inset 0 -1px 0 #ccc}
 .rp-in::-webkit-outer-spin-button,.rp-in::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-.rp-basis{text-align:left;width:auto;flex:0 0 auto}.rm-qty .rp-in{text-align:center;width:44px}.rm-rate .rp-in:not(.rp-basis),.rm-amt .rp-in{width:78px;text-align:left}
+.rp-basis{appearance:none;-webkit-appearance:none;-moz-appearance:none;text-align:left;width:auto;flex:0 0 auto;color:#888;cursor:pointer}
+.rm-qty .rp-in{text-align:center;width:44px}
+.rm-rate .rp-in:not(.rp-basis),.rm-amt .rp-in{text-align:right}
 .rp-total{font-weight:700}
 .rb-cat-field{border:none;background:transparent;font-size:13px;font-family:inherit;color:#1a1a1a;padding:4px 2px;width:100%}
 .rb-cat-field:focus{outline:none;box-shadow:inset 0 -1px 0 #ccc}
@@ -1699,7 +1701,7 @@ const k=type+':'+id; const cfg=p.budgetRates[k]=p.budgetRates[k]||{};
 const cur=resourceLine(p,type,id);
 if(field==='basis'){ cfg.basis=val; delete cfg.qty; delete cfg.total; }
 else {
-let n=parseFloat(val); if(!isFinite(n)||n<0) n=0;
+let n=parseFloat(String(val).replace(/,/g,'')); if(!isFinite(n)||n<0) n=0;
 if(field==='rate'){ cfg.rate=n; delete cfg.total; }
 else if(field==='qty'){ cfg.qty=n; delete cfg.total; }
 else if(field==='total'){ cfg.total=n; cfg.rate=Math.round(n/(cur.qty||1)*100)/100; }
@@ -1866,6 +1868,12 @@ showView(view);
 }
 
 function fmt(n){ return Number(n||0).toLocaleString('en-IN'); }
+let _numMeasureCtx=null;
+function numPx(txt){
+const ctx=_numMeasureCtx||(_numMeasureCtx=document.createElement('canvas').getContext('2d'));
+ctx.font='13px Satoshi, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+return Math.ceil(ctx.measureText(String(txt)).width)+5;
+}
 function resolveResource(type,id){ return (STATE[type]||[]).find(x=>x.id===id); }
 function resolveCrew(id){ return resolveResource('crew',id); }
 function resolveEquipment(id){ return resolveResource('equipment',id); }
@@ -3437,13 +3445,13 @@ dot=next.length?`<i class="av-dot busy" title="${esc(next.map(x=>x.p.title+' · 
 }
 const basisLbl=b=>b==='Per Day'?'Day':'Project';
 const rate=on
-?`<span class="rm-cur">₹</span><input class="rp-in" type="number" min="0" value="${ln.rate}" aria-label="Rate" onchange="setResourceLine('${r.type}','${r.id}','rate',this.value)"><select class="rp-in rp-basis" aria-label="Rate basis" onchange="setResourceLine('${r.type}','${r.id}','basis',this.value)">${RATE_BASES.map(b=>`<option value="${b}" ${ln.basis===b?'selected':''}>/ ${basisLbl(b)}</option>`).join('')}</select>`
+?`<span class="rm-cur">₹</span><input class="rp-in" type="text" inputmode="decimal" style="width:${numPx(fmt(ln.rate))}px" value="${fmt(ln.rate)}" aria-label="Rate" oninput="this.style.width=numPx(this.value)+'px'" onchange="setResourceLine('${r.type}','${r.id}','rate',this.value)"><select class="rp-in rp-basis" aria-label="Rate basis" onchange="setResourceLine('${r.type}','${r.id}','basis',this.value)">${RATE_BASES.map(b=>`<option value="${b}" ${ln.basis===b?'selected':''}>/ ${basisLbl(b)}</option>`).join('')}</select>`
 :`<span class="rb-static">${rupee(r.rate)} / Day</span>`;
 const qty=on
 ?`<button type="button" class="rm-step" onclick="stepResourceQty('${r.type}','${r.id}',-1)" aria-label="Decrease">−</button><input class="rp-in rp-qty" type="number" min="0" step="1" value="${ln.qty}" aria-label="Quantity" onchange="setResourceLine('${r.type}','${r.id}','qty',this.value)"><button type="button" class="rm-step" onclick="stepResourceQty('${r.type}','${r.id}',1)" aria-label="Increase">+</button>`
 :'<span class="rb-dash">—</span>';
 const amt=on
-?`<span class="rm-cur">₹</span><input class="rp-in rp-total" type="number" min="0" value="${ln.total}" aria-label="Amount" onchange="setResourceLine('${r.type}','${r.id}','total',this.value)">`
+?`<span class="rm-cur">₹</span><input class="rp-in rp-total" type="text" inputmode="decimal" style="width:${numPx(fmt(ln.total))}px" value="${fmt(ln.total)}" aria-label="Amount" oninput="this.style.width=numPx(this.value)+'px'" onchange="setResourceLine('${r.type}','${r.id}','total',this.value)">`
 :'<span class="rb-dash">—</span>';
 return `<div class="rm-row ${on?'selected':''}">
 <span class="rm-chk"><input type="checkbox" class="rp-checkbox" ${on?'checked':''} aria-label="Select ${esc(r.name)}" onchange="setResourceChecked('${r.type}','${r.id}',this.checked)"></span>
