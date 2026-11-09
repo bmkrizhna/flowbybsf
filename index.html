@@ -305,6 +305,8 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .brief-thumb-box .thumb-box{flex:1;height:auto;min-height:220px}
 .form-grid.cols-2{grid-template-columns:1fr 1fr}
 .worksheet-area{min-height:360px;resize:vertical}
+.brief-delete-btn{display:block;width:100%;background:none;border:1.5px solid #f0c9ce;color:#b3244b;border-radius:12px;padding:13px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.brief-delete-btn:hover{background:#fdf0f2;border-color:#b3244b}
 .thumb-box{border:1px dashed #ccc;border-radius:14px;height:240px;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;color:#999;font-size:13px;background:#fafafa;text-align:center}
 .thumb-box:hover{border-color:#bbb}
 .thumb-preview{width:100%;height:100%;object-fit:cover}
@@ -2576,7 +2578,18 @@ ${p.thumbnail?`<img src="${p.thumbnail}" class="thumb-preview">`:'Click to uploa
 <div class="box-title">Script</div>
 <textarea class="f-input worksheet-area" placeholder="Paste or write the script here." onchange="updateBrief('script',this.value)">${b.script||''}</textarea>
 </div>
+${isAdmin()?`<button type="button" class="brief-delete-btn" onclick="deleteProjectPrompt('${p.id}')">Delete Project</button>`:''}
 </div>`;
+}
+function deleteProjectPrompt(id){
+const p=STATE.projects.find(x=>x.id===id); if(!p) return;
+confirmAction(`Delete "${p.title}"?`,'This permanently removes the project and everything in it — brief, shots, budget, shoot days and review history. This cannot be undone.',function(){
+STATE.projects=STATE.projects.filter(x=>x.id!==id);
+if(currentProjectId===id){ currentProjectId=null; currentView='overview'; showView('overview'); }
+saveState();
+logActivity('Project deleted',p.title);
+renderSidebarNav(); renderOverview(); renderCompleted();
+},{confirmLabel:'Delete'});
 }
 function updateBrief(field,val){ const p=currentProject(); p.brief[field]=val; saveProjectChange(p); }
 const PROJECT_TYPES=['Short film','Documentary','Music video','Feature film','Commercial','Web series','Other'];
