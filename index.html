@@ -29,7 +29,7 @@
 --gold-bg:var(--accent-bg);--gold-text:var(--accent-text);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%}
+html,body{height:100%;overscroll-behavior-y:none}
 body{font-family:'Satoshi',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;font-weight:400;line-height:1.5;color:#1a1a1a;background:var(--page-bg)}
 /* ---- Dark mode: whole-page filter invert, re-inverted for real photos/logo so
    colours and the wordmark stay true while every other surface flips tone. ---- */
@@ -86,7 +86,7 @@ body.sidebar-collapsed .sidebar-user-name{opacity:0;width:0}
 .intro-overlay.fade-out{opacity:0;pointer-events:none}
 .intro-overlay video{width:100%;height:100%;object-fit:cover}
 main{flex:1;padding:32px 48px 60px;max-width:1360px;width:100%;margin:0 auto}
-main:has(#projectDetail.active){padding-top:0}
+main:has(#projectDetail.active),main:has(#resources.active){padding-top:0}
 .page{display:none}
 .page.active{display:block}
 /* ---- Shared eyebrow / label typography ---- */
@@ -201,8 +201,7 @@ main:has(#projectDetail.active){padding-top:0}
 .page-search-input{width:260px;max-width:100%;padding:10px 16px 10px 36px;border:none;border-radius:999px;font-size:14px;background:#f0f0f0 url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%23999" stroke-width="2"%3E%3Ccircle cx="11" cy="11" r="8"/%3E%3Cpath d="m21 21-4.35-4.35"/%3E%3C/svg%3E') no-repeat 14px center}
 .page-head-row{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:14px;flex-wrap:wrap}
 .page-head-row .page-heading{margin-bottom:0;flex-shrink:0}
-.resources-head-row{position:sticky;top:calc(var(--topbar-h,62.5px) + var(--proj-head-h,0px));z-index:15;background:var(--page-bg);padding:14px 0;border-bottom:1px solid #f0f0f0}
-#resourcesHeading{transition:opacity .1s ease}
+.resources-head-row{position:sticky;top:calc(var(--topbar-h,62.5px) + var(--proj-head-h,0px));z-index:15;background:var(--page-bg);padding:12px 0;border-bottom:1px solid #f0f0f0}
 .search-filter-row{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap;flex:1;min-width:0}
 .search-filter-box{display:flex;align-items:center;border:none;border-radius:999px;background:#f0f0f0;width:360px;max-width:100%;height:38px}
 .search-filter-box.wide{flex:1 1 320px;max-width:none}
@@ -233,7 +232,7 @@ main:has(#projectDetail.active){padding-top:0}
 .status-pill.freelance{border:1px solid #ddd;color:#555;background:#fff}
 .status-pill.inhouse{background:#1a1a1a;color:#fff}
 .rate-num{font-weight:700;font-size:13px;min-width:60px;text-align:right}
-.usage-sidebar{border:1px solid #e5e5e5;border-radius:8px;padding:18px;position:sticky;top:76px;background:#fff}
+.usage-sidebar{border:1px solid #e5e5e5;border-radius:8px;padding:18px;position:sticky;top:calc(var(--topbar-h,62.5px) + var(--res-head-h,0px) + 12px);background:#fff}
 .usage-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:16px}
 .usage-top-label{margin-bottom:4px}
 .usage-top-val{font-size:26px;font-weight:600}
@@ -442,11 +441,6 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .sched-action-btn.tr-status-icon svg{width:13px;height:13px}
 /* ---- Resource Planner / Budgeting ---- */
 
-/* Budgeting tab: same headingless-list + sticky-breadcrumb pattern as the
-   Resources page (see .resources-head-row / updateBudgetBreadcrumb) - a fixed
-   "Budgeting" title that grows a live breadcrumb suffix as the single
-   continuous list (Crew, then Equipment, then Production Expenses) scrolls
-   beneath it, instead of a separate totals summary. */
 .budget-head-row{position:sticky;top:calc(var(--topbar-h,62.5px) + var(--proj-head-h,0px));z-index:15;background:var(--page-bg);padding:14px 0;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 #budgetHeading{transition:opacity .1s ease}
 
@@ -670,7 +664,7 @@ main{padding:16px 16px calc(84px + env(safe-area-inset-bottom))}
 
 .search-filter-icons{width:100%}
 .icon-btn-text{flex:1 1 0;justify-content:center;padding:0 10px}
-.proj-head-row{flex-direction:row;flex-wrap:wrap;align-items:center;gap:10px 12px;padding:4px 0 14px;position:static;margin-bottom:16px}
+.proj-head-row{flex-direction:row;flex-wrap:wrap;align-items:center;gap:10px 12px;padding:10px 0;position:sticky;margin-bottom:10px}
 .pd-heading{flex:1 1 100%;min-width:0}
 .pd-stage-title,.pd-proj{font-size:15px;overflow:hidden;text-overflow:ellipsis}
 .pd-status-cluster{margin-left:0;font-size:13px;flex:1 1 auto}
@@ -1363,11 +1357,7 @@ const el=document.getElementById(view);
 if(el) el.classList.add('active');
 renderSidebarNav();
 window.scrollTo(0,0);
-/* The resources list is rendered once at app init, while this page is still
-   hidden (display:none) - at that moment every row's getBoundingClientRect()
-   collapses to zero, so the scroll-spy loop below has no real layout to read.
-   Re-sync the breadcrumb now that the page is actually visible and laid out. */
-if(view==='resources') updateResourcesBreadcrumb();
+syncStickyOffsets();
 }
 
 function renderSidebarNav(){
@@ -1589,7 +1579,7 @@ return true;
 function renderResources(){
 /* Unified list: crew and equipment merged into one list with no inline
    per-category or per-type headings - those are shown dynamically in the
-   sticky header's breadcrumb as the list scrolls (see updateResourcesBreadcrumb)
+   sticky header's breadcrumb as the list scrolls
    instead. For that breadcrumb to read correctly, items need to stay grouped
    by type then by category (in the same order as Manage Categories), with only
    the final tie-break alphabetised by name. */
@@ -1612,7 +1602,6 @@ return `<div class="crew-row" data-type="Crew" data-cat="${esc(item.cat||'')}" o
 }
 return `<div class="crew-row" data-type="Equipment" data-cat="${esc(item.cat||'')}" onclick="openResourceModal('equipment','${item.id}')"><div class="crew-left"><div class="nm"><span class="nm-t">${esc(item.name)}</span>${availabilityChip('equipment',item.id)}</div><div class="rl">${esc(item.sub||'')}</div></div><div class="crew-right"><span class="status-pill ${item.status}">${item.status==='inhouse'?'In-house':'Rental'}</span><span class="rate-num">${item.rate>0?fmt(item.rate):'—'}</span></div></div>`;
 }).join('');
-updateResourcesBreadcrumb();
 
 const emptyEl=document.getElementById('resourcesEmptyState');
 if(emptyEl) emptyEl.style.display=(allResources.length===0)?'block':'none';
@@ -1646,64 +1635,6 @@ const splitBars=document.querySelectorAll('.usage-split .usage-bar-fill');
 if(splitBars[0]) splitBars[0].style.width=crewPct+'%';
 if(splitBars[1]) splitBars[1].style.width=eqPct+'%';
 }
-/* As the (headingless) resource list scrolls under the sticky header, show which
-   section is currently at the top in the heading itself - "Resources / Crew /
-   Direction" - rather than an inline divider. Picks the last row that has
-   already scrolled up to the sticky header's bottom edge. */
-function updateResourcesBreadcrumb(){
-const heading=document.getElementById('resourcesHeading');
-const headRow=document.getElementById('resourcesHeadRow');
-if(!heading || !headRow) return;
-const headRect=headRow.getBoundingClientRect();
-/* Page not visible yet (display:none, e.g. during initial app render before the
-   user has ever opened Resources) - there's no real layout to read, so skip
-   rather than let every zero-sized row "qualify" and land on a meaningless
-   last-row match. */
-if(headRect.width===0 && headRect.height===0) return;
-const rows=document.querySelectorAll('#resourceList .crew-row');
-if(!rows.length){ heading.textContent='Resource Manager'; return; }
-const threshold=headRect.bottom;
-let current=null;
-for(const row of rows){
-if(row.getBoundingClientRect().top<=threshold) current=row; else break;
-}
-heading.textContent = current ? `Resource Manager / ${current.dataset.type} / ${current.dataset.cat||'Uncategorised'}` : 'Resource Manager';
-}
-let resourcesScrollTicking=false;
-window.addEventListener('scroll',()=>{
-if(currentView!=='resources') return;
-if(resourcesScrollTicking) return;
-resourcesScrollTicking=true;
-requestAnimationFrame(()=>{ updateResourcesBreadcrumb(); resourcesScrollTicking=false; });
-},{passive:true});
-/* Budgeting tab: same headingless-list + sticky-breadcrumb pattern as Resources
-   above - one continuous scroll through Crew, then Equipment, then Production
-   Expenses, with the sticky title naming whichever section is currently at the
-   top instead of inline dividers. */
-function updateBudgetBreadcrumb(){
-if(currentView!=='projectDetail' || currentTab!=='budgeting') return;
-const sub=null;
-const headRow=document.querySelector('.proj-head-row');
-const p=currentProject();
-if(!sub || !headRow || !p) return;
-const headRect=headRow.getBoundingClientRect();
-if(headRect.width===0 && headRect.height===0) return;
-const rows=document.querySelectorAll('#pdBody [data-bctype]');
-if(!rows.length){ sub.textContent=stageStat(p,'budgeting'); return; }
-const threshold=headRect.bottom;
-let current=null;
-for(const row of rows){
-if(row.getBoundingClientRect().top<=threshold) current=row; else break;
-}
-sub.textContent = current ? (current.dataset.bctype==='expense' ? 'Production Expenses' : current.dataset.bctype) : stageStat(p,'budgeting');
-}
-let budgetScrollTicking=false;
-window.addEventListener('scroll',()=>{
-if(currentView!=='projectDetail' || currentTab!=='budgeting') return;
-if(budgetScrollTicking) return;
-budgetScrollTicking=true;
-requestAnimationFrame(()=>{ updateBudgetBreadcrumb(); budgetScrollTicking=false; });
-},{passive:true});
 function renderCategoryGroup(type,elId){
 const list=STATE.categories[type];
 document.getElementById(elId).innerHTML = `<div class="cat-list">` + list.map((c,ci)=>`
@@ -2091,6 +2022,8 @@ const tb=document.querySelector('.topbar');
 if(tb) root.style.setProperty('--topbar-h',tb.offsetHeight+'px');
 const ph=document.querySelector('#projectDetail.active .proj-head-row');
 root.style.setProperty('--proj-head-h',(ph?ph.offsetHeight:0)+'px');
+const rh=document.querySelector('#resources.active .resources-head-row');
+root.style.setProperty('--res-head-h',(rh?rh.offsetHeight:0)+'px');
 }
 window.addEventListener('resize',syncStickyOffsets);
 if(window.ResizeObserver){ document.addEventListener('DOMContentLoaded',function(){ const ro=new ResizeObserver(syncStickyOffsets); const tb=document.querySelector('.topbar'); const ph=document.querySelector('.proj-head-row'); if(tb) ro.observe(tb); if(ph) ro.observe(ph); syncStickyOffsets(); }); }
@@ -3101,7 +3034,6 @@ return `<div class="rp-row ${selected?'selected':''}" data-bctype="${typeLabel[r
 <div class="rp-calc"><span class="rp-cell" data-l="Rate">${priceCell}</span><span class="rp-cell" data-l="Basis">${basisCell}</span><span class="rp-cell" data-l="Qty">${qtyCell}</span><span class="rp-cell" data-l="Total">${totalCell}</span></div>
 </div>`;
 }).join('') || `<div style="font-size:13px;color:#999;padding:12px 18px;">${emptyMsg}</div>`;
-updateBudgetBreadcrumb();
 }
 function setResourceChecked(type,id,checked){
 const p=currentProject();
