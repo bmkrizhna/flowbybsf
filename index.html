@@ -813,16 +813,21 @@ main{padding-left:14px;padding-right:14px}
 .dl-chip.on{background:#1a1a1a;border-color:#1a1a1a;color:#fff}
 .dl-chip.on span{background:rgba(255,255,255,.2);color:#fff}
 .dl-table{border:1px solid #e5e5e5;border-radius:10px;overflow:hidden;background:#fff}
-.dl-tr{display:grid;grid-template-columns:30px 64px 54px 150px minmax(0,1fr) 150px 84px 124px 62px;gap:10px;align-items:center;padding:12px 14px;border-top:1px solid #f0f0f0;font-size:13px;cursor:pointer}
+.dl-tr{display:grid;grid-template-columns:30px 54px 132px 150px minmax(0,1fr) 150px 74px 90px;gap:12px;align-items:center;padding:16px;border-top:1px solid #f0f0f0;font-size:13px;cursor:pointer}
 .dl-tr:first-child{border-top:none}
 .dl-tr:not(.dl-th):hover{background:#fafafa}
 .dl-tr.open{background:#fafafa}
 .dl-th{cursor:default;font-size:11px;font-weight:700;color:#999;background:#fafafa;padding-top:9px;padding-bottom:9px}
 .dl-tr>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dl-vpill{display:inline-block;background:#1a1a1a;color:#fff;border-radius:7px;padding:3px 9px;font-size:12px;font-weight:700}
-.dl-thumb{width:100%;aspect-ratio:16/9;border-radius:7px;background:#f2f2f2;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#bbb}
+.dl-vpill.draft{background:#e9e9e9;color:#777}
+.dl-thumb{width:100%;aspect-ratio:16/9;border-radius:8px;background:#f2f2f2;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#bbb}
 .dl-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.dl-thumb svg{width:16px;height:16px}
+.dl-thumb svg{width:20px;height:20px}
+.dl-tr-draft{background:#fcfbf6;cursor:default}
+.dl-tr-draft:hover{background:#fcfbf6}
+.dla-input{padding:8px 10px;font-size:13px}
+.dl-draft-err{padding:0 16px 12px}
 .dl-expand{padding:18px 16px 20px;border-top:1px solid #f0f0f0;background:#fcfcfc;cursor:default}
 .dl-expand .dl-dhead{margin-bottom:14px}
 .c-title{font-weight:600}
@@ -892,8 +897,9 @@ main{padding-left:14px;padding-right:14px}
 .dl-search{max-width:none;flex-basis:100%}
 .dl-bar .btn-ghost,.dl-bar .btn-primary{flex:1}
 .dl-th{display:none}
-.dl-tr{grid-template-columns:24px 50px auto minmax(0,1fr);grid-template-areas:"sel thumb ver title" ". thumb film film" ". thumb link link" ". fb fb stat" ". date date date";row-gap:8px;padding:12px}
-.dl-tr .c-sel{grid-area:sel}.dl-tr .c-thumb{grid-area:thumb}.dl-tr .c-ver{grid-area:ver}.dl-tr .c-title{grid-area:title}.dl-tr .c-film{grid-area:film;max-width:160px}.dl-tr .c-link{grid-area:link}.dl-tr .c-fb{grid-area:fb}.dl-tr .c-stat{grid-area:stat}.dl-tr .c-date{grid-area:date;color:#999;font-size:12px}
+.dl-tr{grid-template-columns:24px 50px auto minmax(0,1fr);grid-template-areas:"sel thumb ver title" ". thumb film film" ". thumb link link" ". fb fb date";row-gap:8px;padding:12px}
+.dl-tr .c-sel{grid-area:sel}.dl-tr .c-thumb{grid-area:thumb}.dl-tr .c-ver{grid-area:ver}.dl-tr .c-title{grid-area:title}.dl-tr .c-film{grid-area:film;max-width:160px}.dl-tr .c-link{grid-area:link}.dl-tr .c-fb{grid-area:fb}.dl-tr .c-date{grid-area:date;color:#999;font-size:12px}
+.dl-tr-draft{grid-template-areas:"sel ver thumb thumb" "film film film film" "title title title title" "link link link link" "fb fb fb date"!important}
 .dl-dtitle h2{font-size:18px}
 .dl-reply,.dl-replyform{margin-left:28px}
 .dl-fbrow{grid-template-columns:18px auto minmax(0,1fr) 28px;gap:8px}
@@ -2326,6 +2332,7 @@ const keepTab=opts.keepTab && currentView==='projectDetail' && currentTab;
 currentProjectId=id;
 shotPlannerView='list';
 rpSearch=''; rpCat=''; rpSub=''; rpAllocatedFilter=false;
+RV.adding=false;
 const p=STATE.projects.find(x=>x.id===id);
 if(!p) return;
 if(!keepTab) currentTab = STAGE_ORDER.find(k=>!p.sections[k].confirmed) || 'delivery';
@@ -2335,7 +2342,7 @@ showView('projectDetail');
 renderProjectDetail();
 }
 function currentProject(){ return STATE.projects.find(x=>x.id===currentProjectId); }
-function setTab(t){ currentTab=t; renderProjectDetail(); }
+function setTab(t){ currentTab=t; RV.adding=false; renderProjectDetail(); }
 function toggleProjSwitcher(ev){
 ev.stopPropagation();
 const pop=document.getElementById('projSwitcherPop'); if(!pop) return;
@@ -3552,7 +3559,7 @@ apply();
 }
 
 /* ---------- EDITING & REVIEW ---------- */
-var RV={vid:null, ver:null, q:'', f:'all', sel:{}};
+var RV={vid:null, ver:null, q:'', f:'all', sel:{}, adding:false};
 var OWN={player:null, kind:null};
 var DLM={fns:[]};
 const DL_STATUSES=['In Review','Needs Changes','Approved'];
@@ -3598,7 +3605,7 @@ return `<div class="dl-bar">
 <div class="dl-chips">${chip('all','All Versions')}${chip('In Review','In Review')}${chip('Needs Changes','Needs Changes')}${chip('Approved','Approved')}</div>
 <label class="dl-search">${DL_ICON_SEARCH}<input type="text" placeholder="Search versions" value="${esc(RV.q)}" oninput="dlSetQ(this.value)"></label>
 <button type="button" class="btn-ghost" onclick="dlShareMenu(event,'${p.id}')">${s?'Share':'Share'}</button>
-<button type="button" class="btn-primary" onclick="dlVersionModal()">Add Version +</button>
+${RV.adding?`<button type="button" class="btn-ghost" onclick="dlCancelAdd()">Cancel</button><button type="button" class="btn-primary" onclick="dlSaveNewVersion()">Save Version</button>`:`<button type="button" class="btn-primary" onclick="dlStartAdd()">Add Version +</button>`}
 </div>
 <div id="dlTableWrap">${dlTableHtml(p)}</div>`;
 }
@@ -3606,26 +3613,66 @@ function dlFilteredVersions(p){
 const q=RV.q.trim().toLowerCase();
 return dlAllVersions(p).filter(o=>(RV.f==='all'||o.ver.status===RV.f) && (!q || ((o.video.name+' v'+o.ver.num+' '+(o.ver.title||'')+' '+(o.ver.link||'')).toLowerCase().includes(q)))).sort((a,b)=>(b.ver.statusTs||0)-(a.ver.statusTs||0) || b.ver.num-a.ver.num);
 }
+function dlDraftRowHtml(p){
+const vids=dlVideos(p);
+return `<div class="dl-tr dl-tr-draft">
+<span class="c-sel"></span>
+<span class="c-ver"><b class="dl-vpill draft">New</b></span>
+<span class="c-thumb"><div class="dl-thumb empty"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3.5" width="12" height="9" rx="1.5"/><path d="M6.5 6.5l3.5 2-3.5 2z"/></svg></div></span>
+<span class="c-film"><select id="dlaVid" aria-label="Film title" onchange="dlVidSelectChange(this)">${vids.map(v=>`<option value="${esc(v.id)}">${esc(v.name)}</option>`).join('')}<option value="__new">+ New film title…</option></select></span>
+<span class="c-title"><input class="f-input dla-input" id="dlaTitle" placeholder="Add a note (e.g. Review Cut 05)"></span>
+<span class="c-link"><input class="f-input dla-input" id="dlaLink" placeholder="Paste review link (YouTube or Vimeo)"></span>
+<span class="c-fb"><em>—</em></span>
+<span class="c-date">${fmtDateShort(todayISO())}</span>
+</div>
+<div class="dl-draft-err vw-err" id="dlaErr" role="alert"></div>`;
+}
 function dlTableHtml(p){
 const all=dlAllVersions(p), rows=dlFilteredVersions(p);
+if(!RV.adding){
 if(!all.length) return `<div class="dl-empty"><b>No versions yet</b>Add the first cut to start collecting feedback.</div>`;
 if(!rows.length) return `<div class="dl-empty"><b>No matches</b>Try a different search or status.</div>`;
+}
 const selCount=rows.filter(o=>RV.sel[o.ver.id]).length;
 const bulk=selCount?`<div class="dl-bulk"><span>${selCount} selected</span><button type="button" class="btn-ghost" onclick="dlBulkDelete()">Delete</button></div>`:'';
 const vids=dlVideos(p);
-return bulk+`<div class="dl-table"><div class="dl-tr dl-th"><span><input type="checkbox" aria-label="Select all" ${selCount===rows.length?'checked':''} onchange="dlSelectAll(this.checked)"></span><span></span><span>Version</span><span>Film Title</span><span>Note</span><span>Link</span><span>Feedback</span><span>Status</span><span>Date</span></div>`+rows.map(o=>{
+const draftRow=RV.adding?dlDraftRowHtml(p):'';
+return bulk+`<div class="dl-table"><div class="dl-tr dl-th"><span><input type="checkbox" aria-label="Select all" ${rows.length&&selCount===rows.length?'checked':''} onchange="dlSelectAll(this.checked)"></span><span>Version</span><span>Thumbnail</span><span>Film Title</span><span>Note</span><span>Link</span><span>Feedback</span><span>Date</span></div>`+draftRow+rows.map(o=>{
 const x=o.ver, fb=dlFeedback(p,x).length, url=dlSafeUrl(x.link), open=RV.ver===x.id;
 return `<div class="dl-tr${open?' open':''}" onclick="dlOpen('${x.id}')">
 <span class="c-sel" onclick="event.stopPropagation()"><input type="checkbox" aria-label="Select v${x.num}" ${RV.sel[x.id]?'checked':''} onchange="dlSelect('${x.id}',this.checked)"></span>
-<span class="c-thumb">${dlThumbCell(x)}</span>
 <span class="c-ver"><b class="dl-vpill">v${x.num}</b></span>
+<span class="c-thumb">${dlThumbCell(x)}</span>
 <span class="c-film" onclick="event.stopPropagation()"><select aria-label="Film title" onchange="dlReassign('${x.id}',this.value)">${vids.map(vv=>`<option value="${esc(vv.id)}" ${vv.id===o.video.id?'selected':''}>${esc(vv.name)}</option>`).join('')}<option value="__new">+ New film title…</option></select></span>
 <span class="c-title">${esc(x.title||'')||'<em>—</em>'}</span>
 <span class="c-link" onclick="event.stopPropagation()">${url?`<a href="${esc(url)}" target="_blank" rel="noopener">${esc(dlHost(url))}${DL_ICON_EXT}</a>`:'<em>No link</em>'}</span>
 <span class="c-fb" id="dlRowFb-${x.id}"><i class="dl-fbpill ${fb?'has':''}">${DL_ICON_MSG}${fb}</i></span>
-<span class="c-stat" id="dlRowStat-${x.id}">${dlStatusPill(x.status)}</span>
 <span class="c-date">${fmtDateShort(x.date)}</span>
 </div>`+(open?dlExpandHtml(p,o.video,x):''); }).join('')+`</div>`;
+}
+function dlStartAdd(){
+RV.adding=true;
+renderProjectDetail();
+setTimeout(function(){ const el=document.getElementById('dlaTitle'); if(el) el.focus(); },40);
+}
+function dlCancelAdd(){ RV.adding=false; renderProjectDetail(); }
+function dlSaveNewVersion(){
+const p=currentProject(), vids=dlVideos(p);
+let vidSel=document.getElementById('dlaVid').value, video;
+if(vidSel.indexOf('__pending:')===0){
+video={id:dlNewId('vid'),name:vidSel.slice(10),versions:[]}; vids.push(video);
+} else if(vidSel==='__new'){
+const err=document.getElementById('dlaErr'); if(err) err.textContent='Name the new film title.';
+return;
+} else video=vids.find(v=>v.id===vidSel);
+const title=document.getElementById('dlaTitle').value.trim(), link=document.getElementById('dlaLink').value.trim();
+if(link && !dlSafeUrl(link)){ const err=document.getElementById('dlaErr'); if(err) err.textContent='Links need to start with https://'; return; }
+video.versions=video.versions||[];
+const n=video.versions.length+1;
+video.versions.push({id:dlNewId('ver'),num:n,title:title,link:link,date:todayISO(),status:'In Review',statusTs:Date.now()});
+logActivity('Review version added',p.title+' · '+video.name);
+RV.adding=false;
+saveProjectChange(p); renderProjectDetail();
 }
 function dlThumbCell(x){
 const v=vwParseVideo(x.link||'');
@@ -3849,7 +3896,7 @@ const expStat=document.getElementById('dlExpStatus'); if(expStat) expStat.innerH
 const all=dlAllVersions(p), cnt={all:all.length,'In Review':0,'Needs Changes':0,'Approved':0}; all.forEach(o=>{ cnt[o.ver.status]=(cnt[o.ver.status]||0)+1; });
 Object.keys(cnt).forEach(k=>{ const el=document.getElementById('dlChipCnt-'+k.replace(/\s+/g,'')); if(el) el.textContent=cnt[k]; });
 } else {
-if(ae && ae.closest && ae.closest('.dl-search')) return;
+if(ae && ae.closest && (ae.closest('.dl-search') || ae.closest('.dl-tr-draft'))) return;
 dlRefreshTable();
 }
 }
