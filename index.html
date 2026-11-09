@@ -912,7 +912,7 @@ setTimeout(dismissIntro, 4500);
 <button type="button" class="sidebar-toggle" id="sidebarToggle" title="Hide sidebar" aria-label="Hide sidebar" onclick="toggleSidebar()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 <nav class="sidebar-nav" id="sidebarNav"></nav>
 <div class="sidebar-bottom">
-<div class="sidebar-user"><span class="sidebar-avatar">B</span><span class="sidebar-user-name">Bala</span></div>
+<div class="sidebar-user" id="sidebarUserBtn" onclick="confirmAction('Sign out?','You can sign back in with your password.',signOut,{confirmLabel:'Sign out'})" style="cursor:pointer;" title="Click to sign out"><span class="sidebar-avatar" id="sidebarUserAvatar">B</span><span class="sidebar-user-name" id="sidebarUserName">Bala</span></div>
 </div>
 </aside>
 <div class="main-col">
@@ -999,6 +999,8 @@ setTimeout(dismissIntro, 4500);
 <div class="modal-overlay" id="confirmModal">
 <div class="modal-box" id="confirmModalBox" style="max-width:380px;"></div>
 </div>
+<div class="modal-overlay" id="loginGate" style="z-index:10000;"><div class="modal-box" id="loginGateBox" style="max-width:340px;"></div></div>
+<div class="modal-overlay" id="approvalsModal"><div class="modal-box" id="approvalsModalBox" style="max-width:520px;max-height:80vh;overflow:auto;"></div></div>
 <div class="modal-overlay" id="categoriesModal">
 <div class="modal-box xwide">
 <button class="modal-close" onclick="closeModal('categoriesModal')">×</button>
@@ -1286,6 +1288,7 @@ schema:RES_SCHEMA,
 seedVersion:SEED_VERSION,
 ...res,
 projects,
+pendingApprovals:[],
 activityLog:[
 {id:'act1',message:'Festival Master approved',sub:'Hollow City',ts:Date.parse('2026-11-01T18:00:00')},
 {id:'act2',message:'Rough Cut v2 submitted for review',sub:'The Last Bus',ts:Date.parse('2026-11-03T11:30:00')},
@@ -1340,6 +1343,7 @@ STATE.projects=fresh.projects; STATE.completed=fresh.completed; STATE.activityLo
 STATE.seedVersion=SEED_VERSION;
 }
 if(!STATE.activityLog) STATE.activityLog = [];
+if(!STATE.pendingApprovals) STATE.pendingApprovals = [];
 (STATE.projects||[]).forEach(p=>{
 if(!p.crewIds) p.crewIds=[];
 if(!p.equipmentIds) p.equipmentIds=[];
@@ -1466,7 +1470,141 @@ if(currentView==='overview'){ renderOverview(); renderCompleted(); }
 else if(currentView==='resources'){ renderResources(); }
 else if(currentView==='completed'){ renderCompleted(); }
 else if(currentView==='projectDetail'){ renderProjectDetail(); }
+renderApprovalsModal();
+renderRoleBadge();
 }
+
+/* ---------- ROLE / LOGIN / APPROVALS ----------
+   Two shared logins, no per-person accounts. Admin's edits apply instantly.
+   Team can do all day-to-day work live too; only creating a project (optimistic,
+   flagged pending), deleting one, and budget/rate edits are held for Admin
+   sign-off. Passwords are never compared in client JS — the app_auth_check
+   RPC does that server-side so the Team password can't be read from page source. */
+function getRole(){ try{ return localStorage.getItem('bsf_role')||null; }catch(e){ return null; } }
+function isAdmin(){ return getRole()==='admin'; }
+function pendingCount(){ return (STATE.pendingApprovals||[]).filter(a=>a.status==='pending').length; }
+function showLoginGate(){
+const el=document.getElementById('loginGate'); if(!el) return;
+el.classList.add('show');
+renderLoginGate('admin');
+}
+function hideLoginGate(){ const el=document.getElementById('loginGate'); if(el) el.classList.remove('show'); }
+function renderLoginGate(tab){
+const box=document.getElementById('loginGateBox'); if(!box) return;
+const tabBtn=(t,label)=>`<button type="button" class="btn-ghost" style="flex:1;${tab===t?'background:#1a1a1a;color:#fff;border-color:#1a1a1a;':''}" onclick="renderLoginGate('${t}')">${label}</button>`;
+box.innerHTML=`<div class="modal-title">Flow — sign in</div>
+<div style="display:flex;gap:8px;margin:14px 0 16px;">${tabBtn('admin','Admin')}${tabBtn('team','Team')}</div>
+<input type="password" id="loginGatePw" placeholder="Password" autocomplete="current-password" style="width:100%;box-sizing:border-box;padding:11px 13px;border:1px solid #ddd;border-radius:8px;font-size:14px;margin-bottom:10px;" onkeydown="if(event.key==='Enter') attemptLogin('${tab}')">
+<div id="loginGateError" style="color:#c0392b;font-size:12.5px;min-height:16px;margin-bottom:6px;"></div>
+<button class="btn-primary" style="width:100%;" onclick="attemptLogin('${tab}')">Sign in</button>`;
+setTimeout(()=>{ const pw=document.getElementById('loginGatePw'); if(pw) pw.focus(); },30);
+}
+async function attemptLogin(role){
+const pw=document.getElementById('loginGatePw'); const errEl=document.getElementById('loginGateError');
+const val=pw?pw.value:'';
+if(!val){ if(errEl) errEl.textContent='Enter a password.'; return; }
+if(!supabase){ if(errEl) errEl.textContent='Cannot verify right now — check your connection and try again.'; return; }
+if(errEl) errEl.textContent='Checking…';
+try{
+const res=await supabase.rpc('app_auth_check',{p_role:role,p_password:val});
+if(res.error) throw res.error;
+if(res.data===true){
+try{ localStorage.setItem('bsf_role',role); }catch(e){}
+hideLoginGate();
+boot();
+}else if(errEl){ errEl.textContent='Wrong password.'; }
+}catch(e){ if(errEl) errEl.textContent='Could not verify — try again.'; }
+}
+function signOut(){ try{ localStorage.removeItem('bsf_role'); }catch(e){} location.reload(); }
+function renderRoleBadge(){
+const nameEl=document.getElementById('sidebarUserName'), avEl=document.getElementById('sidebarUserAvatar');
+if(!nameEl) return;
+const r=getRole();
+nameEl.textContent = r==='admin'?'Admin':(r==='team'?'Team':'Bala');
+if(avEl) avEl.textContent = r==='admin'?'A':(r==='team'?'T':'B');
+}
+
+function addApproval(type,payload){
+STATE.pendingApprovals=STATE.pendingApprovals||[];
+STATE.pendingApprovals.unshift({id:'ap'+Date.now().toString(36)+Math.random().toString(36).slice(2,7),type,payload,requestedBy:getRole()||'team',createdAt:Date.now(),status:'pending'});
+saveState();
+renderSidebarNav();
+hintOpenProject('Submitted for admin approval');
+}
+function approvalLabel(a){
+if(a.type==='create_project'){ const p=STATE.projects.find(x=>x.id===a.payload.projectId); return 'New project — "'+((p&&p.title)||a.payload.title||'Untitled')+'"'; }
+if(a.type==='budget_edit'){
+const p2=STATE.projects.find(x=>x.id===a.payload.projectId);
+const r=resolveResource(a.payload.resType,a.payload.resId);
+return (p2?p2.title:'Project')+' — '+(r?r.name:a.payload.resType)+' '+a.payload.field+' → '+a.payload.val;
+}
+if(a.type==='rate_edit'){
+const r2=resolveResource(a.payload.resType,a.payload.resId);
+return (r2?r2.name:a.payload.resType)+' rate → '+fmt(a.payload.newRate);
+}
+return a.type;
+}
+function applyResourceLineEdit(p,type,id,field,val){
+p.budgetRates=p.budgetRates||{};
+const k=type+':'+id; const cfg=p.budgetRates[k]=p.budgetRates[k]||{};
+const cur=resourceLine(p,type,id);
+if(field==='basis'){ cfg.basis=val; delete cfg.qty; delete cfg.total; }
+else {
+let n=parseFloat(val); if(!isFinite(n)||n<0) n=0;
+if(field==='rate'){ cfg.rate=n; delete cfg.total; }
+else if(field==='qty'){ cfg.qty=n; delete cfg.total; }
+else if(field==='total'){ cfg.total=n; cfg.rate=Math.round(n/(cur.qty||1)*100)/100; }
+}
+}
+function approveRequest(id){
+const a=(STATE.pendingApprovals||[]).find(x=>x.id===id); if(!a||a.status!=='pending') return;
+if(a.type==='create_project'){
+const p=STATE.projects.find(x=>x.id===a.payload.projectId);
+if(p) delete p._pendingCreate;
+}else if(a.type==='budget_edit'){
+const p2=STATE.projects.find(x=>x.id===a.payload.projectId);
+if(p2){ applyResourceLineEdit(p2,a.payload.resType,a.payload.resId,a.payload.field,a.payload.val); touchProject(p2); syncComputedDates(p2); }
+}else if(a.type==='rate_edit'){
+const r=resolveResource(a.payload.resType,a.payload.resId);
+if(r){ r.rate=a.payload.newRate; r.history=r.history||[]; r.history.push({d:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short'}),v:a.payload.newRate}); }
+}
+a.status='approved'; a.resolvedAt=Date.now();
+saveState();
+renderApprovalsModal(); renderSidebarNav(); renderOverview(); renderCompleted();
+if(typeof renderResources==='function') renderResources();
+if(currentView==='projectDetail') renderProjectDetail();
+}
+function rejectRequest(id){
+const a=(STATE.pendingApprovals||[]).find(x=>x.id===id); if(!a||a.status!=='pending') return;
+if(a.type==='create_project'){
+STATE.projects=STATE.projects.filter(x=>x.id!==a.payload.projectId);
+if(currentView==='projectDetail' && currentProjectId===a.payload.projectId){ currentView='overview'; currentProjectId=null; showView('overview'); }
+}
+a.status='rejected'; a.resolvedAt=Date.now();
+saveState();
+renderApprovalsModal(); renderSidebarNav(); renderOverview(); renderCompleted();
+}
+function openApprovalsModal(){ renderApprovalsModal(); const m=document.getElementById('approvalsModal'); if(m) m.classList.add('show'); }
+function renderApprovalsModal(){
+const box=document.getElementById('approvalsModalBox'); if(!box) return;
+const all=(STATE.pendingApprovals||[]).slice().sort((a,b)=>b.createdAt-a.createdAt);
+const pending=all.filter(a=>a.status==='pending');
+const resolved=all.filter(a=>a.status!=='pending').slice(0,15);
+const row=a=>{
+const when=new Date(a.createdAt).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'});
+const actions=a.status==='pending'
+?(`<button class="btn-primary" style="padding:6px 14px;font-size:12.5px;" onclick="approveRequest('${a.id}')">Approve</button> <button class="btn-ghost" style="padding:6px 14px;font-size:12.5px;" onclick="rejectRequest('${a.id}')">Reject</button>`)
+:(`<span style="font-size:12px;font-weight:600;color:${a.status==='approved'?'#1a7a1a':'#999'};text-transform:capitalize;">${a.status}</span>`);
+return `<div style="padding:12px 0;border-bottom:1px solid #eee;display:flex;justify-content:space-between;align-items:center;gap:12px;">
+<div><div style="font-size:13.5px;font-weight:600;">${esc(approvalLabel(a))}</div><div style="font-size:11.5px;color:#999;margin-top:2px;">requested by Team · ${when}</div></div>
+<div style="display:flex;gap:6px;flex-shrink:0;">${actions}</div></div>`;
+};
+box.innerHTML=`<div class="modal-title">Approvals${pending.length?` <span style="font-size:13px;font-weight:600;color:#c0392b;">(${pending.length} pending)</span>`:''}</div>
+${pending.length?pending.map(row).join(''):'<p class="body-text" style="color:#999;margin:14px 0;">Nothing waiting on you.</p>'}
+${resolved.length?(`<div style="font-size:11.5px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.4px;margin:18px 0 4px;">Recent</div>`+resolved.map(row).join('')):''}
+<div class="modal-footer-row" style="margin-top:16px;"><button class="btn-ghost" onclick="closeModal('approvalsModal')">Close</button></div>`;
+}
+
 function logActivity(message,sub){
 STATE.activityLog = STATE.activityLog || [];
 STATE.activityLog.unshift({id:'act'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),message,sub:sub||'',ts:Date.now()});
@@ -1522,6 +1660,10 @@ if(!p) return `<button class="sidebar-link disabled" onclick="openLatestProject(
 const active=currentView==='projectDetail' && currentTab===k;
 return `<button class="sidebar-link ${active?'active':''}" onclick="setTab('${k}')" title="${STAGE_NAMES[k]}"><span class="sidebar-link-icon">${STAGE_ICONS[k]}</span><span class="sidebar-link-label">${STAGE_NAMES[k]}</span></button>`;
 }));
+if(isAdmin()){
+const pc=pendingCount();
+items.push(`<button class="sidebar-link" onclick="openApprovalsModal()" title="Approvals"><span class="sidebar-link-icon">${ICON_HOUSE}</span><span class="sidebar-link-label">Approvals${pc?` <span style="display:inline-block;min-width:16px;padding:1px 5px;border-radius:999px;background:#c0392b;color:#fff;font-size:10.5px;font-weight:700;text-align:center;vertical-align:middle;">${pc}</span>`:''}</span></button>`);
+}
 wrap.innerHTML = items.join('');
 }
 async function loadWeather(){
@@ -1850,6 +1992,7 @@ ${history.map((hv,i)=>{const x=pad+(i/(Math.max(history.length-1,1)))*(w-2*pad);
 function saveRate(type,id){
 const r=resolveResource(type,id); if(!r) return;
 const newRate=parseInt($id('rmRate').value)||0;
+if(!isAdmin()){ addApproval('rate_edit',{resType:type,resId:id,newRate}); closeModal('resourceModal'); return; }
 r.rate=newRate;
 r.history=r.history||[];
 r.history.push({d:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short'}),v:newRate});
@@ -1891,9 +2034,11 @@ const title='Untitled project';
 const id='untitled-project-'+Date.now().toString(36).slice(-5);
 const p=mkProject(id,title,'','Short film','','','','',defaultBrief(),[],[]);
 p.brief.genre='';
+if(!isAdmin()){ p._pendingCreate=true; }
 STATE.projects.push(p);
 saveState();
 logActivity('Project created',title);
+if(!isAdmin()) addApproval('create_project',{projectId:id,title});
 renderOverview();
 openProject(id);
 setTimeout(function(){ const el=document.getElementById('pdTitleInput'); if(el){ el.focus(); el.select(); } },80);
@@ -1986,16 +2131,8 @@ return {rate,basis,qty,total,autoQty};
 }
 function setResourceLine(type,id,field,val){
 const p=currentProject(); if(!p) return;
-p.budgetRates=p.budgetRates||{};
-const k=type+':'+id; const cfg=p.budgetRates[k]=p.budgetRates[k]||{};
-const cur=resourceLine(p,type,id);
-if(field==='basis'){ cfg.basis=val; delete cfg.qty; delete cfg.total; }
-else {
-let n=parseFloat(val); if(!isFinite(n)||n<0) n=0;
-if(field==='rate'){ cfg.rate=n; delete cfg.total; }
-else if(field==='qty'){ cfg.qty=n; delete cfg.total; }
-else if(field==='total'){ cfg.total=n; cfg.rate=Math.round(n/(cur.qty||1)*100)/100; }
-}
+if(!isAdmin()){ addApproval('budget_edit',{projectId:p.id,resType:type,resId:id,field,val}); setTimeout(rerenderKeepScroll,0); return; }
+applyResourceLineEdit(p,type,id,field,val);
 saveProjectChange(p);
 setTimeout(rerenderKeepScroll,0);
 }
@@ -2203,7 +2340,7 @@ ${p.thumbnail?`<img src="${p.thumbnail}" class="thumb-preview">`:'Click to uploa
 <input type="file" accept="image/*" id="thumbInput" style="display:none;" onchange="handleThumbnailUpload(event)">
 </div>
 <div class="box brief-details-box">
-<div class="box-title">Project details</div>
+<div class="box-title">Project details${p._pendingCreate?' <span style="font-size:11px;font-weight:700;color:#b36b00;background:#fff3dc;padding:3px 9px;border-radius:999px;text-transform:none;letter-spacing:0;vertical-align:middle;margin-left:8px;">Pending admin approval</span>':''}</div>
 <div class="form-grid cols-2">
 <div><span class="field-label">Project name</span><input class="f-input" id="pdTitleInput" value="${esc(p.title)}" placeholder="Project title" onchange="updateMeta('title',this.value.trim()||'Untitled project')"></div>
 <div><span class="field-label">Client</span><input class="f-input" value="${esc(p.client==='—'?'':p.client)}" placeholder="Client" onchange="updateMeta('client',this.value)"></div>
@@ -4062,8 +4199,10 @@ btn.disabled=false;
 /* ---------- INIT ---------- */
 async function boot(){
 if(window.__VIEW_TOKEN){ vwInit(window.__VIEW_TOKEN); return; }
+if(!getRole()){ showLoginGate(); return; }
+hideLoginGate();
 try{ if(localStorage.getItem('flowSidebarCollapsed')!=='0') document.body.classList.add('sidebar-collapsed'); }catch(e){}
-renderOverview();renderCompleted();renderResources();renderSidebarNav();
+renderOverview();renderCompleted();renderResources();renderSidebarNav();renderRoleBadge();
 updateTopbarClock();
 setInterval(updateTopbarClock,30000);
 loadWeather();
