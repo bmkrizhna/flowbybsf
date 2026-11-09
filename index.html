@@ -206,7 +206,7 @@ main:has(#projectDetail.active){padding-top:0}
 .search-filter-box{display:flex;align-items:center;border:none;border-radius:999px;background:#f0f0f0;width:360px;max-width:100%;height:38px}
 .search-filter-box.wide{flex:1 1 320px;max-width:none}
 .search-filter-box input{flex:1;min-width:0;border:none;background:transparent;padding:0 16px;font-size:14px;outline:none;height:100%}
-.search-filter-box select{border:none;background:transparent;border-left:1px solid #ddd;padding:0 26px 0 12px;font-size:13px;color:#666;outline:none;height:60%;align-self:center;flex-shrink:0;max-width:40%;text-align:center;text-align-last:center;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%23666' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='m1 1 4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+.search-filter-box select{border:none;background:transparent;border-left:1px solid #ddd;padding:0 26px 0 12px;font-size:13px;color:#666;outline:none;height:60%;align-self:center;flex-shrink:0;max-width:30%;text-align:center;text-align-last:center;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%23666' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='m1 1 4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
 
 .icon-btn-text{display:flex;align-items:center;gap:7px;padding:0 16px;height:38px;border-radius:999px;border:none;background:#f0f0f0;color:#1a1a1a;flex-shrink:0;cursor:pointer;font-size:13px;font-weight:600;white-space:nowrap;transition:background .15s;font-family:inherit}
 .icon-btn-text:hover{background:#e2e2e2}
@@ -248,7 +248,7 @@ main:has(#projectDetail.active){padding-top:0}
 .cat-sub-add{border:1px dashed #ddd;border-radius:14px;padding:5px 10px;font-size:13px;width:130px;background:#fff}
 .icon-del{border:none;background:none;color:#4a4a4a;font-size:11px;font-weight:700;flex-shrink:0;padding:7px 4px}
 /* ---- Project detail ---- */
-.proj-head-row{display:flex;align-items:center;margin-bottom:12px;gap:20px;flex-wrap:wrap;position:sticky;top:var(--topbar-h,62.5px);z-index:18;background:var(--page-bg);padding:12px 0;border-bottom:1px solid #f0f0f0}
+.proj-head-row{display:flex;align-items:center;margin-bottom:0;gap:20px;flex-wrap:wrap;position:sticky;top:var(--topbar-h,62.5px);z-index:18;background:var(--page-bg);padding:12px 0;border-bottom:1px solid #f0f0f0}
 .pd-heading{display:flex;align-items:baseline;gap:10px;min-width:0;flex-shrink:0}
 .pd-heading i{font-style:normal;color:#ccc;font-size:15px}
 .pd-stage-title,.pd-proj{margin:0;font-size:15px;line-height:1.2;font-weight:600;white-space:nowrap}
@@ -438,42 +438,35 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .budget-head-row{position:sticky;top:calc(var(--topbar-h,62.5px) + var(--proj-head-h,0px));z-index:15;background:var(--page-bg);padding:14px 0;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 #budgetHeading{transition:opacity .1s ease}
 
-.budget-expenses{padding:16px 20px 20px}
-.rb-head-row{display:grid;grid-template-columns:26px minmax(0,1fr) 88px 104px 56px 96px;column-gap:12px;padding:0 18px 8px;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.3px}
-.rb-head-row span:nth-child(3),.rb-head-row span:nth-child(5),.rb-head-row span:nth-child(6){text-align:right}
-.rp-row{display:grid;grid-template-columns:26px minmax(0,1fr) 88px 104px 56px 96px;column-gap:12px;align-items:center;padding:10px 18px;border-top:1px solid #f2f2f2;font-size:13px;transition:background .15s}
-.rp-row:first-child{border-top:none}
-.rp-row:hover{background:#fafafa}
-.rp-row.selected{background:var(--accent-bg)}
-.rp-row .nm{font-weight:600}
-.rp-row .ct{font-family:'Satoshi',sans-serif;font-size:11px;font-weight:700;color:#999;letter-spacing:0.4px;margin-top:2px}
-.rp-row .nm{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.rp-row .nm .avail-chip{margin-top:0}
-.rp-row .nm .status-pill{padding:2px 9px;font-size:11px}
 .rp-edit{cursor:pointer}
 .rp-edit:hover{text-decoration:underline}
-.rp-calc{display:contents}
-.rp-cell{display:contents}
 .rp-checkbox-wrap{display:flex;align-items:center;justify-content:center}
 .rp-checkbox{width:16px;height:16px;cursor:pointer;accent-color:#1a1a1a}
 .rb-static{text-align:right;color:#555}
 .rb-dash{color:#bbb;text-align:right}
+.rm-head,.rm-row{display:grid;grid-template-columns:28px minmax(0,1.5fr) minmax(0,.8fr) minmax(0,1.1fr) 176px 112px 118px;column-gap:12px;align-items:center;padding:11px 18px}
+.rm-head{font-size:12px;color:#999;padding-bottom:8px;border-bottom:1px solid #f0f0f0}
+.rm-row{border-top:1px solid #f2f2f2;font-size:13px;transition:background .15s}
+.rm-head+.rm-row{border-top:none}
+.rm-row:hover{background:#fafafa}
+.rm-row.selected{background:var(--accent-bg)}
+.rm-chk{display:flex;align-items:center;justify-content:center}
+.rm-name{display:flex;align-items:center;gap:9px;min-width:0}
+.rm-name .nm-t{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rm-cat,.rm-sub{color:#666;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rm-rate,.rm-qty,.rm-amt{display:flex;align-items:center;gap:4px;min-width:0}
+.rm-amt{font-weight:600}
+.rm-cur{color:#888}
+.rm-step{width:20px;height:20px;border-radius:50%;border:none;background:rgba(0,0,0,.08);color:#1a1a1a;font-size:13px;line-height:1;cursor:pointer;flex-shrink:0}
+.rm-step:hover{background:rgba(0,0,0,.15)}
+.av-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;display:inline-block}
+.av-dot.free{background:#3bb273}.av-dot.busy{background:#f0922b}.av-dot.none{visibility:hidden}
+.rm-print-calc{grid-column:2/-1;font-size:12px;color:#555}
 .rp-in{border:none;background:transparent;border-radius:0;padding:4px 2px;font-size:13px;text-align:right;width:100%;font-family:inherit;color:#1a1a1a;-moz-appearance:textfield}
 .rp-in:focus{outline:none;box-shadow:inset 0 -1px 0 #ccc}
 .rp-in::-webkit-outer-spin-button,.rp-in::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-.rp-basis{text-align:left}
+.rp-basis{text-align:left;width:auto;flex:0 0 auto}.rm-qty .rp-in{text-align:center;width:44px}.rm-rate .rp-in:not(.rp-basis),.rm-amt .rp-in{width:78px;text-align:left}
 .rp-total{font-weight:700}
-.rp-qty-badge{display:inline-block;font-size:11px;font-weight:700;color:var(--accent-text);background:#fff;padding:2px 7px;border-radius:999px;margin-left:6px}
-.rb-unit-stepper{display:inline-flex;align-items:center;gap:4px;margin-left:4px}
-.rb-unit-btn{width:18px;height:18px;border-radius:50%;border:none;background:#eee;color:#1a1a1a;font-size:12px;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
-.rb-unit-btn:hover{background:#e0e0e0}
-.rb-unit-btn:disabled{opacity:.4;cursor:not-allowed}
-.rp-qty-dec{width:22px;height:22px;border-radius:50%;border:none;background:#eee;color:#1a1a1a;font-size:14px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.rp-qty-dec:hover{background:#e0e0e0}
-.rb-expense-head{display:grid;grid-template-columns:minmax(0,1fr) 88px 56px 96px 24px;column-gap:12px;padding:0 0 8px;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.3px}
-.rb-expense-head span:nth-child(2),.rb-expense-head span:nth-child(3),.rb-expense-head span:nth-child(4){text-align:right}
-.rb-expense-row{display:grid;grid-template-columns:minmax(0,1fr) 88px 56px 96px 24px;column-gap:12px;align-items:center;padding:10px 0;border-top:1px solid #f2f2f2}
-.rb-expense-row:first-child{border-top:none}
 .rb-cat-field{border:none;background:transparent;font-size:13px;font-family:inherit;color:#1a1a1a;padding:4px 2px;width:100%}
 .rb-cat-field:focus{outline:none;box-shadow:inset 0 -1px 0 #ccc}
 /* ---- Edit & Delivery version table ---- */
@@ -508,9 +501,6 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
    MOBILE / VERTICAL-SCREEN RESPONSIVE LAYER
    ====================================================== */
 /* ---- Sharing: dots menu, share modal, feedback box ---- */
-.ov-more{border:none;background:none;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#999;flex-shrink:0;cursor:pointer;transition:background .15s,color .15s}
-.ov-more:hover,.ov-more:focus-visible{background:#e9e9e9;color:#1a1a1a;outline:none}
-.ov-more svg{width:18px;height:18px}
 .proj-menu{position:fixed;z-index:320;background:#fff;border:1px solid #e5e5e5;border-radius:12px;box-shadow:0 8px 28px rgba(0,0,0,.14);padding:6px;min-width:210px}
 .proj-menu button{display:flex;align-items:center;gap:10px;width:100%;border:none;background:none;padding:10px 12px;border-radius:8px;font:inherit;font-size:13px;font-weight:600;color:#1a1a1a;cursor:pointer;text-align:left}
 .proj-menu button:hover{background:#f3f3f3}
@@ -690,24 +680,15 @@ main{padding:16px 16px calc(84px + env(safe-area-inset-bottom))}
 .resource-list-box{border:none;border-radius:0;background:none}
 
 .topbar-loc{display:none}
-.rp-row{grid-template-columns:24px minmax(0,1.1fr) minmax(0,1.5fr) minmax(0,.7fr) minmax(0,1.1fr);column-gap:8px;row-gap:8px;padding:12px 12px;align-items:start}
-.rp-row .rp-checkbox-wrap{grid-column:1;grid-row:1;padding-top:1px}
-.rp-row>div:nth-child(2){grid-column:2 / -1;grid-row:1;min-width:0}
-.rp-row .nm{font-size:14px;line-height:1.3}
-.rp-row .ct{font-size:11px;margin-top:3px}
 .rp-toolbar .view-toggle{flex:1 1 100%}
 .rp-toolbar .view-toggle .vt-btn{flex:1 1 0;text-align:center}
 .rp-toolbar .icon-btn-text{flex:1 1 0;justify-content:center}
-.rp-calc{display:contents}
-.rp-cell{display:flex;flex-direction:column;gap:2px;grid-row:2;min-width:0}
-.rp-cell:nth-child(1){grid-column:2}.rp-cell:nth-child(2){grid-column:3}.rp-cell:nth-child(3){grid-column:4}.rp-cell:nth-child(4){grid-column:5}
-.rp-cell::before{content:attr(data-l);font-family:'Satoshi',sans-serif;font-size:10px;font-weight:700;letter-spacing:.4px;color:#999}
-.rp-in,.rp-basis{font-size:13px;padding:5px 0;text-align:left;border-bottom:1px solid #eee}
-.rb-static,.rb-dash{text-align:left;font-size:13px;padding:5px 0}
-.rp-row:not(.selected) .rp-cell:nth-child(n+3){display:none}
-.rp-row:not(.selected) .rp-cell::before{display:none}
-.rp-row:not(.selected){row-gap:2px}
-.rb-expense-row,.rb-expense-head{grid-template-columns:minmax(0,1fr) 56px 36px 68px 20px;column-gap:6px}
+.rm-head{display:none}
+.rm-row{grid-template-columns:28px minmax(0,1fr) auto;grid-template-areas:"chk name name" ". cat sub" ". rate rate" ". qty amt";row-gap:6px;padding:12px}
+.rm-row .rm-chk{grid-area:chk}.rm-name{grid-area:name}.rm-cat{grid-area:cat}.rm-sub{grid-area:sub;text-align:right}.rm-rate{grid-area:rate}.rm-qty{grid-area:qty}.rm-amt{grid-area:amt;justify-content:flex-end}
+.rm-row:not(.selected) .rm-rate,.rm-row:not(.selected) .rm-qty,.rm-row:not(.selected) .rm-amt{display:none}
+.rp-in,.rp-basis{font-size:13px;padding:5px 0;border-bottom:1px solid #eee}
+.rp-toolbar .search-filter-box select{flex:1 1 40%}
 
 .sp-scene-row-text{text-align:left}
 .sp-shot-row{grid-template-columns:84px minmax(0,1fr);grid-template-areas:"thumb num" "thumb desc" "thumb camera" "thumb time";column-gap:12px;row-gap:4px;align-items:start;padding:10px 0}
@@ -953,6 +934,7 @@ setTimeout(dismissIntro, 4500);
 <div class="usage-top"><div><div class="usage-top-label">Total Spend</div><div class="usage-top-val">0</div></div><div><div class="usage-top-label">Bookings</div><div class="usage-top-count">0</div></div></div>
 <div class="usage-split"><div class="usage-split-label"><span>Crew</span><span></span></div><div class="usage-bar"><div class="usage-bar-fill" style="width:0%"></div></div></div>
 <div class="usage-split"><div class="usage-split-label"><span>Kit</span><span></span></div><div class="usage-bar"><div class="usage-bar-fill" style="width:0%;background:var(--accent);"></div></div></div>
+<div class="usage-split"><div class="usage-split-label"><span>Production</span><span></span></div><div class="usage-bar"><div class="usage-bar-fill" style="width:0%;background:#bbb;"></div></div></div>
 <div class="top5-title">Top Five In Use</div>
 <div id="top5List"></div>
 </div>
@@ -1019,11 +1001,10 @@ setTimeout(dismissIntro, 4500);
 <div class="modal-overlay" id="categoriesModal">
 <div class="modal-box xwide">
 <button class="modal-close" onclick="closeModal('categoriesModal')">×</button>
-<div class="modal-title">Manage categories</div>
-<div class="cat-group"><div class="box-label">Crew categories</div><div id="crewCategories"></div></div>
-<div class="cat-group"><div class="box-label">Equipment categories</div><div id="equipmentCategories"></div></div>
-<div class="cat-group"><div class="box-label">Production expense categories</div><div id="expenseCategories"></div></div>
-<button class="btn-ghost" style="width:100%;margin-top:14px;" onclick="openAddCategoryForm()">Add category</button>
+<div class="modal-title">Subcategories</div>
+<div class="cat-group"><div class="box-label">Crew</div><div id="crewCategories"></div></div>
+<div class="cat-group"><div class="box-label">Equipment</div><div id="equipmentCategories"></div></div>
+<div class="cat-group"><div class="box-label">Production</div><div id="productionCategories"></div></div>
 </div>
 </div>
 <script>
@@ -1039,46 +1020,23 @@ console.warn('Supabase client script did not load (blocked network or ad-blocker
 }catch(e){ console.warn('Supabase init failed, continuing on local data only.', e); }
 
 /* ---------- CATEGORY TAXONOMY (from Resources & Expense Categories.csv) ---------- */
-function seedCategories(){
-return {
-crew:[
-{name:'Direction',subs:['Director']},
-{name:'Production',subs:['Producer','Production Assistant / Runner']},
-{name:'Cinematography',subs:['Camera Operator','Assistant Cinematographer','Assistant Camera / 2nd Assistant Camera','Cinematographer']},
-{name:'Lighting',subs:['Gaffer']},
-{name:'Grip & Camera Movement',subs:['Key Grip']},
-{name:'Sound',subs:['Production Sound Mixer']},
-{name:'Digital Imaging',subs:['Digital Imaging Technician']},
-{name:'Art Department',subs:['Art Director','Production Designer','Set Construction / Fabrication','Set Dresser','Furniture / Set Rental','Prop Master','Prop Rental / Purchase','Custom Prop Fabricator','Set Transport / Restoration']},
-{name:'Costume, Hair & Makeup',subs:['Costume, Hair & Makeup Artist','Costume Designer / Stylist','Costume Rental / Purchase','Costume Accessories','Makeup Artist / Hair Stylist','Special Makeup / Prosthetics Artist']},
-{name:'Production Services',subs:['Studio / Stage Rental','Green Screen / Virtual Production','Production Power / Generator']},
-{name:'Special Effects',subs:['Special Effects Supervisor']},
-{name:'Post-Production',subs:['Editor','Colorist','Sound Designer / Composer','VFX / Motion Graphics Artist','Editing','Online Editor / Conform','Color Grading','Mastering / QC','Data Backup / Archive','Cloud / Storage','DCP / Broadcast Master','Deliverables','Sound Design / Edit','ADR / Voice Over','Music / Composition','Final Mix','VFX / Compositing','Motion Graphics / Titles','Subtitles / Translation','Key Art / Design']}
-],
-equipment:[
-{name:'Camera & Lenses',subs:['Camera','Lens','Camera Accessory','Filter']},
-{name:'Camera Support & Movement',subs:['Support / Stabilization']},
-{name:'Lighting & Grip',subs:['Light','Lighting Modifier','Grip Equipment']},
-{name:'Sound & Monitoring',subs:['Audio Equipment','Monitor / Video Transmission']},
-{name:'Power & Data',subs:['Battery / Charger','Power Distribution / Generator','Media / Storage']},
-{name:'Production Support',subs:['Production Accessory']}
-],
-expenses:[
-{name:'Transport & Logistics',subs:['Driver / Transport Crew','Production Vehicles','Transport / Freight','Fuel / Tolls / Parking','Loading / Unloading','Crew Transport']},
-{name:'Production Management',subs:['Production Office','Production Coordination','Production Accounting']},
-{name:'People & Casting',subs:['Casting / Artist Coordination']},
-{name:'Locations & Permissions',subs:['Location / Permit Coordination','Location Rental','Location Management / Recce','Location Permissions','Location Permit']},
-{name:'Legal & Administration',subs:['Legal / Contract Administration','Production Insurance','Legal / Rights / Releases']},
-{name:'Safety & Security',subs:['Security / Traffic / Parking','First Aid / Medical','Safety Equipment','Security Personnel','Special Effects Safety']},
-{name:'Travel & Accommodation',subs:['Travel','Accommodation','Crew Accommodation']},
-{name:'Catering & Welfare',subs:['Artist Catering','Craft Services / Hydration','Crew Catering','Production Catering']},
-{name:'Marketing & Distribution',subs:['Publicity / PR','Social Media Content','Advertising','Premiere / Screening','Festival / Distribution']},
-{name:'Finance & Contingency',subs:['Contingency / Miscellaneous']}
-]
-};
+/* ---------- RESOURCES: Category · Subcategory · Title ---------- */
+const RES_DATA=[["Crew","ADR Artist","Sample"],["Crew","Art Director","Sample"],["Crew","Artist Coordinator","Sample"],["Crew","Assistant Cinematographer","Sample"],["Crew","Audio Mixer","Sample"],["Crew","Camera Operator","Sample"],["Crew","Casting / Artist Coordinator","Sample"],["Crew","Casting Coordinator","Sample"],["Crew","Cinematographer","Sample"],["Crew","Colorist","Sample"],["Crew","Composer","Sample"],["Crew","Compositor","Sample"],["Crew","Costume Designer","Sample"],["Crew","Director","Sample"],["Crew","DIT","Sample"],["Crew","Driver","Sample"],["Crew","Driver / Transport Crew","Sample"],["Crew","Editor","Sample"],["Crew","Gaffer","Sample"],["Crew","Hair Artist","Sample"],["Crew","Key Art Designer","Sample"],["Crew","Key Grip","Sample"],["Crew","Makeup Artist","Sample"],["Crew","Motion Graphics Artist","Sample"],["Crew","Producer","Sample"],["Crew","Production Assistant","Sample"],["Crew","Production Designer","Sample"],["Crew","Production Sound Mixer","Sample"],["Crew","Prop Fabricator","Sample"],["Crew","Prop Master","Sample"],["Crew","Prosthetics Artist","Sample"],["Crew","Re-recording Mixer","Sample"],["Crew","Set Construction Crew","Sample"],["Crew","Set Dresser","Sample"],["Crew","Set Transport Crew","Sample"],["Crew","Sound Designer","Sample"],["Crew","Sound Editor","Sample"],["Crew","Special Effects Supervisor","Sample"],["Crew","Talent","Sample"],["Crew","Transport Crew","Sample"],["Crew","VFX Artist","Sample"],["Crew","Voice-Over Artist","Sample"],["Equipment","Camera","ARRI Alexa 35"],["Equipment","Camera","ARRI Alexa Mini"],["Equipment","Camera","ARRI Alexa Mini LF"],["Equipment","Camera","ARRI LF"],["Equipment","Camera","Blackmagic Cinema Camera 6K"],["Equipment","Camera","Blackmagic Pocket Cinema Camera 6K"],["Equipment","Camera","Blackmagic URSA Mini Pro 12K"],["Equipment","Camera","Canon C300 Mark III"],["Equipment","Camera","Canon C400"],["Equipment","Camera","Canon C70"],["Equipment","Camera","Insta360 Camera"],["Equipment","Camera","RED Komodo"],["Equipment","Camera","Sony FX3"],["Equipment","Camera","Sony FX6"],["Equipment","Camera","Sony FX9"],["Equipment","Camera","ARRI Signature Prime Set"],["Equipment","Camera","Camera Cage"],["Equipment","Camera","Camera Dovetail Plate"],["Equipment","Camera","Camera Gold Mount Plate"],["Equipment","Camera","Camera Rain Cover"],["Equipment","Camera","Camera Shoulder Rig"],["Equipment","Camera","Camera Top Plate"],["Equipment","Camera","Camera V-Mount Plate"],["Equipment","Camera","ARRI - Orbiter"],["Equipment","Camera","ARRI - SkyPanel S120"],["Equipment","Camera","ARRI - SkyPanel S30"],["Equipment","Camera","ARRI - SkyPanel S60"],["Equipment","Camera","ARRI - SkyPanel S60C"],["Equipment","Camera Accessories","15mm Rod Set"],["Equipment","Camera Accessories","Articulating Arm"],["Equipment","Camera Accessories","Baseplate"],["Equipment","Camera Accessories","Cheese Plate"],["Equipment","Camera Accessories","Diopter Set"],["Equipment","Camera Accessories","French Flag"],["Equipment","Camera Accessories","Magic Arm"],["Equipment","Camera Accessories","Quick Release Plate"],["Equipment","Camera Accessories","Side Handle"],["Equipment","Camera Accessories","Top Flag"],["Equipment","Camera Accessories","Top Handle"],["Equipment","Camera Support","Clamp-On Matte Box"],["Equipment","Camera Support","Cold Shoe Mount"],["Equipment","Camera Support","Follow Focus"],["Equipment","Camera Support","Matte Box 4x4"],["Equipment","Camera Support","Matte Box 4x5.65"],["Equipment","Camera Support","Swing-Away Matte Box"],["Equipment","Camera Support","Wireless Follow Focus"],["Equipment","Camera Support","Baby Tripod"],["Equipment","Camera Support","C-Stand Tripod"],["Equipment","Camera Support","Car Mount"],["Equipment","Camera Support","Cartoni Tripod + Head"],["Equipment","Camera Support","DJI Ronin RS 4"],["Equipment","Camera Support","DJI RS 3 Pro"],["Equipment","Camera Support","DJI RS 4 Pro"],["Equipment","Camera Support","DJI Transmission"],["Equipment","Camera Support","Easy Rig"],["Equipment","Camera Support","Easy Rig Vario 5"],["Equipment","Camera Support","Heavy Duty Tripod"],["Equipment","Camera Support","Hi-Hat"],["Equipment","Camera Support","Low Hat"],["Equipment","Camera Support","Manfrotto 502X"],["Equipment","Camera Support","Manfrotto Tripod + Head"],["Equipment","Camera Support","Sachtler Tripod + Head"],["Equipment","Camera Support","Shoulder Support"],["Equipment","Camera Support","Smallrig Tribex Monopod"],["Equipment","Camera Support","Steadicam"],["Equipment","Camera Support","Suction Mount"],["Equipment","Camera Support","Gold Mount 150Wh"],["Equipment","Camera Support","Gold Mount 98Wh"],["Equipment","Camera Support","V-Mount 150Wh"],["Equipment","Camera Support","V-Mount 190Wh"],["Equipment","Camera Support","V-Mount 98Wh"],["Equipment","Filters","1/2 Black Pro-Mist"],["Equipment","Filters","1/4 Black Pro-Mist"],["Equipment","Filters","1/4 Glimmerglass"],["Equipment","Filters","1/8 Black Pro-Mist"],["Equipment","Filters","1/8 Glimmerglass"],["Equipment","Filters","4x5.65 Polarizer"],["Equipment","Filters","Circular Polarizer"],["Equipment","Filters","Diffusion Filter Set"],["Equipment","Filters","Mist Filter Set"],["Equipment","Filters","ND 0.3"],["Equipment","Filters","ND 0.6"],["Equipment","Filters","ND 0.9"],["Equipment","Filters","Variable ND"],["Equipment","Grip","Combo Stand"],["Equipment","Grip","Overhead Stand"],["Equipment","Grip","Apple Box Set"],["Equipment","Grip","Baby Pin"],["Equipment","Grip","Baby Stand"],["Equipment","Grip","Boom Stand"],["Equipment","Grip","C-Stand 10ft"],["Equipment","Grip","C-Stand 12ft"],["Equipment","Grip","C-Stand 20in"],["Equipment","Grip","Cardellini Clamp"],["Equipment","Grip","Combo Stand 12ft"],["Equipment","Grip","Combo Stand 16ft"],["Equipment","Grip","Gobo Head"],["Equipment","Grip","Grip Head"],["Equipment","Grip","Junior Pin"],["Equipment","Grip","Junior Stand"],["Equipment","Grip","Low Boy"],["Equipment","Grip","Mafer Clamp"],["Equipment","Grip","Magic Arm"],["Equipment","Grip","Roller Stand"],["Equipment","Grip","Super Clamp"],["Equipment","Grip","Wall Spreader"],["Equipment","Grip","Pop-Up Tent"],["Equipment","Grip","Tent"],["Equipment","Grip","Water Weight Bag"],["Equipment","Lenses","Canon RF 24-70mm"],["Equipment","Lenses","Sigma 135mm"],["Equipment","Lenses","Sigma 24-70mm"],["Equipment","Lenses","Sigma 35mm"],["Equipment","Lenses","Sigma 50mm"],["Equipment","Lenses","Sigma 85mm"],["Equipment","Lenses","Sony 16-35mm GM"],["Equipment","Lenses","Sony 24-70mm GM"],["Equipment","Lenses","Sony 24-70mm GM II"],["Equipment","Lenses","Sony 35mm GM"],["Equipment","Lenses","Sony 50-150mm"],["Equipment","Lenses","Sony 50mm f/1.4 GM"],["Equipment","Lenses","Sony 50mm GM"],["Equipment","Lenses","Tamron 35-150mm"],["Equipment","Lenses","Lens Cleaning Kit"],["Equipment","Lenses","Lens Gear Ring"],["Equipment","Lenses","Lens Support"],["Equipment","Lenses","Lens Support Rod"],["Equipment","Lighting","Amaran - PT2c (2ft"],["Equipment","Lighting","Amaran - PT4c 4ft"],["Equipment","Lighting","Aputure - 1000c"],["Equipment","Lighting","Aputure - 1200d Pro"],["Equipment","Lighting","Aputure - 1200x"],["Equipment","Lighting","Aputure - 120d"],["Equipment","Lighting","Aputure - 2400d"],["Equipment","Lighting","Aputure - 300c"],["Equipment","Lighting","Aputure - 300d II"],["Equipment","Lighting","Aputure - 300x"],["Equipment","Lighting","Aputure - 400x"],["Equipment","Lighting","Aputure - 600c"],["Equipment","Lighting","Aputure - 600d Pro"],["Equipment","Lighting","Aputure - 600x Pro"],["Equipment","Lighting","Aputure - 60d"],["Equipment","Lighting","Aputure - 60x"],["Equipment","Lighting","Aputure - 700x"],["Equipment","Lighting","Aputure - 80c (Full Kit)"],["Equipment","Lighting","Aputure - CS32"],["Equipment","Lighting","Aputure - F21c (2x1)"],["Equipment","Lighting","Aputure - F21x (2x1)"],["Equipment","Lighting","Aputure - F22c (2x2)"],["Equipment","Lighting","Aputure - F22x (2x2)"],["Equipment","Lighting","Aputure - Nova 2 (1x1)"],["Equipment","Lighting","Aputure - Nova 2 (2x1)"],["Equipment","Lighting","Aputure - Nova 9’ (2x1)"],["Equipment","Lighting","Aputure - Nova P300c"],["Equipment","Lighting","Aputure - Nova P600c"],["Equipment","Lighting","Aputure - XT52"],["Equipment","Lighting","Astera - Helios Tube 2ft"],["Equipment","Lighting","Astera - Titan Tube 4ft"],["Equipment","Lighting","Creamsource - Vortex8 (2x1)"],["Equipment","Lighting","Nanlite - Forza 300B"],["Equipment","Lighting","Nanlite - Forza 500B II"],["Equipment","Lighting","Nanlite - Forza 60B"],["Equipment","Lighting","Nanlite - PavoTube 15C"],["Equipment","Lighting","Nanlite - PavoTube 30C"],["Equipment","Lighting","Nanlux - Evoke 1200"],["Equipment","Lighting","Nanlux - Evoke 2400B"],["Equipment","Lighting","Nanlux - Evoke 5000B"],["Equipment","Lighting","Nanlux - Evoke 5c (Kit)"],["Equipment","Lighting","Quasar Tube 4ft"],["Equipment","Lighting","216 Diffusion (4x4)"],["Equipment","Lighting","250 Diffusion (4x4)"],["Equipment","Lighting","410 Opal (4x4)"],["Equipment","Lighting","5-in-1 Reflector"],["Equipment","Lighting","Bead Board (4x2)"],["Equipment","Lighting","Bead Board (4x4)"],["Equipment","Lighting","Bleached Muslin (12x12)"],["Equipment","Lighting","Bleached Muslin (20x20)"],["Equipment","Lighting","Bleached Muslin (6x6)"],["Equipment","Lighting","Book Light Frame"],["Equipment","Lighting","Bounce Board"],["Equipment","Lighting","Butterfly Frame"],["Equipment","Lighting","Double Net Scrim (4x4)"],["Equipment","Lighting","Double Net Scrim (6x6)"],["Equipment","Lighting","Double Net Scrim (8x8)"],["Equipment","Lighting","Flag (3x3)"],["Equipment","Lighting","Flag (4x2)"],["Equipment","Lighting","Flag (4x3)"],["Equipment","Lighting","Flag (4x4)"],["Equipment","Lighting","Fresnel - Aputure 2x"],["Equipment","Lighting","Fresnel - Aputure F10"],["Equipment","Lighting","Fresnel - Aputure F20"],["Equipment","Lighting","Frost (4x4)"],["Equipment","Lighting","Grid Cloth (12x12)"],["Equipment","Lighting","Grid Cloth (20x20)"],["Equipment","Lighting","Grid Cloth (6x6)"],["Equipment","Lighting","Half Grid (12x12)"],["Equipment","Lighting","Half Grid (20x20)"],["Equipment","Lighting","Half Grid (6x6)"],["Equipment","Lighting","Lantern 90’ - Aputure"],["Equipment","Lighting","Light Dome 180 - Aputure"],["Equipment","Lighting","Light Dome 60 - Aputure"],["Equipment","Lighting","Light Dome Mini 3 - Aputure"],["Equipment","Lighting","Muslin (12x12)"],["Equipment","Lighting","Muslin (20x20)"],["Equipment","Lighting","Muslin (6x6)"],["Equipment","Lighting","Negative Fill (12x12)"],["Equipment","Lighting","Negative Fill (20x20)"],["Equipment","Lighting","Negative Fill (6x6)"],["Equipment","Lighting","Parallel Beam - Aputure 70’"],["Equipment","Lighting","Parallel Beam - Nanlux NL70"],["Equipment","Lighting","Quarter Grid (12x12)"],["Equipment","Lighting","Quarter Grid (20x20)"],["Equipment","Lighting","Quarter Grid (6x6)"],["Equipment","Lighting","Silk (12x12)"],["Equipment","Lighting","Silk (20x20)"],["Equipment","Lighting","Silk (6x6)"],["Equipment","Lighting","Silver Bounce"],["Equipment","Lighting","Single Net Scrim (4x4)"],["Equipment","Lighting","Single Net Scrim (6x6)"],["Equipment","Lighting","Single Net Scrim (8x8)"],["Equipment","Lighting","Softbox - Aputure Light Dome 120"],["Equipment","Lighting","Softbox - Aputure Light Dome 90"],["Equipment","Lighting","Softbox - Aputure Light Dome II"],["Equipment","Lighting","Softbox - Octabox 3ft"],["Equipment","Lighting","Softbox - Octabox 5ft"],["Equipment","Lighting","Softbox - Octabox 7ft"],["Equipment","Lighting","Softbox - Strip"],["Equipment","Lighting","Spotlight - Amaran SE"],["Equipment","Lighting","Spotlight - Aputure 2"],["Equipment","Lighting","Ultra Bounce (12x12)"],["Equipment","Lighting","Ultra Bounce (20x20)"],["Equipment","Lighting","Ultra Bounce (6x6)"],["Equipment","Lighting","Un Bleached Muslin (12x12)"],["Equipment","Lighting","Un Bleached Muslin (20x20)"],["Equipment","Lighting","Un Bleached Muslin (6x6)"],["Equipment","Lighting","White Bounce"],["Equipment","Lighting","White Griffolyn (12x12)"],["Equipment","Lighting","White Griffolyn (20x20)"],["Equipment","Lighting","White Griffolyn (6x6)"],["Equipment","Lighting","Heavy Duty Light Stand"],["Equipment","Lighting","Light Stand"],["Equipment","Media & Storage","Card Reader"],["Equipment","Media & Storage","CFexpress Type A Card"],["Equipment","Media & Storage","CFexpress Type B Card"],["Equipment","Media & Storage","Media Transfer Station"],["Equipment","Media & Storage","Portable HDD"],["Equipment","Media & Storage","SD V60 Card"],["Equipment","Media & Storage","SD V90 Card"],["Equipment","Media & Storage","SSD 1TB"],["Equipment","Media & Storage","SSD 2TB"],["Equipment","Media & Storage","SSD 4TB"],["Equipment","Media & Storage","USB-C Hub"],["Equipment","Media & Storage","Social Media Content"],["Equipment","Monitoring","Monitor Mount"],["Equipment","Monitoring","24-inch Production Monitor"],["Equipment","Monitoring","27-inch Production Monitor"],["Equipment","Monitoring","7-inch HDR Monitor"],["Equipment","Monitoring","7-inch On-Camera Monitor"],["Equipment","Monitoring","HDMI Monitor"],["Equipment","Monitoring","Monitor Stand"],["Equipment","Monitoring","SDI Monitor"],["Equipment","Monitoring","Video Village Monitor"],["Equipment","Monitoring","Wireless Video Receiver"],["Equipment","Monitoring","Wireless Video Transmitter"],["Equipment","Other Equipment","DJI FPV"],["Equipment","Other Equipment","DJI Inspire 2"],["Equipment","Other Equipment","DJI Inspire 3"],["Equipment","Other Equipment","DJI Mavic 3 Cine"],["Equipment","Other Equipment","DJI Mavic 4 Pro"],["Equipment","Other Equipment","GoPro HERO"],["Equipment","Other Equipment","RED V-RAPTOR"],["Equipment","Other Equipment","Sony A1"],["Equipment","Other Equipment","Sony A7 IV"],["Equipment","Other Equipment","Sony A7R V"],["Equipment","Other Equipment","Sony A7S III"],["Equipment","Other Equipment","Atlas Orion Anamorphic Set"],["Equipment","Other Equipment","Canon RF 24-105mm"],["Equipment","Other Equipment","Canon RF 70-200mm"],["Equipment","Other Equipment","Cooke Panchro Prime Set"],["Equipment","Other Equipment","Cooke S4/i Prime Set"],["Equipment","Other Equipment","Laowa Proteus Anamorphic Set"],["Equipment","Other Equipment","Leica Summilux-C Prime Set"],["Equipment","Other Equipment","Sigma 105mm Macro"],["Equipment","Other Equipment","Sigma 14-24mm"],["Equipment","Other Equipment","Sigma 28-70mm"],["Equipment","Other Equipment","Sony 100-400mm GM"],["Equipment","Other Equipment","Sony 14mm GM"],["Equipment","Other Equipment","Sony 200-600mm G"],["Equipment","Other Equipment","Sony 20mm G"],["Equipment","Other Equipment","Sony 24-105mm G"],["Equipment","Other Equipment","Sony 24mm GM"],["Equipment","Other Equipment","Sony 70-200mm GM"],["Equipment","Other Equipment","Sony 70-200mm GM II"],["Equipment","Other Equipment","Sony 90mm Macro G"],["Equipment","Other Equipment","Tamron 28-75mm"],["Equipment","Other Equipment","Tamron 70-180mm"],["Equipment","Other Equipment","Zeiss CP.3 Prime Set"],["Equipment","Other Equipment","Zeiss Supreme Prime Set"],["Equipment","Other Equipment","15mm LWS Support"],["Equipment","Other Equipment","ND 1.2"],["Equipment","Other Equipment","ND 1.5"],["Equipment","Other Equipment","ND 1.8"],["Equipment","Other Equipment","Rain Cover"],["Equipment","Other Equipment","Sand Bag 10kg"],["Equipment","Other Equipment","Sand Bag 5kg"],["Equipment","Other Equipment","Umbrella"],["Equipment","Power","Battery Power Distribution Unit"],["Equipment","Power","Dual V-Mount Charger"],["Equipment","Power","NP-F Battery"],["Equipment","Power","NP-F Quad Charger"],["Equipment","Power","Quad V-Mount Charger"],["Equipment","Power","Sony Battery Charger"],["Equipment","Power","Sony BP-U60 Battery"],["Equipment","Power","Sony BP-U90 Battery"],["Equipment","Power","Sony NP-FZ100 Battery"],["Equipment","Power","Cable Ramp"],["Equipment","Power","Cable Reel"],["Equipment","Power","Extension Cable 10m"],["Equipment","Power","Extension Cable 25m"],["Equipment","Power","Extension Cable 50m"],["Equipment","Power","Generator 10 kVA"],["Equipment","Power","Generator 15 kVA"],["Equipment","Power","Generator 25 kVA"],["Equipment","Power","Generator 40 kVA"],["Equipment","Power","Generator 5 kVA"],["Equipment","Power","Power Distribution Box"],["Equipment","Power","Power Strip"],["Equipment","Power","Silent Generator 10 kVA"],["Equipment","Power","Silent Generator 25 kVA"],["Equipment","Power","UPS 1kVA"],["Equipment","Power","UPS 2kVA"],["Equipment","Power","Cable Ties"],["Equipment","Production Kit","Clapper Board"],["Equipment","Production Kit","Laser Distance Meter"],["Equipment","Production Kit","Multi-Tool"],["Equipment","Production Kit","Production Chair"],["Equipment","Production Kit","Production Table"],["Equipment","Production Kit","Slate"],["Equipment","Production Kit","Spirit Level"],["Equipment","Production Kit","Tool Kit"],["Equipment","Production Kit","Video Village Cart"],["Equipment","Sound","4-Channel Audio Recorder"],["Equipment","Sound","6-Channel Audio Recorder"],["Equipment","Sound","Audio Recorder"],["Equipment","Sound","Boom Pole"],["Equipment","Sound","Headphones"],["Equipment","Sound","Shotgun Microphone"],["Equipment","Sound","Timecode Box Pair"],["Equipment","Sound","Wireless Handheld Set"],["Equipment","Sound","Wireless Lavalier Set"],["Equipment","Sound","Walkie Talkie Pair"],["Equipment","Sound","Walkie Talkie Set"],["Production","Accommodation","Accommodation"],["Production","Accommodation","Crew Accommodation"],["Production","Catering","Craft Services / Hydration"],["Production","Catering","Crew Catering"],["Production","Catering","Production Catering"],["Production","Consumables","Aluminium Foil"],["Production","Consumables","Black Wrap"],["Production","Consumables","Double-Sided Tape"],["Production","Consumables","Gaffer Tape"],["Production","Consumables","Measuring Tape"],["Production","Consumables","Paper Tape"],["Production","Consumables","Velcro Roll"],["Production","Costume","Sample Costume Accessories"],["Production","Legal & Admin","Production Accounting"],["Production","Legal & Admin","Legal / Contract Administration"],["Production","Legal & Admin","Production Insurance"],["Production","Legal & Admin","Legal / Rights / Releases"],["Production","Locations","Location / Permit Coordination"],["Production","Locations","Location Management / Recce"],["Production","Locations","Location Permissions"],["Production","Locations","Location Permit"],["Production","Marketing","Single Phase Distribution"],["Production","Marketing","Three Phase Distribution"],["Production","Marketing","Publicity / PR"],["Production","Marketing","Advertising"],["Production","Marketing","Premiere / Screening"],["Production","Marketing","Festival / Distribution"],["Production","Other","Contingency / Miscellaneous"],["Production","Post Services","Sample Editing Service"],["Production","Post Services","Sample Mastering / QC Service"],["Production","Post Services","Sample DCP / Broadcast Service"],["Production","Post Services","Sample Deliverables Service"],["Production","Post Services","Sample Subtitle / Translation Service"],["Production","Production Support","Sample Virtual Production Service"],["Production","Production Support","Sample Data Backup Service"],["Production","Production Support","Sample Cloud Storage Service"],["Production","Production Support","Production Office"],["Production","Production Support","Production Coordination"],["Production","Safety","First Aid / Medical"],["Production","Safety","Safety Equipment"],["Production","Safety","Security Personnel"],["Production","Safety","Special Effects Safety"],["Production","Sets & Props","Sample Furniture / Set Rental"],["Production","Sets & Props","Sample Prop Rental"],["Production","Sets & Props","Sample Costume Rental"],["Production","Sets & Props","Sample Studio / Stage Rental"],["Production","Sets & Props","Location Rental"],["Production","Transport","Security / Traffic / Parking"],["Production","Transport","Production Vehicles"],["Production","Transport","Transport / Freight"],["Production","Transport","Fuel / Tolls / Parking"],["Production","Transport","Loading / Unloading"],["Production","Transport","Crew Transport"],["Production","Travel","Travel"]];
+const RES_SCHEMA=3;
+const RES_TYPES=['crew','equipment','production'];
+const RES_KEY={crew:'crewIds',equipment:'equipmentIds',production:'productionIds'};
+const RES_LABEL={crew:'Crew',equipment:'Equipment',production:'Production'};
+function csvResources(){
+const out={crew:[],equipment:[],production:[],categories:{crew:[],equipment:[],production:[]}};
+const pre={crew:'c',equipment:'eq',production:'px'};
+RES_DATA.forEach(([cat,sub,title])=>{
+const t=RES_TYPES.find(x=>RES_LABEL[x]===cat); if(!t) return;
+if(sub && !out.categories[t].includes(sub)) out.categories[t].push(sub);
+out[t].push({id:pre[t]+(out[t].length+1),cat,sub,name:title,rate:0,history:[]});
+});
+return out;
 }
 
-/* ---------- DATA MODEL ---------- */
 const STAGE_ORDER=['brief','shotPlanning','budgeting','shootTracking','delivery'];
 const STAGE_NAMES={brief:'Project Brief',shotPlanning:'Shot Planner',budgeting:'Resource Manager',shootTracking:'Shoot Tracker',delivery:'Editing & Review'};
 const STAGE_PAGE_TITLES={brief:'Project Brief',shotPlanning:'Shot Planner',budgeting:'Resource Manager',shootTracking:'Shoot Tracker',delivery:'Editing & Review'};
@@ -1135,70 +1093,19 @@ outputRequirements:'4K UHD master, stereo and 5.1 mix, 9 min, Bengali with Engli
 ]},
 {date:'2026-11-05',status:'Postponed',scenes:[{num:5,title:'',location:'Beleghata lane',ie:'INT',shots:[]}]}
 ],
-[{title:'Script and shot list',url:'#'},{title:'Day 1 rushes folder',url:'#'}],{crewIds:['aarav','tanya','dev','isha'],equipmentIds:['eq1','eq4','eq6']},true),
-mkProject('monsoon-letters','Monsoon Letters','Kaveri Films','Short film','—','2026-11-12','2026-11-13','2027-01-20',defaultBrief(),[],[],{crewIds:['meera','farhan','vikram'],equipmentIds:['eq2','eq12']},false),
-mkProject('salt-silence','Salt & Silence','Blue Tiffin Productions','Short film (12 min)','—','2026-11-20','2026-11-23','2027-02-01',defaultBrief(),[],[],{crewIds:['ritu','priya'],equipmentIds:['eq3','eq13']},false),
-mkProject('last-bus','The Last Bus','Nightline Pictures','Short film (18 min)','—','2026-12-01','2026-12-02','2027-02-10',defaultBrief(),[],[],{crewIds:['sameer','arjun','leela'],equipmentIds:['eq9','eq17']},false),
-mkProject('hollow-city','Hollow City','Meridian Originals','Short film (22 min)','—','2026-09-10','2026-09-15','2026-11-01',defaultBrief(),[],[],{crewIds:['sameer','arjun'],equipmentIds:['eq9']},false)
+[{title:'Script and shot list',url:'#'},{title:'Day 1 rushes folder',url:'#'}],null,true),
+mkProject('monsoon-letters','Monsoon Letters','Kaveri Films','Short film','—','2026-11-12','2026-11-13','2027-01-20',defaultBrief(),[],[],null,false),
+mkProject('salt-silence','Salt & Silence','Blue Tiffin Productions','Short film (12 min)','—','2026-11-20','2026-11-23','2027-02-01',defaultBrief(),[],[],null,false),
+mkProject('last-bus','The Last Bus','Nightline Pictures','Short film (18 min)','—','2026-12-01','2026-12-02','2027-02-10',defaultBrief(),[],[],null,false),
+mkProject('hollow-city','Hollow City','Meridian Originals','Short film (22 min)','—','2026-09-10','2026-09-15','2026-11-01',defaultBrief(),[],[],null,false)
 ];
 const byId=id=>projects.find(p=>p.id===id);
-byId('paper-boats').sections.budgeting.lines=[
-{category:'Travel',amount:18000},
-{category:'Crew Catering',amount:15000},
-{category:'Transport & Logistics',amount:3500},
-{category:'Locations & Permissions',amount:10000}
-];
 byId('paper-boats').startDate='2026-10-20';
 byId('paper-boats').phaseLog={brief:'2026-10-22',shotPlanning:'2026-10-25',budgeting:'2026-10-28',shootTracking:null,delivery:null,delivered:null};
-byId('monsoon-letters').sections.budgeting.lines=[
-{category:'Crew Accommodation',amount:22000},
-{category:'Location Rental',amount:30000}
-];
-byId('last-bus').sections.budgeting.lines=[
-{category:'Power Distribution / Generator',amount:13500},
-{category:'Production Catering',amount:12000}
-];
 return {
-categories:seedCategories(),
+schema:RES_SCHEMA,
+...csvResources(),
 projects,
-crew:[
-{id:'nisha',cat:'Art Department',sub:'Production Designer',name:'Nisha Verma',role:'Production Designer',contact:'nisha@example.com',status:'freelance',rate:35000,projCount:6,totalEarned:569000,history:[{d:'24 Oct',v:19000},{d:'27 Oct',v:35000}]},
-{id:'aarav',cat:'Cinematography',sub:'Cinematographer',name:'Aarav Mehta',role:'Director of Photography',contact:'aarav@example.com',status:'freelance',rate:25000,projCount:4,totalEarned:200000,history:[{d:'24 Oct',v:25000}]},
-{id:'tanya',cat:'Cinematography',sub:'Assistant Camera / 2nd Assistant Camera',name:'Tanya Bhatt',role:'Focus Puller',contact:'tanya@example.com',status:'freelance',rate:18000,projCount:2,totalEarned:36000,history:[{d:'24 Oct',v:18000}]},
-{id:'isha',cat:'Direction',sub:'Director',name:'Isha Rao',role:'Director',contact:'',status:'inhouse',rate:30000,projCount:4,totalEarned:300000,history:[{d:'24 Oct',v:30000}]},
-{id:'rohan',cat:'Direction',sub:'Director',name:'Rohan Iyer',role:'First Assistant Director',contact:'rohan@example.com',status:'freelance',rate:15000,projCount:2,totalEarned:30000,history:[{d:'24 Oct',v:15000}]},
-{id:'ritu',cat:'Costume, Hair & Makeup',sub:'Makeup Artist / Hair Stylist',name:'Ritu Sen',role:'Makeup Artist',contact:'+91 91670 22004',status:'freelance',rate:9000,projCount:2,totalEarned:18000,history:[{d:'24 Oct',v:9000}]},
-{id:'dev',cat:'Lighting',sub:'Gaffer',name:'Dev Kapoor',role:'Gaffer',contact:'+91 99870 77341',status:'freelance',rate:16000,projCount:4,totalEarned:208000,history:[{d:'24 Oct',v:16000}]},
-{id:'sameer',cat:'Post-Production',sub:'Editor',name:'Sameer Joshi',role:'Editor',contact:'sameer@bigshortfilms.in',status:'inhouse',rate:20000,projCount:5,totalEarned:280000,history:[{d:'24 Oct',v:20000}]},
-{id:'meera',cat:'Production',sub:'Producer',name:'Meera Nair',role:'Line Producer',contact:'meera@bigshortfilms.in',status:'inhouse',rate:35000,projCount:3,totalEarned:105000,history:[{d:'24 Oct',v:35000}]},
-{id:'kabir',cat:'Sound',sub:'Production Sound Mixer',name:'Kabir Shah',role:'Sound Recordist',contact:'',status:'freelance',rate:12000,projCount:2,totalEarned:24000,history:[{d:'24 Oct',v:12000}]},
-{id:'vikram',cat:'Grip & Camera Movement',sub:'Key Grip',name:'Vikram Das',role:'Key Grip',contact:'vikram@example.com',status:'freelance',rate:14000,projCount:3,totalEarned:42000,history:[{d:'24 Oct',v:14000}]},
-{id:'priya',cat:'Art Department',sub:'Prop Master',name:'Priya Menon',role:'Prop Master',contact:'priya@example.com',status:'freelance',rate:12000,projCount:2,totalEarned:24000,history:[{d:'24 Oct',v:12000}]},
-{id:'arjun',cat:'Post-Production',sub:'Colorist',name:'Arjun Nair',role:'Colorist',contact:'arjun@bigshortfilms.in',status:'inhouse',rate:18000,projCount:4,totalEarned:72000,history:[{d:'24 Oct',v:18000}]},
-{id:'leela',cat:'Post-Production',sub:'Sound Designer / Composer',name:'Leela Pillai',role:'Sound Designer',contact:'leela@example.com',status:'freelance',rate:16000,projCount:3,totalEarned:48000,history:[{d:'24 Oct',v:16000}]},
-{id:'farhan',cat:'Digital Imaging',sub:'Digital Imaging Technician',name:'Farhan Qureshi',role:'DIT',contact:'farhan@example.com',status:'freelance',rate:10000,projCount:5,totalEarned:50000,history:[{d:'24 Oct',v:10000}]},
-{id:'divya',cat:'Production',sub:'Production Assistant / Runner',name:'Divya Raman',role:'Production Assistant',contact:'divya@bigshortfilms.in',status:'inhouse',rate:6000,projCount:6,totalEarned:36000,history:[{d:'24 Oct',v:6000}]}
-],
-equipment:[
-{id:'eq1',cat:'Camera & Lenses',sub:'Camera',name:'Sony FX6 kit',status:'inhouse',rate:15000,owned:1,projCount:1,history:[{d:'24 Oct',v:15000}]},
-{id:'eq2',cat:'Camera & Lenses',sub:'Camera',name:'ARRI Alexa Mini kit',status:'freelance',rate:28000,owned:0,projCount:1,history:[{d:'24 Oct',v:28000}]},
-{id:'eq3',cat:'Camera & Lenses',sub:'Camera',name:'Canon C70 body',status:'inhouse',rate:12000,owned:2,projCount:1,history:[{d:'24 Oct',v:12000}]},
-{id:'eq4',cat:'Camera & Lenses',sub:'Lens',name:'Sigma 18-35mm T2',status:'inhouse',rate:2500,owned:2,projCount:3,history:[{d:'24 Oct',v:2500}]},
-{id:'eq5',cat:'Lighting & Grip',sub:'Light',name:'Aputure 600d',status:'freelance',rate:6000,owned:0,projCount:2,history:[{d:'24 Oct',v:6000}]},
-{id:'eq6',cat:'Lighting & Grip',sub:'Light',name:'Nanlux Evoke 1200B',status:'freelance',rate:7000,owned:0,projCount:3,history:[{d:'24 Oct',v:7000}]},
-{id:'eq7',cat:'Sound & Monitoring',sub:'Audio Equipment',name:'Rode NTG5 boom kit',status:'freelance',rate:3500,owned:0,projCount:1,history:[{d:'24 Oct',v:3500}]},
-{id:'eq8',cat:'Camera Support & Movement',sub:'Support / Stabilization',name:'DJI Ronin 4D',status:'freelance',rate:9000,owned:0,projCount:1,history:[{d:'24 Oct',v:9000}]},
-{id:'eq9',cat:'Power & Data',sub:'Media / Storage',name:'DIT cart + 32TB drives',status:'inhouse',rate:5000,owned:1,projCount:6,history:[{d:'24 Oct',v:5000}]},
-{id:'eq10',cat:'Sound & Monitoring',sub:'Monitor / Video Transmission',name:'Teradek Bolt 6 video kit',status:'inhouse',rate:4000,owned:2,projCount:3,history:[{d:'24 Oct',v:4000}]},
-{id:'eq11',cat:'Camera & Lenses',sub:'Camera',name:'ARRI Alexa 35',status:'freelance',rate:32000,owned:0,projCount:1,history:[{d:'24 Oct',v:32000}]},
-{id:'eq12',cat:'Camera & Lenses',sub:'Lens',name:'Zeiss CP.3 Prime Set',status:'freelance',rate:9000,owned:0,projCount:1,history:[{d:'24 Oct',v:9000}]},
-{id:'eq13',cat:'Camera & Lenses',sub:'Camera Accessory',name:'Matte Box 4x4',status:'inhouse',rate:1500,owned:1,projCount:2,history:[{d:'24 Oct',v:1500}]},
-{id:'eq14',cat:'Camera & Lenses',sub:'Filter',name:'Variable ND Set',status:'inhouse',rate:800,owned:2,projCount:3,history:[{d:'24 Oct',v:800}]},
-{id:'eq15',cat:'Camera Support & Movement',sub:'Support / Stabilization',name:'DJI RS 3 Pro',status:'inhouse',rate:3500,owned:1,projCount:2,history:[{d:'24 Oct',v:3500}]},
-{id:'eq16',cat:'Lighting & Grip',sub:'Grip Equipment',name:'C-Stand Kit (5x)',status:'inhouse',rate:1200,owned:1,projCount:4,history:[{d:'24 Oct',v:1200}]},
-{id:'eq17',cat:'Power & Data',sub:'Power Distribution / Generator',name:'Generator 10 kVA',status:'freelance',rate:4500,owned:0,projCount:1,history:[{d:'24 Oct',v:4500}]},
-{id:'eq18',cat:'Production Support',sub:'Production Accessory',name:'Clapper Board & Production Kit',status:'inhouse',rate:500,owned:1,projCount:6,history:[{d:'24 Oct',v:500}]}
-],
 completed:[
 {title:'The Quiet Hour',client:'Blue Tokai',format:'90 sec brand film',place:'Coorg',logline:'A barista opens the shutters before the town wakes, and the first light does the talking.',plan:'3 days · 8 Sep – 10 Sep',crew:'Ritu Sen, Sameer Joshi, Nisha Verma',kit:'DIT cart + 32TB drives, Teradek Bolt 6 video kit',output:'2 deliverables',budget_actual:172050,budget_planned:185000,shots:12,date:'4 OCT'},
 {title:'Salt of the Earth',client:'Kerala Tourism',format:'2 min short film',place:'Munnar',logline:'Two sisters walk the tea slopes one last time before the estate changes hands.',plan:'3 days · 21 Jul – 23 Jul',crew:'Dev Kapoor, Sameer Joshi, Nisha Verma',kit:'Nanlux Evoke 1200B, DIT cart + 32TB drives',output:'2 deliverables',budget_actual:241800,budget_planned:260000,shots:12,date:'16 AUG'},
@@ -1210,28 +1117,36 @@ completed:[
 };
 }
 function defaultBrief(){return {logline:'',synopsis:'',creativeBrief:'',treatment:'',visualDirection:'',research:'',tone:'',locations:'',outputRequirements:'',genre:'',worksheet:'',script:''};}
-function mkProject(id,title,client,format,place,first,wrap,delivery,brief,days,refs,team,seedConfirmed){
+function mkProject(id,title,client,format,place,first,wrap,delivery,brief,days,refs,_team,seedConfirmed){
 return {id,title,client,format,place,first,wrap,delivery,thumbnail:'',startDate:first||'',
 phaseLog:{brief:null,shotPlanning:null,budgeting:null,shootTracking:null,delivery:null,delivered:null},
 sections:{
 brief:{confirmed:!!seedConfirmed},
 shotPlanning:{confirmed:!!seedConfirmed},
-budgeting:{confirmed:!!seedConfirmed,lines:[]},
+budgeting:{confirmed:!!seedConfirmed},
 shootTracking:{confirmed:false},
 delivery:{confirmed:false,videos:[{id:'main',name:'Main Film',versions:[]}]}
 },
-brief, days, refs:refs||[], conceptTasks:[], crewIds:(team&&team.crewIds)||[], equipmentIds:(team&&team.equipmentIds)||[], unscheduledShots:[]};
+brief, days, refs:refs||[], conceptTasks:[], crewIds:[], equipmentIds:[], productionIds:[], unscheduledShots:[]};
 }
 let STATE;
 try{ const s=localStorage.getItem('bsf_data_v2'); STATE = s?JSON.parse(s):seedState(); }catch(e){ STATE=seedState(); }
 if(!STATE.projects) STATE = seedState();
 function todayISO(){ return new Date().toISOString().slice(0,10); }
 /* Migration: bring older saved states up to date without losing user edits */
-if(!STATE.categories) STATE.categories = seedCategories();
+if(STATE.schema!==RES_SCHEMA){
+Object.assign(STATE,csvResources()); STATE.schema=RES_SCHEMA;
+(STATE.projects||[]).forEach(p=>{
+p.crewIds=[]; p.equipmentIds=[]; p.productionIds=[]; p.budgetRates={};
+if(p.sections&&p.sections.budgeting) delete p.sections.budgeting.lines;
+(p.days||[]).forEach(d=>(d.scenes||[]).forEach(sc=>{ sc.resourceIds=[]; (sc.items||[]).forEach(it=>{ if(it.resourceIds) it.resourceIds=[]; }); }));
+});
+}
 if(!STATE.activityLog) STATE.activityLog = [];
 (STATE.projects||[]).forEach(p=>{
 if(!p.crewIds) p.crewIds=[];
 if(!p.equipmentIds) p.equipmentIds=[];
+if(!p.productionIds) p.productionIds=[];
 if(!p.unscheduledShots) p.unscheduledShots=[];
 if(p.thumbnail===undefined) p.thumbnail='';
 if(!p.startDate) p.startDate=p.first||'';
@@ -1311,7 +1226,7 @@ p.sections.delivery.confirmed=false;
 function saveProjectChange(p){ touchProject(p); syncComputedDates(p); saveState(); }
 
 let currentView='overview', currentProjectId=null, currentTab='brief';
-let shotPlannerView='list', rpSearch='', rpCategoryFilter='', rpAllocatedFilter=false, completedSearch='';
+let shotPlannerView='list', rpSearch='', rpCat='', rpSub='', rpAllocatedFilter=false, completedSearch='';
 function setCompletedSearch(v){ completedSearch=v; renderCompleted(); }
 
 function showView(view){
@@ -1388,12 +1303,14 @@ showView(view);
 }
 
 function fmt(n){ return Number(n||0).toLocaleString('en-IN'); }
-function resolveCrew(id){ return STATE.crew.find(c=>c.id===id); }
-function resolveEquipment(id){ return STATE.equipment.find(e=>e.id===id); }
+function resolveResource(type,id){ return (STATE[type]||[]).find(x=>x.id===id); }
+function resolveCrew(id){ return resolveResource('crew',id); }
+function resolveEquipment(id){ return resolveResource('equipment',id); }
+function resLabel(r){ return r.name==='Sample'&&r.sub ? r.sub : r.name; }
+function rupee(n){ return '₹'+fmt(n); }
 function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
 function projectsUsing(type,id){
-const key = type==='crew'?'crewIds':'equipmentIds';
-return STATE.projects.filter(p=>(p[key]||[]).includes(id));
+return STATE.projects.filter(p=>(p[RES_KEY[type]]||[]).includes(id));
 }
 
 /* ---------- OVERVIEW ---------- */
@@ -1468,7 +1385,7 @@ document.getElementById('ovActiveList').innerHTML = activeSorted.length ? active
 const pct=Math.round(STAGE_ORDER.filter(k=>p.sections[k].confirmed).length/5*100);
 const thumbStyle=p.thumbnail?`background-image:url('${p.thumbnail}')`:'';
 const status=getProjectStatus(p);
-return `<div class="ov-project-row" onclick="openProject('${p.id}')"><div class="ov-project-thumb" style="${thumbStyle}"></div><div class="ov-project-info"><div class="ov-project-title">${esc(p.title)} <span class="status-inline">(${status})</span></div><div class="ov-project-sub">${esc(p.format||'')}</div></div><div class="ov-project-progress"><div class="usage-bar"><div class="usage-bar-fill" style="width:${pct}%"></div></div><span class="ov-project-pct">${pct}%</span></div><button type="button" class="ov-more" onclick="openProjectMenu(event,'${p.id}')" aria-label="Share ${esc(p.title)}" title="Share">${ICON_DOTS}</button></div>`;
+return `<div class="ov-project-row" onclick="openProject('${p.id}')"><div class="ov-project-thumb" style="${thumbStyle}"></div><div class="ov-project-info"><div class="ov-project-title">${esc(p.title)} <span class="status-inline">(${status})</span></div><div class="ov-project-sub">${esc(p.format||'')}</div></div><div class="ov-project-progress"><div class="usage-bar"><div class="usage-bar-fill" style="width:${pct}%"></div></div><span class="ov-project-pct">${pct}%</span></div></div>`;
 }).join('') : '<div style="font-size:13px;color:#999;padding:8px 0;">Nothing in flight.</div>';
 
 /* Completed projects preview */
@@ -1486,7 +1403,7 @@ return `<div class="ov-completed-card"${clickable}><div class="ov-completed-thum
 /* ---------- COMPLETED ---------- */
 function projectToCompletedCard(p){
 const sh=projShots(p);
-const crewNames=(p.crewIds||[]).map(resolveCrew).filter(Boolean).map(c=>c.name).join(', ')||'—';
+const crewNames=(p.crewIds||[]).map(resolveCrew).filter(Boolean).map(resLabel).join(', ')||'—';
 const kitNames=(p.equipmentIds||[]).map(resolveEquipment).filter(Boolean).map(e=>e.name).join(', ')||'—';
 const budgetTotal=resourceTotals(p).total;
 return {_liveId:p.id,title:p.title,client:p.client,format:p.format,place:p.place,logline:p.brief.logline||'',plan:`${(p.days||[]).length} days`,crew:crewNames,kit:kitNames,output:'—',budget_actual:budgetTotal,budget_planned:budgetTotal,shots:sh.total,date:fmtDateShort(p.delivery)||'—',_deliveredISO:(p.phaseLog&&p.phaseLog.delivered)||'',thumbnail:p.thumbnail||''};
@@ -1519,221 +1436,117 @@ return `
 }
 
 /* ---------- RESOURCES ---------- */
-function resourcesFilterOptions(sel){
-const catNames=[...new Set([...STATE.categories.crew.map(c=>c.name),...STATE.categories.equipment.map(c=>c.name)])];
-const subNames=[...new Set([...STATE.categories.crew.flatMap(c=>c.subs||[]),...STATE.categories.equipment.flatMap(c=>c.subs||[])])];
-return `<option value="">All categories</option>
-<optgroup label="Category">${catNames.map(n=>`<option value="cat:${esc(n)}" ${sel==='cat:'+n?'selected':''}>${esc(n)}</option>`).join('')}</optgroup>
-<optgroup label="Subcategory">${subNames.map(n=>`<option value="sub:${esc(n)}" ${sel==='sub:'+n?'selected':''}>${esc(n)}</option>`).join('')}</optgroup>`;
-}
-function matchesResourceFilter(item,search,filter){
-const q=(search||'').trim().toLowerCase();
-if(q){
-const hay=[item.name,item.role,item.sub,item.cat,item.contact].filter(Boolean).join(' ').toLowerCase();
-if(!hay.includes(q)) return false;
-}
-if(filter){
-const sep=filter.indexOf(':');
-const kind=filter.slice(0,sep), val=filter.slice(sep+1);
-if(kind==='cat' && item.cat!==val) return false;
-if(kind==='sub' && item.sub!==val) return false;
-}
+function matchesResourceFilter(item){
+const q=(rpSearch||'').trim().toLowerCase();
+if(q && ![item.name,item.sub,item.cat].filter(Boolean).join(' ').toLowerCase().includes(q)) return false;
+if(rpCat && item.cat!==rpCat) return false;
+if(rpSub && item.sub!==rpSub) return false;
 return true;
 }
 function renderResources(){
 renderCategoryGroup('crew','crewCategories');
 renderCategoryGroup('equipment','equipmentCategories');
-renderCategoryGroup('expenses','expenseCategories');
+renderCategoryGroup('production','productionCategories');
 renderSpendCard();
 if(currentView==='projectDetail' && currentTab==='budgeting') renderProjectDetail();
 }
 function renderSpendCard(){
 const top5El=document.getElementById('top5List');
 if(!top5El) return;
-const top5=STATE.crew.slice().sort((a,b)=>(b.totalEarned||0)-(a.totalEarned||0)).slice(0,5);
-const top5max=top5.length?top5[0].totalEarned||1:1;
-top5El.innerHTML=top5.map(t=>{
-const pct=Math.round(((t.totalEarned||0)/top5max)*100);
-return `<div class="top5-row"><div class="top5-head"><span>${esc(t.name)}</span><span>${fmt(t.totalEarned||0)}</span></div><div class="usage-bar" style="margin:0;"><div class="usage-bar-fill" style="width:${pct}%"></div></div><div class="top5-count">${t.projCount||0}×</div></div>`;
-}).join('');
-const crewSpend=STATE.crew.reduce((a,c)=>a+(c.totalEarned||0),0);
-const eqSpend=STATE.equipment.reduce((a,e)=>a+(e.rate||0)*(e.projCount||0),0);
-const totalSpend=crewSpend+eqSpend||1;
-const crewPct=Math.round((crewSpend/totalSpend)*100), eqPct=100-crewPct;
-const bookings=STATE.crew.reduce((a,c)=>a+(c.projCount||0),0)+STATE.equipment.reduce((a,e)=>a+(e.projCount||0),0);
-document.querySelector('.usage-top-val').textContent=fmt(crewSpend+eqSpend);
+const by={}, tot={crew:0,equipment:0,production:0}; let bookings=0;
+(STATE.projects||[]).forEach(p=>RES_TYPES.forEach(t=>[...new Set(p[RES_KEY[t]]||[])].forEach(id=>{
+const r=resolveResource(t,id); if(!r) return;
+const amt=resourceLine(p,t,id).total;
+const e=by[t+id]=by[t+id]||{r,spend:0,n:0}; e.spend+=amt; e.n++; tot[t]+=amt; bookings++;
+})));
+const top5=Object.values(by).sort((a,b)=>b.spend-a.spend||b.n-a.n).slice(0,5);
+const max=top5.length?top5[0].spend||1:1;
+top5El.innerHTML=top5.map(t=>`<div class="top5-row"><div class="top5-head"><span>${esc(resLabel(t.r))}</span><span>${fmt(t.spend)}</span></div><div class="usage-bar" style="margin:0;"><div class="usage-bar-fill" style="width:${Math.round(t.spend/max*100)}%"></div></div><div class="top5-count">${t.n}×</div></div>`).join('')||'<div style="font-size:13px;color:#999;">Nothing allocated yet.</div>';
+const all=tot.crew+tot.equipment+tot.production;
+document.querySelector('.usage-top-val').textContent=fmt(all);
 document.querySelector('.usage-top-count').textContent=bookings;
-const splitLabels=document.querySelectorAll('.usage-split-label');
-if(splitLabels[0]) splitLabels[0].innerHTML=`<span>Crew</span><span>${fmt(crewSpend)} · ${crewPct}%</span>`;
-if(splitLabels[1]) splitLabels[1].innerHTML=`<span>Kit</span><span>${fmt(eqSpend)} · ${eqPct}%</span>`;
-const splitBars=document.querySelectorAll('.usage-split .usage-bar-fill');
-if(splitBars[0]) splitBars[0].style.width=crewPct+'%';
-if(splitBars[1]) splitBars[1].style.width=eqPct+'%';
+const labels=document.querySelectorAll('.usage-split-label'), bars=document.querySelectorAll('.usage-split .usage-bar-fill');
+[['crew','Crew'],['equipment','Kit'],['production','Production']].forEach(([t,l],i)=>{
+const pct=all?Math.round(tot[t]/all*100):0;
+if(labels[i]) labels[i].innerHTML=`<span>${l}</span><span>${fmt(tot[t])} · ${pct}%</span>`;
+if(bars[i]) bars[i].style.width=pct+'%';
+});
 }
 function renderCategoryGroup(type,elId){
-const list=STATE.categories[type];
-document.getElementById(elId).innerHTML = `<div class="cat-list">` + list.map((c,ci)=>`
-<div class="cat-row">
-<input class="cat-name-input" value="${esc(c.name)}" onchange="renameCategory('${type}',${ci},this.value)">
-<div class="cat-subs">
-${c.subs.map((s,si)=>`<span class="tag-pill"><input class="sub-pill-input" value="${esc(s)}" size="${Math.max(s.length+2,4)}" onchange="renameSubcategory('${type}',${ci},${si},this.value)"><span class="rm" onclick="deleteSubcategory('${type}',${ci},${si})">✕</span></span>`).join('')}
-<input class="cat-sub-add" placeholder="+ subcategory" onkeydown="if(event.key==='Enter'){addSubcategory('${type}',${ci},this.value); this.value='';}">
-</div>
-<button class="icon-del" onclick="deleteCategory('${type}',${ci})">Delete</button>
-</div>`).join('') + `</div>`;
+const list=STATE.categories[type]||[];
+document.getElementById(elId).innerHTML=`<div class="cat-subs">`+list.map((n,si)=>`<span class="tag-pill"><input class="sub-pill-input" value="${esc(n)}" size="${Math.max(n.length+2,4)}" onchange="renameSubcategory('${type}',${si},this.value)"><span class="rm" onclick="deleteSubcategory('${type}',${si})">✕</span></span>`).join('')+`<input class="cat-sub-add" placeholder="+ subcategory" onkeydown="if(event.key==='Enter'){addSubcategory('${type}',this.value); this.value='';}"></div>`;
 }
-function renameCategory(type,ci,newName){
-const n=(newName||'').trim();
-if(!n) return;
-STATE.categories[type][ci].name=n;
-saveState();
-setTimeout(renderResources,0);
-}
-function renameSubcategory(type,ci,si,newVal){
-const n=(newVal||'').trim();
-if(!n) return;
-STATE.categories[type][ci].subs[si]=n;
-saveState();
-setTimeout(renderResources,0);
-}
-function addCategory(type){
-const name=(document.getElementById('newCatName').value||'').trim();
-if(!name) return;
-STATE.categories[type].push({name,subs:[]});
-saveState(); renderResources(); closeModal('addResourceModal');
-}
-function deleteCategory(type,ci){
-confirmAction('Remove this category?','Resources already tagged with it will keep showing under it until re-tagged.',function(){
-STATE.categories[type].splice(ci,1);
-saveState(); setTimeout(renderResources,0);
-},{confirmLabel:'Remove'});
-}
-function addSubcategory(type,ci,value){
-const name=(value||'').trim();
-if(!name) return;
-STATE.categories[type][ci].subs.push(name);
+function renameSubcategory(type,si,newVal){
+const n=(newVal||'').trim(); if(!n) return;
+const old=STATE.categories[type][si];
+STATE.categories[type][si]=n;
+STATE[type].forEach(r=>{ if(r.sub===old) r.sub=n; });
 saveState(); setTimeout(renderResources,0);
 }
-function deleteSubcategory(type,ci,si){
-STATE.categories[type][ci].subs.splice(si,1);
+function addSubcategory(type,value){
+const n=(value||'').trim(); if(!n) return;
+if(!STATE.categories[type].includes(n)) STATE.categories[type].push(n);
 saveState(); setTimeout(renderResources,0);
 }
-
-function addCrew(){
-const name=document.getElementById('newCrewName').value.trim();
-if(!name){alert('Enter a name');return;}
-const cat=document.getElementById('newCrewCat').value;
-const role=document.getElementById('newCrewRole').value||'Crew';
-const status=document.getElementById('newCrewStatus').value;
-const rate=parseInt(document.getElementById('newCrewRate').value)||0;
-STATE.crew.push({id:'c'+Date.now(),cat,sub:role,name,role,contact:'',status,rate,projCount:0,totalEarned:0,history:[{d:'Today',v:rate}]});
-saveState(); renderResources(); renderOverview(); closeModal('addResourceModal');
+function deleteSubcategory(type,si){
+STATE.categories[type].splice(si,1);
+saveState(); setTimeout(renderResources,0);
 }
-function addEquipment(){
-const name=document.getElementById('newEqName').value.trim();
-if(!name){alert('Enter a name');return;}
-const cat=document.getElementById('newEqCat').value;
-const sub=document.getElementById('newEqSub').value||'';
-const status=document.getElementById('newEqStatus').value;
-const rate=parseInt(document.getElementById('newEqRate').value)||0;
-STATE.equipment.push({id:'eq'+Date.now(),cat,sub,name,status,rate,owned:status==='inhouse'?1:0,projCount:0,history:[{d:'Today',v:rate}]});
-saveState(); renderResources(); renderOverview(); closeModal('addResourceModal');
-}
-/* ---------- ADD RESOURCE MODAL (top button) ---------- */
+function subOptions(type){ return (STATE.categories[type]||[]).map(n=>`<option value="${esc(n)}">`).join(''); }
+/* ---------- ADD RESOURCE MODAL ---------- */
 function openAddResourceModal(presetType){
-const type=presetType==='equipment'?'equipment':'crew';
-const box=document.getElementById('addResourceModalBox');
-box.innerHTML=`<button class="modal-close" onclick="closeModal('addResourceModal')">×</button>
+const type=RES_TYPES.includes(presetType)?presetType:'crew';
+document.getElementById('addResourceModalBox').innerHTML=`<button class="modal-close" onclick="closeModal('addResourceModal')">×</button>
 <div class="modal-title">Add resource</div>
-<div class="field-box"><span class="field-label">Type</span><select class="f-input" id="newResType" onchange="renderAddResourceFields(this.value)">
-<option value="crew" ${type==='crew'?'selected':''}>Crew</option>
-<option value="equipment" ${type==='equipment'?'selected':''}>Equipment</option>
-</select></div>
-<div id="addResourceFields"></div>`;
+<div class="form-grid">
+<div><span class="field-label">Category</span><select class="f-input" id="newResType" onchange="$id('newResSubList').innerHTML=subOptions(this.value)">${RES_TYPES.map(t=>`<option value="${t}" ${t===type?'selected':''}>${RES_LABEL[t]}</option>`).join('')}</select></div>
+<div><span class="field-label">Subcategory</span><input class="f-input" id="newResSub" list="newResSubList" autocomplete="off"><datalist id="newResSubList">${subOptions(type)}</datalist></div>
+</div>
+<div class="field-box"><span class="field-label">Title</span><input class="f-input" id="newResName"></div>
+<div class="field-box"><span class="field-label">Rate (per day)</span><input class="f-input" type="number" min="0" id="newResRate"></div>
+<button class="btn-primary" style="width:100%;" onclick="addResource()">Add resource</button>`;
 document.getElementById('addResourceModal').classList.add('show');
-renderAddResourceFields(type);
 }
-function renderAddResourceFields(type){
-const el=document.getElementById('addResourceFields');
-if(!el) return;
-if(type==='equipment'){
-el.innerHTML=`<div class="field-box"><span class="field-label">Name</span><input class="f-input" id="newEqName"></div>
-<div class="form-grid">
-<div><span class="field-label">Category</span><select class="f-input" id="newEqCat">${STATE.categories.equipment.map(c=>`<option>${c.name}</option>`).join('')}</select></div>
-<div><span class="field-label">Subcategory</span><input class="f-input" id="newEqSub"></div>
-<div><span class="field-label">Status</span><select class="f-input" id="newEqStatus"><option value="freelance">Rental</option><option value="inhouse">Owned</option></select></div>
-<div><span class="field-label">Rate (per day)</span><input class="f-input" type="number" id="newEqRate"></div>
-</div>
-<button class="btn-primary" style="width:100%;" onclick="addEquipment()">Add equipment</button>`;
-} else {
-el.innerHTML=`<div class="field-box"><span class="field-label">Name</span><input class="f-input" id="newCrewName"></div>
-<div class="form-grid">
-<div><span class="field-label">Category</span><select class="f-input" id="newCrewCat">${STATE.categories.crew.map(c=>`<option>${c.name}</option>`).join('')}</select></div>
-<div><span class="field-label">Role / Subcategory</span><input class="f-input" id="newCrewRole"></div>
-<div><span class="field-label">Status</span><select class="f-input" id="newCrewStatus"><option value="freelance">Freelance</option><option value="inhouse">In-house</option></select></div>
-<div><span class="field-label">Rate (per day)</span><input class="f-input" type="number" id="newCrewRate"></div>
-</div>
-<button class="btn-primary" style="width:100%;" onclick="addCrew()">Add crew member</button>`;
-}
+function addResource(){
+const type=$id('newResType').value, name=$id('newResName').value.trim(), sub=$id('newResSub').value.trim();
+if(!name){ $id('newResName').focus(); return; }
+const rate=parseInt($id('newResRate').value)||0;
+const pre={crew:'c',equipment:'eq',production:'px'}[type];
+STATE[type].push({id:pre+Date.now(),cat:RES_LABEL[type],sub,name,rate,history:[{d:'Today',v:rate}]});
+if(sub && !STATE.categories[type].includes(sub)) STATE.categories[type].push(sub);
+saveState(); renderResources(); renderOverview(); closeModal('addResourceModal');
 }
 /* ---------- MANAGE CATEGORIES MODAL ---------- */
 function openManageCategoriesModal(){
-renderCategoryGroup('crew','crewCategories');
-renderCategoryGroup('equipment','equipmentCategories');
-renderCategoryGroup('expenses','expenseCategories');
+RES_TYPES.forEach(t=>renderCategoryGroup(t,t+'Categories'));
 document.getElementById('categoriesModal').classList.add('show');
-}
-function openAddCategoryForm(){
-const box=document.getElementById('addResourceModalBox');
-box.innerHTML=`<button class="modal-close" onclick="closeModal('addResourceModal')">×</button>
-<div class="modal-title">Add category</div>
-<div class="field-box"><span class="field-label">Group</span><select class="f-input" id="newCatType"><option value="crew">Crew</option><option value="equipment">Equipment</option><option value="expenses">Production Expense</option></select></div>
-<div class="field-box"><span class="field-label">Category name</span><input class="f-input" id="newCatName"></div>
-<button class="btn-primary" style="width:100%;" onclick="addCategory(document.getElementById('newCatType').value)">Add category</button>`;
-document.getElementById('addResourceModal').classList.add('show');
 }
 
 /* ---------- RESOURCE EDIT MODAL ---------- */
 function openResourceModal(type,id){
-const list = type==='crew'?STATE.crew:STATE.equipment;
-const r = list.find(x=>x.id===id);
+const r=resolveResource(type,id);
 if(!r) return;
-const typeLabel = type==='crew'?'Crew':'Equipment';
-const hasStatus = true;
-const statusLabel = type==='crew' ? (r.status==='inhouse'?'In-house':'Freelance') : (r.status==='inhouse'?'Owned':'Rental');
-const chart = sparkline(r.history||[]);
-const usedIn = projectsUsing(type,id);
-const historyRows = usedIn.map(p=>`<tr><td>${p.title}</td><td>${fmtDateShort(p.first)||'—'}</td><td>${getProjectStatus(p)}</td></tr>`).join('');
+const usedIn=projectsUsing(type,id);
+const historyRows=usedIn.map(p=>`<tr><td>${esc(p.title)}</td><td>${fmtDateShort(p.first)||'—'}</td><td>${getProjectStatus(p)}</td></tr>`).join('');
 document.getElementById('resourceModalBox').innerHTML=`
 <button class="modal-close" onclick="closeModal('resourceModal')">×</button>
-<div class="modal-title">${r.name}</div>
-<div class="pill-row">
-<span class="tag-pill">${typeLabel}</span>
-<span class="tag-pill">${r.cat||''}</span>
-<span class="tag-pill">${r.role||r.sub||''}</span>
-${hasStatus?`<span class="tag-pill dark">${statusLabel}</span>`:''}
-</div>
+<div class="modal-title">${esc(r.name)}</div>
+<div class="pill-row"><span class="tag-pill">${RES_LABEL[type]}</span>${r.sub?`<span class="tag-pill">${esc(r.sub)}</span>`:''}</div>
 <div class="stat-tiles">
-<div class="stat-tile"><div class="l">Reference Price</div><div class="v">${fmt(r.rate)}</div></div>
-<div class="stat-tile"><div class="l">Availability</div><div class="v" style="font-size:13px;font-weight:600;line-height:1.4">${availabilityChip(type,id,true)}</div></div>
-<div class="stat-tile"><div class="l">Times Used</div><div class="v">${usedIn.length}</div></div>
+<div class="stat-tile"><div class="l">Reference Rate</div><div class="v">${rupee(r.rate)}</div></div>
+${type!=='production'?`<div class="stat-tile"><div class="l">Availability</div><div class="v" style="font-size:13px;font-weight:600;line-height:1.4">${availabilityChip(type,id,true)}</div></div>`:''}
 <div class="stat-tile"><div class="l">Projects</div><div class="v">${usedIn.length}</div></div>
-<div class="stat-tile"><div class="l">Total Spent</div><div class="v">${fmt(r.totalEarned||0)}</div></div>
 </div>
-<span class="field-label">Latest reference price (per day)</span>
-<div class="rate-row"><input id="rmRate" type="number" value="${r.rate}"><button onclick="saveRate('${type}','${id}')">Save rate</button></div>
-<div class="hint">This is only the starting reference for future estimates. Saved project assignments never change.</div>
+<span class="field-label">Reference rate (per day)</span>
+<div class="rate-row"><input id="rmRate" type="number" min="0" value="${r.rate||0}"><button onclick="saveRate('${type}','${id}')">Save rate</button></div>
+<div class="hint">Starting reference for new allocations. Rates already set on a project never change.</div>
 <div class="field-label" style="margin-bottom:10px;">Details</div>
 <div class="form-grid">
-<div><span class="field-label">Name</span><input class="f-input" id="rmName" value="${r.name}"></div>
-${hasStatus?`<div><span class="field-label">Ownership</span><select class="f-input" id="rmStatus"><option value="freelance" ${r.status==='freelance'?'selected':''}>${type==='crew'?'Freelance':'Rental'}</option><option value="inhouse" ${r.status==='inhouse'?'selected':''}>${type==='crew'?'In-house':'Owned'}</option></select></div>`:'<div></div>'}
-<div><span class="field-label">Category</span><select class="f-input" id="rmCat">${STATE.categories[type].map(c=>`<option ${c.name===r.cat?'selected':''}>${c.name}</option>`).join('')}</select></div>
-<div><span class="field-label">${type==='crew'?'Role':'Subcategory'}</span><input class="f-input" id="rmRole" value="${r.role||r.sub||''}"></div>
-${type==='crew'?`<div><span class="field-label">Email</span><input class="f-input" id="rmEmail" value="${(r.contact||'').includes('@')?r.contact:''}"></div><div><span class="field-label">Phone</span><input class="f-input" id="rmPhone" value="${(r.contact||'').includes('@')?'':(r.contact||'')}"></div>`:''}
-${type==='equipment'?`<div><span class="field-label">Owned Qty</span><input class="f-input" type="number" id="rmOwned" value="${r.owned||0}"></div>`:''}
+<div><span class="field-label">Title</span><input class="f-input" id="rmName" value="${esc(r.name)}"></div>
+<div><span class="field-label">Subcategory</span><input class="f-input" id="rmSub" list="rmSubList" value="${esc(r.sub||'')}" autocomplete="off"><datalist id="rmSubList">${subOptions(type)}</datalist></div>
 </div>
 <button class="btn-ghost" style="width:100%;margin-bottom:18px;" onclick="saveResourceDetails('${type}','${id}')">Save details</button>
-<div class="chart-box"><span class="field-label">Reference price history</span>${chart}</div>
+<div class="chart-box"><span class="field-label">Reference rate history</span>${sparkline(r.history||[])}</div>
 <span class="field-label">Project history</span>
 ${usedIn.length?`<table class="hist-table"><tr><th>Project</th><th>Start date</th><th>Status</th></tr>${historyRows}</table>`:'<div style="font-size:13px;color:#999;padding:8px 0 18px;">Not used on any project yet.</div>'}
 <button class="delete-btn" onclick="deleteResource('${type}','${id}')">Delete resource</button>
@@ -1741,13 +1554,10 @@ ${usedIn.length?`<table class="hist-table"><tr><th>Project</th><th>Start date</t
 document.getElementById('resourceModal').classList.add('show');
 }
 function saveResourceDetails(type,id){
-const list=type==='crew'?STATE.crew:STATE.equipment;
-const r=list.find(x=>x.id===id);
-r.name=document.getElementById('rmName').value||r.name;
-r.status=document.getElementById('rmStatus').value;
-r.cat=document.getElementById('rmCat').value;
-if(type==='crew'){ r.role=document.getElementById('rmRole').value; r.contact=document.getElementById('rmEmail').value||document.getElementById('rmPhone').value; }
-else { r.sub=document.getElementById('rmRole').value; r.owned=Number(document.getElementById('rmOwned').value)||0; }
+const r=resolveResource(type,id); if(!r) return;
+r.name=$id('rmName').value.trim()||r.name;
+r.sub=$id('rmSub').value.trim();
+if(r.sub && !STATE.categories[type].includes(r.sub)) STATE.categories[type].push(r.sub);
 saveState(); renderResources(); openResourceModal(type,id);
 }
 function sparkline(history){
@@ -1766,18 +1576,17 @@ ${history.map((hv,i)=>{const x=pad+(i/(Math.max(history.length-1,1)))*(w-2*pad);
 </svg>`;
 }
 function saveRate(type,id){
-const list=type==='crew'?STATE.crew:STATE.equipment;
-const r=list.find(x=>x.id===id);
-const newRate=parseInt(document.getElementById('rmRate').value)||0;
+const r=resolveResource(type,id); if(!r) return;
+const newRate=parseInt($id('rmRate').value)||0;
 r.rate=newRate;
 r.history=r.history||[];
 r.history.push({d:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short'}),v:newRate});
 saveState(); renderResources(); openResourceModal(type,id);
 }
 function deleteResource(type,id){
-confirmAction('Delete this resource?','This cannot be undone.',function(){
-if(type==='crew') STATE.crew=STATE.crew.filter(x=>x.id!==id);
-else STATE.equipment=STATE.equipment.filter(x=>x.id!==id);
+confirmAction('Delete this resource?','It is also removed from every project. This cannot be undone.',function(){
+STATE[type]=STATE[type].filter(x=>x.id!==id);
+STATE.projects.forEach(p=>{ p[RES_KEY[type]]=(p[RES_KEY[type]]||[]).filter(x=>x!==id); if(p.budgetRates) delete p.budgetRates[type+':'+id]; });
 saveState(); renderResources(); closeModal('resourceModal');
 },{confirmLabel:'Delete'});
 }
@@ -1848,7 +1657,7 @@ renderProjectDetail(); renderOverview(); renderCompleted();
 function openProject(id){
 currentProjectId=id;
 shotPlannerView='list';
-rpSearch=''; rpCategoryFilter=''; rpAllocatedFilter=false;
+rpSearch=''; rpCat=''; rpSub=''; rpAllocatedFilter=false;
 const p=STATE.projects.find(x=>x.id===id);
 if(!p) return;
 currentTab = STAGE_ORDER.find(k=>!p.sections[k].confirmed) || 'delivery';
@@ -1894,15 +1703,14 @@ document.addEventListener('click',guardStageEdit,true);
 
 const RATE_BASES=['Per Project','Per Day'];
 function resourceLine(p,type,id){
-const r=resourcePlannerPool().find(x=>x.type===type&&x.id===id)||{rate:0};
+const r=resolveResource(type,id)||{rate:0};
 const cfg=(p.budgetRates&&p.budgetRates[type+':'+id])||{};
-const units=type==='equipment'?Math.max(1,(p.equipmentIds||[]).filter(x=>x===id).length):1;
-const basis=cfg.basis||(type==='equipment'?'Per Day':'Per Project');
+const basis=cfg.basis||(type==='production'?'Per Project':'Per Day');
 const rate=cfg.rate!=null?Number(cfg.rate):(Number(r.rate)||0);
-const autoQty=(basis==='Per Day'?rentalDays(p):1)*units;
+const autoQty=basis==='Per Day'?rentalDays(p):1;
 const qty=cfg.qty!=null?Number(cfg.qty):autoQty;
 const total=cfg.total!=null?Number(cfg.total):Math.round(rate*qty*100)/100;
-return {rate,basis,qty,total,units,autoQty};
+return {rate,basis,qty,total,autoQty};
 }
 function setResourceLine(type,id,field,val){
 const p=currentProject(); if(!p) return;
@@ -1917,13 +1725,17 @@ else if(field==='qty'){ cfg.qty=n; delete cfg.total; }
 else if(field==='total'){ cfg.total=n; cfg.rate=Math.round(n/(cur.qty||1)*100)/100; }
 }
 saveProjectChange(p);
-setTimeout(renderProjectDetail,0);
+setTimeout(rerenderKeepScroll,0);
 }
+function stepResourceQty(type,id,d){
+const p=currentProject(); if(!p) return;
+setResourceLine(type,id,'qty',Math.max(0,resourceLine(p,type,id).qty+d));
+}
+function rerenderKeepScroll(){ const y=window.scrollY; renderProjectDetail(); window.scrollTo(0,y); }
 function resourceTotals(p){
-const crewTotal=[...new Set(p.crewIds||[])].filter(resolveCrew).reduce((a,id)=>a+resourceLine(p,'crew',id).total,0);
-const eqTotal=[...new Set(p.equipmentIds||[])].filter(resolveEquipment).reduce((a,id)=>a+resourceLine(p,'equipment',id).total,0);
-const othersTotal=(p.sections.budgeting.lines||[]).reduce((a,l)=>a+(Number(l.amount)||0),0);
-return {crewTotal,eqTotal,othersTotal,total:crewTotal+eqTotal+othersTotal};
+const sum=t=>[...new Set(p[RES_KEY[t]]||[])].filter(id=>resolveResource(t,id)).reduce((a,id)=>a+resourceLine(p,t,id).total,0);
+const crewTotal=sum('crew'), eqTotal=sum('equipment'), prodTotal=sum('production');
+return {crewTotal,eqTotal,prodTotal,total:crewTotal+eqTotal+prodTotal};
 }
 
 function splitFormat(f){
@@ -1941,7 +1753,7 @@ if(key==='shotPlanning'){
 const days=(p.days||[]).filter(d=>(d.scenes||[]).length).length;
 return plural(days,'day')+' · '+plural(allShotItems(p).length,'shot');
 }
-if(key==='budgeting'){ const t=resourceTotals(p); const n=[...new Set(p.crewIds||[])].length+[...new Set(p.equipmentIds||[])].length; return plural(n,'resource')+' allocated'; }
+if(key==='budgeting'){ const t=resourceTotals(p); const n=RES_TYPES.reduce((a,t)=>a+new Set(p[RES_KEY[t]]||[]).size,0); return plural(n,'resource')+' allocated'; }
 if(key==='shootTracking'){
 const shots=allShotItems(p);
 const remaining=shots.filter(s=>s.status!=='Completed'&&s.status!=='Cancelled').length;
@@ -2040,20 +1852,20 @@ const node=bodyEl.cloneNode(true);
 node.querySelectorAll('.rp-toolbar,.rp-edit-hint,#budgetHeadRow,.budget-head-row,.resources-head-row,.sp-add-row,.sp-add-item-row,.shot-res-add-btn,.res-picker,.drag-handle,.drag-handle-spacer').forEach(el=>el.remove());
 
 if(key==='budgeting'){
-node.querySelectorAll('.rb-head-row,.rb-expense-head,.rp-checkbox-wrap,.rb-unit-stepper').forEach(el=>el.remove());
-node.querySelectorAll('.rp-row:not(.selected)').forEach(el=>el.remove());
-node.querySelectorAll('.rp-calc').forEach(calc=>{
-const vals=[...calc.querySelectorAll('input,select')].map(i=>i.tagName==='SELECT'?(i.options[i.selectedIndex]?i.options[i.selectedIndex].text:''):i.value);
-const [rate,basis,qty,total]=vals;
-const div=document.createElement('div'); div.className='rp-calc-print';
-div.innerHTML=`<span>${fmt(rate)} ${esc(basis)} × ${esc(qty)}</span><span class="rp-calc-print-total">${fmt(total)}</span>`;
-calc.replaceWith(div);
+node.querySelectorAll('.rm-head,.rm-chk').forEach(el=>el.remove());
+node.querySelectorAll('.rm-row:not(.selected)').forEach(el=>el.remove());
+node.querySelectorAll('.rm-row').forEach(row=>{
+const rate=row.querySelector('.rm-rate input'), basis=row.querySelector('.rm-rate select'), qty=row.querySelector('.rm-qty input'), tot=row.querySelector('.rm-amt input');
+const div=document.createElement('span'); div.className='rm-print-calc';
+div.innerHTML=`${rupee(rate?rate.value:0)} ${basis?esc(basis.options[basis.selectedIndex].text):''} × ${esc(qty?qty.value:'')} = <b>${rupee(tot?tot.value:0)}</b>`;
+row.querySelectorAll('.rm-rate,.rm-qty,.rm-amt').forEach(c=>c.remove());
+row.appendChild(div);
 });
 const totals=resourceTotals(p);
 node.insertAdjacentHTML('beforeend',`<div class="box"><div class="box-title">Totals</div>
 <div class="lib-row rp-grand-sub"><span>Crew total</span><span>${fmt(totals.crewTotal)}</span></div>
 <div class="lib-row rp-grand-sub"><span>Equipment total</span><span>${fmt(totals.eqTotal)}</span></div>
-<div class="lib-row rp-grand-sub"><span>Production expenses</span><span>${fmt(totals.othersTotal)}</span></div>
+<div class="lib-row rp-grand-sub"><span>Production</span><span>${fmt(totals.prodTotal)}</span></div>
 <div class="lib-row rp-grand-total"><span>Grand total</span><span>${fmt(totals.total)}</span></div>
 </div>`);
 }
@@ -2089,8 +1901,6 @@ body{background:#fff;padding:40px 48px 60px;max-width:900px;margin:0 auto;}
 .print-header .meta{font-size:13px;color:#999;}
 .print-header .stage-tag{font-size:12px;font-weight:700;letter-spacing:.4px;color:var(--accent-text);background:var(--accent-bg);padding:5px 12px;border-radius:999px;white-space:nowrap;}
 .print-value{font-size:14px;padding:10px 14px;background:#f6f6f6;border-radius:12px;white-space:pre-wrap;min-height:18px;}
-.rp-calc-print{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13px;font-weight:600;color:#1a1a1a;}
-.rp-calc-print-total{font-weight:700;}
 .rp-grand-sub{font-weight:600;}
 .rp-grand-total{font-weight:800;font-size:16px;border-top:2px solid #1a1a1a;padding-top:12px;margin-top:6px;}
 .sidebar,.topbar,.header-hint{display:none !important;}
@@ -2502,7 +2312,7 @@ const SHOT_MOVES=['Static','Handheld','Slow push in','Slow tilt up','Pan','Dolly
 /* ---------- ADD / EDIT SCENE ---------- */
 function sceneResChipsHtml(){
 const pool=resourcePlannerPool();
-return SCENEFORM.resourceIds.map(id=>{ const r=pool.find(x=>x.id===id); return `<span class="shot-res-chip">${esc(r?r.name:id)}<button type="button" onclick="removeSceneResource('${id}')">×</button></span>`; }).join('')
+return SCENEFORM.resourceIds.map(id=>{ const r=pool.find(x=>x.id===id); return `<span class="shot-res-chip">${esc(r?resLabel(r):id)}<button type="button" onclick="removeSceneResource('${id}')">×</button></span>`; }).join('')
 +`<button type="button" class="shot-res-add-btn" onclick="toggleSceneResPicker()">+ Add</button>`;
 }
 function renderSceneResChips(){ const el=$id('scResChips'); if(el) el.innerHTML=sceneResChipsHtml(); }
@@ -2520,15 +2330,15 @@ setTimeout(()=>{ const i=$id('scResSearch'); if(i) i.focus(); },0);
 function renderSceneResResults(){
 const el=$id('scResResults'); if(!el) return;
 const q=(($id('scResSearch')||{}).value||'').trim().toLowerCase();
-const rows=resourcePlannerPool().filter(r=>!SCENEFORM.resourceIds.includes(r.id) && (!q || (r.name+' '+(r.role||'')+' '+(r.cat||'')).toLowerCase().includes(q))).slice(0,8);
-el.innerHTML=rows.map(r=>`<button type="button" class="res-result" onclick="addSceneResource('${r.id}')"><span>${esc(r.name)}</span><span class="res-result-sub">${r.type==='crew'?'Crew':'Equipment'} · ${esc(r.role||r.cat||'')}</span></button>`).join('')||'<div class="res-picker-note">No matching resources.</div>';
+const rows=resourcePlannerPool().filter(r=>r.type!=='production' && !SCENEFORM.resourceIds.includes(r.id) && (!q || (r.name+' '+(r.sub||'')+' '+(r.cat||'')).toLowerCase().includes(q))).slice(0,8);
+el.innerHTML=rows.map(r=>`<button type="button" class="res-result" onclick="addSceneResource('${r.id}')"><span>${esc(resLabel(r))}</span><span class="res-result-sub">${r.cat}${r.sub&&resLabel(r)!==r.sub?' · '+esc(r.sub):''}</span></button>`).join('')||'<div class="res-picker-note">No matching resources.</div>';
 }
 function addSceneResource(id){ if(!SCENEFORM.resourceIds.includes(id)) SCENEFORM.resourceIds.push(id); renderSceneResChips(); renderSceneResResults(); }
 function removeSceneResource(id){ SCENEFORM.resourceIds=SCENEFORM.resourceIds.filter(x=>x!==id); renderSceneResChips(); const el=$id('scResResults'); if(el) renderSceneResResults(); }
 function allocateSceneResources(p,ids){
 (ids||[]).forEach(id=>{
-if((STATE.crew||[]).some(c=>c.id===id)){ p.crewIds=p.crewIds||[]; if(!p.crewIds.includes(id)) p.crewIds.push(id); }
-else if((STATE.equipment||[]).some(e=>e.id===id)){ p.equipmentIds=p.equipmentIds||[]; if(!p.equipmentIds.includes(id)) p.equipmentIds.push(id); }
+const t=['crew','equipment'].find(t=>resolveResource(t,id)); if(!t) return;
+const k=RES_KEY[t]; p[k]=p[k]||[]; if(!p[k].includes(id)) p[k].push(id);
 });
 }
 function sceneFieldsInnerHtml(p,sc,slot,isEdit){
@@ -2915,163 +2725,86 @@ renderProjectDetail();
 
 /* ---------- RESOURCE PLANNER ---------- */
 function resourcePlannerPool(){
-return [
-...STATE.crew.map(c=>({id:c.id,type:'crew',name:c.name,cat:c.cat,sub:c.sub,role:c.role||c.sub||c.cat,contact:c.contact,status:c.status,rate:c.rate})),
-...STATE.equipment.map(e=>({id:e.id,type:'equipment',name:e.name,cat:e.cat,sub:e.sub,role:e.sub||e.cat,status:e.status,rate:e.rate,owned:e.owned}))
-];
+return RES_TYPES.flatMap(t=>STATE[t].map(r=>({id:r.id,type:t,name:r.name,cat:RES_LABEL[t],sub:r.sub||'',rate:r.rate||0})));
 }
+let rmVisible=[];
 function setRpSearch(v){ rpSearch=v; renderResourcePlannerList(); }
-function setRpCategoryFilter(v){ rpCategoryFilter=v; renderResourcePlannerList(); }
+function setRpCat(v){ rpCat=v; rpSub=''; renderProjectDetail(); }
+function setRpSub(v){ rpSub=v; renderResourcePlannerList(); }
 function setRpAllocatedFilter(v){ rpAllocatedFilter=v; renderProjectDetail(); }
 function renderResourcePlannerList(){
 const el=document.getElementById('rpResourceList');
 if(!el) return;
 const p=currentProject();
-const crewSet=new Set(p.crewIds||[]);
-const eqCounts={};
-(p.equipmentIds||[]).forEach(id=>{ eqCounts[id]=(eqCounts[id]||0)+1; });
-let rows=resourcePlannerPool().filter(r=>matchesResourceFilter(r,rpSearch,rpCategoryFilter));
-if(rpAllocatedFilter) rows=rows.filter(r=> r.type==='crew' ? crewSet.has(r.id) : (eqCounts[r.id]||0)>0);
-const typeLabel={crew:'Crew',equipment:'Equipment'};
-const emptyMsg = rpAllocatedFilter ? 'Nothing allocated yet. Switch to All to select resources.' : 'No resources match.';
-el.innerHTML = rows.map(r=>{
-const qty = r.type==='crew' ? (crewSet.has(r.id)?1:0) : (eqCounts[r.id]||0);
-const selected = qty>0;
-const ln = selected ? resourceLine(p,r.type,r.id) : null;
-const defaultBasis = r.type==='equipment' ? 'Per Day' : 'Per Project';
-const priceCell = selected
-? `<input class="rp-in" type="number" min="0" value="${ln.rate}" title="Rate" aria-label="Rate" onchange="setResourceLine('${r.type}','${r.id}','rate',this.value)">`
-: `<span class="rb-static">${fmt(r.rate)}</span>`;
-const basisCell = selected
-? `<select class="rp-in rp-basis" aria-label="Rate basis" onchange="setResourceLine('${r.type}','${r.id}','basis',this.value)">${RATE_BASES.map(b=>`<option ${ln.basis===b?'selected':''}>${b}</option>`).join('')}</select>`
-: `<span class="rb-static" style="text-align:left;">${defaultBasis}</span>`;
-const qtyCell = selected
-? `<input class="rp-in rp-qty" type="number" min="0" step="1" value="${ln.qty}" title="Quantity" aria-label="Quantity" onchange="setResourceLine('${r.type}','${r.id}','qty',this.value)">`
-: `<span class="rb-dash">—</span>`;
-const totalCell = selected
-? `<input class="rp-in rp-total" type="number" min="0" value="${ln.total}" title="Click to adjust the final amount" aria-label="Final amount" onchange="setResourceLine('${r.type}','${r.id}','total',this.value)">`
-: `<span class="rb-dash">—</span>`;
-const unitStepper = r.type==='equipment' ? `<span class="rb-unit-stepper">${qty>1?`<span class="rp-qty-badge">×${qty}</span>`:''}${selected?`<button type="button" class="rb-unit-btn" onclick="selectResource('equipment','${r.id}')" title="Add one more unit">+</button><button type="button" class="rb-unit-btn" onclick="deselectResource('equipment','${r.id}')" title="Remove one unit">−</button>`:''}</span>` : '';
-return `<div class="rp-row ${selected?'selected':''}" data-bctype="${typeLabel[r.type]}">
-<span class="rp-checkbox-wrap"><input type="checkbox" class="rp-checkbox" ${selected?'checked':''} aria-label="Select ${esc(r.name)}" onchange="setResourceChecked('${r.type}','${r.id}',this.checked)"></span>
-<div><div class="nm"><span class="nm-t rp-edit" data-no-lock="1" title="Edit resource" onclick="openResourceModal('${r.type}','${r.id}')">${esc(r.name)}</span>${availabilityChip(r.type,r.id)}${r.status?`<span class="status-pill ${r.status}">${r.status==='inhouse'?'In-house':'Freelance'}</span>`:''}${unitStepper}</div><div class="ct">${typeLabel[r.type]} · ${esc(r.role||r.cat)}${r.contact?` | ${esc(r.contact)}`:''}</div>${selected?conflictChip(resourceConflicts(r.type,r.id,p)):''}</div>
-<div class="rp-calc"><span class="rp-cell" data-l="Rate">${priceCell}</span><span class="rp-cell" data-l="Basis">${basisCell}</span><span class="rp-cell" data-l="Qty">${qtyCell}</span><span class="rp-cell" data-l="Total">${totalCell}</span></div>
+const sel={}; RES_TYPES.forEach(t=>sel[t]=new Set(p[RES_KEY[t]]||[]));
+let rows=resourcePlannerPool().filter(matchesResourceFilter);
+if(rpAllocatedFilter) rows=rows.filter(r=>sel[r.type].has(r.id));
+rmVisible=rows.map(r=>({type:r.type,id:r.id}));
+const allOn=rows.length>0 && rows.every(r=>sel[r.type].has(r.id));
+const today=new Date().toISOString().slice(0,10);
+const head=`<div class="rm-head"><span class="rm-chk"><input type="checkbox" class="rp-checkbox" ${allOn?'checked':''} aria-label="Select all" onchange="setAllResourcesChecked(this.checked)"></span><span>Name</span><span>Category</span><span>Subcategory</span><span>Rate</span><span>Qty</span><span>Amount</span></div>`;
+el.innerHTML = head + (rows.map(r=>{
+const on=sel[r.type].has(r.id);
+const ln=on?resourceLine(p,r.type,r.id):null;
+let dot='<i class="av-dot none"></i>';
+if(r.type!=='production'){
+const next=resourceBookings(r.type,r.id).filter(b=>b.to>=today).sort((a,b)=>a.from<b.from?-1:1);
+dot=next.length?`<i class="av-dot busy" title="${esc(next.map(x=>x.p.title+' · '+fmtRange(x.from,x.to)).join('\n'))}"></i>`:'<i class="av-dot free" title="Available"></i>';
+}
+const basisLbl=b=>b==='Per Day'?'Day':'Project';
+const rate=on
+?`<span class="rm-cur">₹</span><input class="rp-in" type="number" min="0" value="${ln.rate}" aria-label="Rate" onchange="setResourceLine('${r.type}','${r.id}','rate',this.value)"><select class="rp-in rp-basis" aria-label="Rate basis" onchange="setResourceLine('${r.type}','${r.id}','basis',this.value)">${RATE_BASES.map(b=>`<option value="${b}" ${ln.basis===b?'selected':''}>/ ${basisLbl(b)}</option>`).join('')}</select>`
+:`<span class="rb-static">${rupee(r.rate)} / Day</span>`;
+const qty=on
+?`<button type="button" class="rm-step" onclick="stepResourceQty('${r.type}','${r.id}',-1)" aria-label="Decrease">−</button><input class="rp-in rp-qty" type="number" min="0" step="1" value="${ln.qty}" aria-label="Quantity" onchange="setResourceLine('${r.type}','${r.id}','qty',this.value)"><button type="button" class="rm-step" onclick="stepResourceQty('${r.type}','${r.id}',1)" aria-label="Increase">+</button>`
+:'<span class="rb-dash">—</span>';
+const amt=on
+?`<span class="rm-cur">₹</span><input class="rp-in rp-total" type="number" min="0" value="${ln.total}" aria-label="Amount" onchange="setResourceLine('${r.type}','${r.id}','total',this.value)">`
+:'<span class="rb-dash">—</span>';
+return `<div class="rm-row ${on?'selected':''}">
+<span class="rm-chk"><input type="checkbox" class="rp-checkbox" ${on?'checked':''} aria-label="Select ${esc(r.name)}" onchange="setResourceChecked('${r.type}','${r.id}',this.checked)"></span>
+<span class="rm-name">${dot}<b class="nm-t rp-edit" data-no-lock="1" title="Edit resource" onclick="openResourceModal('${r.type}','${r.id}')">${esc(r.name)}</b></span>
+<span class="rm-cat" data-l="Category">${r.cat}</span>
+<span class="rm-sub" data-l="Subcategory">${esc(r.sub)||'—'}</span>
+<span class="rm-rate" data-l="Rate">${rate}</span>
+<span class="rm-qty" data-l="Qty">${qty}</span>
+<span class="rm-amt" data-l="Amount">${amt}</span>
 </div>`;
-}).join('') || `<div style="font-size:13px;color:#999;padding:12px 18px;">${emptyMsg}</div>`;
+}).join('') || `<div style="font-size:13px;color:#999;padding:12px 18px;">${rpAllocatedFilter?'Nothing selected yet. Switch to All to select resources.':'No resources match.'}</div>`);
+}
+function toggleResourceIn(p,type,id,on){
+const k=RES_KEY[type]; p[k]=p[k]||[];
+const i=p[k].indexOf(id);
+if(on && i<0) p[k].push(id); else if(!on && i>=0) p[k].splice(i,1);
 }
 function setResourceChecked(type,id,checked){
 const p=currentProject();
-if(type==='crew'){
-p.crewIds=p.crewIds||[];
-const idx=p.crewIds.indexOf(id);
-if(checked && idx<0) p.crewIds.push(id);
-else if(!checked && idx>=0) p.crewIds.splice(idx,1);
-} else {
-p.equipmentIds=p.equipmentIds||[];
-if(checked){
-if(!p.equipmentIds.includes(id)){
-const r=resourcePlannerPool().find(x=>x.type==='equipment'&&x.id===id);
-const cap = r&&r.owned ? r.owned : 99;
-if(p.equipmentIds.filter(x=>x===id).length<cap) p.equipmentIds.push(id);
-}
-} else {
-p.equipmentIds=p.equipmentIds.filter(x=>x!==id);
-}
-}
+toggleResourceIn(p,type,id,checked);
 saveProjectChange(p);
 logActivity(checked?'Resource assigned':'Resource removed',p.title);
-renderProjectDetail();
+rerenderKeepScroll();
 }
-function selectResource(type,id){
+function setAllResourcesChecked(checked){
 const p=currentProject();
-if(type==='crew'){
-p.crewIds=p.crewIds||[];
-const idx=p.crewIds.indexOf(id);
-if(idx>=0) p.crewIds.splice(idx,1); else p.crewIds.push(id);
-} else {
-p.equipmentIds=p.equipmentIds||[];
-const r=resourcePlannerPool().find(x=>x.type==='equipment'&&x.id===id);
-const currentQty=p.equipmentIds.filter(x=>x===id).length;
-const cap = r&&r.owned ? r.owned : 99;
-if(currentQty<cap) p.equipmentIds.push(id);
-}
+rmVisible.forEach(r=>toggleResourceIn(p,r.type,r.id,checked));
 saveProjectChange(p);
-logActivity('Resource assigned',p.title);
-renderProjectDetail();
-}
-function deselectResource(type,id){
-const p=currentProject();
-const key=type==='crew'?'crewIds':'equipmentIds';
-p[key]=p[key]||[];
-const idx=p[key].indexOf(id);
-if(idx>=0) p[key].splice(idx,1);
-saveProjectChange(p);
-renderProjectDetail();
+logActivity(checked?'Resources assigned':'Resources removed',p.title);
+rerenderKeepScroll();
 }
 function renderBudgetingTab(p){
-const otherLines=p.sections.budgeting.lines||[];
+const subs=rpCat?(STATE.categories[rpCat.toLowerCase()]||[]):[...new Set(RES_TYPES.flatMap(t=>STATE.categories[t]||[]))];
 return `<div id="pdBody">
 <div class="rp-toolbar">
-<div class="search-filter-box wide" data-no-lock="1"><input type="text" placeholder="Search resources" value="${esc(rpSearch)}" data-no-lock="1" oninput="setRpSearch(this.value)"><select data-no-lock="1" onchange="setRpCategoryFilter(this.value)">${resourcesFilterOptions(rpCategoryFilter)}</select></div>
-<div class="view-toggle" data-no-lock="1"><button class="vt-btn ${!rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(false)">All</button><button class="vt-btn ${rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(true)">Allocated</button></div>
+<div class="search-filter-box wide" data-no-lock="1"><input type="text" placeholder="Search resources" value="${esc(rpSearch)}" data-no-lock="1" oninput="setRpSearch(this.value)"><select data-no-lock="1" aria-label="Category" onchange="setRpCat(this.value)"><option value="">All categories</option>${RES_TYPES.map(t=>`<option value="${RES_LABEL[t]}" ${rpCat===RES_LABEL[t]?'selected':''}>${RES_LABEL[t]}</option>`).join('')}</select><select data-no-lock="1" aria-label="Subcategory" onchange="setRpSub(this.value)"><option value="">All subcategories</option>${subs.map(n=>`<option value="${esc(n)}" ${rpSub===n?'selected':''}>${esc(n)}</option>`).join('')}</select></div>
+<div class="view-toggle" data-no-lock="1"><button class="vt-btn ${!rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(false)">All</button><button class="vt-btn ${rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(true)">Selected</button></div>
 <button type="button" class="icon-btn-text primary" data-no-lock="1" title="Add resource" onclick="openAddResourceModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span>Add Resource</span></button>
 <button type="button" class="icon-btn-text" data-no-lock="1" title="Manage categories" onclick="openManageCategoriesModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.58 3.3L4 3a1 1 0 0 0-1 1l.3 5.58a2 2 0 0 0 .58 1.42l9.6 9.59a2 2 0 0 0 2.82 0l4.3-4.3a2 2 0 0 0 0-2.83Z"/><circle cx="7.5" cy="7.5" r="1.3" fill="currentColor" stroke="none"/></svg><span>Categories</span></button>
 </div>
 <div class="resource-list-box">
 <div id="rpResourceList"></div>
-<div class="budget-expenses">
-<div class="box-title" data-bctype="expense">Production Expenses</div>
-${otherLines.map((l,i)=>{
-const price=l.price!=null?l.price:(l.amount||0);
-const qty=l.qty!=null?l.qty:1;
-return `<div class="rb-expense-row">
-<input class="rb-cat-field" value="${esc(l.category||'Misc')}" aria-label="Category" onchange="setBudgetLine(${i},'category',this.value)">
-<input class="rp-in" type="number" min="0" value="${price}" aria-label="Price" onchange="setBudgetLine(${i},'price',this.value)">
-<input class="rp-in rp-qty" type="number" min="0" step="1" value="${qty}" aria-label="Quantity" onchange="setBudgetLine(${i},'qty',this.value)">
-<input class="rp-in rp-total" type="number" min="0" value="${l.amount}" aria-label="Total" onchange="setBudgetLine(${i},'amount',this.value)">
-<button class="rp-qty-dec" onclick="removeBudgetLine(${i})" title="Remove">−</button>
-</div>`;
-}).join('')}
-${!otherLines.length?'<div style="font-size:13px;color:#999;padding:4px 0;">None added yet.</div>':''}
-<div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;"><select class="f-input" id="miscLineCat" style="flex:1;min-width:140px;"><option value="">Select category</option>${STATE.categories.expenses.map(c=>`<option>${esc(c.name)}</option>`).join('')}</select><input class="f-input" id="miscLineAmt" type="number" placeholder="Price" style="max-width:100px;"><input class="f-input" id="miscLineQty" type="number" placeholder="Qty" value="1" style="max-width:70px;"><button class="btn-ghost" onclick="addBudgetLine()">Add line item</button></div>
-</div>
 </div>
 <div style="height:100vh;" aria-hidden="true"></div>
 </div>`;
-}
-function addBudgetLine(){
-const p=currentProject();
-const cat=document.getElementById('miscLineCat').value||'';
-const price=Number(document.getElementById('miscLineAmt').value)||0;
-const qtyEl=document.getElementById('miscLineQty');
-const qty=qtyEl&&qtyEl.value!==''?(Number(qtyEl.value)||1):1;
-if(!cat && !price) return;
-p.sections.budgeting.lines=p.sections.budgeting.lines||[];
-p.sections.budgeting.lines.push({category:cat||'Misc',price:price,qty:qty,amount:Math.round(price*qty*100)/100});
-saveProjectChange(p); logActivity('Budget line added',p.title); renderProjectDetail();
-}
-function setBudgetLine(idx,field,val){
-const p=currentProject();
-const lines=p.sections.budgeting.lines||[];
-const l=lines[idx]; if(!l) return;
-if(field==='category'){ l.category=val||'Misc'; }
-else {
-let n=parseFloat(val); if(!isFinite(n)||n<0) n=0;
-if(field==='price'){ l.price=n; l.qty=l.qty!=null?l.qty:1; l.amount=Math.round(n*l.qty*100)/100; }
-else if(field==='qty'){ l.qty=n; const price=l.price!=null?l.price:(l.amount||0); l.price=price; l.amount=Math.round(price*n*100)/100; }
-else if(field==='amount'){ l.amount=n; const qty=l.qty||1; l.price=Math.round(n/qty*100)/100; }
-}
-saveProjectChange(p);
-logActivity('Budget line updated',p.title);
-renderProjectDetail();
-}
-function removeBudgetLine(idx){
-const p=currentProject();
-const lines=p.sections.budgeting.lines||[];
-lines.splice(idx,1);
-saveProjectChange(p);
-logActivity('Budget line removed',p.title);
-renderProjectDetail();
 }
 
 /* ---------- SHOOT TRACKER ---------- */
@@ -3449,7 +3182,7 @@ renderProjectDetail(); renderOverview(); renderCompleted();
 /* ---------- AVAILABILITY: overlapping shoot dates across projects ---------- */
 function shootRange(p){ const a=p.first||p.startDate||'', b=p.wrap||p.first||a; return a?[a,b<a?a:b]:null; }
 function resourceBookings(type,id,exceptId){
-const key=type==='crew'?'crewIds':'equipmentIds';
+const key=RES_KEY[type];
 const out=[];
 (STATE.projects||[]).forEach(q=>{
 if(q.id===exceptId || getProjectStatus(q)==='Delivered' || getProjectStatus(q)==='Completed') return;
@@ -3461,17 +3194,9 @@ return out;
 }
 /* conflicts for a resource against project p (equipment only clashes when owned stock is exceeded) */
 function resourceConflicts(type,id,p){
+if(type==='production') return [];
 const r=shootRange(p); if(!r) return [];
-const over=resourceBookings(type,id,p.id).filter(b=>b.from<=r[1]&&b.to>=r[0]);
-if(!over.length) return [];
-if(type==='equipment'){
-const e=(STATE.equipment||[]).find(x=>x.id===id);
-if(!e || !(e.owned>0)) return [];
-const mine=(p[type==='crew'?'crewIds':'equipmentIds']||[]).filter(x=>x===id).length;
-const used=over.reduce((a,b)=>a+b.units,0)+mine;
-if(used<=e.owned) return [];
-}
-return over;
+return resourceBookings(type,id,p.id).filter(b=>b.from<=r[1]&&b.to>=r[0]);
 }
 function fmtRange(a,b){ const f=d=>{const x=new Date(d+'T00:00:00'); return isNaN(x)?d:x.toLocaleDateString('en-GB',{day:'numeric',month:'short'});}; return a===b?f(a):f(a)+'–'+f(b); }
 function conflictChip(list){ return list.length?`<span class="avail-chip busy" title="Already booked on another shoot">Booked · ${esc(list.map(b=>b.p.title+' '+fmtRange(b.from,b.to)).join(', '))}</span>`:''; }
@@ -3532,7 +3257,7 @@ if(audience==='client'){
 snap.days=days.map(d=>({label:d.label, date:d.date, shots:d.scenes.reduce((a,s)=>a.concat(s.items.filter(i=>i.t==='shot').map(i=>({num:i.num, desc:i.desc, status:i.status}))),[])}));
 } else {
 snap.days=days;
-snap.crew=(p.crewIds||[]).map(resolveCrew).filter(Boolean).map(c=>({name:c.name, role:c.role||c.cat||''}));
+snap.crew=(p.crewIds||[]).map(resolveCrew).filter(Boolean).map(c=>({name:resLabel(c), role:c.sub||''}));
 const kit={}; (p.equipmentIds||[]).forEach(id=>{ const e=resolveEquipment(id); if(e) kit[e.name]=(kit[e.name]||0)+1; });
 snap.kit=Object.keys(kit).map(n=>({name:n, qty:kit[n]}));
 }
@@ -3565,30 +3290,7 @@ if(ok) shareSyncHash[s.token]=h;
 }
 }
 
-/* ----- three-dots menu on Active Projects ----- */
-const ICON_DOTS='<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>';
-const ICON_SHARE_USER='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>';
-const ICON_SHARE_TEAM='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8.5" r="3"/><circle cx="17" cy="9.5" r="2.4"/><path d="M3 19c0-3 2.7-5 6-5s6 2 6 5M15.5 14.4c2.8-.2 5.5 1.3 5.5 4.1"/></svg>';
 function closeProjectMenu(){ if(shareMenuEl){ shareMenuEl.remove(); shareMenuEl=null; } }
-function openProjectMenu(ev,pid){
-ev.stopPropagation();
-const wasOpenFor=shareMenuEl && shareMenuEl.dataset.pid===pid;
-closeProjectMenu();
-if(wasOpenFor) return;
-const btn=ev.currentTarget;
-const r=btn.getBoundingClientRect();
-const m=document.createElement('div');
-m.className='proj-menu'; m.dataset.pid=pid;
-const cs=getShare(pid,'client'), ts=getShare(pid,'team');
-const tag=s=>s ? (s.active===false?'<em>off</em>':'<em>on</em>') : '';
-m.innerHTML=`<button type="button" onclick="closeProjectMenu();openShareModal('${pid}','client')">${ICON_SHARE_USER}<span>Share to client</span>${tag(cs)}</button><button type="button" onclick="closeProjectMenu();openShareModal('${pid}','team')">${ICON_SHARE_TEAM}<span>Share to team</span>${tag(ts)}</button>`;
-m.addEventListener('click',e=>e.stopPropagation());
-document.body.appendChild(m);
-const w=m.offsetWidth, h=m.offsetHeight;
-m.style.left=Math.max(8,Math.min(window.innerWidth-w-8,r.right-w))+'px';
-m.style.top=(r.bottom+h+12>window.innerHeight ? Math.max(8,r.top-h-6) : r.bottom+6)+'px';
-shareMenuEl=m;
-}
 document.addEventListener('click',closeProjectMenu);
 window.addEventListener('scroll',closeProjectMenu,true);
 window.addEventListener('resize',closeProjectMenu);
