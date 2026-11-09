@@ -209,7 +209,7 @@ main:has(#projectDetail.active){padding-top:0}
 .search-filter-box{display:flex;align-items:center;border:none;border-radius:999px;background:#f0f0f0;width:360px;max-width:100%;height:38px}
 .search-filter-box.wide{flex:1 1 320px;max-width:none}
 .search-filter-box input{flex:1;min-width:0;border:none;background:transparent;padding:0 16px;font-size:14px;outline:none;height:100%}
-.search-filter-box select{border:none;background:transparent;border-left:1px solid #ddd;padding:0 26px 0 12px;font-size:13px;color:#666;outline:none;height:60%;align-self:center;flex-shrink:0;max-width:30%;text-align:center;text-align-last:center;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%23666' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='m1 1 4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+.search-filter-box select{border:none;background:transparent;border-left:1px solid #ddd;padding:0 28px 0 14px;font-size:13px;line-height:1;color:#666;outline:none;height:100%;align-self:center;flex-shrink:0;flex:0 1 auto;min-width:0;max-width:40%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left;text-align-last:left;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%23666' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='m1 1 4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
 
 .icon-btn-text{display:flex;align-items:center;gap:7px;padding:0 16px;height:38px;border-radius:999px;border:none;background:#f0f0f0;color:#1a1a1a;flex-shrink:0;cursor:pointer;font-size:13px;font-weight:600;white-space:nowrap;transition:background .15s;font-family:inherit}
 .icon-btn-text:hover{background:#e2e2e2}
@@ -477,6 +477,8 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 
 /* Modal */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:flex-start;justify-content:center;overflow-y:auto;padding:40px 20px}
+#sceneModal{align-items:center}
+#sceneModal .modal-box{margin:auto 0}
 .modal-overlay.show{display:flex}
 .modal-box{background:#fff;border-radius:10px;max-width:560px;width:100%;padding:28px;position:relative}
 .modal-box.wide{max-width:520px}
@@ -2121,6 +2123,42 @@ onConfirm();
 };
 document.getElementById('confirmModal').classList.add('show');
 }
+function notifyUser(message,title){
+const box=document.getElementById('confirmModalBox');
+box.innerHTML=`<div class="modal-title">${esc(title||'Notice')}</div>
+<p class="body-text" style="margin:0 0 20px;color:#666;">${esc(message)}</p>
+<div class="modal-footer-row">
+<button class="btn-primary" onclick="closeModal('confirmModal')">OK</button>
+</div>`;
+document.getElementById('confirmModal').classList.add('show');
+}
+function promptUser(title,placeholder,onSubmit,onCancel){
+const box=document.getElementById('confirmModalBox');
+box.innerHTML=`<div class="modal-title">${esc(title)}</div>
+<input class="f-input" id="promptModalInput" placeholder="${esc(placeholder||'')}" style="width:100%;box-sizing:border-box;margin-bottom:20px;">
+<div class="modal-footer-row">
+<button class="btn-primary" id="promptModalOk">OK</button>
+<button class="btn-ghost" id="promptModalCancel">Cancel</button>
+</div>`;
+const inp=document.getElementById('promptModalInput');
+let settled=false;
+function submit(){
+if(settled) return; settled=true;
+const val=inp.value.trim();
+closeModal('confirmModal');
+onSubmit(val);
+}
+function cancel(){
+if(settled) return; settled=true;
+closeModal('confirmModal');
+if(onCancel) onCancel();
+}
+document.getElementById('promptModalOk').onclick=submit;
+document.getElementById('promptModalCancel').onclick=cancel;
+inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); submit(); } });
+document.getElementById('confirmModal').classList.add('show');
+setTimeout(()=>{ inp.focus(); },30);
+}
 
 /* ---------- NEW PROJECT ---------- */
 function openNewProjectModal(){
@@ -2393,7 +2431,7 @@ const siteStyleEl=document.querySelector('style');
 const siteCss = siteStyleEl ? siteStyleEl.textContent : '';
 
 const w=window.open('','_blank');
-if(!w){ alert('Allow pop-ups to print this stage.'); return; }
+if(!w){ notifyUser('Allow pop-ups to print this stage.'); return; }
 w.document.write(`<!DOCTYPE html><html><head><title>${p.title} — ${STAGE_NAMES[key]}</title><meta charset="UTF-8">
 <style>${siteCss}</style>
 <style>
@@ -2443,8 +2481,8 @@ ${p.thumbnail?`<img src="${p.thumbnail}" class="thumb-preview">`:'Click to uploa
 <div><span class="field-label">Genre / mood</span><input class="f-input" value="${esc(b.genre||'')}" placeholder="e.g. Playful drama" onchange="updateBrief('genre',this.value);setTimeout(renderProjectDetail,0)"></div>
 <div><span class="field-label">Place</span><input class="f-input" value="${esc(p.place==='—'?'':p.place)}" placeholder="Location" onchange="updateMeta('place',this.value)"></div>
 <div><span class="field-label">Project Start Date</span><input class="f-input" type="date" value="${p.startDate||''}" onchange="updateMeta('startDate',this.value)"></div>
-<div><span class="field-label">First shoot day</span><input class="f-input" type="text" value="${fmtDateShort(p.first)||'Auto from Shot Planner'}" disabled title="Fetched automatically from the earliest scheduled day in Shot Planner"></div>
-<div><span class="field-label">Wrap (last shoot day)</span><input class="f-input" type="text" value="${fmtDateShort(p.wrap)||'Auto from Shot Planner'}" disabled title="Fetched automatically from the latest scheduled day in Shot Planner"></div>
+<div><span class="field-label">First shoot day</span><input class="f-input" type="text" value="${fmtDateShort(p.first)||''}" disabled title="Fetched automatically from the earliest scheduled day in Shot Planner"></div>
+<div><span class="field-label">Wrap (last shoot day)</span><input class="f-input" type="text" value="${fmtDateShort(p.wrap)||''}" disabled title="Fetched automatically from the latest scheduled day in Shot Planner"></div>
 <div><span class="field-label">Delivery</span><input class="f-input" type="text" value="${fmtDateShort(p.delivery)||''}" disabled title="Set automatically when the project is marked complete in Revision & Delivery"></div>
 </div>
 </div>
@@ -2899,8 +2937,8 @@ const title=($id('scTitle').value||'').trim();
 const date=$id('scDate').value||'';
 const time=$id('scTime').value||'';
 const location=($id('scLocation').value||'').trim();
-if(!title){ alert('Scene title is required.'); return; }
-if(!date){ alert('Date is required.'); return; }
+if(!title){ notifyUser('Scene title is required.'); return; }
+if(!date){ notifyUser('Date is required.'); return; }
 let sc, day;
 if(editDi>=0){ day=p.days[editDi]; sc=day.scenes[editSi]; }
 else { const m=findSceneByTitle(p,title); if(m){ day=m.day; sc=m.scene; } }
@@ -3119,7 +3157,7 @@ const start=$id(prefix+'Start').value||'';
 const hours=parseFloat($id(prefix+'Hours').value)||0;
 if(k==='shot'){
 const desc=($id(prefix+'Desc').value||'').trim();
-if(!desc){ alert('Description is required.'); return null; }
+if(!desc){ notifyUser('Description is required.'); return null; }
 return {type:'shot',desc,size:$id(prefix+'Size').value,movement:$id(prefix+'Movement').value,ie:$id(prefix+'IE').value,image:ITEMFORM.image||'',time:start,hours,status:'Scheduled'};
 }
 if(k==='setup'){
@@ -3186,7 +3224,7 @@ $id('itemModal').classList.add('show');
 function saveEditUnscheduledShotModal(ui){
 const p=currentProject(); const u=p.unscheduledShots[ui];
 const desc=($id('euDesc').value||'').trim();
-if(!desc){ alert('Description is required.'); return; }
+if(!desc){ notifyUser('Description is required.'); return; }
 const fields={desc,size:$id('euSize').value,movement:$id('euMovement').value,ie:$id('euIE').value,image:ITEMFORM.image||'',hours:parseFloat($id('euHours').value)||0};
 const target=$id('euScene').value;
 if(target){
@@ -3339,7 +3377,7 @@ p.unscheduledShots.push({id:'u'+Date.now(),desc:item.desc,size:item.size,movemen
 saveProjectChange(p);
 logActivity('Shoot status updated',p.title);
 renderProjectDetail(); renderOverview();
-alert('This shot was moved to Shot Planner as unscheduled, with its details carried over. Give it a new day when ready.');
+notifyUser('This shot was moved to Shot Planner as unscheduled, with its details carried over. Give it a new day when ready.');
 return;
 }
 saveProjectChange(p);
@@ -3445,16 +3483,22 @@ RV.sel={}; saveProjectChange(p); logActivity('Review versions deleted',p.title);
 function dlRenumber(v){ (v.versions||[]).forEach((x,i)=>{ x.num=i+1; }); }
 function dlReassign(id,toVid){
 const p=currentProject(), f=dlFindVersion(p,id); if(!f) return;
-if(toVid==='__new'){
-const name=(prompt('New film title')||'').trim();
-if(!name){ dlRefreshTable(); return; }
-const v={id:dlNewId('vid'),name:name,versions:[]}; dlVideos(p).push(v); toVid=v.id;
-}
+function finish(toVid){
 if(toVid===f.video.id) return;
 const dest=dlVideos(p).find(v=>v.id===toVid); if(!dest) return;
 f.video.versions=(f.video.versions||[]).filter(x=>x.id!==id); dlRenumber(f.video);
 dest.versions=dest.versions||[]; dest.versions.push(f.ver); f.ver.num=dest.versions.length;
 saveProjectChange(p); logActivity('Version moved',p.title+' · '+dest.name); renderProjectDetail();
+}
+if(toVid==='__new'){
+promptUser('New film title','',function(name){
+if(!name){ dlRefreshTable(); return; }
+const v={id:dlNewId('vid'),name:name,versions:[]}; dlVideos(p).push(v);
+finish(v.id);
+},function(){ dlRefreshTable(); });
+return;
+}
+finish(toVid);
 }
 
 /* ----- modals: add / edit version ----- */
@@ -3473,12 +3517,13 @@ dlOpenModal(`<div class="modal-header-row"><div class="modal-title">${ex?'Edit v
 }
 function dlVidSelectChange(sel){
 if(sel.value!=='__new') return;
-const name=(prompt('New film title')||'').trim();
+promptUser('New film title','',function(name){
 if(!name){ sel.value=sel.options[0].value; return; }
 const opt=document.createElement('option');
 opt.value='__pending:'+name; opt.textContent=name;
 sel.insertBefore(opt,sel.lastElementChild);
 sel.value=opt.value;
+},function(){ sel.value=sel.options[0].value; });
 }
 function dlSaveVersion(verId){
 const p=currentProject(), vids=dlVideos(p);
@@ -3876,7 +3921,7 @@ if(!ok) throw new Error('rejected');
 s.active=active;
 if(active){ delete shareSyncHash[s.token]; syncAllShares(); }
 saveState(); renderShareModal(pid,aud);
-}catch(e){ alert('Couldn’t update the link right now. Please try again.'); }
+}catch(e){ notifyUser('Couldn’t update the link right now. Please try again.'); }
 }
 
 /* ----- pulling client activity back into the dashboard ----- */
