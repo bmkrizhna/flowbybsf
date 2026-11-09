@@ -447,9 +447,19 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .sched-status-dot{align-self:flex-end;width:22px;height:22px;border-radius:50%;border:1.5px solid #d6d6d6;background:#fff;display:flex;align-items:center;justify-content:center;color:#fff;margin-top:10px;flex-shrink:0}
 .sched-status-dot svg{width:12px;height:12px}
 .sched-status-dot.done{background:var(--accent);border-color:var(--accent);color:#1a1a1a}
+.sched-status-dot.postponed{background:#fff3cd;border-color:#e0b400;color:#8a6500}
+.sched-status-dot.cancelled{background:#fde2e1;border-color:#e05d56;color:#b23b35}
 .sched-actions{display:flex;gap:6px;justify-content:center;margin-top:10px}
 .sched-action-btn.tr-status-icon{width:28px;height:28px}
 .sched-action-btn.tr-status-icon svg{width:13px;height:13px}
+.sched-card.sched-flip{padding:0;perspective:1200px;background:transparent}
+.sched-flip-inner{position:relative;width:100%;height:100%;min-height:184px;transition:transform .5s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d}
+.sched-flip-inner.flipped{transform:rotateY(180deg)}
+.sched-flip-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;padding:14px;display:flex;flex-direction:column;box-sizing:border-box;cursor:pointer}
+.sched-card.shot .sched-flip-front{background:#f0f0f0}
+.sched-card.activity .sched-flip-front{background:var(--accent-bg)}
+.sched-flip-back{transform:rotateY(180deg);align-items:center;justify-content:center;background:#fff;border:1.5px solid #d6d6d6}
+.sched-flip-back .sched-actions{margin-top:0}
 /* ---- Resource Planner / Budgeting ---- */
 
 .budget-head-row{position:sticky;top:calc(var(--topbar-h,62.5px) + var(--proj-head-h,0px));z-index:15;background:var(--page-bg);padding:14px 0;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
@@ -750,6 +760,9 @@ main{padding:16px 16px calc(84px + env(safe-area-inset-bottom))}
 .sched-day-date{margin-top:0;margin-left:auto}
 .sched-icon-wrap{padding:4px 0}
 .sched-actions{margin-top:8px}
+.sched-card.sched-flip{padding:0}
+.sched-flip-inner{min-height:150px}
+.sched-flip-face{padding:12px}
 .thumb-box{height:150px}
 .worksheet-area{min-height:200px}
 .sp-shot-row .sp-shot-desc{grid-area:desc;font-size:13px;line-height:1.35}
@@ -2769,13 +2782,29 @@ return `<div class="sched-card day">
 <div class="sched-day-date">${esc(fmtDateShort(d.date))||'No date'}</div>
 </div>`;
 }
+function scheduleStatusDotHtml(status){
+const cls=status==='Completed'?'done':status==='Postponed'?'postponed':status==='Cancelled'?'cancelled':'';
+const icon=status==='Completed'?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 9 17 20 6"/></svg>'
+:status==='Postponed'?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>'
+:status==='Cancelled'?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="M6 6l12 12"/></svg>'
+:'';
+return `<div class="sched-status-dot ${cls}">${icon}</div>`;
+}
 function scheduleShotCardHtml(sh,r,anchorId,trackerMode){
 const tags=[sh.size,sh.movement].filter(v=>v && v!=='—');
 const tag=tags[0]||'';
 const isDone=sh.status==='Completed';
-const statusArea = trackerMode
-? scheduleActionsHtml('shot',anchorId,sh.status)
-: `<div class="sched-status-dot ${isDone?'done':''}">${isDone?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 9 17 20 6"/></svg>':''}</div>`;
+if(trackerMode){
+const front=`<div class="sched-flip-face sched-flip-front" onclick="flipShotCard('${anchorId}',event)">
+<div class="sched-top-row"><span class="sched-badge">${esc(r.num)}</span>${tag?`<span class="sched-tag">${esc(tag)}</span>`:'<span></span>'}</div>
+<div class="sched-icon-wrap">${sh.image?`<img src="${sh.image}">`:ICON_SCENE}</div>
+<div class="sched-desc">${esc(sh.desc)||'Untitled shot'}</div>
+${scheduleStatusDotHtml(sh.status)}
+</div>`;
+const back=`<div class="sched-flip-face sched-flip-back" onclick="flipShotCard('${anchorId}',event)">${scheduleActionsHtml('shot',anchorId,sh.status)}</div>`;
+return `<div class="sched-card shot sched-flip" id="flip-${anchorId}"><div class="sched-flip-inner">${front}${back}</div></div>`;
+}
+const statusArea = `<div class="sched-status-dot ${isDone?'done':''}">${isDone?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 9 17 20 6"/></svg>':''}</div>`;
 return `<div class="sched-card shot" onclick="focusItemInList('${anchorId}')">
 <div class="sched-top-row"><span class="sched-badge">${esc(r.num)}</span>${tag?`<span class="sched-tag">${esc(tag)}</span>`:'<span></span>'}</div>
 <div class="sched-icon-wrap">${sh.image?`<img src="${sh.image}">`:ICON_SCENE}</div>
@@ -2785,14 +2814,28 @@ ${statusArea}
 }
 function scheduleActivityCardHtml(a,d,anchorId,trackerMode){
 const isDone=a.status==='Completed';
-const statusArea = trackerMode
-? scheduleActionsHtml('activity',anchorId,a.status)
-: `<div class="sched-status-dot ${isDone?'done':''}">${isDone?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 9 17 20 6"/></svg>':''}</div>`;
+if(trackerMode){
+const front=`<div class="sched-flip-face sched-flip-front" onclick="flipShotCard('${anchorId}',event)">
+<div class="sched-icon-wrap">${ICON_COFFEE}</div>
+<div class="sched-activity-title">${esc(activityDisplayText(a,d.date))}</div>
+${scheduleStatusDotHtml(a.status)}
+</div>`;
+const back=`<div class="sched-flip-face sched-flip-back" onclick="flipShotCard('${anchorId}',event)">${scheduleActionsHtml('activity',anchorId,a.status)}</div>`;
+return `<div class="sched-card activity sched-flip" id="flip-${anchorId}"><div class="sched-flip-inner">${front}${back}</div></div>`;
+}
+const statusArea = `<div class="sched-status-dot ${isDone?'done':''}">${isDone?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 9 17 20 6"/></svg>':''}</div>`;
 return `<div class="sched-card activity" onclick="focusItemInList('${anchorId}')">
 <div class="sched-icon-wrap">${ICON_COFFEE}</div>
 <div class="sched-activity-title">${esc(activityDisplayText(a,d.date))}</div>
 ${statusArea}
 </div>`;
+}
+function flipShotCard(anchorId,ev){
+if(ev&&ev.stopPropagation) ev.stopPropagation();
+const card=document.getElementById('flip-'+anchorId);
+if(!card) return;
+const inner=card.querySelector('.sched-flip-inner');
+if(inner) inner.classList.toggle('flipped');
 }
 function scheduleActionsHtml(kind,anchorId,status){
 const parts=anchorId.split('-'); // item-di-si-idx
