@@ -999,7 +999,7 @@ setTimeout(dismissIntro, 4500);
 <div class="modal-overlay" id="confirmModal">
 <div class="modal-box" id="confirmModalBox" style="max-width:380px;"></div>
 </div>
-<div class="modal-overlay" id="loginGate" style="z-index:10000;"><div class="modal-box" id="loginGateBox" style="max-width:340px;"></div></div>
+<div class="modal-overlay" id="loginGate" style="z-index:10000;background:#fbfbfa;align-items:center;"><div class="modal-box" id="loginGateBox" style="max-width:340px;box-shadow:0 8px 40px rgba(0,0,0,.08);border:1px solid #eee;"></div></div>
 <div class="modal-overlay" id="approvalsModal"><div class="modal-box" id="approvalsModalBox" style="max-width:520px;max-height:80vh;overflow:auto;"></div></div>
 <div class="modal-overlay" id="categoriesModal">
 <div class="modal-box xwide">
@@ -1483,36 +1483,40 @@ renderRoleBadge();
 function getRole(){ try{ return localStorage.getItem('bsf_role')||null; }catch(e){ return null; } }
 function isAdmin(){ return getRole()==='admin'; }
 function pendingCount(){ return (STATE.pendingApprovals||[]).filter(a=>a.status==='pending').length; }
+function loginLogoHtml(){
+const img=document.querySelector('.topbar-logo img');
+return img ? `<img src="${img.src}" alt="Flow" style="height:34px;display:block;margin:0 auto 28px;">` : '<div style="font-family:cursive;font-size:32px;margin-bottom:28px;">flow</div>';
+}
 function showLoginGate(){
 const el=document.getElementById('loginGate'); if(!el) return;
 el.classList.add('show');
-renderLoginGate('admin');
+renderLoginGate();
 }
 function hideLoginGate(){ const el=document.getElementById('loginGate'); if(el) el.classList.remove('show'); }
-function renderLoginGate(tab){
+function renderLoginGate(){
 const box=document.getElementById('loginGateBox'); if(!box) return;
-const tabBtn=(t,label)=>`<button type="button" class="btn-ghost" style="flex:1;${tab===t?'background:#1a1a1a;color:#fff;border-color:#1a1a1a;':''}" onclick="renderLoginGate('${t}')">${label}</button>`;
-box.innerHTML=`<div class="modal-title">Flow — sign in</div>
-<div style="display:flex;gap:8px;margin:14px 0 16px;">${tabBtn('admin','Admin')}${tabBtn('team','Team')}</div>
-<input type="password" id="loginGatePw" placeholder="Password" autocomplete="current-password" style="width:100%;box-sizing:border-box;padding:11px 13px;border:1px solid #ddd;border-radius:8px;font-size:14px;margin-bottom:10px;" onkeydown="if(event.key==='Enter') attemptLogin('${tab}')">
-<div id="loginGateError" style="color:#c0392b;font-size:12.5px;min-height:16px;margin-bottom:6px;"></div>
-<button class="btn-primary" style="width:100%;" onclick="attemptLogin('${tab}')">Sign in</button>`;
+box.innerHTML=`<div style="text-align:center;">
+${loginLogoHtml()}
+<input type="password" id="loginGatePw" placeholder="Enter password" autocomplete="current-password" style="width:100%;box-sizing:border-box;padding:13px 15px;border:1px solid #e2e2e2;border-radius:10px;font-size:15px;text-align:center;margin-bottom:12px;" onkeydown="if(event.key==='Enter') attemptLogin()">
+<div id="loginGateError" style="color:#c0392b;font-size:12.5px;min-height:16px;margin-bottom:10px;"></div>
+<button class="btn-primary" style="width:100%;" onclick="attemptLogin()">Enter</button>
+</div>`;
 setTimeout(()=>{ const pw=document.getElementById('loginGatePw'); if(pw) pw.focus(); },30);
 }
-async function attemptLogin(role){
+async function attemptLogin(){
 const pw=document.getElementById('loginGatePw'); const errEl=document.getElementById('loginGateError');
 const val=pw?pw.value:'';
 if(!val){ if(errEl) errEl.textContent='Enter a password.'; return; }
 if(!supabase){ if(errEl) errEl.textContent='Cannot verify right now — check your connection and try again.'; return; }
 if(errEl) errEl.textContent='Checking…';
 try{
-const res=await supabase.rpc('app_auth_check',{p_role:role,p_password:val});
+const res=await supabase.rpc('app_auth_identify',{p_password:val});
 if(res.error) throw res.error;
-if(res.data===true){
-try{ localStorage.setItem('bsf_role',role); }catch(e){}
+if(res.data){
+try{ localStorage.setItem('bsf_role',res.data); }catch(e){}
 hideLoginGate();
 boot();
-}else if(errEl){ errEl.textContent='Wrong password.'; }
+}else if(errEl){ errEl.textContent='Wrong password.'; if(pw){ pw.value=''; pw.focus(); } }
 }catch(e){ if(errEl) errEl.textContent='Could not verify — try again.'; }
 }
 function signOut(){ try{ localStorage.removeItem('bsf_role'); }catch(e){} location.reload(); }
