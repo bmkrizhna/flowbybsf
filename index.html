@@ -661,10 +661,6 @@ html.viewer-mode .page-shell,html.viewer-mode .modal-overlay,html.viewer-mode .h
 .sh-link{flex-direction:column;align-items:stretch}
 }
 
-.avail-chip{display:inline-flex;align-items:center;height:22px;box-sizing:border-box;margin-top:5px;white-space:nowrap;font-size:11px;font-weight:700;border-radius:999px;padding:0 9px;max-width:100%;overflow-wrap:anywhere}
-.avail-chip.free{background:#e7f4ea;color:#2a6b3a}
-.avail-chip.soon{background:#fff3cd;color:#7a5b00}
-.avail-chip.busy{background:#fde4e1;color:#b3261e}
 @media (max-width:768px){
 .ov2-grid{grid-template-columns:1fr;gap:28px}
 .ov-project-row{flex-wrap:wrap;row-gap:6px}
@@ -860,7 +856,7 @@ main{padding-left:14px;padding-right:14px}
 .dl-crumb button{display:inline-flex;align-items:center;gap:6px;border:none;background:#f0f0f0;border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;font-weight:700;color:#1a1a1a;cursor:pointer}
 .dl-crumb i{font-style:normal;color:#ccc}
 .dl-crumb b{color:#1a1a1a}
-.dl-dhead{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.dl-dhead{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:16px;cursor:pointer}
 .dl-dtitle h2{font-weight:600;font-size:20px;margin:0 0 4px;word-break:break-word}
 .dl-dsub{font-size:13px;color:#777}
 .dl-dact{display:flex;align-items:center;gap:8px}
@@ -1833,7 +1829,8 @@ const greetEl=document.getElementById('topbarGreeting');
 const iconEl=document.getElementById('topbarGreetIcon');
 const isDaytime = h>=5 && h<17;
 const period = h<5?'Good Night':(h<12?'Good Morning':(h<17?'Good Afternoon':(h<21?'Good Evening':'Good Night')));
-if(greetEl) greetEl.innerHTML='<span class="gr-full">'+period+'</span><span class="gr-short">Hey</span>, Bala';
+const greetName = isAdmin()?'Bala':'Team';
+if(greetEl) greetEl.innerHTML='<span class="gr-full">'+period+'</span><span class="gr-short">Hey</span>, '+greetName;
 if(iconEl) iconEl.outerHTML = isDaytime ? ICON_SUN.replace('<svg ','<svg id="topbarGreetIcon" ') : ICON_MOON.replace('<svg ','<svg id="topbarGreetIcon" ');
 const clockEl=document.getElementById('topbarClock');
 if(clockEl) clockEl.textContent=now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',hour12:true});
@@ -3603,10 +3600,6 @@ const cl=((STATE.shareFeedback&&STATE.shareFeedback[p.id])||[]).filter(f=>f.vers
 const ed=(ver.notes||[]).map(n=>({id:n.id,src:'owner',author:'Editor',seconds:n.seconds,timecode:n.timecode||'',message:n.message,resolved:!!n.resolved,ts:n.ts,replies:[]}));
 return cl.concat(ed).sort((a,b)=>(a.seconds==null)-(b.seconds==null) || (a.seconds||0)-(b.seconds||0) || a.ts-b.ts);
 }
-function dlSetVideoStatus(p,ver,status,ts){
-if(ver.status===status) return false;
-ver.status=status; ver.statusTs=ts||Date.now(); return true;
-}
 
 function renderDeliveryTab(p){
 dlVideos(p);
@@ -3839,8 +3832,8 @@ if(RV.ver){ setTimeout(function(){ const el=document.getElementById('dl-exp-'+RV
 }
 function dlExpandHtml(p,video,ver){
 return `<div class="dl-expand" id="dl-exp-${ver.id}">
-<div class="dl-dhead"><div class="dl-dtitle"><h2>v${ver.num} ${esc(ver.title||'')}</h2><div class="dl-dsub">${esc(video.name)} · ${fmtDateShort(ver.date)}</div></div>
-<div class="dl-dact"><span id="dlExpStatus">${dlStatusPill(ver.status)}</span><button type="button" class="dl-dots" aria-label="More" onclick="dlDetailMenu(event,'${ver.id}')">⋯</button><button type="button" class="dl-dots" aria-label="Collapse" onclick="dlOpen('${ver.id}')"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l4-4 4 4"/></svg></button></div></div>
+<div class="dl-dhead" onclick="dlOpen('${ver.id}')" title="Collapse"><div class="dl-dtitle"><h2>v${ver.num} ${esc(ver.title||'')}</h2><div class="dl-dsub">${esc(video.name)} · ${fmtDateShort(ver.date)}</div></div>
+<div class="dl-dact"><span id="dlExpStatus">${dlStatusPill(ver.status)}</span><button type="button" class="dl-dots" aria-label="More" onclick="dlDetailMenu(event,'${ver.id}')">⋯</button></div></div>
 <div class="dl-dgrid"><div class="dl-pl"><div class="vw-player" id="dlPlayer"></div><div class="dl-plink" id="dlPlink"></div></div>
 <aside class="dl-fbp" id="dlFbPanel">${dlPanelHtml(p,ver)}</aside></div>
 </div>`;
@@ -4012,23 +4005,7 @@ out.push({p:q,units:n,from:r[0],to:r[1]});
 });
 return out;
 }
-/* conflicts for a resource against project p (equipment only clashes when owned stock is exceeded) */
-function resourceConflicts(type,id,p){
-if(type==='production') return [];
-const r=shootRange(p); if(!r) return [];
-return resourceBookings(type,id,p.id).filter(b=>b.from<=r[1]&&b.to>=r[0]);
-}
 function fmtRange(a,b){ const f=d=>{const x=new Date(d+'T00:00:00'); return isNaN(x)?d:x.toLocaleDateString('en-GB',{day:'numeric',month:'short'});}; return a===b?f(a):f(a)+'–'+f(b); }
-function conflictChip(list){ return list.length?`<span class="avail-chip busy" title="Already booked on another shoot">Booked · ${esc(list.map(b=>b.p.title+' '+fmtRange(b.from,b.to)).join(', '))}</span>`:''; }
-function availabilityChip(type,id,full){
-const today=new Date().toISOString().slice(0,10);
-const next=resourceBookings(type,id).filter(b=>b.to>=today).sort((a,b)=>a.from<b.from?-1:1);
-if(!next.length) return '<span class="avail-chip free">Available</span>';
-const b=next[0], now=b.from<=today;
-const detail=next.map(x=>x.p.title+' · '+fmtRange(x.from,x.to)).join('\n');
-const text=full ? next.map(x=>esc(x.p.title)+' · '+fmtRange(x.from,x.to)).join(' / ') : (now?'Busy':'Booked');
-return `<span class="avail-chip ${now?'busy':'soon'}" title="${esc(detail)}">${text}</span>`;
-}
 function availabilityDot(type,id){
 const today=new Date().toISOString().slice(0,10);
 const next=resourceBookings(type,id).filter(b=>b.to>=today).sort((a,b)=>a.from<b.from?-1:1);
