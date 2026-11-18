@@ -1080,14 +1080,15 @@ main{padding-left:14px;padding-right:14px}
 <script>
 const SUPABASE_URL='https://btafdmfbrhvsjsenxpdj.supabase.co';
 const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ0YWZkbWZicmh2c2pzZW54cGRqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyMjEzMjgsImV4cCI6MjEwODc5NzMyOH0.wO042Kluik85B8sIt9OJTJF3Q5uxHOU-oy79vwnlgZY';
-let supabase = null;
+/* supabase-js >=2.4x declares a global `var supabase` (the library). `var` here re-uses that
+   binding: the right-hand side reads the library before the client replaces it. */
+var supabase = (function(lib){
 try{
-if(window.supabase && typeof window.supabase.createClient==='function'){
-supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-} else {
+if(lib && typeof lib.createClient==='function') return lib.createClient(SUPABASE_URL, SUPABASE_KEY);
 console.warn('Supabase client script did not load (blocked network or ad-blocker) - continuing on local data only.');
-}
 }catch(e){ console.warn('Supabase init failed, continuing on local data only.', e); }
+return null;
+})(window.supabase);
 
 /* ---------- CATEGORY TAXONOMY (from Resources & Expense Categories.csv) ---------- */
 /* ---------- RESOURCES: Category · Subcategory · Title ---------- */
