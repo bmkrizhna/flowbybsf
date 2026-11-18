@@ -5,7 +5,7 @@
 // static icon/manifest assets, and hands-off for everything else
 // (Supabase, fonts, analytics, etc. go straight to the network).
 
-const CACHE_NAME = 'flow-shell-v1';
+const CACHE_NAME = 'flow-shell-v2';
 const STATIC_ASSETS = [
   '/manifest.json',
   '/icons/icon-192.png',
@@ -52,9 +52,13 @@ self.addEventListener('fetch', (event) => {
   }
 
   // Small static assets: cache-first, they rarely change.
-  if (url.pathname.startsWith('/icons/') || url.pathname === '/manifest.json') {
+  // /assets/ files are content-hashed, so a cached copy is always correct.
+  if (url.pathname.startsWith('/icons/') || url.pathname.startsWith('/assets/') || url.pathname === '/manifest.json') {
     event.respondWith(
-      caches.match(req).then((cached) => cached || fetch(req))
+      caches.match(req).then((cached) => cached || fetch(req).then((res) => {
+        if (res.ok) { const copy = res.clone(); caches.open(CACHE_NAME).then((c) => c.put(req, copy)).catch(() => {}); }
+        return res;
+      }))
     );
   }
 });
