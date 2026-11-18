@@ -1553,9 +1553,16 @@ cloudPushInFlight=false;
 if(cloudPushQueued || again){ cloudPushQueued=false; scheduleCloudSync(); }
 }
 
+/* Run the data-shape migrations on a server copy, so comparisons aren't fooled by shape/key-order differences. */
+function normalizeState(obj){
+const keep=STATE; applyingRemoteState=true;
+try{ STATE=JSON.parse(JSON.stringify(obj)); runMigrations(); return STATE; }
+finally{ STATE=keep; applyingRemoteState=false; }
+}
 /* Take a server copy. If we have unsynced local edits, 3-way merge them on top. */
 function adoptRemote(remote,remoteAt,forceMerge){
 if(!remote || !Array.isArray(remote.projects)) return;
+remote=normalizeState(remote);
 const localStr=JSON.stringify(STATE);
 const localDirty = forceMerge || (cloudBase!==null && localStr!==cloudBase) || (cloudBase===null && cloudReady);
 let next;
@@ -1630,8 +1637,8 @@ if(!firstLoad && data.updated_at===cloudBaseAt){ if(syncStatus==='offline'||sync
 // On first load the cached copy may hold edits made offline; merge against the last
 // synced base if we have one, otherwise the server copy simply wins.
 if(firstLoad && cloudBase===null){
-applyingRemoteState=true; STATE=data.data; runMigrations(); applyingRemoteState=false;
-cloudBase=JSON.stringify(data.data); cloudBaseAt=data.updated_at; persistBase();
+STATE=normalizeState(data.data);
+cloudBase=JSON.stringify(STATE); cloudBaseAt=data.updated_at; persistBase();
 try{ localStorage.setItem('bsf_data_v2', JSON.stringify(STATE)); }catch(e){}
 }else{
 adoptRemote(data.data,data.updated_at,false);
