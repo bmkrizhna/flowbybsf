@@ -1480,6 +1480,13 @@ function saveState(){ if(window.__VIEW_TOKEN) return; try{localStorage.setItem('
    Other devices are told to re-pull through a Realtime broadcast ping (no data in it),
    plus a 60 s / on-focus / on-reconnect poll as a safety net. Every server write is also
    archived by a trigger into app_state_history (last 300 versions). */
+/* Key-order-independent JSON, so "same data, different key order" never counts as a change. */
+function canonJson(v){
+return JSON.stringify(v,function(k,val){
+if(val && typeof val==='object' && !Array.isArray(val)){ const o={}; Object.keys(val).sort().forEach(key=>{ o[key]=val[key]; }); return o; }
+return val;
+});
+}
 const CLOUD_STATE_ID='default';
 const CLIENT_ID=Math.random().toString(36).slice(2,10);
 let cloudBase=null, cloudBaseAt=null, cloudReady=false;
@@ -1488,7 +1495,7 @@ let cloudRetryTimer=null, cloudRetryDelay=3000, cloudPollTimer=null, syncStatus=
 
 function getToken(){ try{ return localStorage.getItem('bsf_token')||null; }catch(e){ return null; } }
 function setToken(t){ try{ if(t) localStorage.setItem('bsf_token',t); else localStorage.removeItem('bsf_token'); }catch(e){} }
-function persistBase(){ try{ localStorage.setItem('bsf_base_v1', JSON.stringify({at:cloudBaseAt,data:cloudBase})); }catch(e){} }
+function persistBase(){ try{ localStorage.setItem('bsf_base_v1', canonJson({at:cloudBaseAt,data:cloudBase})); }catch(e){} }
 function loadPersistedBase(){ try{ const b=JSON.parse(localStorage.getItem('bsf_base_v1')||'null'); if(b&&b.data){ cloudBase=b.data; cloudBaseAt=b.at||null; } }catch(e){} }
 
 function setSyncStatus(s){
@@ -1506,7 +1513,7 @@ const m=map[s]||map.idle;
 el.textContent=m[0]; el.className='sync-status '+m[1]; el.title=m[2];
 el.style.display=m[0]?'':'none';
 }
-function cloudDirty(){ return cloudReady && JSON.stringify(STATE)!==cloudBase; }
+function cloudDirty(){ return cloudReady && canonJson(STATE)!==cloudBase; }
 
 function scheduleCloudSync(){
 if(!supabase || window.__VIEW_TOKEN || applyingRemoteState || !cloudReady) return;
@@ -1521,7 +1528,7 @@ cloudRetryDelay=Math.min(cloudRetryDelay*2,60000);
 }
 async function pushStateToCloud(){
 if(!supabase || window.__VIEW_TOKEN || !cloudReady) return;
-const payload=JSON.stringify(STATE);
+const payload=canonJson(STATE);
 if(payload===cloudBase){ setSyncStatus('saved'); return; }
 if(cloudPushInFlight){ cloudPushQueued=true; return; }
 cloudPushInFlight=true;
@@ -1535,8 +1542,8 @@ if(data && data.ok){
 cloudBase=payload; cloudBaseAt=data.updated_at; persistBase();
 cloudRetryDelay=3000; clearTimeout(cloudRetryTimer);
 pingOtherDevices();
-setSyncStatus(JSON.stringify(STATE)===cloudBase?'saved':'pending');
-again=JSON.stringify(STATE)!==cloudBase;
+setSyncStatus(canonJson(STATE)===cloudBase?'saved':'pending');
+again=canonJson(STATE)!==cloudBase;
 }else if(data && data.conflict){
 // Someone else saved first: merge their copy with ours, then push the merge.
 adoptRemote(data.data,data.updated_at,true);
@@ -1556,14 +1563,14 @@ if(cloudPushQueued || again){ cloudPushQueued=false; scheduleCloudSync(); }
 /* Run the data-shape migrations on a server copy, so comparisons aren't fooled by shape/key-order differences. */
 function normalizeState(obj){
 const keep=STATE; applyingRemoteState=true;
-try{ STATE=JSON.parse(JSON.stringify(obj)); runMigrations(); return STATE; }
+try{ STATE=JSON.parse(canonJson(obj)); runMigrations(); return STATE; }
 finally{ STATE=keep; applyingRemoteState=false; }
 }
 /* Take a server copy. If we have unsynced local edits, 3-way merge them on top. */
 function adoptRemote(remote,remoteAt,forceMerge){
 if(!remote || !Array.isArray(remote.projects)) return;
 remote=normalizeState(remote);
-const localStr=JSON.stringify(STATE);
+const localStr=canonJson(STATE);
 const localDirty = forceMerge || (cloudBase!==null && localStr!==cloudBase) || (cloudBase===null && cloudReady);
 let next;
 if(localDirty){
@@ -1572,16 +1579,16 @@ next=mergeStates(base,STATE,remote);
 }else{
 next=remote;
 }
-cloudBase=JSON.stringify(remote); cloudBaseAt=remoteAt; persistBase();
+cloudBase=canonJson(remote); cloudBaseAt=remoteAt; persistBase();
 applyingRemoteState=true;
 STATE=next;
 runMigrations();
 applyingRemoteState=false;
-try{ localStorage.setItem('bsf_data_v2', JSON.stringify(STATE)); }catch(e){}
+try{ localStorage.setItem('bsf_data_v2', canonJson(STATE)); }catch(e){}
 }
 
 /* ---- 3-way merge ---- */
-function sameJson(a,b){ return JSON.stringify(a)===JSON.stringify(b); }
+function sameJson(a,b){ return canonJson(a)===canonJson(b); }
 function isIdList(arr){ return Array.isArray(arr) && arr.length>0 && arr.every(x=>x && typeof x==='object' && !Array.isArray(x) && x.id!=null); }
 function isPlainObj(x){ return x && typeof x==='object' && !Array.isArray(x); }
 function mergeValue(b,l,r){
@@ -1638,8 +1645,8 @@ if(!firstLoad && data.updated_at===cloudBaseAt){ if(syncStatus==='offline'||sync
 // synced base if we have one, otherwise the server copy simply wins.
 if(firstLoad && cloudBase===null){
 STATE=normalizeState(data.data);
-cloudBase=JSON.stringify(STATE); cloudBaseAt=data.updated_at; persistBase();
-try{ localStorage.setItem('bsf_data_v2', JSON.stringify(STATE)); }catch(e){}
+cloudBase=canonJson(STATE); cloudBaseAt=data.updated_at; persistBase();
+try{ localStorage.setItem('bsf_data_v2', canonJson(STATE)); }catch(e){}
 }else{
 adoptRemote(data.data,data.updated_at,false);
 }
