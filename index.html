@@ -94,6 +94,7 @@ body.sidebar-collapsed .sidebar-user-name{opacity:0;width:0}
 .topbar-right{display:flex;align-items:center;justify-content:flex-end;gap:10px;font-size:13px;color:#555;font-weight:600;white-space:nowrap;min-width:0}
 .topbar-right svg{width:14px;height:14px;flex-shrink:0;color:#999}
 .topbar-loc{display:flex;align-items:center;gap:5px}
+.loc-city{max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .topbar-divider{width:1px;height:14px;background:#ddd;flex-shrink:0}
 .topbar-clock{color:#1a1a1a;font-weight:700}
 .sync-status{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;background:#f2f2f2;color:#777;white-space:nowrap}
@@ -257,7 +258,13 @@ main:has(#projectDetail.active){padding-top:0}
 .top5-title{margin:16px 0 10px}
 .top5-row{margin-bottom:12px}
 .top5-head{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px}
-.top5-count{text-align:right;font-size:13px;color:#999;margin-top:3px}
+.top5-count{font-style:normal;font-size:12px;color:#999;margin-left:7px;font-weight:500}
+.fin-val{font-size:22px}
+.fin-rem{text-align:left;font-size:18px}
+.fin-over{color:#c0392b}
+.usage-bar-fill.over{background:#d64545 !important}
+.fin-note{font-size:12px;color:#999;line-height:1.45;margin:-6px 0 14px}
+.fin-nobudget{font-size:12px;color:#aaa}
 /* ---- Category list editor ---- */
 .cat-group{margin-bottom:24px}
 .cat-list{border:1px solid #e5e5e5;border-radius:8px;overflow:hidden;background:#fff}
@@ -497,6 +504,11 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .rm-head{font-size:12px;color:#999;padding-bottom:8px;border-bottom:1px solid #f0f0f0}
 .rm-row{border-top:1px solid #f2f2f2;font-size:13px;transition:background .15s;min-height:42px;box-sizing:border-box}
 .rm-head+.rm-row{border-top:none}
+.th-sort{display:inline-flex;align-items:center;gap:4px;cursor:pointer;user-select:none;white-space:nowrap;min-width:0}
+.th-sort:hover,.th-sort.on{color:#1a1a1a}
+.th-arrow{font-style:normal;font-size:8px;opacity:.4}
+.th-sort.on .th-arrow{opacity:1}
+.th-sort:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
 .rm-row:hover{background:#fafafa}
 .rm-row.selected{background:var(--accent-bg)}
 .rm-chk{display:flex;align-items:center;justify-content:center}
@@ -753,7 +765,11 @@ main{padding:16px 16px calc(84px + env(safe-area-inset-bottom))}
 .gr-full{display:none}.gr-short{display:inline}
 .resource-list-box{border:none;border-radius:0;background:none}
 
-.topbar-loc{display:none}
+.topbar-right{display:grid;grid-template-columns:auto auto;justify-content:end;align-items:center;column-gap:6px;row-gap:0;line-height:1.25}
+.topbar-clock{grid-column:2;grid-row:1;text-align:right}
+.sync-status{grid-column:1;grid-row:1}
+.sync-status.ok{display:none}
+.topbar-loc{grid-column:1 / -1;grid-row:2;justify-content:flex-end;gap:0;font-size:10px;font-weight:600;color:#888}
 .rp-toolbar .view-toggle{flex:1 1 100%}
 .rp-toolbar .view-toggle .vt-btn{flex:1 1 0;text-align:center}
 .rp-toolbar .icon-btn-text{flex:1 1 0;justify-content:center}
@@ -817,9 +833,6 @@ main{padding:16px 16px calc(84px + env(safe-area-inset-bottom))}
 .topbar-right{font-size:10px;gap:3px}
 .topbar-divider{margin:0 2px}
 main{padding-left:14px;padding-right:14px}
-}
-@media (max-width:370px){
-.loc-city{display:none}
 }
 /* ---- Modals: tighter chrome on small viewports ---- */
 .modal-overlay{padding:16px}
@@ -962,7 +975,7 @@ main{padding-left:14px;padding-right:14px}
 <div class="topbar-left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="topbarGreetIcon"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M2.5 12H5M19 12h2.5M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg><span id="topbarGreeting">Good Morning, Bala</span></div>
 <div class="topbar-logo" onclick="showView('overview')" title="Dashboard"><img class="logo-img" src="/assets/615ec1638c.png" alt="Flow - By Big Short Films"></div>
 <div class="topbar-right">
-<span class="topbar-loc"><span class="loc-city">Chennai · </span><span id="dashWeather">—</span></span>
+<span class="topbar-loc" id="topbarLoc" title="Current location"><span class="loc-city" id="dashCity"></span><span id="dashWeather">—</span></span>
 <div class="topbar-divider"></div>
 <span class="sync-status" id="syncStatus" style="display:none" role="status" aria-live="polite"></span>
 <span class="topbar-clock" id="topbarClock">—</span>
@@ -993,11 +1006,17 @@ main{padding-left:14px;padding-right:14px}
 <div class="ov-card-head"><h3 class="ov-heading">Recent Activities</h3></div>
 <div id="ovActivityList"></div>
 </div>
-<div class="box usage-sidebar ov-spend-card">
-<div class="usage-top"><div><div class="usage-top-label">Total Spend</div><div class="usage-top-val">0</div></div><div><div class="usage-top-label">Bookings</div><div class="usage-top-count">0</div></div></div>
-<div class="usage-split"><div class="usage-split-label"><span>Crew</span><span></span></div><div class="usage-bar"><div class="usage-bar-fill" style="width:0%"></div></div></div>
-<div class="usage-split"><div class="usage-split-label"><span>Kit</span><span></span></div><div class="usage-bar"><div class="usage-bar-fill" style="width:0%;background:var(--accent);"></div></div></div>
-<div class="usage-split"><div class="usage-split-label"><span>Production</span><span></span></div><div class="usage-bar"><div class="usage-bar-fill" style="width:0%;background:#bbb;"></div></div></div>
+<div class="box usage-sidebar ov-spend-card" id="finOverview" style="display:none">
+<div class="ov-card-head"><h3 class="ov-heading">Financial overview</h3></div>
+<div class="usage-top"><div><div class="usage-top-label">Total Budget</div><div class="usage-top-val fin-val" id="finBudget">₹0</div></div><div style="text-align:right;"><div class="usage-top-label">Planned Spend</div><div class="usage-top-val fin-val" id="finSpend">₹0</div></div></div>
+<div class="usage-split"><div class="usage-split-label"><span>Budget used</span><span id="finUsedPct">—</span></div><div class="usage-bar"><div class="usage-bar-fill" id="finUsedBar" style="width:0%"></div></div></div>
+<div class="usage-top"><div><div class="usage-top-label" id="finRemLabel">Remaining</div><div class="usage-top-count fin-rem" id="finRem">₹0</div></div><div><div class="usage-top-label">Bookings</div><div class="usage-top-count" id="finBookings">0</div></div></div>
+<div class="fin-note" id="finNote"></div>
+<div class="usage-split"><div class="usage-split-label" id="finSplitCrew"><span>Crew</span><span></span></div><div class="usage-bar"><div class="usage-bar-fill" id="finBarCrew" style="width:0%"></div></div></div>
+<div class="usage-split"><div class="usage-split-label" id="finSplitKit"><span>Kit</span><span></span></div><div class="usage-bar"><div class="usage-bar-fill" id="finBarKit" style="width:0%;background:var(--accent);"></div></div></div>
+<div class="usage-split"><div class="usage-split-label" id="finSplitProd"><span>Production</span><span></span></div><div class="usage-bar"><div class="usage-bar-fill" id="finBarProd" style="width:0%;background:#bbb;"></div></div></div>
+<div class="top5-title">By Project</div>
+<div id="finProjects"></div>
 <div class="top5-title">Top Five In Use</div>
 <div id="top5List"></div>
 </div>
@@ -1398,6 +1417,7 @@ function todayISO(){ return new Date().toISOString().slice(0,10); }
    Callable more than once (e.g. after swapping in a state loaded from the
    shared cloud copy) — every step here is a no-op once already applied. */
 function runMigrations(){
+(STATE.projects||[]).forEach(function(p){ if(typeof p.totalBudget!=='number') p.totalBudget=0; });
 if(STATE.schema!==RES_SCHEMA){
 Object.assign(STATE,csvResources()); STATE.schema=RES_SCHEMA;
 (STATE.projects||[]).forEach(p=>{
@@ -2036,18 +2056,77 @@ items.push(`<button class="sidebar-link" onclick="openApprovalsModal()" title="A
 }
 wrap.innerHTML = items.join('');
 }
-async function loadWeather(){
-const el=document.getElementById('dashWeather');
-if(!el) return;
+/* ---------- CURRENT LOCATION + TEMPERATURE ----------
+   Location: the device's GPS/Wi-Fi position (asks permission once); if that is blocked or unavailable we fall back
+   to an approximate IP location, then to the last known place, then Chennai. The time shown beside it is the
+   device clock, which is already local to wherever the device is. */
+const WX_DEFAULT={lat:13.0827,lon:80.2707,city:'Chennai'};
+let wxCache=null, wxBusy=false, wxLast=0;
+try{ wxCache=JSON.parse(localStorage.getItem('bsf_wx')||'null'); }catch(e){}
+function renderWeather(){
+const cityEl=document.getElementById('dashCity'), tEl=document.getElementById('dashWeather');
+if(!tEl) return;
+const w=wxCache;
+if(cityEl) cityEl.textContent=(w&&w.city)?w.city+' · ':'';
+tEl.textContent=(w&&typeof w.temp==='number')?Math.round(w.temp)+'°C':'—';
+const box=document.getElementById('topbarLoc'); if(box&&w&&w.city) box.title='Current location: '+w.city;
+}
+function wxKm(a,b){
+const R=6371, rad=x=>x*Math.PI/180, dLat=rad(b.lat-a.lat), dLon=rad(b.lon-a.lon);
+const h=Math.sin(dLat/2)**2+Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(dLon/2)**2;
+return 2*R*Math.asin(Math.sqrt(h));
+}
+function wxPosition(){
+return new Promise(res=>{
+if(!navigator.geolocation) return res(null);
+const go=()=>navigator.geolocation.getCurrentPosition(p=>res({lat:p.coords.latitude,lon:p.coords.longitude}),()=>res(null),{enableHighAccuracy:false,timeout:8000,maximumAge:600000});
+if(navigator.permissions&&navigator.permissions.query){
+navigator.permissions.query({name:'geolocation'}).then(st=>{ if(st.state==='denied') res(null); else go(); }).catch(go);
+}else go();
+});
+}
+async function wxIpLocation(){
 try{
-const res=await fetch('https://api.open-meteo.com/v1/forecast?latitude=13.0827&longitude=80.2707&current=temperature_2m,weather_code&timezone=Asia%2FKolkata');
+const r=await fetch('https://get.geojs.io/v1/ip/geo.json'); const d=await r.json();
+const lat=parseFloat(d.latitude), lon=parseFloat(d.longitude);
+if(isFinite(lat)&&isFinite(lon)) return {lat,lon,city:d.city||d.region||d.country||''};
+}catch(e){}
+return null;
+}
+async function wxCityName(lat,lon){
+try{
+const r=await fetch('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude='+lat+'&longitude='+lon+'&localityLanguage=en');
+const d=await r.json();
+return d.city||d.locality||d.principalSubdivision||d.countryName||'';
+}catch(e){ return ''; }
+}
+async function loadWeather(){
+if(wxBusy) return;
+wxBusy=true;
+try{
+renderWeather(); // instant, from the last known place
+let loc=await wxPosition();
+if(!loc) loc=await wxIpLocation();
+if(!loc) loc=(wxCache&&wxCache.lat!=null)?{lat:wxCache.lat,lon:wxCache.lon,city:wxCache.city}:WX_DEFAULT;
+loc.lat=Math.round(loc.lat*100)/100; loc.lon=Math.round(loc.lon*100)/100; // ~1 km is plenty
+if(!loc.city){
+if(wxCache&&wxCache.city&&wxCache.lat!=null&&wxKm(wxCache,loc)<5) loc.city=wxCache.city;
+else loc.city=await wxCityName(loc.lat,loc.lon);
+}
+let temp=(wxCache&&typeof wxCache.temp==='number'&&wxCache.lat!=null&&wxKm(wxCache,loc)<25)?wxCache.temp:null;
+try{
+const res=await fetch('https://api.open-meteo.com/v1/forecast?latitude='+loc.lat+'&longitude='+loc.lon+'&current=temperature_2m,weather_code&timezone=auto');
 const data=await res.json();
-const t=Math.round(data.current.temperature_2m);
-el.textContent=`${t}°C`;
-}catch(e){
-el.textContent='—';
+if(data&&data.current&&typeof data.current.temperature_2m==='number') temp=data.current.temperature_2m;
+}catch(e){}
+wxCache={lat:loc.lat,lon:loc.lon,city:loc.city||'',temp:temp,ts:Date.now()};
+try{ localStorage.setItem('bsf_wx',JSON.stringify(wxCache)); }catch(e){}
+renderWeather();
+wxLast=Date.now();
+}catch(e){ renderWeather(); }
+wxBusy=false;
 }
-}
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible' && Date.now()-wxLast>600000) loadWeather(); });
 function updateTopbarClock(){
 const now=new Date();
 const h=now.getHours();
@@ -2099,6 +2178,7 @@ function resolveCrew(id){ return resolveResource('crew',id); }
 function resolveEquipment(id){ return resolveResource('equipment',id); }
 function resLabel(r){ return r.name==='Sample'&&r.sub ? r.sub : r.name; }
 function rupee(n){ return '₹'+fmt(n); }
+function metaLine(){ return [].slice.call(arguments).filter(function(v){ return v && v!=='—'; }).join(' · '); }
 function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
 function projectsUsing(type,id){
 return STATE.projects.filter(p=>(p[RES_KEY[type]]||[]).includes(id));
@@ -2213,7 +2293,7 @@ return `
 <div class="ctitle">${p.title}</div>
 </div>
 <div class="completed-content">
-<div class="completed-meta">${p.client} · ${p.format} · ${p.place}</div>
+<div class="completed-meta">${esc(metaLine(p.client,p.format,p.place))}</div>
 <div class="completed-desc">${p.logline}</div>
 <div class="detail-row"><span class="detail-label">Plan</span><span class="detail-value">${p.plan}</span></div>
 <div class="detail-row"><span class="detail-label">Crew</span><span class="detail-value">${p.crew}</span></div>
@@ -2241,27 +2321,52 @@ renderCategoryGroup('production','productionCategories');
 renderSpendCard();
 if(currentView==='projectDetail' && currentTab==='budgeting') renderProjectDetail();
 }
+function projectSpend(p){
+let t=0;
+RES_TYPES.forEach(ty=>[...new Set(p[RES_KEY[ty]]||[])].forEach(id=>{ if(resolveResource(ty,id)) t+=resourceLine(p,ty,id).total; }));
+return t;
+}
+/* Admin-only. Budget figures come from each project's brief (p.totalBudget); spend is what's allocated in Resource Manager. */
 function renderSpendCard(){
-const top5El=document.getElementById('top5List');
-if(!top5El) return;
+const card=document.getElementById('finOverview');
+if(!card) return;
+if(!isAdmin()){ card.style.display='none'; return; }
+card.style.display='';
 const by={}, tot={crew:0,equipment:0,production:0}; let bookings=0;
 (STATE.projects||[]).forEach(p=>RES_TYPES.forEach(t=>[...new Set(p[RES_KEY[t]]||[])].forEach(id=>{
 const r=resolveResource(t,id); if(!r) return;
 const amt=resourceLine(p,t,id).total;
 const e=by[t+id]=by[t+id]||{r,spend:0,n:0}; e.spend+=amt; e.n++; tot[t]+=amt; bookings++;
 })));
+const all=tot.crew+tot.equipment+tot.production;
+const projs=(STATE.projects||[]).map(p=>({p,spend:projectSpend(p),budget:Number(p.totalBudget)||0}));
+const budget=projs.reduce((a,x)=>a+x.budget,0);
+const budgeted=projs.filter(x=>x.budget>0), unbudgeted=projs.filter(x=>!x.budget&&x.spend>0).length;
+const spendB=budgeted.reduce((a,x)=>a+x.spend,0);
+const rem=budget-spendB, used=budget?Math.round(spendB/budget*100):0;
+const $=id=>document.getElementById(id);
+$('finBudget').textContent=budget?rupee(budget):'—';
+$('finSpend').textContent=rupee(all);
+$('finUsedPct').textContent=budget?used+'%':'—';
+const ub=$('finUsedBar'); ub.style.width=Math.min(100,used)+'%'; ub.classList.toggle('over',budget>0&&rem<0);
+$('finRemLabel').textContent=rem<0?'Over budget':'Remaining';
+const re=$('finRem'); re.textContent=budget?rupee(Math.abs(rem)):'—'; re.classList.toggle('fin-over',budget>0&&rem<0);
+$('finBookings').textContent=bookings;
+$('finNote').textContent=!budget?'Set a Total budget in a project brief to track it here.':(unbudgeted?unbudgeted+' project'+(unbudgeted>1?'s':'')+' with spend but no budget are left out of Budget used and Remaining.':'');
+$('finNote').style.display=$('finNote').textContent?'':'none';
+[['crew','Crew','finSplitCrew','finBarCrew'],['equipment','Kit','finSplitKit','finBarKit'],['production','Production','finSplitProd','finBarProd']].forEach(([t,l,lid,bid])=>{
+const pct=all?Math.round(tot[t]/all*100):0;
+$(lid).innerHTML=`<span>${l}</span><span>${fmt(tot[t])} · ${pct}%</span>`;
+$(bid).style.width=pct+'%';
+});
+const plist=projs.filter(x=>x.spend>0||x.budget>0).sort((a,b)=>b.spend-a.spend).slice(0,6);
+$('finProjects').innerHTML=plist.map(x=>{
+const over=x.budget>0&&x.spend>x.budget, pct=x.budget?Math.min(100,Math.round(x.spend/x.budget*100)):0;
+return `<div class="top5-row"><div class="top5-head"><span>${esc(x.p.title)}</span><span class="${over?'fin-over':''}">${fmt(x.spend)}${x.budget?' / '+fmt(x.budget):''}</span></div>${x.budget?`<div class="usage-bar" style="margin:0;"><div class="usage-bar-fill${over?' over':''}" style="width:${pct}%"></div></div>`:'<div class="fin-nobudget">No budget set</div>'}</div>`;
+}).join('')||'<div style="font-size:13px;color:#999;">No projects yet.</div>';
 const top5=Object.values(by).sort((a,b)=>b.spend-a.spend||b.n-a.n).slice(0,5);
 const max=top5.length?top5[0].spend||1:1;
-top5El.innerHTML=top5.map(t=>`<div class="top5-row"><div class="top5-head"><span>${esc(resLabel(t.r))}</span><span>${fmt(t.spend)}</span></div><div class="usage-bar" style="margin:0;"><div class="usage-bar-fill" style="width:${Math.round(t.spend/max*100)}%"></div></div><div class="top5-count">${t.n}×</div></div>`).join('')||'<div style="font-size:13px;color:#999;">Nothing allocated yet.</div>';
-const all=tot.crew+tot.equipment+tot.production;
-document.querySelector('.usage-top-val').textContent=fmt(all);
-document.querySelector('.usage-top-count').textContent=bookings;
-const labels=document.querySelectorAll('.usage-split-label'), bars=document.querySelectorAll('.usage-split .usage-bar-fill');
-[['crew','Crew'],['equipment','Kit'],['production','Production']].forEach(([t,l],i)=>{
-const pct=all?Math.round(tot[t]/all*100):0;
-if(labels[i]) labels[i].innerHTML=`<span>${l}</span><span>${fmt(tot[t])} · ${pct}%</span>`;
-if(bars[i]) bars[i].style.width=pct+'%';
-});
+$('top5List').innerHTML=top5.map(t=>`<div class="top5-row"><div class="top5-head"><span>${esc(resLabel(t.r))}<i class="top5-count">${t.n}×</i></span><span>${fmt(t.spend)}</span></div><div class="usage-bar" style="margin:0;"><div class="usage-bar-fill" style="width:${Math.round(t.spend/max*100)}%"></div></div></div>`).join('')||'<div style="font-size:13px;color:#999;">Nothing allocated yet.</div>';
 }
 function renderCategoryGroup(type,elId){
 const list=STATE.categories[type]||[];
@@ -2898,7 +3003,7 @@ footer.print-footer{margin-top:48px;padding-top:14px;border-top:1px solid #333;f
 </style>
 </head><body>
 <div class="print-header">
-<div><h1>${esc(p.title)}</h1><div class="meta">${esc(p.client)} · ${esc(p.format)} · ${esc(p.place)}</div></div>
+<div><h1>${esc(p.title)}</h1><div class="meta">${esc(metaLine(p.client,p.format,p.place))}</div></div>
 <span class="stage-tag">${STAGE_NAMES[key]}</span>
 </div>
 <div id="pdBody">${bodyHtml}</div>
@@ -2928,11 +3033,11 @@ ${p.thumbnail?`<img src="${p.thumbnail}" class="thumb-preview">`:'Click to uploa
 <div><span class="field-label">Type</span><select class="f-input" onchange="updateFormat('type',this.value)">${typeOptionsHtml(splitFormat(p.format).type)}</select></div>
 <div><span class="field-label">Run time (min)</span><input class="f-input" type="number" min="0" value="${esc((splitFormat(p.format).runtime.match(/\d+/)||[''])[0])}" placeholder="e.g. 10" onchange="updateFormat('runtime',this.value)"></div>
 <div><span class="field-label">Genre / mood</span><input class="f-input" value="${esc(b.genre||'')}" placeholder="e.g. Playful drama" onchange="updateBrief('genre',this.value);setTimeout(renderProjectDetail,0)"></div>
-<div><span class="field-label">Place</span><input class="f-input" value="${esc(p.place==='—'?'':p.place)}" placeholder="Location" onchange="updateMeta('place',this.value)"></div>
 <div><span class="field-label">Project Start Date</span><input class="f-input" type="date" value="${p.startDate||''}" onchange="updateMeta('startDate',this.value)"></div>
 <div><span class="field-label">First shoot day</span><input class="f-input" type="text" value="${fmtDateShort(p.first)||''}" disabled title="Fetched automatically from the earliest scheduled day in Shot Planner"></div>
 <div><span class="field-label">Wrap (last shoot day)</span><input class="f-input" type="text" value="${fmtDateShort(p.wrap)||''}" disabled title="Fetched automatically from the latest scheduled day in Shot Planner"></div>
 <div><span class="field-label">Delivery</span><input class="f-input" type="text" value="${fmtDateShort(p.delivery)||''}" disabled title="Set automatically when the project is marked complete in Revision & Delivery"></div>
+${isAdmin()?`<div><span class="field-label">Total budget (₹)</span><input class="f-input" type="text" inputmode="decimal" value="${p.totalBudget?fmt(p.totalBudget):''}" placeholder="e.g. 5,00,000" onchange="updateBudget(this.value)"></div>`:''}
 </div>
 </div>
 </div>
@@ -2969,6 +3074,12 @@ const type=part==='type'?val:(f.type||'Short film');
 const rt=part==='runtime'?String(val||'').trim():((f.runtime.match(/\d+/)||[''])[0]);
 p.format=rt?type+' ('+rt+' min)':type;
 saveProjectChange(p); setTimeout(renderProjectDetail,0);
+}
+function updateBudget(v){
+const p=currentProject(); if(!p||!isAdmin()) return;
+p.totalBudget=Math.max(0,Math.round(Number(String(v).replace(/[^\d.]/g,''))||0));
+saveState(); // not saveProjectChange: editing a budget must not reopen a delivered project
+setTimeout(()=>{ renderProjectDetail(); renderSpendCard(); },0);
 }
 function updateMeta(field,val){ const p=currentProject(); p[field]=val; saveProjectChange(p); setTimeout(renderProjectDetail,0); }
 
@@ -3758,6 +3869,23 @@ renderProjectDetail();
 function resourcePlannerPool(){
 return RES_TYPES.flatMap(t=>STATE[t].map(r=>({id:r.id,type:t,name:r.name,cat:RES_LABEL[t],sub:r.sub||'',rate:r.rate||0})));
 }
+/* Click a column header to sort: ascending, then descending, then back to the default order. Blanks always sort last. */
+var SORT={rm:{key:null,dir:1},dl:{key:null,dir:1}};
+function cmpVals(a,b,dir){
+const an=(a==null||a===''), bn=(b==null||b==='');
+if(an&&bn) return 0; if(an) return 1; if(bn) return -1;
+const r=(typeof a==='number'&&typeof b==='number')?a-b:String(a).localeCompare(String(b),undefined,{numeric:true,sensitivity:'base'});
+return r*dir;
+}
+function sortHead(tbl,key,label){
+const s=SORT[tbl], on=s.key===key;
+return `<span class="th-sort${on?' on':''}" role="button" tabindex="0" aria-sort="${on?(s.dir>0?'ascending':'descending'):'none'}" title="Sort by ${label}" onclick="toggleSort('${tbl}','${key}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSort('${tbl}','${key}')}">${label}<i class="th-arrow">${on?(s.dir>0?'▲':'▼'):'↕'}</i></span>`;
+}
+function toggleSort(tbl,key){
+const s=SORT[tbl];
+if(s.key===key){ if(s.dir>0) s.dir=-1; else { s.key=null; s.dir=1; } } else { s.key=key; s.dir=1; }
+if(tbl==='rm') renderResourcePlannerList(); else dlRefreshTable();
+}
 let rmVisible=[];
 function setRpSearch(v){ rpSearch=v; renderResourcePlannerList(); }
 function setRpCat(v){ rpCat=v; rpSub=''; renderProjectDetail(); }
@@ -3770,10 +3898,16 @@ const p=currentProject();
 const sel={}; RES_TYPES.forEach(t=>sel[t]=new Set(p[RES_KEY[t]]||[]));
 let rows=resourcePlannerPool().filter(matchesResourceFilter);
 if(rpAllocatedFilter) rows=rows.filter(r=>sel[r.type].has(r.id));
+if(SORT.rm.key){
+const k=SORT.rm.key;
+const val=r=>{ const on=sel[r.type].has(r.id), ln=on?resourceLine(p,r.type,r.id):null;
+switch(k){ case 'name': return r.name; case 'cat': return r.cat; case 'sub': return r.sub; case 'rate': return on?ln.rate:r.rate; case 'qty': return on?ln.qty:null; case 'amt': return on?ln.total:null; } };
+rows=rows.map(r=>({r,v:val(r)})).sort((a,b)=>cmpVals(a.v,b.v,SORT.rm.dir)).map(x=>x.r);
+}
 rmVisible=rows.map(r=>({type:r.type,id:r.id}));
 const allOn=rows.length>0 && rows.every(r=>sel[r.type].has(r.id));
 const today=new Date().toISOString().slice(0,10);
-const head=`<div class="rm-head"><span class="rm-chk"><input type="checkbox" class="rp-checkbox" ${allOn?'checked':''} aria-label="Select all" onchange="setAllResourcesChecked(this.checked)"></span><span>Name</span><span>Category</span><span>Subcategory</span><span>Rate</span><span>Qty</span><span>Amount</span></div>`;
+const head=`<div class="rm-head"><span class="rm-chk"><input type="checkbox" class="rp-checkbox" ${allOn?'checked':''} aria-label="Select all" onchange="setAllResourcesChecked(this.checked)"></span>${sortHead('rm','name','Name')}${sortHead('rm','cat','Category')}${sortHead('rm','sub','Subcategory')}${sortHead('rm','rate','Rate')}${sortHead('rm','qty','Qty')}${sortHead('rm','amt','Amount')}</div>`;
 el.innerHTML = head + (rows.map(r=>{
 const on=sel[r.type].has(r.id);
 const ln=on?resourceLine(p,r.type,r.id):null;
@@ -3932,7 +4066,14 @@ ${RV.adding?`<button type="button" class="btn-ghost" onclick="dlCancelAdd()">Can
 }
 function dlFilteredVersions(p){
 const q=RV.q.trim().toLowerCase();
-return dlAllVersions(p).filter(o=>(RV.f==='all'||o.ver.status===RV.f) && (!q || ((o.video.name+' v'+o.ver.num+' '+(o.ver.title||'')+' '+(o.ver.link||'')).toLowerCase().includes(q)))).sort((a,b)=>(b.ver.statusTs||0)-(a.ver.statusTs||0) || b.ver.num-a.ver.num);
+return dlAllVersions(p).filter(o=>(RV.f==='all'||o.ver.status===RV.f) && (!q || ((o.video.name+' v'+o.ver.num+' '+(o.ver.title||'')+' '+(o.ver.link||'')).toLowerCase().includes(q)))).sort(dlSortCmp(p));
+}
+function dlSortCmp(p){
+const s=SORT.dl;
+if(!s.key) return (a,b)=>(b.ver.statusTs||0)-(a.ver.statusTs||0) || b.ver.num-a.ver.num;
+const val=o=>{ const u=dlSafeUrl(o.ver.link);
+switch(s.key){ case 'ver': return o.ver.num; case 'film': return o.video.name; case 'note': return o.ver.title||''; case 'link': return u?dlHost(u):''; case 'fb': return dlFeedback(p,o.ver).length; case 'date': return o.ver.date||''; } };
+return (a,b)=>cmpVals(val(a),val(b),s.dir);
 }
 function dlDraftRowHtml(p){
 const vids=dlVideos(p);
@@ -3958,7 +4099,7 @@ const selCount=rows.filter(o=>RV.sel[o.ver.id]).length;
 const bulk=selCount?`<div class="dl-bulk"><span>${selCount} selected</span><button type="button" class="btn-ghost" onclick="dlBulkDelete()">Delete</button></div>`:'';
 const vids=dlVideos(p);
 const draftRow=RV.adding?dlDraftRowHtml(p):'';
-return bulk+`<div class="dl-table"><div class="dl-tr dl-th"><span><input type="checkbox" aria-label="Select all" ${rows.length&&selCount===rows.length?'checked':''} onchange="dlSelectAll(this.checked)"></span><span>Version</span><span>Thumbnail</span><span>Film Title</span><span>Note</span><span>Link</span><span>Feedback</span><span>Date</span></div>`+draftRow+rows.map(o=>{
+return bulk+`<div class="dl-table"><div class="dl-tr dl-th"><span><input type="checkbox" aria-label="Select all" ${rows.length&&selCount===rows.length?'checked':''} onchange="dlSelectAll(this.checked)"></span>${sortHead('dl','ver','Version')}<span>Thumbnail</span>${sortHead('dl','film','Film Title')}${sortHead('dl','note','Note')}${sortHead('dl','link','Link')}${sortHead('dl','fb','Feedback')}${sortHead('dl','date','Date')}</div>`+draftRow+rows.map(o=>{
 const x=o.ver, fb=dlFeedback(p,x).length, url=dlSafeUrl(x.link), open=RV.ver===x.id;
 const compactRow=open?'':`<div class="dl-tr" onclick="dlOpen('${x.id}')">
 <span class="c-sel" onclick="event.stopPropagation()"><input type="checkbox" aria-label="Select v${x.num}" ${RV.sel[x.id]?'checked':''} onchange="dlSelect('${x.id}',this.checked)"></span>
@@ -4727,7 +4868,7 @@ return `<section class="vw-sec"><h2 class="vw-h2">Crew &amp; kit</h2><div class=
 function vwRenderStatic(){
 const d=VW.data, snap=d.snapshot, el=document.getElementById('vwStatic');
 if(!el) return;
-const meta=[snap.client,snap.format,snap.place].filter(Boolean).map(esc).join(' · ');
+const meta=[snap.client,snap.format,snap.place].filter(function(v){ return v && v!=='—'; }).map(esc).join(' · ');
 el.innerHTML=`<section class="vw-hero"><h1 class="vw-title">${esc(snap.title)}</h1>${meta?`<div class="vw-meta">${meta}</div>`:''}<div class="vw-progress"><div class="usage-bar"><div class="usage-bar-fill" style="width:${snap.pct}%"></div></div><div class="vw-progress-row"><span>${esc(snap.status)}</span><span>${snap.pct}% complete</span></div></div>${d.audience==='team'?'<div class="vw-badge">View only</div>':''}</section>`
 +vwBriefHtml(snap)
 +(d.audience==='client' ? vwScheduleClientHtml(snap) : vwPlanTeamHtml(snap)+vwCrewHtml(snap));
