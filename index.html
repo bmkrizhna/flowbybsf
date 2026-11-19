@@ -5059,6 +5059,7 @@ setInterval(loadWeather,900000);
 const cloudResult=await loadCloudState();
 if(cloudResult==='swapped') reapplyRemoteStateToUI();
 renderRoleBadge();
+updateTopbarClock();
 subscribeCloudState();
 if(hasAnyShare()){ startSharePolling(); pullShares(); syncAllShares(); }
 }
