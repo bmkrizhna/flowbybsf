@@ -167,13 +167,15 @@ main{flex:1;padding:28px 32px 60px}
 .ov-view-all{border:none;background:none;font-size:12px;font-weight:600;color:#666;cursor:pointer;white-space:nowrap}
 .ov-view-all:hover{color:#1a1a1a}
 
-.ov-upcoming-row{display:flex;align-items:center;gap:18px;padding:16px 18px;margin-top:10px;background:#fafafa;border:1px solid #e8e8e6;border-radius:12px}
-.ov-date-box{flex-shrink:0;min-width:56px;padding-right:18px;border-right:1px solid #e3e3e0;text-align:left}
-.ov-date-wd{font-size:12px;color:#777;margin-bottom:1px}
-.ov-date-md{font-size:19px;font-weight:500;line-height:1.1;color:#1a1a1a;white-space:nowrap}
+.ov-upcoming-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0ee}
+.ov-upcoming-row:last-child{border-bottom:none}
+.ov-date-box{width:46px;flex-shrink:0;text-align:center;background:#f7f7f5;border-radius:7px;padding:5px 0}
+.ov-date-month{font-size:9px;font-weight:700;color:#999;letter-spacing:0.4px}
+.ov-date-day{font-size:16px;font-weight:700;font-family:'Georgia',serif}
 .ov-upcoming-info{flex:1;min-width:0}
-.ov-upcoming-title{font-size:16px;font-weight:500;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ov-upcoming-sub{font-size:12px;color:#777;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ov-upcoming-title{font-size:13px;font-weight:600;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ov-upcoming-loc{font-size:11px;color:#999;display:flex;align-items:center;gap:4px}
+.ov-upcoming-loc svg{width:11px;height:11px;flex-shrink:0}
 
 .ov-project-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0ee}
 .ov-project-row:last-child{border-bottom:none}
@@ -250,21 +252,7 @@ main{flex:1;padding:28px 32px 60px}
 .cat-sub-add{border:1px dashed #ddd;border-radius:14px;padding:5px 10px;font-size:12px;width:130px;background:#fff}
 .icon-del{border:none;background:none;color:#c0392b;font-size:11px;font-weight:700;flex-shrink:0;padding:7px 4px}
 /* ---- Project detail ---- */
-.proj-head-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:16px;position:sticky;top:61px;z-index:15;background:#fff;padding:10px 0}
-.proj-head-actions{display:flex;align-items:center;gap:12px}
-.pd-head-tools{display:flex;align-items:center;gap:10px}
-.pd-head-tools:empty{display:none}
-.add-menu-wrap{position:relative}
-.add-menu-btn{padding:9px 16px;border-radius:20px;border:none;background:#f0f0ee;font-size:13px;font-weight:600;color:#1a1a1a}
-.add-menu-btn:hover{background:#e6e6e3}
-.add-menu-btn:disabled{opacity:.5;cursor:default}
-.add-menu{display:none;position:absolute;top:calc(100% + 6px);right:0;min-width:160px;background:#fff;border:1px solid #e5e5e5;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);padding:6px;z-index:30}
-.add-menu.show{display:block}
-.add-menu button{display:block;width:100%;text-align:left;padding:9px 12px;border:none;background:none;border-radius:6px;font-size:13px;font-weight:600;color:#1a1a1a}
-.add-menu button:hover{background:#f5f5f3}
-.view-toggle{border-radius:20px;background:#f0f0ee;border:none;padding:3px}
-.vt-btn{background:transparent;border-radius:18px;padding:7px 16px}
-.vt-btn.active{background:#1a1a1a;color:#fff}
+.proj-head-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:16px}
 .proj-title-wrap{display:flex;align-items:center;gap:12px;min-width:0}
 .pd-thumb{width:56px;height:44px;border-radius:8px;flex-shrink:0;background:#f0f0ec;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;color:#c9c9c0}
 .pd-thumb svg{width:18px;height:18px}
@@ -366,11 +354,10 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .shot-list-del:hover{background:#fdecea}
 .scene-add-row{display:flex;gap:16px;margin-top:6px;flex-wrap:wrap}
 /* ---- Shot Planner: Activity (Break/Setup) banner rows ---- */
-.shot-activity-row{position:relative;display:flex;align-items:center;justify-content:center;text-align:center;gap:12px;padding:10px 44px;border-radius:8px;margin:10px 0;font-size:13px;font-weight:700;color:#fff}
+.shot-activity-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;border-radius:8px;margin:10px 0;font-size:13px;font-weight:700;color:#fff}
 .shot-activity-row.break{background:linear-gradient(90deg,#5b5b8f,#45456e)}
 .shot-activity-row.setup{background:linear-gradient(90deg,#e8622c,#f0a63a)}
-.shot-activity-row .act-main{display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;overflow:hidden}
-.shot-activity-row .act-remove{position:absolute;right:12px;top:50%;transform:translateY(-50%)}
+.shot-activity-row .act-main{display:flex;align-items:center;gap:8px;min-width:0;overflow:hidden}
 .shot-activity-row .act-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .shot-activity-row .act-time{font-weight:600;opacity:.9;font-size:12px;white-space:nowrap;flex-shrink:0}
 .shot-activity-row .act-remove{background:rgba(255,255,255,0.22);border:none;color:#fff;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:11px;line-height:1;flex-shrink:0}
@@ -459,7 +446,6 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .ov2-grid{grid-template-columns:1fr}
 .ov-project-progress{width:70px}
 .ov-project-title,.ov-upcoming-title{white-space:normal}
-.ov-upcoming-sub{white-space:normal}
 body{overflow-x:hidden}
 
 /* ---- Header: stack into rows (logo, then centered nav, then user) ---- */
@@ -656,7 +642,6 @@ h1{font-size:28px}
 </div>
 </div>
 <div class="proj-head-actions">
-<div class="pd-head-tools" id="pdHeadTools"></div>
 <span class="status-pill-display" id="pdStatusDisplay">—</span>
 </div>
 </div>
@@ -1072,15 +1057,13 @@ const STATS=[
 document.getElementById('ovStatCards').innerHTML=STATS.map(s=>`<div class="ov-stat-card ${s.cls}"><div class="ov-stat-icon">${OV_ICONS[s.icon]}</div><div><div class="ov-stat-text-label">${s.label}</div><div class="ov-stat-text-value">${s.value}</div></div></div>`).join('');
 
 /* Upcoming */
-const todayIso=new Date().toISOString().slice(0,10);
-const SCHEDULE=[];
-active.forEach(p=>(p.days||[]).forEach((d,di)=>{ if(d.date&&d.date>=todayIso&&d.status!=='Postponed'&&d.status!=='Cancelled') SCHEDULE.push({date:d.date,title:p.title,day:di+1,unit:p.place||p.client||''}); }));
-SCHEDULE.sort((x,y)=>x.date.localeCompare(y.date));
-document.getElementById('ovUpcoming').innerHTML=SCHEDULE.slice(0,6).map(s=>{
-const dt=new Date(s.date+'T00:00:00');
-const wd=dt.toLocaleDateString('en-GB',{weekday:'short'});
-const md=dt.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
-return `<div class="ov-upcoming-row"><div class="ov-date-box"><div class="ov-date-wd">${wd}</div><div class="ov-date-md">${md}</div></div><div class="ov-upcoming-info"><div class="ov-upcoming-title">${esc(s.title)}</div><div class="ov-upcoming-sub">Shoot · Day ${s.day}${s.unit?' · '+esc(s.unit):''}</div></div></div>`;
+const SCHEDULE=[{d:'3 Nov',p:'Paper Boats · Day 2 — stairwell'},{d:'4 Nov',p:'Paper Boats · Day 3 — rain tower'},{d:'12 Nov',p:'Monsoon Letters · Day 1'},{d:'13 Nov',p:'Monsoon Letters · Day 2'},{d:'1 Dec',p:'The Last Bus · Day 1 — depot'},{d:'2 Dec',p:'The Last Bus · Day 2 — route'}];
+document.getElementById('ovUpcoming').innerHTML=SCHEDULE.map(s=>{
+const [day,month]=s.d.split(' ');
+const projTitle=s.p.split(' · ')[0];
+const proj=STATE.projects.find(pp=>pp.title===projTitle);
+const loc=proj&&proj.place?proj.place:'';
+return `<div class="ov-upcoming-row"><div class="ov-date-box"><div class="ov-date-month">${(month||'').toUpperCase()}</div><div class="ov-date-day">${day}</div></div><div class="ov-upcoming-info"><div class="ov-upcoming-title">${s.p}</div>${loc?`<div class="ov-upcoming-loc">${OV_ICONS.pin}${loc}</div>`:''}</div><span class="pill shoot">Shoot</span></div>`;
 }).join('') || '<div style="font-size:12px;color:#999;padding:8px 0;">Nothing scheduled.</div>';
 
 /* Active projects */
@@ -1541,8 +1524,6 @@ document.getElementById('pdProgressLabel').textContent=`${status.toUpperCase()} 
 renderHeaderStageTabs();
 
 const content=document.getElementById('pdContent');
-const _lockedNow=p.sections[currentTab].confirmed && forceEditStage!==currentTab;
-renderSpHeadTools(_lockedNow);
 if(currentTab==='brief') content.innerHTML=renderBriefTab(p);
 else if(currentTab==='shotPlanning'){ content.innerHTML=renderShotPlanningTab(p); }
 else if(currentTab==='budgeting'){ content.innerHTML=renderBudgetingTab(p); renderResourcePlannerList(); }
@@ -1759,7 +1740,10 @@ const days=p.days||[];
 const totalScenes=days.reduce((a,d)=>a+(d.scenes||[]).length,0);
 const totalShots=days.reduce((a,d)=>a+(d.scenes||[]).reduce((b,s)=>b+(s.shots||[]).length,0),0);
 const unscheduled=p.unscheduledShots||[];
-
+const toolbar=`<div class="sp-toolbar">
+<div class="view-toggle"><button class="vt-btn ${shotPlannerView==='list'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('list')">List</button><button class="vt-btn ${shotPlannerView==='storyboard'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('storyboard')">Storyboard</button></div>
+<div style="display:flex;gap:8px;"><button class="btn-ghost" data-no-lock="1" onclick="printStage('shotPlanning')">Print</button><button class="btn-ghost" onclick="addDay()">Add day</button></div>
+</div>`;
 const unschedHtml = unscheduled.length ? `<div class="box" style="border-color:#ffd700;">
 <div class="box-title">Unscheduled shots</div>
 <div class="shot-grid">${unscheduled.map((u,ui)=>`
@@ -1788,7 +1772,7 @@ ${sidebarHtml || '<div style="font-size:12px;color:#999;padding:8px 2px;">No sce
 </div>
 <div class="sp-main">
 <button class="sp-show-btn ${spSidebarCollapsed?'show':''}" id="spShowBtn" data-no-lock="1" onclick="toggleSpSidebar()">Scenes ›</button>
-${unschedHtml}${body}
+${toolbar}${unschedHtml}${body}
 </div>
 </div></div>
 ${renderStageFooter('shotPlanning','Shot Planner',`Scenes ${totalScenes} · Shots ${totalShots} · Days ${days.length}`+stageDurationSuffix(p,'shotPlanning'))}`;
@@ -1834,6 +1818,7 @@ return `<div class="shot-list-row" id="${anchorId}">
 </div>`;
 }).join('')}
 </div>`:''}
+<div class="scene-add-row"><button class="add-link" onclick="addShot(${di},${si})">Add shot</button><button class="add-link" onclick="openActivityModal(${di},${si})">Add activity</button></div>
 </div>`;
 }).join('')}
 <button class="add-link" onclick="addScene(${di})">Add scene</button>
@@ -1876,55 +1861,6 @@ function updateScene(di,si,field,val){ const p=currentProject(); p.days[di].scen
 function addShot(di,si){ const p=currentProject(); const sc=p.days[di].scenes[si]; sc.shots=sc.shots||[]; sc.shots.push({num:(sc.num)+'.'+(sc.shots.length+1),desc:'',size:'',movement:'',status:'Scheduled',image:'',refLink:''}); saveProjectChange(p); renderProjectDetail(); }
 function removeShot(di,si,shi){ const p=currentProject(); p.days[di].scenes[si].shots.splice(shi,1); saveProjectChange(p); renderProjectDetail(); }
 function updateShot(di,si,shi,field,val){ const p=currentProject(); p.days[di].scenes[si].shots[shi][field]=val; saveProjectChange(p); if(field==='status') renderProjectDetail(); }
-
-/* ---------- SHOT PLANNER: header tools (+ Add, List / Storyboard) ---------- */
-function renderSpHeadTools(locked){
-const el=document.getElementById('pdHeadTools'); if(!el) return;
-if(currentTab!=='shotPlanning'){ el.innerHTML=''; return; }
-el.innerHTML=`<div class="add-menu-wrap"><button class="add-menu-btn" ${locked?'disabled':''} data-no-lock="1" onclick="toggleAddMenu(event)">+ Add</button>
-<div class="add-menu" id="addMenu"><button onclick="spAddPick('shot')">Shot</button><button onclick="spAddPick('activity')">Activity</button><button onclick="spAddPick('scene')">Scene</button><button onclick="spAddPick('day')">Day</button></div></div>
-<div class="view-toggle"><button class="vt-btn ${shotPlannerView==='list'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('list')">List</button><button class="vt-btn ${shotPlannerView==='storyboard'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('storyboard')">Storyboard</button></div>`;
-}
-function toggleAddMenu(e){ e.stopPropagation(); const m=document.getElementById('addMenu'); if(m) m.classList.toggle('show'); }
-document.addEventListener('click',()=>{ const m=document.getElementById('addMenu'); if(m) m.classList.remove('show'); });
-function spCurrentSceneKey(){
-/* scene nearest the top of the viewport; falls back to the last scene */
-const els=[...document.querySelectorAll('[id^="scene-"]')];
-let pick=null;
-for(const el of els){ if(el.getBoundingClientRect().bottom>140){ pick=el; break; } }
-if(!pick&&els.length) pick=els[els.length-1];
-return pick?pick.id.replace('scene-',''):'';
-}
-function spSceneOptions(selKey){
-const p=currentProject(); let html='';
-(p.days||[]).forEach((d,di)=>(d.scenes||[]).forEach((sc,si)=>{
-const k=di+'-'+si;
-html+=`<option value="${k}" ${k===selKey?'selected':''}>${fmtDateShort(d.date)||('Day '+(di+1))} · Scene ${sc.num||si+1}${sc.title?' — '+esc(sc.title):''}</option>`;
-}));
-return html;
-}
-function spAddPick(kind){
-const p=currentProject(); const days=p.days||[];
-if(kind==='day'){ addDay(); return; }
-const box=document.getElementById('activityModalBox');
-if(kind==='scene'){
-if(!days.length){ addDay(); return; }
-box.innerHTML=`<button class="modal-close" onclick="closeModal('activityModal')">×</button><div class="modal-title">Add scene</div>
-<div class="field-box"><span class="field-label">Day</span><select class="f-input" id="spAddDay">${days.map((d,di)=>`<option value="${di}" ${di===days.length-1?'selected':''}>${fmtDateShort(d.date)||('Day '+(di+1))}</option>`).join('')}</select></div>
-<button class="btn-primary" style="width:100%;" onclick="closeModal('activityModal');addScene(parseInt(document.getElementById('spAddDay').value,10))">Add scene</button>`;
-document.getElementById('activityModal').classList.add('show'); return;
-}
-const opts=spSceneOptions(spCurrentSceneKey());
-if(!opts){ alert('Add a day and a scene first.'); return; }
-if(kind==='shot'){
-box.innerHTML=`<button class="modal-close" onclick="closeModal('activityModal')">×</button><div class="modal-title">Add shot</div>
-<div class="field-box"><span class="field-label">Scene</span><select class="f-input" id="spAddScene">${opts}</select></div>
-<button class="btn-primary" style="width:100%;" onclick="spConfirmShot()">Add shot</button>`;
-document.getElementById('activityModal').classList.add('show'); return;
-}
-openActivityModal(null,null,opts);
-}
-function spConfirmShot(){ const [di,si]=document.getElementById('spAddScene').value.split('-').map(Number); closeModal('activityModal'); addShot(di,si); }
 /* ---------- SHOT PLANNER: activities (Break / Setup banners) ---------- */
 function buildSceneRows(sc){
 const shots=sc.shots||[];
@@ -1945,11 +1881,10 @@ const parts=t.split(':'); const h=parseInt(parts[0],10), m=parseInt(parts[1],10)
 const ap=h>=12?'pm':'am'; let hh=h%12; if(hh===0) hh=12;
 return hh+(m?':'+String(m).padStart(2,'0'):'')+' '+ap;
 }
-function openActivityModal(di,si,sceneOpts){
+function openActivityModal(di,si){
 const box=document.getElementById('activityModalBox');
 box.innerHTML=`<button class="modal-close" onclick="closeModal('activityModal')">×</button>
 <div class="modal-title">Add activity</div>
-${sceneOpts?`<div class="field-box"><span class="field-label">Scene</span><select class="f-input" id="actScene">${sceneOpts}</select></div>`:''}
 <div class="field-box"><span class="field-label">Type</span><select class="f-input" id="actType"><option value="setup">Setup</option><option value="break">Break</option></select></div>
 <div class="field-box"><span class="field-label">Label</span><input class="f-input" id="actLabel" placeholder="e.g. Meal Break, End of Setup 1"></div>
 <div class="form-grid">
@@ -1960,7 +1895,6 @@ ${sceneOpts?`<div class="field-box"><span class="field-label">Scene</span><selec
 document.getElementById('activityModal').classList.add('show');
 }
 function saveActivity(di,si){
-const sel=document.getElementById('actScene'); if(sel){ [di,si]=sel.value.split('-').map(Number); }
 const p=currentProject(); const sc=p.days[di].scenes[si];
 sc.activities=sc.activities||[];
 const type=document.getElementById('actType').value;
