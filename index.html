@@ -214,6 +214,15 @@ main:has(#projectDetail.active){padding-top:0}
 .ov-up-chip{font-size:12px;font-weight:600;padding:5px 12px;border-radius:999px;background:#5b3b0a;color:#fff;white-space:nowrap}
 .ov-up-card.lavender .ov-up-chip{background:#3b2d63}
 .ov-up-card.mint .ov-up-chip{background:#1d4a43}
+.ov-sh-card{display:flex;align-items:center;gap:20px;padding:18px 22px;margin-bottom:10px;background:#fafafa;border:1px solid #e6e6e4;border-radius:16px;cursor:pointer;transition:transform .15s ease}
+.ov-sh-card:hover{transform:translateY(-1px)}
+.ov-sh-card:last-child{margin-bottom:0}
+.ov-sh-date{flex:0 0 auto;min-width:64px;padding-right:20px;border-right:1px solid #dcdcd9}
+.ov-sh-wd{font-size:13px;color:#777;margin-bottom:2px}
+.ov-sh-md{font-family:'Satoshi',sans-serif;font-size:22px;font-weight:500;line-height:1.1;color:#1a1a1a;white-space:nowrap}
+.ov-sh-info{flex:1;min-width:0}
+.ov-sh-title{font-size:18px;font-weight:500;line-height:1.25;margin-bottom:4px;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ov-sh-sub{font-size:13px;color:#777;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ov-upcoming-row{display:flex;align-items:center;gap:14px;padding:11px 0;border-bottom:1px solid #eee2}
 .ov-upcoming-row:last-child{border-bottom:none}
 .ov-row-thumb{width:64px;height:64px;border-radius:12px;background:#f0f0f0;background-size:cover;background-position:center;flex-shrink:0}
@@ -317,10 +326,28 @@ main:has(#projectDetail.active){padding-top:0}
 .pd-status-cluster b{font-weight:500;color:#999}
 .pd-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex-shrink:0}
 .pd-ring{width:26px;height:26px;border-radius:50%;flex-shrink:0;background:conic-gradient(var(--accent) calc(var(--pct,0)*1%),#ededed 0);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3.5px),#000 calc(100% - 3px));mask:radial-gradient(farthest-side,transparent calc(100% - 3.5px),#000 calc(100% - 3px))}
+.pd-head-add:empty,.pd-head-view:empty{display:none}
+@media (min-width:768px) and (max-width:1500px){
+.pd-head-add:not(:empty)~.proj-head-actions .pd-icon-btn.has-lbl:not(.save-btn):not(.next-btn):not(.tick):not(.err):not(.busy){width:34px;padding:0}
+.pd-head-add:not(:empty)~.proj-head-actions .pd-icon-btn.has-lbl:not(.save-btn):not(.next-btn):not(.tick):not(.err):not(.busy) .lbl{display:none}
+}
+@media (min-width:768px) and (max-width:1320px){
+.pd-head-add:not(:empty)+.pd-stat{display:none}
+.pd-head-add:not(:empty)~.pd-stat{display:none}
+.pd-status-cluster:has(+.pd-head-add:not(:empty)) #pdStatusInline,.pd-status-cluster:has(+.pd-head-add:not(:empty)) b{display:none}
+.pd-head-add:not(:empty)~.pd-head-view{margin-left:auto}
+}
+.pd-head-add{margin-left:6px;flex-shrink:0}
+.pd-head-view{flex-shrink:0}
+.pd-head-view .view-toggle{margin:0}
+.pd-head-add .btn-ghost{border-radius:999px;background:#f0f0f0;border:none;padding:8px 16px}
+.pd-head-add .btn-ghost:hover{background:#e5e5e5}
+.pd-head-add:not(:empty)+.pd-stat,.pd-head-add:not(:empty)+.pd-stat:empty+.pd-head-view{margin-left:auto}
 .pd-stat{margin-left:auto;font-size:13px;font-weight:500;color:#1a1a1a;white-space:nowrap}
 .pd-stat:empty{display:none}
 .proj-head-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;border-left:1px solid #eee;padding-left:20px;margin-left:16px}
 .pd-stat:empty+.proj-head-actions{margin-left:auto}
+.pd-stat:empty+.pd-head-view:empty+.proj-head-actions{margin-left:auto}
 .pd-stage-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .pd-icon-btn{width:34px;height:34px;border-radius:50%;border:none;background:#f0f0f0;color:#666;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background .15s ease,color .15s ease}
 .pd-icon-btn svg{width:16px;height:16px}
@@ -426,11 +453,12 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .sp-add-details-row{display:flex;align-items:center;justify-content:center;gap:6px;padding:16px;border:1.5px dashed #ddd;border-radius:10px;margin-top:10px;color:#999;font-size:13px;font-weight:600;cursor:pointer;transition:border-color .15s,color .15s,background .15s}
 .sp-add-details-row:hover{border-color:#bbb;color:#1a1a1a;background:#fafafa}
 /* ---- Shot Planner: Activity (Break/Setup/Shifting) banner rows ---- */
-.shot-activity-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;border-radius:8px;margin:10px 0;font-size:13px;font-weight:700;color:#fff;cursor:pointer}
+.shot-activity-row{position:relative;display:flex;align-items:center;justify-content:center;text-align:center;gap:12px;padding:10px 44px;border-radius:8px;margin:10px 0;font-size:13px;font-weight:700;color:#fff;cursor:pointer}
 .shot-activity-row.break{background:#1a1a1a}
 .shot-activity-row.setup{background:var(--accent);color:#1a1a1a}
 .shot-activity-row.shifting{background:var(--lavender-bg);color:var(--lavender-text)}
-.shot-activity-row .act-main{display:flex;align-items:center;gap:8px;min-width:0;overflow:hidden}
+.shot-activity-row .act-main{display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;overflow:hidden}
+.shot-activity-row .drag-handle{position:absolute;left:10px;top:50%;transform:translateY(-50%)}
 .shot-activity-row .act-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* ---- Add Shoot / Add Activity modal: icon header, section labels, tiles, chips ---- */
@@ -1089,7 +1117,9 @@ main{padding-left:14px;padding-right:14px}
 </div>
 </div>
 <div class="pd-status-cluster"><span class="pd-dot"></span><span id="pdStatusInline">—</span><b>·</b><span id="pdRingPct">—</span><div class="pd-ring" id="pdRing"></div></div>
+<div class="pd-head-add" id="pdHeadAdd"></div>
 <div class="pd-stat" id="pdStat"></div>
+<div class="pd-head-view" id="pdHeadView"></div>
 <div class="proj-head-actions"><div class="pd-stage-actions" id="pdStageActions"></div></div>
 </div>
 <div id="pdContent"></div>
@@ -2281,13 +2311,15 @@ const d=new Date(u.date+'T00:00:00');
 const diff=Math.round((d-new Date(todayISO()+'T00:00:00'))/86400000);
 const dow=diff===0?'Today':diff===1?'Tomorrow':d.toLocaleDateString('en-GB',{weekday:'long'});
 const mon=d.toLocaleDateString('en-GB',{month:'short'}).toUpperCase();
+const wdShort=d.toLocaleDateString('en-GB',{weekday:'short'});
+const monTitle=d.toLocaleDateString('en-GB',{month:'short'});
 const scenes=day.scenes||[];
 const shots=scenes.reduce((n,sc)=>n+(sc.items||[]).filter(it=>it.type==='shot').length,0);
 const where=[...new Set(scenes.map(sc=>sc.location).filter(Boolean))].slice(0,2).join(' · ');
 const start=(scenes.map(sc=>sc.time).filter(Boolean)[0])||'';
 const thumbStyle=u.project.thumbnail?`background-image:url('${u.project.thumbnail}')`:'';
 const chips=[start,shots?shots+(shots===1?' shot':' shots'):'',scenes.length?scenes.length+(scenes.length===1?' scene':' scenes'):''].filter(Boolean);
-return `<div class="ov-up-card ${CYCLE[i%3]}" onclick="openProject('${u.project.id}')"><div class="ov-up-date"><div class="ov-up-dow">${esc(dow)}</div><div class="ov-up-day">${d.getDate()}</div><div class="ov-up-day">${mon}</div></div><div class="ov-up-info"><div class="ov-up-top"><div class="ov-up-title">${esc(u.project.title)}</div><div class="ov-up-thumb" style="${thumbStyle}"></div></div><div class="ov-up-sub">Shoot · Day ${u.dayIndex+1}${where?' · '+esc(where):''}</div>${chips.length?`<div class="ov-up-chips">${chips.map(c=>`<span class="ov-up-chip">${esc(c)}</span>`).join('')}</div>`:''}</div></div>`;
+return `<div class="ov-sh-card" onclick="openProject('${u.project.id}')"><div class="ov-sh-date"><div class="ov-sh-wd">${esc(wdShort)}</div><div class="ov-sh-md">${d.getDate()} ${monTitle}</div></div><div class="ov-sh-info"><div class="ov-sh-title">${esc(u.project.title)}</div><div class="ov-sh-sub">Shoot · Day ${u.dayIndex+1}${where?' · '+esc(where):''}</div></div></div>`;
 }).join('') : '<div style="font-size:13px;color:#999;padding:8px 0;">Nothing scheduled.</div>';
 
 /* Active projects */
@@ -2869,9 +2901,16 @@ statEl.textContent=st;
 }
 renderSidebarNav();
 
+const hAdd=document.getElementById('pdHeadAdd'), hView=document.getElementById('pdHeadView');
+if(hAdd&&hView){
+if(currentTab==='shotPlanning'){
+hAdd.innerHTML=`<button type="button" class="btn-ghost" data-no-lock="1" onclick="openAddItemModal()">+ Add</button>`;
+hView.innerHTML=`<div class="view-toggle" data-no-lock="1"><button class="vt-btn ${shotPlannerView==='list'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('list')">List</button><button class="vt-btn ${shotPlannerView==='storyboard'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('storyboard')">Storyboard</button></div>`;
+} else { hAdd.innerHTML=''; hView.innerHTML=''; }
+}
 const content=document.getElementById('pdContent');
 if(currentTab==='brief') content.innerHTML=renderBriefTab(p);
-else if(currentTab==='shotPlanning'){ content.innerHTML=`<div class="rp-toolbar" style="justify-content:space-between"><button type="button" class="btn-ghost" data-no-lock="1" onclick="openAddItemModal()">+ Add</button><div class="view-toggle" data-no-lock="1"><button class="vt-btn ${shotPlannerView==='list'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('list')">List</button><button class="vt-btn ${shotPlannerView==='storyboard'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('storyboard')">Storyboard</button></div></div>`+renderShotPlanningTab(p); }
+else if(currentTab==='shotPlanning'){ content.innerHTML=renderShotPlanningTab(p); }
 else if(currentTab==='budgeting'){ content.innerHTML=renderBudgetingTab(p); renderResourcePlannerList(); }
 else if(currentTab==='shootTracking') content.innerHTML=renderShootTrackingTab(p);
 else { content.innerHTML=renderDeliveryTab(p); dlLoadVimeoThumbs(); pullShares(); if(RV.ver) dlMountPlayer(); }
@@ -3275,7 +3314,7 @@ return `<div class="sp-shot-row" id="${anchorId}" draggable="true" data-no-lock=
 <div class="sp-shot-time">${timeTags.length?timeTags.map(t=>`<span class="shot-tag">${esc(t)}</span>`).join(''):'<span class="shot-tag" style="background:none;color:#bbb;padding-left:0;">No time set</span>'}</div>
 </div>`;
 }).join('');
-return sceneRow+itemRows+`<div class="sp-add-item-row" data-no-lock="1" onclick="openAddItemModal(${di},${si})">+ Add</div>`;
+return sceneRow+itemRows;
 }).join('');
 return `<div class="sp-day-band">${dayBandLabel(d,di)}</div>${sceneBlocks}`;
 }).join('');
