@@ -196,24 +196,14 @@ main:has(#projectDetail.active){padding-top:0}
 .ov-date-pill.lavender{background:var(--lavender-bg);color:var(--lavender-text)}
 .ov-date-pill.mint{background:var(--mint-bg);color:var(--mint-text)}
 
-.ov-up-card{display:flex;align-items:stretch;gap:18px;padding:16px 18px;border-radius:20px;margin-bottom:10px;cursor:pointer;transition:transform .15s ease}
-.ov-up-card:hover{transform:translateY(-1px)}
-.ov-up-card:last-child{margin-bottom:0}
-.ov-up-card.peach{background:#f8e0b4;color:#5b3b0a}
-.ov-up-card.lavender{background:#e5ddf3;color:#3b2d63}
-.ov-up-card.mint{background:#d0eae4;color:#1d4a43}
-.ov-up-date{flex:0 0 76px}
-.ov-up-dow{font-size:12px;font-weight:600;opacity:.8;margin-bottom:4px}
-.ov-up-day{font-family:'Satoshi',sans-serif;font-size:32px;font-weight:500;line-height:.98;letter-spacing:-.5px}
-.ov-up-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;justify-content:center}
-.ov-up-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.ov-up-title{font-size:16px;font-weight:600;line-height:1.25;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ov-up-thumb{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.55) center/cover;flex-shrink:0;border:2px solid rgba(255,255,255,.7)}
-.ov-up-sub{font-size:13px;opacity:.8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ov-up-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.ov-up-chip{font-size:12px;font-weight:600;padding:5px 12px;border-radius:999px;background:#5b3b0a;color:#fff;white-space:nowrap}
-.ov-up-card.lavender .ov-up-chip{background:#3b2d63}
-.ov-up-card.mint .ov-up-chip{background:#1d4a43}
+.ov-up-row{display:flex;align-items:center;gap:20px;padding:14px 0;cursor:pointer}
+.ov-up-row+.ov-up-row{border-top:1px solid #f0f0f0}
+.ov-up-date{flex:0 0 auto;min-width:72px;padding-right:20px;border-right:1px solid #e5e5e5}
+.ov-up-dow{font-size:13px;color:#777;margin-bottom:2px}
+.ov-up-dm{font-size:22px;font-weight:500;line-height:1.1;white-space:nowrap}
+.ov-up-info{flex:1;min-width:0}
+.ov-up-title{font-size:16px;font-weight:500;margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ov-up-sub{font-size:13px;color:#999;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ov-upcoming-row{display:flex;align-items:center;gap:14px;padding:11px 0;border-bottom:1px solid #eee2}
 .ov-upcoming-row:last-child{border-bottom:none}
 .ov-row-thumb{width:64px;height:64px;border-radius:12px;background:#f0f0f0;background-size:cover;background-position:center;flex-shrink:0}
@@ -255,7 +245,7 @@ main:has(#projectDetail.active){padding-top:0}
 .icon-btn-text.primary:hover{filter:brightness(.96)}
 .modal-box.xwide{max-width:920px}
 
-.resource-list-box{border:1px solid #e5e5e5;border-radius:8px;overflow:hidden;background:#fff}
+.resource-list-box{border:none;border-radius:0;overflow:visible;background:none}
 .rp-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
 .rp-toolbar .search-filter-box{flex:1 1 220px;min-width:200px;max-width:none}
 .rp-toolbar .view-toggle{flex-shrink:0}
@@ -527,7 +517,7 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .rp-checkbox{width:16px;height:16px;cursor:pointer;accent-color:#1a1a1a}
 .rb-static{text-align:right;color:#555}
 .rb-dash{color:#bbb;text-align:right}
-.rm-head,.rm-row{display:grid;grid-template-columns:28px minmax(0,1.5fr) minmax(0,.8fr) minmax(0,1.1fr) 176px 112px 118px;column-gap:12px;align-items:center;padding:11px 18px}
+.rm-head,.rm-row{display:grid;grid-template-columns:28px minmax(0,1.5fr) minmax(0,.8fr) minmax(0,1.1fr) 176px 112px 118px;column-gap:12px;align-items:center;padding:11px 6px}
 .rm-head{font-size:12px;color:#999;padding-bottom:8px;border-bottom:1px solid #f0f0f0}
 .rm-row{border-top:1px solid #f2f2f2;font-size:13px;transition:background .15s;min-height:42px;box-sizing:border-box}
 .rm-head+.rm-row{border-top:none}
@@ -1204,6 +1194,7 @@ const ICON_X='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-
 const ICON_CALLSHEET='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6a1 1 0 0 1 1 1v1H8V5a1 1 0 0 1 1-1z"/><path d="M16 6h2a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h2"/><path d="M9 12h6M9 16h4"/></svg>';
 const ICON_DOWNLOAD='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
 const ICON_SHARE_NODES='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="10.51" x2="15.42" y2="6.49"/><line x1="8.59" y1="13.49" x2="15.42" y2="17.51"/></svg>';
+const ICON_PLUS='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>';
 const ICON_ARROW='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>';
 const ICON_SAVE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>';
 const ICON_CHECK_SM='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 9 17 20 6"/></svg>';
@@ -2275,19 +2266,13 @@ upcoming.push({project:p,date:day.date,dayIndex:di});
 if(ovSort.upcoming==='project') upcoming.sort((a,b)=>a.project.title.localeCompare(b.project.title));
 else upcoming.sort((a,b)=>a.date.localeCompare(b.date));
 upcoming=upcoming.slice(0,5);
-document.getElementById('ovUpcoming').innerHTML = upcoming.length ? upcoming.map((u,i)=>{
+document.getElementById('ovUpcoming').innerHTML = upcoming.length ? upcoming.map(u=>{
 const day=(u.project.days||[])[u.dayIndex]||{};
 const d=new Date(u.date+'T00:00:00');
-const diff=Math.round((d-new Date(todayISO()+'T00:00:00'))/86400000);
-const dow=diff===0?'Today':diff===1?'Tomorrow':d.toLocaleDateString('en-GB',{weekday:'long'});
-const mon=d.toLocaleDateString('en-GB',{month:'short'}).toUpperCase();
-const scenes=day.scenes||[];
-const shots=scenes.reduce((n,sc)=>n+(sc.items||[]).filter(it=>it.type==='shot').length,0);
-const where=[...new Set(scenes.map(sc=>sc.location).filter(Boolean))].slice(0,2).join(' · ');
-const start=(scenes.map(sc=>sc.time).filter(Boolean)[0])||'';
-const thumbStyle=u.project.thumbnail?`background-image:url('${u.project.thumbnail}')`:'';
-const chips=[start,shots?shots+(shots===1?' shot':' shots'):'',scenes.length?scenes.length+(scenes.length===1?' scene':' scenes'):''].filter(Boolean);
-return `<div class="ov-up-card ${CYCLE[i%3]}" onclick="openProject('${u.project.id}')"><div class="ov-up-date"><div class="ov-up-dow">${esc(dow)}</div><div class="ov-up-day">${d.getDate()}</div><div class="ov-up-day">${mon}</div></div><div class="ov-up-info"><div class="ov-up-top"><div class="ov-up-title">${esc(u.project.title)}</div><div class="ov-up-thumb" style="${thumbStyle}"></div></div><div class="ov-up-sub">Shoot · Day ${u.dayIndex+1}${where?' · '+esc(where):''}</div>${chips.length?`<div class="ov-up-chips">${chips.map(c=>`<span class="ov-up-chip">${esc(c)}</span>`).join('')}</div>`:''}</div></div>`;
+const dow=d.toLocaleDateString('en-GB',{weekday:'short'});
+const dm=d.getDate()+' '+d.toLocaleDateString('en-GB',{month:'short'});
+const where=[...new Set((day.scenes||[]).map(sc=>sc.location).filter(Boolean))].slice(0,2).join(' · ');
+return `<div class="ov-up-row" onclick="openProject('${u.project.id}')"><div class="ov-up-date"><div class="ov-up-dow">${esc(dow)}</div><div class="ov-up-dm">${esc(dm)}</div></div><div class="ov-up-info"><div class="ov-up-title">${esc(u.project.title)}</div><div class="ov-up-sub">Shoot • Day ${u.dayIndex+1}${where?' • '+esc(where):''}</div></div></div>`;
 }).join('') : '<div style="font-size:13px;color:#999;padding:8px 0;">Nothing scheduled.</div>';
 
 /* Active projects */
@@ -2871,7 +2856,7 @@ renderSidebarNav();
 
 const content=document.getElementById('pdContent');
 if(currentTab==='brief') content.innerHTML=renderBriefTab(p);
-else if(currentTab==='shotPlanning'){ content.innerHTML=`<div class="rp-toolbar" style="justify-content:space-between"><button type="button" class="btn-ghost" data-no-lock="1" onclick="openAddItemModal()">+ Add</button><div class="view-toggle" data-no-lock="1"><button class="vt-btn ${shotPlannerView==='list'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('list')">List</button><button class="vt-btn ${shotPlannerView==='storyboard'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('storyboard')">Storyboard</button></div></div>`+renderShotPlanningTab(p); }
+else if(currentTab==='shotPlanning'){ content.innerHTML=`<div class="rp-toolbar"><div class="view-toggle" data-no-lock="1"><button class="vt-btn ${shotPlannerView==='list'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('list')">List</button><button class="vt-btn ${shotPlannerView==='storyboard'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('storyboard')">Storyboard</button></div></div>`+renderShotPlanningTab(p); }
 else if(currentTab==='budgeting'){ content.innerHTML=renderBudgetingTab(p); renderResourcePlannerList(); }
 else if(currentTab==='shootTracking') content.innerHTML=renderShootTrackingTab(p);
 else { content.innerHTML=renderDeliveryTab(p); dlLoadVimeoThumbs(); pullShares(); if(RV.ver) dlMountPlayer(); }
@@ -2924,7 +2909,8 @@ const isShoot=(key==='shootTracking'||key==='shotPlanning');
 const cal = isShoot ? btn('','Calendar',ICON_CAL_PLAIN,'exportShootCalendar()',{title:'Add shoot days to calendar (.ics)'}) : '';
 const pdf = isShoot ? btn('','PDF',ICON_DOWNLOAD,'printCallSheets()',{title:'Save PDF — call sheets, shot list, equipment and crew'})
 : btn('','PDF',ICON_DOWNLOAD,`printStage('${key}')`,{title:'Save PDF'});
-actionsEl.innerHTML = btn('','Share',ICON_SHARE_NODES,`dlShareMenu(event,'${p.id}')`)+cal+pdf+primary;
+const add = key==='shotPlanning' ? btn('','Add',ICON_PLUS,'openAddItemModal()',{title:'Add scene, shot or activity'}) : '';
+actionsEl.innerHTML = add+btn('','Share',ICON_SHARE_NODES,`dlShareMenu(event,'${p.id}')`)+cal+pdf+primary;
 }
 function goNextStage(key){
 const i=STAGE_ORDER.indexOf(key), n=STAGE_ORDER[i+1];
