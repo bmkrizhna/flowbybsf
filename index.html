@@ -978,6 +978,23 @@ main{padding-left:14px;padding-right:14px}
 .vw-nofb b{display:block;color:#1a1a1a;font-size:14px;margin-bottom:4px}
 .vw-reply{margin-top:8px;margin-left:14px;background:#f7f7f7;border-radius:10px;padding:8px 11px;font-size:12px;color:#888}
 .vw-reply div{font-size:14px;color:#1a1a1a;margin-top:2px;word-break:break-word}
+/* ---- Feedback pointer (admin) ---- */
+#fbBtn{position:fixed;right:18px;bottom:20px;z-index:9000;width:44px;height:44px;border-radius:50%;border:none;background:#1a1a1a;color:#fff;display:none;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.22)}
+#fbBtn svg{width:20px;height:20px}
+#fbBtn .fb-count{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:var(--accent,#fec92d);color:#1a1a1a;font-size:11px;font-weight:700;display:none;align-items:center;justify-content:center}
+#fbBar{position:fixed;left:50%;top:12px;transform:translateX(-50%);z-index:10001;display:none;align-items:center;gap:10px;background:#1a1a1a;color:#fff;border-radius:999px;padding:8px 8px 8px 16px;font-size:13px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.25);max-width:calc(100vw - 24px)}
+body.fb-on #fbBar{display:flex}
+#fbBar button{border:none;border-radius:999px;background:#fff;color:#1a1a1a;font:inherit;font-size:12px;font-weight:700;padding:7px 12px;cursor:pointer;white-space:nowrap}
+#fbBar button.fb-primary{background:var(--accent,#fec92d)}
+body.fb-on,body.fb-on *{cursor:crosshair!important}
+#fbHi{position:fixed;z-index:10000;pointer-events:none;border:2px solid #e0322b;background:rgba(224,50,43,.08);border-radius:6px;display:none}
+#fbSheet{position:fixed;left:0;right:0;bottom:0;z-index:10002;display:none;justify-content:center;padding:12px}
+#fbSheet.show{display:flex}
+#fbSheet .fb-card{width:100%;max-width:460px;background:#fff;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.28);padding:16px}
+#fbSheet .fb-target{font-size:12px;color:#777;margin-bottom:8px;word-break:break-word}
+#fbSheet textarea{width:100%;min-height:72px;border:1px solid #e5e5e5;border-radius:10px;padding:10px;font:inherit;font-size:16px;resize:vertical;box-sizing:border-box;background:#f7f7f7}
+#fbSheet .fb-row{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
+@media(max-width:768px){#fbBtn{bottom:78px;right:14px}}
 </style>
 </head>
 <body>
@@ -5163,5 +5180,87 @@ boot();
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
 </script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
+<button type="button" id="fbBtn" title="Point out a change" aria-label="Point out a change" onclick="fbStart()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg><span class="fb-count" id="fbCount"></span></button>
+<div id="fbBar"><span id="fbBarText">Tap what needs a change</span><button type="button" class="fb-primary" onclick="fbCopy()">Copy notes</button><button type="button" onclick="fbStop()">Done</button></div>
+<div id="fbHi"></div>
+<div id="fbSheet"><div class="fb-card"><div class="fb-target" id="fbTarget"></div><textarea id="fbText" placeholder="What should change? e.g. make smaller, align left"></textarea><div class="fb-row"><button type="button" class="btn-ghost" onclick="fbCancelNote()">Cancel</button><button type="button" class="btn-primary" onclick="fbAddNote()">Add note</button></div></div></div>
+<script>
+(function(){
+var notes=[], pending=null, on=false;
+try{ notes=JSON.parse(sessionStorage.getItem('fbNotes')||'[]'); }catch(e){}
+function $(i){ return document.getElementById(i); }
+function refresh(){
+var c=$('fbCount'); if(c){ c.textContent=notes.length; c.style.display=notes.length?'flex':'none'; }
+var t=$('fbBarText'); if(t) t.textContent=notes.length?(notes.length+' note'+(notes.length===1?'':'s')+' · tap another'):'Tap what needs a change';
+}
+function save(){ try{ sessionStorage.setItem('fbNotes',JSON.stringify(notes)); }catch(e){} refresh(); }
+function showBtn(){
+var b=$('fbBtn'); if(!b) return; var ok=false;
+try{ ok=(typeof isAdmin==='function'&&isAdmin())&&!$('loginGate').classList.contains('show'); }catch(e){}
+b.style.display=(ok&&!on)?'flex':'none';
+}
+setInterval(showBtn,1200); showBtn(); refresh();
+function inUi(el){ return !!(el&&el.closest&&el.closest('#fbBar,#fbSheet,#fbBtn')); }
+function screenName(){
+try{
+if(currentView==='overview') return 'Dashboard';
+if(currentView==='projectDetail'){ var p=currentProject(); return (STAGE_NAMES[currentTab]||currentTab)+(p?' — '+p.title:''); }
+return String(currentView||'');
+}catch(e){ return ''; }
+}
+function sel(n){
+var s=n.tagName.toLowerCase(); if(n.id&&!/^[0-9]/.test(n.id)) s+='#'+n.id;
+var cl=(n.className&&typeof n.className==='string')?n.className.trim().split(/\s+/).filter(function(c){ return c&&!/^(active|show|just-|has-)/.test(c); }).slice(0,2):[];
+if(cl.length) s+='.'+cl.join('.');
+return s;
+}
+function describe(el){
+var tag=el.tagName.toLowerCase();
+var txt=(el.getAttribute('aria-label')||el.getAttribute('title')||el.innerText||el.value||el.placeholder||'').replace(/\s+/g,' ').trim().slice(0,40);
+var path=[sel(el)], n=el.parentElement, d=0;
+while(n&&d<2&&n!==document.body){ path.unshift(sel(n)); n=n.parentElement; d++; }
+return {label:(txt?'"'+txt+'" ':'')+tag, path:path.join(' > ')};
+}
+function box(el){ var r=el.getBoundingClientRect(), h=$('fbHi'); h.style.display='block'; h.style.left=r.left+'px'; h.style.top=r.top+'px'; h.style.width=r.width+'px'; h.style.height=r.height+'px'; }
+function pick(el){ while(el&&el!==document.body&&el.getBoundingClientRect().width<8) el=el.parentElement; return el; }
+document.addEventListener('mousemove',function(e){
+if(!on||$('fbSheet').classList.contains('show')) return;
+if(inUi(e.target)){ $('fbHi').style.display='none'; return; }
+var el=pick(e.target); if(el) box(el);
+},true);
+document.addEventListener('click',function(e){
+if(!on) return; var el=e.target; if(inUi(el)) return;
+e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+if($('fbSheet').classList.contains('show')) return;
+el=pick(el); if(!el) return; box(el);
+var d=describe(el); pending={screen:screenName(),label:d.label,path:d.path};
+$('fbTarget').textContent=pending.screen+' · '+pending.label;
+$('fbText').value=''; $('fbSheet').classList.add('show'); setTimeout(function(){ $('fbText').focus(); },50);
+},true);
+['touchend','pointerup','mouseup','mousedown','pointerdown','touchstart'].forEach(function(t){
+document.addEventListener(t,function(e){
+if(!on||inUi(e.target)) return;
+e.stopPropagation();
+if(t!=='touchstart'&&t!=='pointerdown'&&e.cancelable) e.preventDefault();
+},true);
+});
+window.fbStart=function(){ on=true; document.body.classList.add('fb-on'); refresh(); showBtn(); };
+window.fbStop=function(){ on=false; document.body.classList.remove('fb-on'); $('fbHi').style.display='none'; $('fbSheet').classList.remove('show'); showBtn(); };
+window.fbCancelNote=function(){ pending=null; $('fbSheet').classList.remove('show'); $('fbHi').style.display='none'; };
+window.fbAddNote=function(){
+var t=$('fbText').value.trim(); if(!pending) return; if(!t){ $('fbText').focus(); return; }
+pending.note=t; notes.push(pending); pending=null; save();
+$('fbSheet').classList.remove('show'); $('fbHi').style.display='none';
+};
+window.fbCopy=function(){
+if(!notes.length){ $('fbBarText').textContent='Tap an element and add a note first'; return; }
+var dev=(innerWidth<=768?'phone':'desktop')+' '+innerWidth+'x'+innerHeight;
+var out='FLOW feedback - '+new Date().toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'})+' - '+dev+'\n'+notes.map(function(n,i){ return (i+1)+'. ['+n.screen+'] '+n.label+'  ('+n.path+')\n   -> '+n.note; }).join('\n');
+function done(){ notes=[]; save(); window.fbStop(); if(typeof notifyUser==='function') notifyUser('Copied. Paste it into the chat.','Notes copied'); }
+function fallback(){ var ta=document.createElement('textarea'); ta.value=out; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); }catch(e){} ta.remove(); done(); }
+if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(out).then(done,fallback); else fallback();
+};
+})();
+</script>
 </body>
 </html>
