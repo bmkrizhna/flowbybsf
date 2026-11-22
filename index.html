@@ -982,9 +982,10 @@ main{padding-left:14px;padding-right:14px}
 #fbBtn{position:fixed;right:18px;bottom:20px;z-index:9000;width:44px;height:44px;border-radius:50%;border:none;background:#1a1a1a;color:#fff;display:none;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.22)}
 #fbBtn svg{width:20px;height:20px}
 #fbBtn .fb-count{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:var(--accent,#fec92d);color:#1a1a1a;font-size:11px;font-weight:700;display:none;align-items:center;justify-content:center}
-#fbBar{position:fixed;left:50%;top:12px;transform:translateX(-50%);z-index:10001;display:none;align-items:center;gap:10px;background:#1a1a1a;color:#fff;border-radius:999px;padding:8px 8px 8px 16px;font-size:13px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.25);max-width:calc(100vw - 24px)}
+#fbBar{position:fixed;left:12px;right:12px;margin:0 auto;top:12px;width:max-content;max-width:calc(100vw - 24px);box-sizing:border-box;z-index:10001;display:none;align-items:center;justify-content:space-between;gap:10px;background:#1a1a1a;color:#fff;border-radius:999px;padding:8px 8px 8px 16px;font-size:13px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.25)}
 body.fb-on #fbBar{display:flex}
-#fbBar button{border:none;border-radius:999px;background:#fff;color:#1a1a1a;font:inherit;font-size:12px;font-weight:700;padding:7px 12px;cursor:pointer;white-space:nowrap}
+#fbBar span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+#fbBar button{flex-shrink:0;border:none;border-radius:999px;background:#fff;color:#1a1a1a;font:inherit;font-size:12px;font-weight:700;padding:7px 12px;cursor:pointer;white-space:nowrap}
 #fbBar button.fb-primary{background:var(--accent,#fec92d)}
 body.fb-on,body.fb-on *{cursor:crosshair!important}
 #fbHi{position:fixed;z-index:10000;pointer-events:none;border:2px solid #e0322b;background:rgba(224,50,43,.08);border-radius:6px;display:none}
@@ -5181,7 +5182,7 @@ boot();
 </script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
 <button type="button" id="fbBtn" title="Point out a change" aria-label="Point out a change" onclick="fbStart()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg><span class="fb-count" id="fbCount"></span></button>
-<div id="fbBar"><span id="fbBarText">Tap what needs a change</span><button type="button" class="fb-primary" onclick="fbCopy()">Copy notes</button><button type="button" onclick="fbStop()">Done</button></div>
+<div id="fbBar"><span id="fbBarText">Tap what to change</span><button type="button" class="fb-primary" onclick="fbCopy()">Copy notes</button><button type="button" onclick="fbStop()">Done</button></div>
 <div id="fbHi"></div>
 <div id="fbSheet"><div class="fb-card"><div class="fb-target" id="fbTarget"></div><textarea id="fbText" placeholder="What should change? e.g. make smaller, align left"></textarea><div class="fb-row"><button type="button" class="btn-ghost" onclick="fbCancelNote()">Cancel</button><button type="button" class="btn-primary" onclick="fbAddNote()">Add note</button></div></div></div>
 <script>
@@ -5191,7 +5192,7 @@ try{ notes=JSON.parse(sessionStorage.getItem('fbNotes')||'[]'); }catch(e){}
 function $(i){ return document.getElementById(i); }
 function refresh(){
 var c=$('fbCount'); if(c){ c.textContent=notes.length; c.style.display=notes.length?'flex':'none'; }
-var t=$('fbBarText'); if(t) t.textContent=notes.length?(notes.length+' note'+(notes.length===1?'':'s')+' · tap another'):'Tap what needs a change';
+var t=$('fbBarText'); if(t) t.textContent=notes.length?(notes.length+' note'+(notes.length===1?'':'s')+' · tap another'):'Tap what to change';
 }
 function save(){ try{ sessionStorage.setItem('fbNotes',JSON.stringify(notes)); }catch(e){} refresh(); }
 function showBtn(){
