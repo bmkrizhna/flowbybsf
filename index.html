@@ -471,7 +471,7 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .view-toggle{display:flex;gap:4px;background:#f0f0f0;border-radius:999px;padding:3px}
 .vt-btn{padding:7px 16px;border:none;border-radius:999px;background:none;font-size:13px;font-weight:600;color:#6b6b6b;transition:background .15s,color .15s}
 .vt-btn.active{background:#1a1a1a;color:#fff}
-/* ---- Storyboard / Shoot Tracker: shared schedule card grid ---- */
+/* ---- Shoot · Track: schedule card grid ---- */
 .sched-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px}
 .sched-card{border-radius:14px;padding:14px;display:flex;flex-direction:column;min-height:184px}
 .sched-card.shot,.sched-card.activity{cursor:pointer;transition:box-shadow .15s}
@@ -481,6 +481,14 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .sched-day-icon svg{width:22px;height:22px}
 .sched-day-label{font-weight:700;font-size:15px;color:#1a1a1a}
 .sched-day-date{font-size:12px;color:#6b5a16;margin-top:2px}
+.sched-day-prog{font-size:12px;font-weight:600;color:#1a1a1a;margin-top:6px}
+.sched-wrap-btn{margin-top:10px;border:none;border-radius:999px;background:#1a1a1a;color:#fff;font:inherit;font-size:12px;font-weight:600;padding:6px 14px;cursor:pointer}
+.sched-wrap-done{margin-top:10px;font-size:12px;font-weight:600;color:#1d7a3b}
+.trk-summary{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.trk-sum-text{font-size:14px;color:#1a1a1a;white-space:nowrap}
+.trk-sum-text span{margin-left:10px;color:#999;font-size:13px}
+.trk-bar{flex:1;height:8px;border-radius:999px;background:#eee;overflow:hidden}
+.trk-bar-fill{height:100%;background:var(--accent);border-radius:999px;transition:width .3s}
 .sched-card.shot{background:#f0f0f0}
 .sched-card.activity{background:var(--accent-bg)}
 .sched-top-row{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;min-height:24px}
@@ -811,6 +819,8 @@ main{padding:16px 16px calc(84px + env(safe-area-inset-bottom))}
 .sched-card.day:first-child{margin-top:0}
 .sched-day-icon{margin-bottom:0}
 .sched-day-date{margin-top:0;margin-left:auto}
+.sched-day-prog{margin-top:0}
+.sched-wrap-btn,.sched-wrap-done{margin-top:0}
 .sched-icon-wrap{padding:4px 0}
 .sched-actions{margin-top:8px}
 .sched-card.sched-flip{padding:0}
@@ -1154,8 +1164,8 @@ return out;
 }
 
 const STAGE_ORDER=['brief','shotPlanning','budgeting','shootTracking','delivery'];
-const STAGE_NAMES={brief:'Project Brief',shotPlanning:'Shot Planner',budgeting:'Resource Manager',shootTracking:'Shoot Tracker',delivery:'Editing & Review'};
-const STAGE_PAGE_TITLES={brief:'Project Brief',shotPlanning:'Shot Planner',budgeting:'Resource Manager',shootTracking:'Shoot Tracker',delivery:'Editing & Review'};
+const STAGE_NAMES={brief:'Project Brief',shotPlanning:'Shoot · Plan',budgeting:'Resource Manager',shootTracking:'Shoot · Track',delivery:'Editing & Review'};
+const STAGE_PAGE_TITLES={brief:'Project Brief',shotPlanning:'Shoot',budgeting:'Resource Manager',shootTracking:'Shoot',delivery:'Editing & Review'};
 const ICON_HOUSE='<svg viewBox="-48.0 -44.0 372 372" fill="currentColor" fill-rule="evenodd"><path d="M21.6,264.4C19.0,262.4 16.5,259.7 15.9,258.3C15.4,256.9 15.0,227.5 15.0,186.7L15.0,117.6L23.8,109.0C28.6,104.3 37.0,96.7 42.5,92.0C47.9,87.3 56.5,79.9 61.4,75.5C66.4,71.0 73.9,64.6 78.0,61.2C82.1,57.8 89.1,51.8 93.5,47.9C97.9,44.0 105.3,37.6 110.0,33.7C119.2,25.9 118.8,26.2 124.7,20.9C134.4,12.0 135.5,12.3 154.1,27.5C162.6,34.4 176.2,45.5 184.5,52.2C198.0,63.2 218.7,80.6 220.0,82.1C220.3,82.4 223.7,85.1 227.5,88.0C231.3,91.0 236.1,94.9 238.0,96.7C239.9,98.5 241.8,100.0 242.1,100.0C243.6,100.0 254.7,109.4 257.2,112.7L260.0,116.4L260.0,185.9L259.9,255.5L257.2,258.7C255.7,260.5 252.4,263.3 250.0,264.9L245.5,268.0L203.4,268.0C163.4,268.0 161.1,267.9 158.9,266.1L156.5,264.2L156.0,219.3L155.5,174.5L137.5,174.0C127.6,173.7 118.7,173.9 117.8,174.3C116.1,175.0 116.0,178.1 116.0,218.4L116.0,261.8L112.5,264.9L108.9,268.0L67.6,268.0L26.3,268.0L21.6,264.4ZM90.8,242.8C91.7,241.9 92.0,231.0 92.0,200.0L92.0,158.4L94.8,155.3C99.6,150.0 99.4,150.0 136.5,150.0C173.0,150.0 173.2,150.0 178.0,154.8L180.5,157.2L181.0,200.4L181.5,243.5L207.2,243.8C228.0,244.0 233.1,243.8 234.2,242.6C235.4,241.5 235.7,231.3 235.9,183.9L236.1,126.5L232.8,123.4C231.0,121.7 224.9,116.5 219.2,111.9C203.3,99.0 193.8,91.1 190.5,88.1C188.8,86.7 183.4,82.1 178.5,78.0C173.6,73.9 168.8,69.9 168.0,69.1C163.7,64.9 136.8,44.0 135.7,44.0C135.1,44.0 132.9,45.5 131.0,47.3C129.0,49.0 125.4,52.1 123.0,54.0C118.0,57.8 99.4,73.7 91.5,80.9C88.7,83.4 84.9,86.8 83.0,88.5C81.1,90.1 75.5,95.1 70.5,99.5C65.5,103.9 56.5,111.7 50.3,116.9C44.2,122.0 38.9,126.8 38.6,127.7C37.3,130.9 37.9,241.5 39.2,242.8C40.9,244.5 89.1,244.5 90.8,242.8Z"/></svg>';
 const ICON_CAL_PLAIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
 const ICON_BRIEF2='<svg viewBox="-30.0 -32.0 372 372" fill="currentColor" fill-rule="evenodd"><path d="M142.7,289.2C139.2,285.6 138.9,278.3 142.0,275.5C143.7,274.0 144.0,272.4 144.1,265.1C144.1,260.4 144.6,254.2 145.1,251.5C145.7,248.8 146.5,243.7 146.9,240.3L147.7,234.2L163.1,219.3C171.5,211.2 190.4,192.7 205.0,178.3C219.6,163.9 233.5,150.6 236.0,148.7C253.5,135.4 266.5,136.4 283.4,152.1C294.1,162.1 296.0,165.7 296.0,176.4L296.0,184.9L291.7,189.7C289.3,192.3 280.7,201.0 272.5,209.0C264.3,217.0 248.5,232.5 237.5,243.5C201.6,279.3 194.6,285.0 186.5,285.0C183.7,285.0 180.9,285.5 180.3,286.1C179.7,286.7 176.8,287.4 173.8,287.5C162.9,288.1 154.4,289.2 150.7,290.6C145.8,292.4 145.8,292.4 142.7,289.2ZM25.5,276.1C23.3,275.1 20.1,272.5 18.5,270.4L15.5,266.5L15.5,148.9L15.5,31.2L19.6,26.4C26.8,17.8 24.1,18.1 97.1,18.0C139.1,18.0 161.7,18.4 163.7,19.1C166.8,20.1 228.7,82.5 233.8,89.7C236.4,93.3 236.5,94.2 236.8,107.6L237.1,121.7L230.8,127.0C227.3,130.0 222.4,134.4 219.8,136.8C212.7,143.7 212.0,142.8 212.0,126.7C212.0,117.7 211.6,113.0 210.8,112.2C209.9,111.3 201.7,111.0 180.1,111.0L150.7,111.0L147.3,108.4L144.0,105.9L144.0,75.0C144.0,58.1 143.7,43.5 143.4,42.6C142.5,40.4 40.5,40.1 39.7,42.4C38.8,44.6 39.0,250.4 39.9,251.8C40.5,252.8 47.9,253.1 73.1,253.1C108.4,253.2 107.8,253.2 114.8,259.3C119.5,263.6 116.9,272.9 110.0,276.5C105.1,279.0 31.0,278.6 25.5,276.1ZM208.0,239.7C219.8,228.0 236.0,212.2 244.0,204.5C268.9,180.4 270.6,178.5 269.2,175.5C267.2,171.3 261.7,164.8 259.1,163.9C255.7,162.5 254.1,163.8 231.0,186.5C219.7,197.6 203.3,213.4 194.5,221.6C172.6,242.0 170.0,244.6 170.0,245.8C170.0,248.2 182.1,261.0 184.3,261.0C185.8,261.0 193.2,254.3 208.0,239.7ZM200.0,87.1C200.0,85.5 168.8,54.9 167.6,55.3C166.1,55.8 165.8,85.0 167.2,86.8C168.5,88.3 200.0,88.6 200.0,87.1Z"/></svg>';
@@ -2033,7 +2043,7 @@ p.sections.delivery.confirmed=false;
 function saveProjectChange(p){ touchProject(p); syncComputedDates(p); saveState(); }
 
 let currentView='overview', currentProjectId=null, currentTab='brief';
-let shotPlannerView='list', rpSearch='', rpCat='', rpSub='', rpAllocatedFilter=false, completedSearch='';
+let rpSearch='', rpCat='', rpSub='', rpAllocatedFilter=false, completedSearch='';
 function setCompletedSearch(v){ completedSearch=v; renderCompleted(); }
 
 function showView(view){
@@ -2052,10 +2062,11 @@ if(!wrap) return;
 const p = (currentView==='projectDetail' && currentProjectId) ? currentProject() : null;
 const items=[];
 items.push(`<button class="sidebar-link ${currentView==='overview'?'active':''}" onclick="showView('overview')" title="Dashboard"><span class="sidebar-link-icon">${ICON_HOUSE}</span><span class="sidebar-link-label">Dashboard</span></button>`);
-items.push(...STAGE_ORDER.map(k=>{
-if(!p) return `<button class="sidebar-link disabled" onclick="openLatestProject('${k}')" title="Open your latest project on this stage"><span class="sidebar-link-icon">${STAGE_ICONS[k]}</span><span class="sidebar-link-label">${STAGE_NAMES[k]}</span></button>`;
-const active=currentView==='projectDetail' && currentTab===k;
-return `<button class="sidebar-link ${active?'active':''}" onclick="setTab('${k}')" title="${STAGE_NAMES[k]}"><span class="sidebar-link-icon">${STAGE_ICONS[k]}</span><span class="sidebar-link-label">${STAGE_NAMES[k]}</span></button>`;
+items.push(...STAGE_ORDER.filter(k=>k!=='shootTracking').map(k=>{
+const lab=k==='shotPlanning'?'Shoot':STAGE_NAMES[k];
+if(!p) return `<button class="sidebar-link disabled" onclick="openLatestProject('${k}')" title="Open your latest project on this stage"><span class="sidebar-link-icon">${STAGE_ICONS[k]}</span><span class="sidebar-link-label">${lab}</span></button>`;
+const active=currentView==='projectDetail' && (currentTab===k || (k==='shotPlanning' && currentTab==='shootTracking'));
+return `<button class="sidebar-link ${active?'active':''}" onclick="setTab('${k}')" title="${lab}"><span class="sidebar-link-icon">${STAGE_ICONS[k]}</span><span class="sidebar-link-label">${lab}</span></button>`;
 }));
 if(isAdmin()){
 const pc=pendingCount();
@@ -2677,7 +2688,6 @@ function openProject(id,opts){
 opts=opts||{};
 const keepTab=opts.keepTab && currentView==='projectDetail' && currentTab;
 currentProjectId=id;
-shotPlannerView='list';
 rpSearch=''; rpCat=''; rpSub=''; rpAllocatedFilter=false;
 RV.adding=false;
 const p=STATE.projects.find(x=>x.id===id);
@@ -2838,9 +2848,9 @@ renderSidebarNav();
 
 const hAdd=document.getElementById('pdHeadAdd'), hView=document.getElementById('pdHeadView');
 if(hAdd&&hView){
-if(currentTab==='shotPlanning'){
+if(currentTab==='shotPlanning'||currentTab==='shootTracking'){
 hAdd.innerHTML='';
-hView.innerHTML=`<div class="view-toggle" data-no-lock="1"><button class="vt-btn ${shotPlannerView==='list'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('list')">List</button><button class="vt-btn ${shotPlannerView==='storyboard'?'active':''}" data-no-lock="1" onclick="setShotPlannerView('storyboard')">Storyboard</button></div>`;
+hView.innerHTML=`<div class="view-toggle" data-no-lock="1"><button class="vt-btn ${currentTab==='shotPlanning'?'active':''}" data-no-lock="1" onclick="setTab('shotPlanning')">Plan</button><button class="vt-btn ${currentTab==='shootTracking'?'active':''}" data-no-lock="1" onclick="setTab('shootTracking')">Track</button></div>`;
 } else { hAdd.innerHTML=''; hView.innerHTML=''; }
 }
 const content=document.getElementById('pdContent');
@@ -3163,8 +3173,7 @@ setTimeout(()=>{ renderProjectDetail(); renderSpendCard(); },0);
 }
 function updateMeta(field,val){ const p=currentProject(); p[field]=val; saveProjectChange(p); setTimeout(renderProjectDetail,0); }
 
-/* ---------- SHOT PLANNER (List + Storyboard) ---------- */
-function setShotPlannerView(v){ shotPlannerView=v; renderProjectDetail(); }
+/* ---------- SHOT PLANNER (Plan mode of the Shoot segment) ---------- */
 function toggleSidebar(){
 const collapsed=!document.body.classList.contains('sidebar-collapsed');
 document.body.classList.toggle('sidebar-collapsed',collapsed);
@@ -3222,7 +3231,7 @@ return `<div class="sp-shot-row" data-no-lock="1" onclick="openEditUnscheduledSh
 </div>`;
 }).join('')}
 </div>` : '';
-const body = shotPlannerView==='list' ? renderShotPlannerListBody(days) : renderShotPlannerStoryboardBody(days);
+const body = renderShotPlannerListBody(days);
 return `<div id="pdBody">
 ${unschedHtml}${body}
 </div>`;
@@ -3272,13 +3281,42 @@ return `<div class="sp-day-band">${dayBandLabel(d,di)}</div>${sceneBlocks}`;
 }).join('');
 return dayBlocks;
 }
-/* ---------- Shared schedule card grid (Storyboard + Shoot Tracker) ---------- */
+/* ---------- Schedule card grid (Shoot · Track) ---------- */
+function dayShotCounts(d){
+let total=0,done=0;
+(d.scenes||[]).forEach(sc=>sceneShots(sc).forEach(sh=>{ total++; if(sh.status==='Completed') done++; }));
+return {total,done};
+}
 function scheduleDayCardHtml(d,di){
-return `<div class="sched-card day">
+const c=dayShotCounts(d);
+const wrapped=d.status==='Completed';
+const isToday=!!d.date && d.date===todayISO();
+return `<div class="sched-card day${isToday?' today':''}">
 <div class="sched-day-icon">${ICON_CAL_PLAIN}</div>
-<div class="sched-day-label">Day ${di+1}</div>
+<div class="sched-day-label">Day ${di+1}${isToday?' · Today':''}</div>
 <div class="sched-day-date">${esc(fmtDateShort(d.date))||'No date'}</div>
+<div class="sched-day-prog">${c.done}/${c.total} shots</div>
+${wrapped?'<span class="sched-wrap-done">Wrapped</span>':`<button type="button" class="sched-wrap-btn" data-no-lock="1" onclick="wrapDay(${di})">Wrap day</button>`}
 </div>`;
+}
+function wrapDay(di){
+const p=currentProject(); if(!p) return;
+const d=(p.days||[])[di]; if(!d) return;
+const open=[];
+(d.scenes||[]).forEach(sc=>sceneShots(sc).forEach(sh=>{ if(sh.status!=='Completed'&&sh.status!=='Cancelled'&&sh.status!=='Postponed') open.push(sh); }));
+const msg=open.length ? `Wrap Day ${di+1}? ${open.length} unfinished shot${open.length===1?'':'s'} will move to Unscheduled in Plan.` : `Wrap Day ${di+1}?`;
+if(!confirm(msg)) return;
+p.unscheduledShots=p.unscheduledShots||[];
+open.forEach(sh=>{
+sh.status='Postponed';
+p.unscheduledShots.push({id:'u'+Date.now()+Math.random().toString(36).slice(2,5),desc:sh.desc,size:sh.size,movement:sh.movement,image:sh.image||'',ie:sh.ie||'',hours:sh.hours||0});
+});
+(d.scenes||[]).forEach(sc=>(sc.items||[]).forEach(it=>{ if(it.type!=='shot' && it.status!=='Cancelled') it.status='Completed'; }));
+d.status='Completed';
+p.sections.shootTracking.confirmed=allShotsResolved(p);
+saveProjectChange(p);
+logActivity('Day '+(di+1)+' wrapped',p.title);
+renderProjectDetail(); renderOverview();
 }
 function scheduleStatusDotHtml(status){
 const cls=status==='Completed'?'done':status==='Postponed'?'postponed':status==='Cancelled'?'cancelled':'';
@@ -3292,7 +3330,6 @@ function scheduleShotCardHtml(sh,r,anchorId,trackerMode){
 const tags=[sh.size,sh.movement].filter(v=>v && v!=='—');
 const tag=tags[0]||'';
 const isDone=sh.status==='Completed';
-if(trackerMode){
 const front=`<div class="sched-flip-face sched-flip-front" onclick="flipShotCard('${anchorId}',event)">
 <div class="sched-top-row"><span class="sched-badge">${esc(r.num)}</span>${tag?`<span class="sched-tag">${esc(tag)}</span>`:'<span></span>'}</div>
 <div class="sched-icon-wrap">${sh.image?`<img src="${sh.image}">`:ICON_SCENE}</div>
@@ -3302,17 +3339,8 @@ ${scheduleStatusDotHtml(sh.status)}
 const back=`<div class="sched-flip-face sched-flip-back" onclick="flipShotCard('${anchorId}',event)">${scheduleActionsHtml('shot',anchorId,sh.status)}</div>`;
 return `<div class="sched-card shot sched-flip" id="flip-${anchorId}"><div class="sched-flip-inner">${front}${back}</div></div>`;
 }
-const statusArea = `<div class="sched-status-dot ${isDone?'done':''}">${isDone?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 9 17 20 6"/></svg>':''}</div>`;
-return `<div class="sched-card shot" onclick="focusItemInList('${anchorId}')">
-<div class="sched-top-row"><span class="sched-badge">${esc(r.num)}</span>${tag?`<span class="sched-tag">${esc(tag)}</span>`:'<span></span>'}</div>
-<div class="sched-icon-wrap">${sh.image?`<img src="${sh.image}">`:ICON_SCENE}</div>
-<div class="sched-desc">${esc(sh.desc)||'Untitled shot'}</div>
-${statusArea}
-</div>`;
-}
 function scheduleActivityCardHtml(a,d,anchorId,trackerMode){
 const isDone=a.status==='Completed';
-if(trackerMode){
 const front=`<div class="sched-flip-face sched-flip-front" onclick="flipShotCard('${anchorId}',event)">
 <div class="sched-icon-wrap">${ICON_COFFEE}</div>
 <div class="sched-activity-title">${esc(activityDisplayText(a,d.date))}</div>
@@ -3320,13 +3348,6 @@ ${scheduleStatusDotHtml(a.status)}
 </div>`;
 const back=`<div class="sched-flip-face sched-flip-back" onclick="flipShotCard('${anchorId}',event)">${scheduleActionsHtml('activity',anchorId,a.status)}</div>`;
 return `<div class="sched-card activity sched-flip" id="flip-${anchorId}"><div class="sched-flip-inner">${front}${back}</div></div>`;
-}
-const statusArea = `<div class="sched-status-dot ${isDone?'done':''}">${isDone?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 9 17 20 6"/></svg>':''}</div>`;
-return `<div class="sched-card activity" onclick="focusItemInList('${anchorId}')">
-<div class="sched-icon-wrap">${ICON_COFFEE}</div>
-<div class="sched-activity-title">${esc(activityDisplayText(a,d.date))}</div>
-${statusArea}
-</div>`;
 }
 function flipShotCard(anchorId,ev){
 if(ev&&ev.stopPropagation) ev.stopPropagation();
@@ -3362,16 +3383,6 @@ cards.push(scheduleShotCardHtml(r.item,r,anchorId,trackerMode));
 });
 });
 return `<div class="sched-grid">${cards.join('')}</div>`;
-}
-function renderShotPlannerStoryboardBody(days){
-const hasScenes=days.some(d=>(d.scenes||[]).length>0);
-if(!hasScenes) return addRowHtml(days);
-return scheduleGridHtml(days,false)+addRowHtml(days);
-}
-function focusItemInList(anchorId){
-shotPlannerView='list';
-renderProjectDetail();
-setTimeout(function(){ const el=document.getElementById(anchorId); if(el) el.scrollIntoView({behavior:'smooth',block:'center'}); },60);
 }
 /* ---------- SHOT PLANNER: drag to reorder (items within a scene, scenes within a day) ---------- */
 function reorderArray(arr,from,to){ const [moved]=arr.splice(from,1); arr.splice(to,0,moved); }
@@ -4056,9 +4067,14 @@ return `<div id="pdBody">
 function renderShootTrackingTab(p){
 const days=p.days||[];
 const hasScenes=days.some(d=>(d.scenes||[]).length>0);
+let total=0,done=0;
+days.forEach(d=>{ const c=dayShotCounts(d); total+=c.total; done+=c.done; });
+const left=total-done;
+const pct=total?Math.round(done/total*100):0;
+const summary=hasScenes?`<div class="trk-summary"><div class="trk-sum-text"><b>${done}</b> of ${total} shots done<span>${left?left+' left':'All done'}</span></div><div class="trk-bar"><div class="trk-bar-fill" style="width:${pct}%"></div></div></div>`:'';
 const grid=hasScenes?scheduleGridHtml(days,true):'';
 return `<div id="pdBody">
-${grid || '<div class="box" style="font-size:13px;color:#999;padding:20px 0;">No shots scheduled yet — add days and shots in Shot Planner.</div>'}
+${summary}${grid || '<div class="box" style="font-size:13px;color:#999;padding:20px 0;">No shots scheduled yet — switch to Plan to add days and shots.</div>'}
 </div>`;
 }
 function allShotsResolved(p){
@@ -4081,7 +4097,7 @@ p.unscheduledShots.push({id:'u'+Date.now(),desc:item.desc,size:item.size,movemen
 saveProjectChange(p);
 logActivity('Shoot status updated',p.title);
 renderProjectDetail(); renderOverview();
-notifyUser('This shot was moved to Shot Planner as unscheduled, with its details carried over. Give it a new day when ready.');
+notifyUser('This shot was moved to Plan as unscheduled, with its details carried over. Give it a new day when ready.');
 return;
 }
 saveProjectChange(p);
