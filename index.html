@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title> </title>
-<meta name="description" content="Production management for Archive Film Labs — brief, shot planning, resources, shoot tracking and review, in one place.">
+<title>FLOW — Film Production Management | Big Short Films</title>
+<meta name="description" content="Plan film production with FLOW by Big Short Films. Manage project briefs, shot lists, crew and equipment, shoot tracking, and edit review.">
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#ffffff">
 <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
@@ -243,6 +243,9 @@ main:has(#projectDetail.active){padding-top:0}
 .ov-completed-sub{font-size:12px;color:#888;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ov-project-info{flex:1;min-width:0}
 .ov-project-title{font-size:14px;font-weight:600;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ov-project-actions{display:flex;align-items:center;gap:6px;flex-shrink:0;margin-left:auto}
+.ov-project-action{height:36px;padding:0 12px;font-size:12px}
+.ov-project-action svg{width:14px;height:14px}
 .ov-project-sub{font-size:13px;color:#999}
 .ov-project-progress{display:flex;align-items:center;gap:8px;width:140px;flex-shrink:0}
 .ov-project-progress .usage-bar{margin:0;flex:1}
@@ -753,6 +756,7 @@ html.viewer-mode .page-shell,html.viewer-mode .modal-overlay,html.viewer-mode .h
 @media (max-width:768px){
 .ov2-grid{grid-template-columns:1fr;gap:28px}
 .ov-project-row{flex-wrap:wrap;row-gap:6px}
+.ov-project-actions{margin-left:78px}
 .ov-project-progress{width:100%;flex-basis:100%;order:4;margin-top:2px}
 .ov-card-head{flex-wrap:wrap;row-gap:8px}
 .ov-heading-lg{font-size:15px}
@@ -1033,7 +1037,7 @@ main{padding-left:14px;padding-right:14px}
 <div class="page-shell">
 <div class="topbar">
 <div class="topbar-left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="topbarGreetIcon"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M2.5 12H5M19 12h2.5M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg><span id="topbarGreeting">Good Morning, Bala</span></div>
-<div class="topbar-logo" onclick="showView('overview')" title="Dashboard"><img class="logo-img" src="/assets/615ec1638c.png" alt="Flow - By Big Short Films"></div>
+<div class="topbar-logo" onclick="showView('overview')" title="Dashboard"><img class="logo-img" src="./assets/615ec1638c.png" alt="Flow - By Big Short Films"></div>
 <div class="topbar-right">
 <span class="topbar-loc" id="topbarLoc" title="Current location"><span class="loc-city" id="dashCity"></span><span id="dashWeather">—</span></span>
 <div class="topbar-divider"></div>
@@ -1394,21 +1398,21 @@ pb.equipmentIds=[...byEqName('Sony FX6'),...byEqName('Sigma 24-70mm'),...rep(byE
 pb.productionIds=[...byProdTitle('Crew Catering'),...byProdTitle('Location Permissions')];
 pb.startDate='2026-10-20';
 pb.phaseLog={brief:'2026-10-22',shotPlanning:'2026-10-25',budgeting:'2026-10-28',shootTracking:null,delivery:null,delivered:null};
-pb.thumbnail="/assets/1b23e59108.svg";
+pb.thumbnail="./assets/1b23e59108.svg";
 
 const ml=byId('monsoon-letters');
 ml.crewIds=[...byRole('Director'),...byRole('Producer'),...byRole('Cinematographer'),...byRole('Production Sound Mixer')];
 ml.equipmentIds=[...byEqName('Sony FX6'),...byEqName('Sony 24-70mm GM'),...byEqSub('Sound',1),...rep(byEqSub('Lighting',1),2)];
 ml.productionIds=[...byProdTitle('Crew Accommodation'),...byProdTitle('Location Permissions')];
 ml.phaseLog={brief:null,shotPlanning:null,budgeting:null,shootTracking:null,delivery:null,delivered:null};
-ml.thumbnail="/assets/14eb75d7f5.svg";
+ml.thumbnail="./assets/14eb75d7f5.svg";
 
 const ss=byId('salt-silence');
 ss.crewIds=[...byRole('Director'),...byRole('Cinematographer'),...byRole('Gaffer'),...byRole('Key Grip'),...byRole('Production Sound Mixer'),...rep(byRole('Production Assistant'),2)];
 ss.equipmentIds=[...byEqName('ARRI Alexa Mini LF'),...byEqSub('Lenses',1),...byEqName('Sachtler Tripod + Head'),...rep(byEqSub('Grip',1),4),...byEqSub('Sound',1),...byEqName('Generator 10 kVA')];
 ss.productionIds=[...byProdTitle('Crew Accommodation'),...byProdTitle('Production Catering'),...byProdTitle('Crew Transport'),...byProdTitle('Location Permit')];
 ss.phaseLog={brief:'2026-10-15',shotPlanning:'2026-10-18',budgeting:'2026-10-20',shootTracking:null,delivery:null,delivered:null};
-ss.thumbnail="/assets/929a96b182.svg";
+ss.thumbnail="./assets/929a96b182.svg";
 
 const lb=byId('last-bus');
 lb.crewIds=[...byRole('Director'),...byRole('Cinematographer'),...byRole('Production Sound Mixer'),...byRole('Editor'),...byRole('Colorist')];
@@ -1420,7 +1424,7 @@ lb.sections.delivery.videos=[{id:'main',name:'Main Film',versions:[
 {id:'v1',num:1,title:'Rough Cut v1',link:'',date:'2026-10-28',status:'Needs Changes',statusTs:Date.parse('2026-10-29')},
 {id:'v2',num:2,title:'Rough Cut v2',link:'',date:'2026-11-03',status:'In Review',statusTs:Date.parse('2026-11-03')}
 ]}];
-lb.thumbnail="/assets/f733ecca53.svg";
+lb.thumbnail="./assets/f733ecca53.svg";
 
 const hc=byId('hollow-city');
 hc.crewIds=[...byRole('Director'),...byRole('Cinematographer'),...byRole('Production Designer'),...byRole('Editor'),...byRole('Colorist'),...byRole('Composer')];
@@ -1432,7 +1436,7 @@ hc.sections.delivery.confirmed=true;
 hc.sections.delivery.videos=[{id:'main',name:'Main Film',versions:[
 {id:'v1',num:1,title:'Festival Master',link:'',date:'2026-10-20',status:'Approved',statusTs:Date.parse('2026-11-01')}
 ]}];
-hc.thumbnail="/assets/957872fc6b.svg";
+hc.thumbnail="./assets/957872fc6b.svg";
 
 return {
 schema:RES_SCHEMA,
@@ -1814,7 +1818,7 @@ const MOBILE_LOGIN_DOODLES=[
 [8,8,4,24],[0,56,3,30],[3,40,7,8],[1,4,16,30],[28,70,16,17],[10,50,21,6],[2,60,23,28],[17,22,25,7],
 [9,6,75,27],[22,62,77,25],[21,38,88,23],[7,66,89,23],[35,4,89,18],[13,30,80,8],[24,50,76,5],[33,86,85,5]
 ];
-const LOGIN_DOODLES=[[0,0,234,189,"/assets/3c38b45247.svg"],[451,0,274,231,"/assets/ff4f9eb0e1.svg"],[1171,0,251,226,"/assets/ddb85aa164.svg"],[1697,0,167,172,"/assets/0f05f867ea.svg"],[938,2,101,107,"/assets/2d3f3eaaee.svg"],[733,9,118,160,"/assets/5a9de14801.svg"],[238,15,198,215,"/assets/37ce863e74.svg"],[1439,37,249,236,"/assets/117b538247.svg"],[964,90,198,173,"/assets/dc910f3141.svg"],[1703,196,217,280,"/assets/c0352a05fc.svg"],[96,207,42,42,"/assets/4fdb52f3f4.svg"],[466,238,42,42,"/assets/4fdb52f3f4.svg"],[1449,260,42,42,"/assets/ee0da51d1c.svg"],[168,281,101,107,"/assets/2d3f3eaaee.svg"],[0,288,81,160,"/assets/e122fc79e5.svg"],[538,312,101,107,"/assets/2d3f3eaaee.svg"],[333,319,118,160,"/assets/5a9de14801.svg"],[1318,334,101,107,"/assets/44dd0f5421.svg"],[1506,341,118,160,"/assets/815a6f32ea.svg"],[6,454,274,291,"/assets/08be033c31.svg"],[1619,475,237,159,"/assets/7858309e81.svg"],[1333,492,163,125,"/assets/bac85a41f7.svg"],[331,538,196,170,"/assets/3d66ddeab1.svg"],[1504,564,167,192,"/assets/4dc72f772f.svg"],[1870,666,50,106,"/assets/5d0375e5e7.svg"],[1239,669,274,291,"/assets/cdf94fc4c4.svg"],[1665,673,118,160,"/assets/5a9de14801.svg"],[226,720,249,236,"/assets/a39c119eb7.svg"],[948,759,150,161,"/assets/78d0f4ff33.svg"],[0,762,149,192,"/assets/47e9220d5b.svg"],[517,765,251,275,"/assets/0e5c0f9fd4.svg"],[1659,839,249,236,"/assets/117b538247.svg"],[781,853,167,192,"/assets/4dc72f772f.svg"],[184,901,42,42,"/assets/ee0da51d1c.svg"],[999,905,296,175,"/assets/d6873ab4e4.svg"],[1455,923,150,157,"/assets/2138cb232a.svg"],[53,975,101,105,"/assets/b22d806ebc.svg"],[241,982,118,98,"/assets/7b7af400be.svg"]];
+const LOGIN_DOODLES=[[0,0,234,189,"./assets/3c38b45247.svg"],[451,0,274,231,"./assets/ff4f9eb0e1.svg"],[1171,0,251,226,"./assets/ddb85aa164.svg"],[1697,0,167,172,"./assets/0f05f867ea.svg"],[938,2,101,107,"./assets/2d3f3eaaee.svg"],[733,9,118,160,"./assets/5a9de14801.svg"],[238,15,198,215,"./assets/37ce863e74.svg"],[1439,37,249,236,"./assets/117b538247.svg"],[964,90,198,173,"./assets/dc910f3141.svg"],[1703,196,217,280,"./assets/c0352a05fc.svg"],[96,207,42,42,"./assets/4fdb52f3f4.svg"],[466,238,42,42,"./assets/4fdb52f3f4.svg"],[1449,260,42,42,"./assets/ee0da51d1c.svg"],[168,281,101,107,"./assets/2d3f3eaaee.svg"],[0,288,81,160,"./assets/e122fc79e5.svg"],[538,312,101,107,"./assets/2d3f3eaaee.svg"],[333,319,118,160,"./assets/5a9de14801.svg"],[1318,334,101,107,"./assets/44dd0f5421.svg"],[1506,341,118,160,"./assets/815a6f32ea.svg"],[6,454,274,291,"./assets/08be033c31.svg"],[1619,475,237,159,"./assets/7858309e81.svg"],[1333,492,163,125,"./assets/bac85a41f7.svg"],[331,538,196,170,"./assets/3d66ddeab1.svg"],[1504,564,167,192,"./assets/4dc72f772f.svg"],[1870,666,50,106,"./assets/5d0375e5e7.svg"],[1239,669,274,291,"./assets/cdf94fc4c4.svg"],[1665,673,118,160,"./assets/5a9de14801.svg"],[226,720,249,236,"./assets/a39c119eb7.svg"],[948,759,150,161,"./assets/78d0f4ff33.svg"],[0,762,149,192,"./assets/47e9220d5b.svg"],[517,765,251,275,"./assets/0e5c0f9fd4.svg"],[1659,839,249,236,"./assets/117b538247.svg"],[781,853,167,192,"./assets/4dc72f772f.svg"],[184,901,42,42,"./assets/ee0da51d1c.svg"],[999,905,296,175,"./assets/d6873ab4e4.svg"],[1455,923,150,157,"./assets/2138cb232a.svg"],[53,975,101,105,"./assets/b22d806ebc.svg"],[241,982,118,98,"./assets/7b7af400be.svg"]];
 
 /* ---------- LOGIN DOODLE ANIMATION ---------- */
 const LOGIN_REDUCED_MOTION = (()=>{ try{ return window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){ return false; } })();
@@ -2331,7 +2335,7 @@ document.getElementById('ovActiveList').innerHTML = activeSorted.length ? active
 const pct=Math.round(STAGE_ORDER.filter(k=>p.sections[k].confirmed).length/5*100);
 const thumbStyle=p.thumbnail?`background-image:url('${p.thumbnail}')`:'';
 const status=getProjectStatus(p);
-return `<div class="ov-project-row" onclick="openProject('${p.id}')"><div class="ov-project-thumb" style="${thumbStyle}"></div><div class="ov-project-info"><div class="ov-project-title">${esc(p.title)} <span class="status-inline">(${status})</span></div><div class="ov-project-sub">${esc(p.format||'')}</div></div><div class="ov-project-progress"><div class="usage-bar"><div class="usage-bar-fill" style="width:${pct}%"></div></div><span class="ov-project-pct">${pct}%</span></div></div>`;
+return `<div class="ov-project-row" onclick="openProject('${p.id}')"><div class="ov-project-thumb" style="${thumbStyle}"></div><div class="ov-project-info"><div class="ov-project-title">${esc(p.title)} <span class="status-inline">(${status})</span></div><div class="ov-project-sub">${esc(p.format||'')}</div></div><div class="ov-project-actions" data-no-open="1"><button type="button" class="icon-btn-text ov-project-action" aria-label="Share ${esc(p.title)}" onclick="event.stopPropagation();dlShareMenu(event,'${p.id}')">${ICON_SHARE_NODES}<span>Share</span></button><button type="button" class="icon-btn-text ov-project-action" aria-label="Download ${esc(p.title)} project PDF" onclick="event.stopPropagation();printProjectPDF('${p.id}')">${ICON_DOWNLOAD}<span>PDF</span></button></div><div class="ov-project-progress"><div class="usage-bar"><div class="usage-bar-fill" style="width:${pct}%"></div></div><span class="ov-project-pct">${pct}%</span></div></div>`;
 }).join('') : '<div style="font-size:13px;color:#999;padding:8px 0;">Nothing in flight.</div>';
 
 /* Completed projects preview */
@@ -2959,11 +2963,7 @@ primary = btn('busy','Saving…',ICON_SAVE,'',{disabled:1});
 primary = btn('next-btn'+(pdJustSaved?' just-saved':''),'Next',ICON_ARROW,`goNextStage('${key}')`,{title:'Saved — go to '+(STAGE_NAMES[next]||'next step')});
 pdJustSaved=false;
 }
-const isShoot=(key==='shootTracking'||key==='shotPlanning');
-const cal = isShoot ? btn('','Calendar',ICON_CAL_PLAIN,'exportShootCalendar()',{title:'Add shoot days to calendar (.ics)'}) : '';
-const pdf = isShoot ? btn('','PDF',ICON_DOWNLOAD,'printCallSheets()',{title:'Save PDF — call sheets, shot list, equipment and crew'})
-: btn('','PDF',ICON_DOWNLOAD,`printStage('${key}')`,{title:'Save PDF'});
-actionsEl.innerHTML = btn('','Share',ICON_SHARE_NODES,`dlShareMenu(event,'${p.id}')`)+cal+pdf+primary;
+actionsEl.innerHTML = primary;
 }
 function goNextStage(key){
 const i=STAGE_ORDER.indexOf(key), n=STAGE_ORDER[i+1];
@@ -3034,29 +3034,6 @@ footer{margin-top:30px;padding-top:10px;border-top:1px solid #ddd;font-size:11px
 </style></head><body>${days.map(sheet).join('')}${(allRes.crew.length||allRes.equipment.length)?`<section class="cs-page cs-all"><header><div><div class="cs-kicker">Project crew &amp; equipment</div><h1>${esc(p.title)}</h1><div class="cs-meta">${esc([p.client,p.format].filter(Boolean).join(' · '))}</div></div></header><div class="cs-res-wrap">${resList('Crew',allRes.crew)}${resList('Equipment',allRes.equipment)}${resList('Production',allRes.production)}</div><footer>Archive Film Labs · Big Short Films · Printed ${new Date().toLocaleDateString('en-GB')}</footer></section>`:''}</body></html>`);
 w.document.close(); w.focus();
 setTimeout(()=>w.print(),400);
-}
-function icsEsc(s){ return String(s==null?'':s).replace(/\\/g,'\\\\').replace(/\n/g,'\\n').replace(/([,;])/g,'\\$1'); }
-function exportShootCalendar(){
-const p=currentProject(); if(!p) return;
-const days=callSheetDays(p).filter(x=>x.d.date);
-if(!days.length){ notifyUser('Give your shoot days a date in Shot Planner first.','No dated shoot days'); return; }
-const stamp=new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d+/,'');
-const ev=days.map(({d,di})=>{
-const start=d.date.replace(/-/g,'');
-const next=new Date(d.date+'T00:00:00'); next.setDate(next.getDate()+1);
-const end=next.getFullYear()+String(next.getMonth()+1).padStart(2,'0')+String(next.getDate()).padStart(2,'0');
-const desc=(d.scenes||[]).map(sc=>`Scene ${sc.num||''}: ${sc.title||''}${sc.location?' — '+sc.location:''}${sc.time?' ('+sc.time+')':''}`).join('\n');
-const locs=[...new Set((d.scenes||[]).map(sc=>sc.location).filter(Boolean))].join(', ')||p.place||'';
-return ['BEGIN:VEVENT',`UID:${p.id}-day${di+1}-${start}@flowbybsf`,`DTSTAMP:${stamp}`,`DTSTART;VALUE=DATE:${start}`,`DTEND;VALUE=DATE:${end}`,
-`SUMMARY:${icsEsc(p.title+' — Shoot day '+(di+1))}`,`LOCATION:${icsEsc(locs)}`,`DESCRIPTION:${icsEsc(desc)}`,'END:VEVENT'].join('\r\n');
-});
-const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Big Short Films//Flow//EN','CALSCALE:GREGORIAN',...ev,'END:VCALENDAR'].join('\r\n');
-const blob=new Blob([ics],{type:'text/calendar;charset=utf-8'});
-const a=document.createElement('a');
-a.href=URL.createObjectURL(blob);
-a.download=(p.title||'shoot').replace(/[^\w\- ]+/g,'').trim().replace(/\s+/g,'-')+'-shoot-days.ics';
-document.body.appendChild(a); a.click(); a.remove();
-setTimeout(()=>URL.revokeObjectURL(a.href),2000);
 }
 function saveStageFromHeader(key){
 pdJustSaved=true;
@@ -3140,6 +3117,49 @@ footer.print-footer{margin-top:48px;padding-top:14px;border-top:1px solid #333;f
 w.document.close();
 w.focus();
 setTimeout(()=>w.print(),400);
+}
+
+function printProjectPDF(pid){
+const p=STATE.projects.find(x=>x.id===pid);
+if(!p) return;
+const w=window.open('','_blank');
+if(!w){ notifyUser('Allow pop-ups to print this project.'); return; }
+const status=getProjectStatus(p);
+const progress=Math.round(STAGE_ORDER.filter(k=>p.sections&&p.sections[k]&&p.sections[k].confirmed).length/STAGE_ORDER.length*100);
+const brief=p.brief||{};
+const briefFields=[['Logline',brief.logline],['Synopsis',brief.synopsis],['Creative brief',brief.creativeBrief],['Treatment',brief.treatment],['Visual direction',brief.visualDirection],['Research',brief.research],['Tone',brief.tone],['Locations',brief.locations],['Output requirements',brief.outputRequirements],['Worksheet',brief.worksheet],['Script',brief.script]].filter(x=>String(x[1]||'').trim());
+const briefHtml=briefFields.length?briefFields.map(([label,value])=>`<div class="brief-field"><h3>${esc(label)}</h3><p>${esc(value).replace(/\n/g,'<br>')}</p></div>`).join(''):'<p class="empty">No brief details added.</p>';
+const days=(p.days||[]).map((day,dayIndex)=>{
+const scenes=(day.scenes||[]).map(scene=>{
+const items=scene.items||scene.shots||[];
+const rows=items.map(item=>{
+const isShot=item.type==='shot'||(!item.type&&item.desc);
+const label=isShot?(item.desc||'Untitled shot'):(item.label||item.actType||item.note||'Activity');
+const details=isShot?[item.size,item.movement,item.ie].filter(Boolean).join(' · '):[item.fromLoc,item.toLoc,item.note].filter(Boolean).join(' · ');
+return `<tr><td>${esc(item.num||item.time||item.start||'—')}</td><td>${esc(isShot?'Shot':'Activity')}</td><td>${esc(label)}</td><td>${esc(details||'—')}</td><td>${esc(item.status||'—')}</td></tr>`;
+}).join('');
+return `<div class="scene"><h3>Scene ${esc(scene.num||'')} · ${esc(scene.title||'Untitled scene')}</h3><p>${esc([scene.ie,scene.location,scene.time].filter(Boolean).join(' · ')||'No scene details')}</p>${rows?`<table><thead><tr><th>No. / Time</th><th>Type</th><th>Description</th><th>Details</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table>`:'<p class="empty">No shots or activities.</p>'}</div>`;
+}).join('');
+return `<section class="day"><h2>Day ${dayIndex+1} · ${esc(day.date?fmtDateShort(day.date):'Date TBC')} <span>${esc(day.status||'')}</span></h2>${scenes||'<p class="empty">No scenes planned.</p>'}</section>`;
+}).join('');
+const resources=RES_TYPES.flatMap(type=>[...new Set(p[RES_KEY[type]]||[])].map(id=>{
+const resource=resolveResource(type,id); if(!resource) return '';
+const line=resourceLine(p,type,id);
+return `<tr><td>${esc(type==='crew'?'Crew':type==='equipment'?'Equipment':'Production')}</td><td>${esc(resLabel(resource))}</td><td>${esc(line.qty)} ${esc(line.basis)}</td><td>${esc(rupee(line.rate))}</td><td>${esc(rupee(line.total))}</td></tr>`;
+}).filter(Boolean)).join('');
+const totals=resourceTotals(p);
+const delivery=p.sections&&p.sections.delivery||{};
+const versions=(delivery.videos||[]).flatMap(video=>(video.versions||[]).map(version=>`<tr><td>${esc(video.name||'Film')}</td><td>${esc(version.title||('Version '+(version.num||'')))}</td><td>${esc(version.date?fmtDateShort(version.date):'—')}</td><td>${esc(version.status||'In Review')}</td></tr>`)).join('');
+const meta=[p.client,p.format,p.place].filter(Boolean).map(esc).join(' · ');
+w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${esc(p.title)} — Project PDF</title><style>
+*{box-sizing:border-box}body{font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#1a1a1a;margin:0 auto;padding:36px;max-width:960px}header{border-bottom:3px solid #fec92d;padding-bottom:18px;margin-bottom:24px}h1{font-size:28px;margin:0 0 5px}h2{font-size:18px;margin:24px 0 12px;border-bottom:1px solid #ddd;padding-bottom:7px}.meta,.muted,.empty{color:#777}.summary{display:flex;gap:20px;flex-wrap:wrap;margin-top:12px}.summary span{background:#f4f4f4;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:600}.brief-field,.scene{border:1px solid #e5e5e5;border-radius:8px;padding:12px 15px;margin:9px 0;break-inside:avoid}.brief-field h3,.scene h3{font-size:13px;margin:0 0 5px}.brief-field p,.scene p{margin:0;white-space:pre-wrap}.day{break-inside:avoid}.day h2 span{font-size:12px;color:#777;font-weight:500;margin-left:8px}table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}th{text-align:left;color:#666;background:#f6f6f6}th,td{padding:7px 8px;border-bottom:1px solid #e8e8e8;vertical-align:top}.total{text-align:right;font-weight:700;margin-top:10px}footer{border-top:1px solid #ddd;margin-top:32px;padding-top:10px;font-size:11px;color:#888}@media print{body{padding:18px;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style></head><body><header><h1>${esc(p.title)}</h1><div class="meta">${meta||'Project details'}</div><div class="summary"><span>${esc(status)}</span><span>${progress}% ready</span>${p.startDate?`<span>Started ${esc(fmtDateShort(p.startDate))}</span>`:''}${p.delivery?`<span>Delivery ${esc(fmtDateShort(p.delivery))}</span>`:''}</div></header>
+<h2>Project brief</h2>${briefHtml}
+<h2>Shot plan</h2>${days||'<p class="empty">No shoot days planned.</p>'}
+<h2>Resources &amp; budget</h2>${resources?`<table><thead><tr><th>Category</th><th>Resource</th><th>Quantity</th><th>Rate</th><th>Amount</th></tr></thead><tbody>${resources}</tbody></table><p class="total">Total budget: ${esc(rupee(totals.total))}</p>`:'<p class="empty">No resources allocated.</p>'}
+<h2>Editing &amp; review</h2>${versions?`<table><thead><tr><th>Film</th><th>Version</th><th>Date</th><th>Status</th></tr></thead><tbody>${versions}</tbody></table>`:'<p class="empty">No versions added.</p>'}
+<footer>FLOW · Big Short Films · Printed ${esc(new Date().toLocaleDateString('en-GB'))}</footer></body></html>`);
+w.document.close(); w.focus(); setTimeout(()=>w.print(),400);
 }
 
 function renderBriefTab(p){
@@ -4183,11 +4203,9 @@ const vids=dlVideos(p), all=dlAllVersions(p);
 const cnt={all:all.length,'In Review':0,'Needs Changes':0,'Approved':0}; all.forEach(o=>{ cnt[o.ver.status]=(cnt[o.ver.status]||0)+1; });
 const chipKey=k=>'dlChipCnt-'+k.replace(/\s+/g,'');
 const chip=(k,label)=>`<button type="button" class="dl-chip ${RV.f===k?'on':''}" onclick="dlSetFilter('${k}')">${label}<span id="${chipKey(k)}">${cnt[k]}</span></button>`;
-const s=getShare(p.id,'client');
 return `<div class="dl-bar">
 <div class="dl-chips">${chip('all','All Versions')}${chip('In Review','In Review')}${chip('Needs Changes','Needs Changes')}${chip('Approved','Approved')}</div>
 <label class="dl-search">${DL_ICON_SEARCH}<input type="text" placeholder="Search versions" value="${esc(RV.q)}" oninput="dlSetQ(this.value)"></label>
-<button type="button" class="btn-ghost" onclick="dlShareMenu(event,'${p.id}')">${s?'Share':'Share'}</button>
 ${RV.adding?`<button type="button" class="btn-ghost" onclick="dlCancelAdd()">Cancel</button><button type="button" class="btn-primary" onclick="dlSaveNewVersion()">Save Version</button>`:`<button type="button" class="btn-primary" onclick="dlStartAdd()">Add Version +</button>`}
 </div>
 <div id="dlTableWrap">${dlTableHtml(p)}</div>`;
