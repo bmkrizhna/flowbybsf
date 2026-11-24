@@ -213,12 +213,13 @@ main:has(#projectDetail.active){padding-top:0}
 .ov-completed-sub{font-size:12px;color:#888;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ov-project-info{flex:1;min-width:0}
 .ov-project-title{font-size:14px;font-weight:600;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ov-project-actions{display:flex;align-items:center;gap:6px;flex-shrink:0;margin-left:auto}
+.ov-project-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
 .ov-project-action{height:36px;padding:0 12px;font-size:12px}
 .ov-project-action svg{width:14px;height:14px}
 .ov-project-sub{font-size:13px;color:#999}
 .ov-project-progress{display:flex;align-items:center;gap:8px;width:140px;flex-shrink:0}
-.ov-project-progress .usage-bar{margin:0;flex:1}
+.ov-project-progress .usage-bar{margin:0;flex:1;height:8px;border-radius:4px}
+.ov-project-progress .usage-bar-fill{border-radius:4px}
 .ov-project-pct{font-size:13px;font-weight:700;width:32px;text-align:right;flex-shrink:0}
 .page-search-input{width:260px;max-width:100%;padding:10px 16px 10px 36px;border:none;border-radius:999px;font-size:14px;background:#f0f0f0 url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%23999" stroke-width="2"%3E%3Ccircle cx="11" cy="11" r="8"/%3E%3Cpath d="m21 21-4.35-4.35"/%3E%3C/svg%3E') no-repeat 14px center}
 .page-head-row{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:14px;flex-wrap:wrap}
@@ -260,7 +261,6 @@ main:has(#projectDetail.active){padding-top:0}
 .fin-rem{text-align:left;font-size:18px}
 .fin-over{color:#c0392b}
 .usage-bar-fill.over{background:#d64545 !important}
-.fin-note{font-size:12px;color:#999;line-height:1.45;margin:-6px 0 14px}
 .fin-nobudget{font-size:12px;color:#aaa}
 /* ---- Category list editor ---- */
 .cat-group{margin-bottom:24px}
@@ -309,7 +309,7 @@ main:has(#projectDetail.active){padding-top:0}
 .pd-head-add:not(:empty)+.pd-stat,.pd-head-add:not(:empty)+.pd-stat:empty+.pd-head-view{margin-left:auto}
 .pd-stat{margin-left:auto;font-size:13px;font-weight:500;color:#1a1a1a;white-space:nowrap}
 .pd-stat:empty{display:none}
-.proj-head-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;border-left:1px solid #eee;padding-left:20px;margin-left:16px}
+.proj-head-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;margin-left:24px}
 .pd-stat:empty+.proj-head-actions{margin-left:auto}
 .pd-stat:empty+.pd-head-view:empty+.proj-head-actions{margin-left:auto}
 .pd-stage-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
@@ -344,9 +344,10 @@ textarea.f-input{min-height:50px;overflow:hidden}
 select.f-input{padding:9px 30px 9px 12px}
 input:disabled.f-input,textarea:disabled.f-input{background:#fafafa;color:#444;border-color:#eee}
 select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
-.brief-top-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch;margin-bottom:16px}
+.brief-top-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.2fr);gap:16px;align-items:start;margin-bottom:16px}
 .brief-thumb-box,.brief-details-box{margin-bottom:0;display:flex;flex-direction:column}
-.brief-thumb-box .thumb-box{flex:1;height:auto;min-height:220px}
+.brief-thumb-box .thumb-box{flex:none;height:150px;min-height:0}
+@media(min-width:769px){.brief-details-box .form-grid.cols-2{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 12px}}
 .form-grid.cols-2{grid-template-columns:1fr 1fr}
 .worksheet-area{min-height:360px;resize:vertical}
 .brief-delete-btn{display:block;width:100%;background:none;border:1.5px solid #f0c9ce;color:#b3244b;border-radius:12px;padding:13px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
@@ -527,7 +528,7 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .rb-static{text-align:right;color:#555}
 .rb-dash{color:#bbb;text-align:right}
 .rm-head,.rm-row{display:grid;grid-template-columns:28px minmax(0,1.5fr) minmax(0,.8fr) minmax(0,1.1fr) 176px 112px 118px;column-gap:12px;align-items:center;padding:11px 6px}
-.rm-head{font-size:12px;color:#999;padding-bottom:8px;border-bottom:1px solid #f0f0f0}
+.rm-head{font-size:13px;font-weight:700;color:#555;padding-bottom:8px;border-bottom:1px solid #f0f0f0}
 .rm-row{border-top:1px solid #f2f2f2;font-size:13px;transition:background .15s;min-height:42px;box-sizing:border-box}
 .rm-head+.rm-row{border-top:none}
 .th-sort{display:inline-flex;align-items:center;gap:4px;cursor:pointer;user-select:none;white-space:nowrap;min-width:0}
@@ -996,6 +997,21 @@ body.fb-on,body.fb-on *{cursor:crosshair!important}
 #fbSheet textarea{width:100%;min-height:72px;border:1px solid #e5e5e5;border-radius:10px;padding:10px;font:inherit;font-size:16px;resize:vertical;box-sizing:border-box;background:#f7f7f7}
 #fbSheet .fb-row{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
 @media(max-width:768px){#fbBtn{bottom:78px;right:14px}}
+/* ---- Account dialog ---- */
+.acct-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.acct-avatar{width:44px;height:44px;border-radius:50%;background:var(--accent,#fec92d);color:#1a1a1a;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;flex-shrink:0}
+.acct-title{font-size:16px;font-weight:700}
+.acct-role{font-size:13px;color:#999;margin-top:2px}
+.acct-sec{padding:14px 0;border-top:1px solid #f0f0f0}
+.acct-sec:first-of-type{border-top:none;padding-top:0}
+.acct-sec-title{font-size:13px;font-weight:700;margin-bottom:10px}
+.acct-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px}
+.acct-grid .full{grid-column:1 / -1}
+.acct-msg{font-size:13px;margin-top:8px;min-height:18px}
+.acct-msg.ok{color:#1d7a3b}
+.acct-msg.err{color:#c0392b}
+.acct-actions{display:flex;gap:8px;margin-top:10px}
+.acct-signout{width:100%;justify-content:center}
 </style>
 </head>
 <body>
@@ -1017,7 +1033,7 @@ body.fb-on,body.fb-on *{cursor:crosshair!important}
 <button type="button" class="sidebar-toggle" id="sidebarToggle" title="Hide sidebar" aria-label="Hide sidebar" onclick="toggleSidebar()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 <nav class="sidebar-nav" id="sidebarNav"></nav>
 <div class="sidebar-bottom">
-<div class="sidebar-user" id="sidebarUserBtn" onclick="confirmAction('Sign out?','You can sign back in with your password.',signOut,{confirmLabel:'Sign out'})" style="cursor:pointer;" title="Click to sign out"><span class="sidebar-avatar" id="sidebarUserAvatar">B</span><span class="sidebar-user-name" id="sidebarUserName">Bala</span></div>
+<div class="sidebar-user" id="sidebarUserBtn" onclick="openAccountModal()" style="cursor:pointer;" title="Account"><span class="sidebar-avatar" id="sidebarUserAvatar">B</span><span class="sidebar-user-name" id="sidebarUserName">Bala</span></div>
 </div>
 </aside>
 <div class="main-col">
@@ -1041,7 +1057,6 @@ body.fb-on,body.fb-on *{cursor:crosshair!important}
 <div class="usage-top"><div><div class="usage-top-label">Total Budget</div><div class="usage-top-val fin-val" id="finBudget">₹0</div></div><div style="text-align:right;"><div class="usage-top-label">Planned Spend</div><div class="usage-top-val fin-val" id="finSpend">₹0</div></div></div>
 <div class="usage-split"><div class="usage-split-label"><span>Budget used</span><span id="finUsedPct">—</span></div><div class="usage-bar"><div class="usage-bar-fill" id="finUsedBar" style="width:0%"></div></div></div>
 <div class="usage-top"><div><div class="usage-top-label" id="finRemLabel">Remaining</div><div class="usage-top-count fin-rem" id="finRem">₹0</div></div><div><div class="usage-top-label">Bookings</div><div class="usage-top-count" id="finBookings">0</div></div></div>
-<div class="fin-note" id="finNote"></div>
 <div class="usage-split"><div class="usage-split-label" id="finSplitCrew"><span>Crew</span><span></span></div><div class="usage-bar"><div class="usage-bar-fill" id="finBarCrew" style="width:0%"></div></div></div>
 <div class="usage-split"><div class="usage-split-label" id="finSplitKit"><span>Kit</span><span></span></div><div class="usage-bar"><div class="usage-bar-fill" id="finBarKit" style="width:0%;background:var(--accent);"></div></div></div>
 <div class="usage-split"><div class="usage-split-label" id="finSplitProd"><span>Production</span><span></span></div><div class="usage-bar"><div class="usage-bar-fill" id="finBarProd" style="width:0%;background:#bbb;"></div></div></div>
@@ -1945,8 +1960,9 @@ function renderRoleBadge(){
 const nameEl=document.getElementById('sidebarUserName'), avEl=document.getElementById('sidebarUserAvatar');
 if(!nameEl) return;
 const r=getRole();
-nameEl.textContent = r==='admin'?'Admin':(r==='team'?'Team':'Bala');
-if(avEl) avEl.textContent = r==='admin'?'A':(r==='team'?'T':'B');
+const custom=(typeof accountDisplayName==='function')?accountDisplayName():'';
+nameEl.textContent = custom||(r==='admin'?'Admin':(r==='team'?'Team':'Bala'));
+if(avEl) avEl.textContent = custom?custom.charAt(0).toUpperCase():(r==='admin'?'A':(r==='team'?'T':'B'));
 }
 
 function addApproval(type,payload){
@@ -2170,7 +2186,7 @@ const greetEl=document.getElementById('topbarGreeting');
 const iconEl=document.getElementById('topbarGreetIcon');
 const isDaytime = h>=5 && h<17;
 const period = h<5?'Good Night':(h<12?'Good Morning':(h<17?'Good Afternoon':(h<21?'Good Evening':'Good Night')));
-const greetName = isAdmin()?'Bala':'Team';
+const greetName = (typeof accountDisplayName==='function'&&accountDisplayName())||(isAdmin()?'Bala':'Team');
 if(greetEl) greetEl.innerHTML='<span class="gr-full">'+period+'</span><span class="gr-short">Hey</span>, '+greetName;
 if(iconEl) iconEl.outerHTML = isDaytime ? ICON_SUN.replace('<svg ','<svg id="topbarGreetIcon" ') : ICON_MOON.replace('<svg ','<svg id="topbarGreetIcon" ');
 const clockEl=document.getElementById('topbarClock');
@@ -2295,7 +2311,7 @@ document.getElementById('ovActiveList').innerHTML = activeSorted.length ? active
 const pct=Math.round(STAGE_ORDER.filter(k=>p.sections[k].confirmed).length/5*100);
 const thumbStyle=p.thumbnail?`background-image:url('${p.thumbnail}')`:'';
 const status=getProjectStatus(p);
-return `<div class="ov-project-row" onclick="openProject('${p.id}')"><div class="ov-project-thumb" style="${thumbStyle}"></div><div class="ov-project-info"><div class="ov-project-title">${esc(p.title)} <span class="status-inline">(${status})</span></div><div class="ov-project-sub">${esc(p.format||'')}</div></div><div class="ov-project-actions" data-no-open="1"><button type="button" class="icon-btn-text ov-project-action" aria-label="Share ${esc(p.title)}" onclick="event.stopPropagation();dlShareMenu(event,'${p.id}')">${ICON_SHARE_NODES}<span>Share</span></button><button type="button" class="icon-btn-text ov-project-action" aria-label="Download ${esc(p.title)} project PDF" onclick="event.stopPropagation();printProjectPDF('${p.id}')">${ICON_DOWNLOAD}<span>PDF</span></button></div><div class="ov-project-progress"><div class="usage-bar"><div class="usage-bar-fill" style="width:${pct}%"></div></div><span class="ov-project-pct">${pct}%</span></div></div>`;
+return `<div class="ov-project-row" onclick="openProject('${p.id}')"><div class="ov-project-thumb" style="${thumbStyle}"></div><div class="ov-project-info"><div class="ov-project-title">${esc(p.title)} <span class="status-inline">(${status})</span></div><div class="ov-project-sub">${esc(p.format||'')}</div></div><div class="ov-project-progress"><div class="usage-bar"><div class="usage-bar-fill" style="width:${pct}%"></div></div><span class="ov-project-pct">${pct}%</span></div><div class="ov-project-actions" data-no-open="1"><button type="button" class="icon-btn-text ov-project-action" aria-label="Share ${esc(p.title)}" onclick="event.stopPropagation();dlShareMenu(event,'${p.id}')">${ICON_SHARE_NODES}<span>Share</span></button><button type="button" class="icon-btn-text ov-project-action" aria-label="Download ${esc(p.title)} project PDF" onclick="event.stopPropagation();printProjectPDF('${p.id}')">${ICON_DOWNLOAD}<span>PDF</span></button></div></div>`;
 }).join('') : '<div style="font-size:13px;color:#999;padding:8px 0;">Nothing in flight.</div>';
 
 /* Completed projects preview */
@@ -2391,8 +2407,6 @@ const ub=$('finUsedBar'); ub.style.width=Math.min(100,used)+'%'; ub.classList.to
 $('finRemLabel').textContent=rem<0?'Over budget':'Remaining';
 const re=$('finRem'); re.textContent=budget?rupee(Math.abs(rem)):'—'; re.classList.toggle('fin-over',budget>0&&rem<0);
 $('finBookings').textContent=bookings;
-$('finNote').textContent=!budget?'Set a Total budget in a project brief to track it here.':(unbudgeted?unbudgeted+' project'+(unbudgeted>1?'s':'')+' with spend but no budget are left out of Budget used and Remaining.':'');
-$('finNote').style.display=$('finNote').textContent?'':'none';
 [['crew','Crew','finSplitCrew','finBarCrew'],['equipment','Kit','finSplitKit','finBarKit'],['production','Production','finSplitProd','finBarProd']].forEach(([t,l,lid,bid])=>{
 const pct=all?Math.round(tot[t]/all*100):0;
 $(lid).innerHTML=`<span>${l}</span><span>${fmt(tot[t])} · ${pct}%</span>`;
@@ -2858,7 +2872,7 @@ const statEl=document.getElementById('pdStat');
 if(statEl){
 let st;
 if(currentTab==='budgeting') st='Total Budget · ₹'+fmt(resourceTotals(p).total);
-else if(currentTab==='brief') st=splitFormat(p.format).type||stageStat(p,'brief');
+else if(currentTab==='brief') st='';
 else st=stageStat(p,currentTab);
 statEl.textContent=st;
 }
@@ -5181,6 +5195,89 @@ boot();
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
 </script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
+<div class="modal-overlay" id="accountModal"><div class="modal-box" id="accountModalBox" style="max-width:440px;max-height:90vh;overflow:auto;"></div></div>
+<script>
+function accountProfile(){
+const role=getRole()||'team';
+STATE.profiles=STATE.profiles||{};
+return {role,prof:STATE.profiles[role]||{}};
+}
+function accountDisplayName(){
+const {prof}=accountProfile();
+return (prof.name||'').trim();
+}
+function openAccountModal(){
+const {role,prof}=accountProfile();
+const roleLabel=role==='admin'?'Admin':'Team';
+const shown=(prof.name||'').trim()||(role==='admin'?'Bala':'Team');
+document.getElementById('accountModalBox').innerHTML=`
+<div class="acct-head"><span class="acct-avatar">${esc(shown.charAt(0).toUpperCase())}</span><div><div class="acct-title">${esc(shown)}</div><div class="acct-role">${roleLabel} access</div></div></div>
+<div class="acct-sec"><div class="acct-sec-title">Name</div>
+<input class="f-input" id="acctName" value="${esc(prof.name||'')}" placeholder="${role==='admin'?'Bala':'Team'}" maxlength="40" autocomplete="off">
+<div class="acct-actions"><button type="button" class="btn-primary" onclick="saveAccountName()">Save name</button></div>
+<div class="acct-msg" id="acctNameMsg"></div></div>
+<div class="acct-sec"><div class="acct-sec-title">Change PIN</div>
+<div class="acct-grid">
+<div class="full"><span class="field-label">Current PIN</span><input class="f-input" id="acctOldPin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off"></div>
+<div><span class="field-label">New PIN</span><input class="f-input" id="acctNewPin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off"></div>
+<div><span class="field-label">Confirm new PIN</span><input class="f-input" id="acctNewPin2" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off"></div>
+</div>
+<div class="acct-actions"><button type="button" class="btn-primary" id="acctPinBtn" onclick="changeAccountPin()">Update PIN</button></div>
+<div class="acct-msg" id="acctPinMsg"></div></div>
+<div class="acct-sec"><button type="button" class="btn-ghost acct-signout" onclick="closeModal('accountModal');confirmAction('Sign out?','You can sign back in with your PIN.',signOut,{confirmLabel:'Sign out'})">Sign out</button></div>
+<div class="acct-sec"><div class="acct-sec-title">Contact</div>
+<div class="acct-grid">
+<div class="full"><span class="field-label">Contact number</span><input class="f-input" id="acctPhone" type="tel" inputmode="tel" value="${esc(prof.phone||'')}" placeholder="+91 98765 43210" maxlength="24" autocomplete="off"></div>
+<div class="full"><span class="field-label">Email</span><input class="f-input" id="acctEmail" type="email" inputmode="email" value="${esc(prof.email||'')}" placeholder="name@example.com" maxlength="80" autocomplete="off"></div>
+</div>
+<div class="acct-actions"><button type="button" class="btn-primary" onclick="saveAccountContact()">Save contact</button><button type="button" class="btn-ghost" onclick="closeModal('accountModal')">Close</button></div>
+<div class="acct-msg" id="acctContactMsg"></div></div>`;
+document.getElementById('accountModal').classList.add('show');
+}
+function acctMsg(id,text,ok){ const el=document.getElementById(id); if(el){ el.textContent=text; el.className='acct-msg '+(ok?'ok':'err'); } }
+function saveAccountName(){
+const {role}=accountProfile();
+const v=(document.getElementById('acctName').value||'').trim().slice(0,40);
+STATE.profiles[role]=Object.assign({},STATE.profiles[role],{name:v});
+saveState(); renderRoleBadge(); try{ renderOverview(); }catch(e){}
+openAccountModal(); acctMsg('acctNameMsg',v?'Name saved.':'Name cleared.',true);
+}
+function saveAccountContact(){
+const {role}=accountProfile();
+const phone=(document.getElementById('acctPhone').value||'').trim();
+const email=(document.getElementById('acctEmail').value||'').trim();
+if(phone && !/^[0-9+()\-\s]{6,24}$/.test(phone)){ acctMsg('acctContactMsg','Enter a valid contact number.',false); return; }
+if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ acctMsg('acctContactMsg','Enter a valid email address.',false); return; }
+STATE.profiles[role]=Object.assign({},STATE.profiles[role],{phone,email});
+saveState();
+acctMsg('acctContactMsg','Contact details saved.',true);
+}
+let acctPinBusy=false;
+async function changeAccountPin(){
+if(acctPinBusy) return;
+const o=document.getElementById('acctOldPin').value, n=document.getElementById('acctNewPin').value, n2=document.getElementById('acctNewPin2').value;
+if(!/^[0-9]{4}$/.test(o)){ acctMsg('acctPinMsg','Enter your current 4-digit PIN.',false); return; }
+if(!/^[0-9]{4}$/.test(n)){ acctMsg('acctPinMsg','The new PIN must be 4 digits.',false); return; }
+if(n!==n2){ acctMsg('acctPinMsg','The new PINs do not match.',false); return; }
+if(n===o){ acctMsg('acctPinMsg','Choose a PIN different from the current one.',false); return; }
+if(!supabase||!getToken()){ acctMsg('acctPinMsg','Cannot reach the server. Try again.',false); return; }
+acctPinBusy=true; const btn=document.getElementById('acctPinBtn'); if(btn) btn.disabled=true;
+try{
+const res=await supabase.rpc('app_change_pin',{p_token:getToken(),p_old_pin:o,p_new_pin:n});
+if(res.error) throw res.error;
+const out=res.data||{};
+if(out.ok){
+['acctOldPin','acctNewPin','acctNewPin2'].forEach(i=>{ const el=document.getElementById(i); if(el) el.value=''; });
+acctMsg('acctPinMsg','PIN updated. Other devices will need to sign in again with the new PIN.',true);
+}else if(out.auth===false){ acctMsg('acctPinMsg','Your session ended. Sign in again.',false); }
+else if(out.locked){ acctMsg('acctPinMsg','Too many wrong attempts. Try again in 15 minutes.',false); }
+else if(out.reason==='wrong_old'){ acctMsg('acctPinMsg','Current PIN is wrong.',false); }
+else if(out.reason==='taken'){ acctMsg('acctPinMsg','Choose a different PIN.',false); }
+else{ acctMsg('acctPinMsg','The new PIN must be 4 digits.',false); }
+}catch(e){ acctMsg('acctPinMsg','Could not update the PIN. Try again.',false); }
+acctPinBusy=false; if(btn) btn.disabled=false;
+}
+</script>
 <button type="button" id="fbBtn" title="Point out a change" aria-label="Point out a change" onclick="fbStart()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg><span class="fb-count" id="fbCount"></span></button>
 <div id="fbBar"><span id="fbBarText">Tap what to change</span><button type="button" class="fb-primary" onclick="fbCopy()">Copy notes</button><button type="button" onclick="fbStop()">Done</button></div>
 <div id="fbHi"></div>
