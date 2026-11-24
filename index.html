@@ -2187,7 +2187,7 @@ const iconEl=document.getElementById('topbarGreetIcon');
 const isDaytime = h>=5 && h<17;
 const period = h<5?'Good Night':(h<12?'Good Morning':(h<17?'Good Afternoon':(h<21?'Good Evening':'Good Night')));
 const greetName = (typeof accountDisplayName==='function'&&accountDisplayName())||(isAdmin()?'Bala':'Team');
-if(greetEl) greetEl.innerHTML='<span class="gr-full">'+period+'</span><span class="gr-short">Hey</span>, '+greetName;
+if(greetEl) greetEl.innerHTML='<span class="gr-full">'+period+'</span><span class="gr-short">Hey</span>, '+esc(greetName);
 if(iconEl) iconEl.outerHTML = isDaytime ? ICON_SUN.replace('<svg ','<svg id="topbarGreetIcon" ') : ICON_MOON.replace('<svg ','<svg id="topbarGreetIcon" ');
 const clockEl=document.getElementById('topbarClock');
 if(clockEl) clockEl.textContent=now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',hour12:true});
