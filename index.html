@@ -1002,20 +1002,34 @@ body.fb-on,body.fb-on *{cursor:crosshair!important}
 #fbSheet .fb-row{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
 @media(max-width:768px){#fbBtn{bottom:78px;right:14px}}
 /* ---- Account dialog ---- */
-.acct-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
-.acct-avatar{width:44px;height:44px;border-radius:50%;background:var(--accent,#fec92d);color:#1a1a1a;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;flex-shrink:0}
-.acct-title{font-size:16px;font-weight:700}
-.acct-role{font-size:13px;color:#999;margin-top:2px}
-.acct-sec{padding:14px 0;border-top:1px solid #f0f0f0}
-.acct-sec:first-of-type{border-top:none;padding-top:0}
-.acct-sec-title{font-size:13px;font-weight:700;margin-bottom:10px}
-.acct-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px}
-.acct-grid .full{grid-column:1 / -1}
-.acct-msg{font-size:13px;margin-top:8px;min-height:18px}
+#accountModalBox{padding:28px 28px 24px}
+.acct-head{display:flex;align-items:center;gap:16px;padding-bottom:20px;border-bottom:1px solid #eee}
+.acct-avatar{width:56px;height:56px;border-radius:50%;background:var(--accent,#fec92d);color:#1a1a1a;display:flex;align-items:center;justify-content:center;font-weight:500;font-size:24px;flex-shrink:0}
+.acct-title{font-size:22px;font-weight:500;line-height:1.15}
+.acct-role{font-size:14px;color:#777;margin-top:4px}
+.acct-sec{padding:20px 0;border-bottom:1px solid #eee}
+.acct-sec-title{font-size:17px;font-weight:600;margin-bottom:14px}
+.acct-field{margin-bottom:14px}
+.acct-field:last-of-type{margin-bottom:0}
+.acct-field .field-label{display:block;font-size:13px;color:#666;margin-bottom:6px}
+.acct-field .f-input,.acct-pin-row .f-input{border-radius:14px;border:1px solid #e5e5e5;background:#f7f7f7;padding:11px 14px;font-size:16px;width:100%;box-sizing:border-box}
+.acct-pin-row{display:flex;gap:12px;align-items:center}
+.acct-pin-row .f-input{flex:1;min-width:0}
+.acct-pin-row .f-input:disabled{background:#f7f7f7;color:#aaa}
+.acct-pin-row button{flex-shrink:0;border:none;border-radius:999px;background:#1a1a1a;color:#fff;font:inherit;font-size:15px;font-weight:600;padding:13px 22px;cursor:pointer;white-space:nowrap}
+.acct-pin-row button:disabled{opacity:.6;cursor:default}
+.acct-step{font-size:12px;color:#999;margin-top:8px}
+.acct-msg{font-size:13px;margin-top:8px;min-height:0}
+.acct-msg:empty{display:none}
 .acct-msg.ok{color:#1d7a3b}
 .acct-msg.err{color:#c0392b}
-.acct-actions{display:flex;gap:8px;margin-top:10px}
-.acct-signout{width:100%;justify-content:center}
+.acct-foot{display:flex;gap:12px;align-items:center;padding-top:22px;flex-wrap:wrap}
+.acct-foot button{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font:inherit;font-size:15px;font-weight:500;padding:14px 24px;cursor:pointer;white-space:nowrap}
+.acct-foot svg{width:18px;height:18px}
+.acct-foot .acct-save{background:#1a1a1a;color:#fff;border:none;flex:1 1 auto}
+.acct-foot .acct-cancel{background:#fff;color:#1a1a1a;border:1px solid #ddd}
+.acct-foot .acct-out{background:#f3f3f3;color:#1a1a1a;border:none}
+@media(max-width:420px){.acct-foot .acct-save{flex:1 1 100%}.acct-foot .acct-cancel,.acct-foot .acct-out{flex:1 1 0}}
 </style>
 </head>
 <body>
@@ -5199,7 +5213,7 @@ boot();
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
 </script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
-<div class="modal-overlay" id="accountModal"><div class="modal-box" id="accountModalBox" style="max-width:440px;max-height:90vh;overflow:auto;"></div></div>
+<div class="modal-overlay" id="accountModal"><div class="modal-box" id="accountModalBox" style="max-width:480px;max-height:92vh;overflow:auto;"></div></div>
 <script>
 function accountProfile(){
 const role=getRole()||'team';
@@ -5210,76 +5224,97 @@ function accountDisplayName(){
 const {prof}=accountProfile();
 return (prof.name||'').trim();
 }
+let pinFlow={step:0,old:'',nw:'',busy:false};
+const ICON_SIGNOUT='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>';
 function openAccountModal(){
 const {role,prof}=accountProfile();
+pinFlow={step:0,old:'',nw:'',busy:false};
 const roleLabel=role==='admin'?'Admin':'Team';
 const shown=(prof.name||'').trim()||(role==='admin'?'Bala':'Team');
 document.getElementById('accountModalBox').innerHTML=`
 <div class="acct-head"><span class="acct-avatar">${esc(shown.charAt(0).toUpperCase())}</span><div><div class="acct-title">${esc(shown)}</div><div class="acct-role">${roleLabel} access</div></div></div>
-<div class="acct-sec"><div class="acct-sec-title">Name</div>
-<input class="f-input" id="acctName" value="${esc(prof.name||'')}" placeholder="${role==='admin'?'Bala':'Team'}" maxlength="40" autocomplete="off">
-<div class="acct-actions"><button type="button" class="btn-primary" onclick="saveAccountName()">Save name</button></div>
-<div class="acct-msg" id="acctNameMsg"></div></div>
-<div class="acct-sec"><div class="acct-sec-title">Change PIN</div>
-<div class="acct-grid">
-<div class="full"><span class="field-label">Current PIN</span><input class="f-input" id="acctOldPin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off"></div>
-<div><span class="field-label">New PIN</span><input class="f-input" id="acctNewPin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off"></div>
-<div><span class="field-label">Confirm new PIN</span><input class="f-input" id="acctNewPin2" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off"></div>
-</div>
-<div class="acct-actions"><button type="button" class="btn-primary" id="acctPinBtn" onclick="changeAccountPin()">Update PIN</button></div>
+<div class="acct-sec"><div class="acct-sec-title">Details</div>
+<div class="acct-field"><span class="field-label">Name</span><input class="f-input" id="acctName" value="${esc(prof.name||'')}" placeholder="${role==='admin'?'Bala':'Team'}" maxlength="40" autocomplete="off"></div>
+<div class="acct-field"><span class="field-label">Contact number</span><input class="f-input" id="acctPhone" type="tel" inputmode="tel" value="${esc(prof.phone||'')}" placeholder="+91 98765 43210" maxlength="24" autocomplete="off"></div>
+<div class="acct-field"><span class="field-label">Email</span><input class="f-input" id="acctEmail" type="email" inputmode="email" value="${esc(prof.email||'')}" placeholder="name@example.com" maxlength="80" autocomplete="off"></div>
+<div class="acct-msg" id="acctDetailsMsg"></div></div>
+<div class="acct-sec" style="border-bottom:none;padding-bottom:6px"><div class="acct-sec-title">Change PIN</div>
+<div class="acct-pin-row"><input class="f-input" id="acctPinInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();pinNext();}"><button type="button" id="acctPinBtn" onclick="pinNext()">Change PIN</button></div>
+<div class="acct-step" id="acctPinStep"></div>
 <div class="acct-msg" id="acctPinMsg"></div></div>
-<div class="acct-sec"><button type="button" class="btn-ghost acct-signout" onclick="closeModal('accountModal');confirmAction('Sign out?','You can sign back in with your PIN.',signOut,{confirmLabel:'Sign out'})">Sign out</button></div>
-<div class="acct-sec"><div class="acct-sec-title">Contact</div>
-<div class="acct-grid">
-<div class="full"><span class="field-label">Contact number</span><input class="f-input" id="acctPhone" type="tel" inputmode="tel" value="${esc(prof.phone||'')}" placeholder="+91 98765 43210" maxlength="24" autocomplete="off"></div>
-<div class="full"><span class="field-label">Email</span><input class="f-input" id="acctEmail" type="email" inputmode="email" value="${esc(prof.email||'')}" placeholder="name@example.com" maxlength="80" autocomplete="off"></div>
-</div>
-<div class="acct-actions"><button type="button" class="btn-primary" onclick="saveAccountContact()">Save contact</button><button type="button" class="btn-ghost" onclick="closeModal('accountModal')">Close</button></div>
-<div class="acct-msg" id="acctContactMsg"></div></div>`;
+<div class="acct-foot" style="border-top:1px solid #eee">
+<button type="button" class="acct-save" onclick="saveAccountDetails()">${ICON_CHECK_SM}Save changes</button>
+<button type="button" class="acct-cancel" onclick="closeModal('accountModal')">Cancel</button>
+<button type="button" class="acct-out" onclick="closeModal('accountModal');confirmAction('Sign out?','You can sign back in with your PIN.',signOut,{confirmLabel:'Sign out'})">${ICON_SIGNOUT}Sign out</button>
+</div>`;
+renderPinRow();
 document.getElementById('accountModal').classList.add('show');
 }
 function acctMsg(id,text,ok){ const el=document.getElementById(id); if(el){ el.textContent=text; el.className='acct-msg '+(ok?'ok':'err'); } }
-function saveAccountName(){
-const {role}=accountProfile();
-const v=(document.getElementById('acctName').value||'').trim().slice(0,40);
-STATE.profiles[role]=Object.assign({},STATE.profiles[role],{name:v});
-saveState(); renderRoleBadge(); try{ renderOverview(); }catch(e){}
-openAccountModal(); acctMsg('acctNameMsg',v?'Name saved.':'Name cleared.',true);
+function renderPinRow(){
+const inp=document.getElementById('acctPinInput'), btn=document.getElementById('acctPinBtn'), st=document.getElementById('acctPinStep');
+if(!inp||!btn) return;
+const s=pinFlow.step; inp.value='';
+if(s===0){ inp.disabled=true; inp.placeholder='PIN'; btn.textContent='Change PIN'; st.textContent=''; }
+else{
+inp.disabled=false;
+inp.placeholder=s===1?'Current PIN':(s===2?'New PIN':'Re-enter new PIN');
+btn.textContent=s===1?'Verify':(s===2?'Next':'Save PIN');
+st.textContent='Step '+s+' of 3';
+setTimeout(function(){ inp.focus(); },30);
 }
-function saveAccountContact(){
-const {role}=accountProfile();
-const phone=(document.getElementById('acctPhone').value||'').trim();
-const email=(document.getElementById('acctEmail').value||'').trim();
-if(phone && !/^[0-9+()\-\s]{6,24}$/.test(phone)){ acctMsg('acctContactMsg','Enter a valid contact number.',false); return; }
-if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ acctMsg('acctContactMsg','Enter a valid email address.',false); return; }
-STATE.profiles[role]=Object.assign({},STATE.profiles[role],{phone,email});
-saveState();
-acctMsg('acctContactMsg','Contact details saved.',true);
+btn.disabled=pinFlow.busy;
 }
-let acctPinBusy=false;
-async function changeAccountPin(){
-if(acctPinBusy) return;
-const o=document.getElementById('acctOldPin').value, n=document.getElementById('acctNewPin').value, n2=document.getElementById('acctNewPin2').value;
-if(!/^[0-9]{4}$/.test(o)){ acctMsg('acctPinMsg','Enter your current 4-digit PIN.',false); return; }
-if(!/^[0-9]{4}$/.test(n)){ acctMsg('acctPinMsg','The new PIN must be 4 digits.',false); return; }
-if(n!==n2){ acctMsg('acctPinMsg','The new PINs do not match.',false); return; }
-if(n===o){ acctMsg('acctPinMsg','Choose a PIN different from the current one.',false); return; }
+async function pinNext(){
+if(pinFlow.busy) return;
+const inp=document.getElementById('acctPinInput'); if(!inp) return;
+const s=pinFlow.step, v=inp.value;
+document.getElementById('acctPinMsg').textContent='';
+if(s===0){ pinFlow.step=1; renderPinRow(); return; }
+if(!/^[0-9]{4}$/.test(v)){ acctMsg('acctPinMsg','Enter a 4-digit PIN.',false); return; }
+if(s===1){
 if(!supabase||!getToken()){ acctMsg('acctPinMsg','Cannot reach the server. Try again.',false); return; }
-acctPinBusy=true; const btn=document.getElementById('acctPinBtn'); if(btn) btn.disabled=true;
+pinFlow.busy=true; renderPinRow();
 try{
-const res=await supabase.rpc('app_change_pin',{p_token:getToken(),p_old_pin:o,p_new_pin:n});
+const res=await supabase.rpc('app_verify_pin',{p_token:getToken(),p_pin:v});
 if(res.error) throw res.error;
 const out=res.data||{};
-if(out.ok){
-['acctOldPin','acctNewPin','acctNewPin2'].forEach(i=>{ const el=document.getElementById(i); if(el) el.value=''; });
-acctMsg('acctPinMsg','PIN updated. Other devices will need to sign in again with the new PIN.',true);
-}else if(out.auth===false){ acctMsg('acctPinMsg','Your session ended. Sign in again.',false); }
-else if(out.locked){ acctMsg('acctPinMsg','Too many wrong attempts. Try again in 15 minutes.',false); }
-else if(out.reason==='wrong_old'){ acctMsg('acctPinMsg','Current PIN is wrong.',false); }
-else if(out.reason==='taken'){ acctMsg('acctPinMsg','Choose a different PIN.',false); }
-else{ acctMsg('acctPinMsg','The new PIN must be 4 digits.',false); }
-}catch(e){ acctMsg('acctPinMsg','Could not update the PIN. Try again.',false); }
-acctPinBusy=false; if(btn) btn.disabled=false;
+if(out.ok){ pinFlow.old=v; pinFlow.step=2; }
+else if(out.auth===false) acctMsg('acctPinMsg','Your session ended. Sign in again.',false);
+else if(out.locked) acctMsg('acctPinMsg','Too many wrong attempts. Try again in 15 minutes.',false);
+else acctMsg('acctPinMsg','Current PIN is wrong.',false);
+}catch(e){ acctMsg('acctPinMsg','Could not verify. Try again.',false); }
+pinFlow.busy=false; renderPinRow(); return;
+}
+if(s===2){
+if(v===pinFlow.old){ acctMsg('acctPinMsg','Choose a PIN different from the current one.',false); return; }
+pinFlow.nw=v; pinFlow.step=3; renderPinRow(); return;
+}
+if(v!==pinFlow.nw){ acctMsg('acctPinMsg','The PINs do not match. Enter the new PIN again.',false); pinFlow.step=2; pinFlow.nw=''; renderPinRow(); return; }
+pinFlow.busy=true; renderPinRow();
+try{
+const res=await supabase.rpc('app_change_pin',{p_token:getToken(),p_old_pin:pinFlow.old,p_new_pin:pinFlow.nw});
+if(res.error) throw res.error;
+const out=res.data||{};
+if(out.ok){ pinFlow={step:0,old:'',nw:'',busy:false}; renderPinRow(); acctMsg('acctPinMsg','PIN changed. Other devices will need to sign in again with the new PIN.',true); return; }
+if(out.reason==='taken'){ acctMsg('acctPinMsg','Choose a different PIN.',false); pinFlow.step=2; pinFlow.nw=''; }
+else if(out.auth===false) acctMsg('acctPinMsg','Your session ended. Sign in again.',false);
+else if(out.locked) acctMsg('acctPinMsg','Too many wrong attempts. Try again in 15 minutes.',false);
+else if(out.reason==='wrong_old'){ acctMsg('acctPinMsg','Current PIN is wrong. Start again.',false); pinFlow.step=1; pinFlow.old=''; pinFlow.nw=''; }
+else acctMsg('acctPinMsg','The new PIN must be 4 digits.',false);
+}catch(e){ acctMsg('acctPinMsg','Could not change the PIN. Try again.',false); }
+pinFlow.busy=false; renderPinRow();
+}
+function saveAccountDetails(){
+const {role}=accountProfile();
+const name=(document.getElementById('acctName').value||'').trim().slice(0,40);
+const phone=(document.getElementById('acctPhone').value||'').trim();
+const email=(document.getElementById('acctEmail').value||'').trim();
+if(phone && !/^[0-9+()\-\s]{6,24}$/.test(phone)){ acctMsg('acctDetailsMsg','Enter a valid contact number.',false); return; }
+if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ acctMsg('acctDetailsMsg','Enter a valid email address.',false); return; }
+STATE.profiles[role]=Object.assign({},STATE.profiles[role],{name,phone,email});
+saveState(); renderRoleBadge(); try{ renderOverview(); }catch(e){}
+closeModal('accountModal');
 }
 </script>
 <button type="button" id="fbBtn" title="Point out a change" aria-label="Point out a change" onclick="fbStart()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg><span class="fb-count" id="fbCount"></span></button>
