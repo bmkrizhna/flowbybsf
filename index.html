@@ -214,7 +214,8 @@ main:has(#projectDetail.active){padding-top:0}
 .ov-project-info{flex:1;min-width:0}
 .ov-project-title{font-size:14px;font-weight:600;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ov-project-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
-.ov-project-action{height:36px;padding:0 12px;font-size:12px}
+.ov-project-action{height:36px;padding:0 10px;font-size:13px;background:none;color:#555}
+.ov-project-action:hover{background:none;color:#1a1a1a;text-decoration:underline}
 .ov-project-action svg{width:14px;height:14px}
 .ov-project-sub{font-size:13px;color:#999}
 .ov-project-progress{display:flex;align-items:center;gap:8px;width:140px;flex-shrink:0}
@@ -242,6 +243,10 @@ main:has(#projectDetail.active){padding-top:0}
 .rp-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
 .rp-toolbar .search-filter-box{flex:1 1 220px;min-width:200px;max-width:none}
 .rp-toolbar .view-toggle{flex-shrink:0}
+@media(min-width:769px){
+.rp-toolbar{position:sticky;top:calc(var(--topbar-h,62.5px) + var(--proj-head-h,0px));z-index:15;background:var(--page-bg);padding:10px 0;margin-bottom:0}
+.rp-toolbar .search-filter-box select[aria-label="Category"]{flex:0 0 138px;width:138px}
+}
 
 .gr-short{display:none}
 
@@ -344,10 +349,9 @@ textarea.f-input{min-height:50px;overflow:hidden}
 select.f-input{padding:9px 30px 9px 12px}
 input:disabled.f-input,textarea:disabled.f-input{background:#fafafa;color:#444;border-color:#eee}
 select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
-.brief-top-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.2fr);gap:16px;align-items:start;margin-bottom:16px}
+.brief-top-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:20px;align-items:stretch;margin-bottom:16px}
 .brief-thumb-box,.brief-details-box{margin-bottom:0;display:flex;flex-direction:column}
-.brief-thumb-box .thumb-box{flex:none;height:150px;min-height:0}
-@media(min-width:769px){.brief-details-box .form-grid.cols-2{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 12px}}
+.brief-thumb-box .thumb-box{flex:1;height:auto;min-height:220px}
 .form-grid.cols-2{grid-template-columns:1fr 1fr}
 .worksheet-area{min-height:360px;resize:vertical}
 .brief-delete-btn{display:block;width:100%;background:none;border:1.5px solid #f0c9ce;color:#b3244b;border-radius:12px;padding:13px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
@@ -885,7 +889,7 @@ main{padding-left:14px;padding-right:14px}
 .dl-tr:first-child{border-top:none}
 .dl-tr:not(.dl-th):hover{background:#fafafa}
 .dl-tr.open{background:#fafafa}
-.dl-th{cursor:default;font-size:11px;font-weight:700;color:#999;background:#fafafa;padding-top:9px;padding-bottom:9px}
+.dl-th{cursor:default;font-size:13px;font-weight:700;color:#555;background:#fafafa;padding-top:9px;padding-bottom:9px}
 .dl-tr>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dl-vpill{display:inline-flex;align-items:center;height:22px;box-sizing:border-box;background:#1a1a1a;color:#fff;border-radius:7px;padding:0 9px;font-size:12px;font-weight:700;line-height:22px}
 .dl-vpill.draft{background:#e9e9e9;color:#777}
