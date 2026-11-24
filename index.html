@@ -74,7 +74,8 @@ select:disabled{cursor:default}
 .sidebar-link.disabled{opacity:1}
 .sidebar-avatar{width:28px;height:28px;border-radius:50%;background:var(--accent-bg);color:var(--accent-text);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
 .sidebar-user{display:flex;align-items:center;gap:12px;padding:13px 14px;font-size:13px;font-weight:700;color:#1a1a1a}
-.sidebar-user-name{white-space:nowrap;overflow:hidden;opacity:1;transition:opacity .2s ease,width .2s ease}
+.sidebar-user-name{display:flex;flex-direction:column;gap:2px;white-space:nowrap;overflow:hidden;opacity:1;transition:opacity .2s ease,width .2s ease}
+.sidebar-user-org{font-size:10px;font-weight:500;color:#888;line-height:1.1}
 .sidebar-bottom{display:flex;align-items:center;margin-top:auto;padding-top:14px}
 .sidebar-toggle{width:34px;height:34px;border-radius:8px;border:none;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#1a1a1a;flex-shrink:0;align-self:flex-start;margin:0 0 40px 6px;transition:background .15s,color .15s,margin .25s ease}
 .sidebar-toggle:hover{background:#f0f0f0;color:#1a1a1a}
@@ -548,6 +549,12 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .rm-cat,.rm-sub{color:#666;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .rm-rate,.rm-qty,.rm-amt{display:flex;align-items:center;gap:4px;min-width:0;height:20px}
 .rm-amt{font-weight:600}
+.team-readonly-note{display:flex;align-items:center;gap:8px;padding:9px 12px;margin:0 0 12px;border-radius:9px;background:#f5f5f5;color:#666;font-size:12px}
+#rpResourceList.rm-team-readonly .rm-head,#rpResourceList.rm-team-readonly .rm-row{grid-template-columns:minmax(0,1.5fr) minmax(0,.8fr) minmax(0,1.1fr) 112px}
+#rpResourceList.rm-team-readonly .rm-row .rm-name{grid-column:1}
+#rpResourceList.rm-team-readonly .rm-row .rm-cat{grid-column:2}
+#rpResourceList.rm-team-readonly .rm-row .rm-sub{grid-column:3}
+#rpResourceList.rm-team-readonly .rm-row .rm-qty{grid-column:4}
 .rm-cur{color:#888}
 .rm-step{width:20px;height:20px;border-radius:50%;border:none;background:rgba(0,0,0,.08);color:#1a1a1a;font-size:13px;line-height:1;cursor:pointer;flex-shrink:0}
 .rm-step:hover{background:rgba(0,0,0,.15)}
@@ -803,6 +810,11 @@ main{padding:16px 16px calc(84px + env(safe-area-inset-bottom))}
 .rm-head{display:none}
 .rm-row{grid-template-columns:28px minmax(0,1fr) auto;grid-template-areas:"chk name name" ". cat sub" ". rate rate" ". qty amt";row-gap:6px;padding:12px}
 .rm-row .rm-chk{grid-area:chk}.rm-name{grid-area:name}.rm-cat{grid-area:cat}.rm-sub{grid-area:sub;text-align:right}.rm-rate{grid-area:rate}.rm-qty{grid-area:qty}.rm-amt{grid-area:amt;justify-content:flex-end}
+#rpResourceList.rm-team-readonly .rm-row{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"name name" "cat sub" "qty qty"}
+#rpResourceList.rm-team-readonly .rm-row .rm-name{grid-area:name}
+#rpResourceList.rm-team-readonly .rm-row .rm-cat{grid-area:cat}
+#rpResourceList.rm-team-readonly .rm-row .rm-sub{grid-area:sub}
+#rpResourceList.rm-team-readonly .rm-row .rm-qty{grid-area:qty;justify-content:flex-end}
 .rm-row:not(.selected) .rm-rate,.rm-row:not(.selected) .rm-qty,.rm-row:not(.selected) .rm-amt{display:none}
 .rp-in,.rp-basis{font-size:13px;padding:5px 0;border-bottom:1px solid #eee}
 .rp-toolbar .search-filter-box select{flex:1 1 40%}
@@ -1051,7 +1063,7 @@ body.fb-on,body.fb-on *{cursor:crosshair!important}
 <button type="button" class="sidebar-toggle" id="sidebarToggle" title="Hide sidebar" aria-label="Hide sidebar" onclick="toggleSidebar()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 <nav class="sidebar-nav" id="sidebarNav"></nav>
 <div class="sidebar-bottom">
-<div class="sidebar-user" id="sidebarUserBtn" onclick="openAccountModal()" style="cursor:pointer;" title="Account"><span class="sidebar-avatar" id="sidebarUserAvatar">B</span><span class="sidebar-user-name" id="sidebarUserName">Bala</span></div>
+<div class="sidebar-user" id="sidebarUserBtn" onclick="openAccountModal()" style="cursor:pointer;" title="Account"><span class="sidebar-avatar" id="sidebarUserAvatar">B</span><span class="sidebar-user-name"><span id="sidebarUserName">Bala</span><small class="sidebar-user-org">Big Short Films</small></span></div>
 </div>
 </aside>
 <div class="main-col">
@@ -1553,7 +1565,35 @@ p.first=dated[0]||'';
 p.wrap=dated[dated.length-1]||'';
 p.delivery=(p.phaseLog&&p.phaseLog.delivered)||'';
 }
-function saveState(){ if(window.__VIEW_TOKEN) return; try{localStorage.setItem('bsf_data_v2', JSON.stringify(STATE));}catch(e){} try{ scheduleShareSync(); }catch(e){} try{ scheduleCloudSync(); }catch(e){} }
+function redactTeamData(value){
+if(Array.isArray(value)) return value.map(redactTeamData);
+if(!value || typeof value!=='object') return value;
+const out={};
+Object.keys(value).forEach(key=>{
+const normalized=key.toLowerCase().replace(/[^a-z0-9]/g,'');
+if(['totalbudget','budgetactual','budgetplanned','budgetrates','amount','rate','cost','spend','expense','revenue','margin','profit','financial','financials','finance','pendingapprovals','ownerkey'].includes(normalized)) return;
+if(normalized==='history' && Object.prototype.hasOwnProperty.call(value,'rate')) return;
+out[key]=redactTeamData(value[key]);
+});
+return out;
+}
+function restoreTeamState(){
+let safe=null;
+try{ safe=cloudBase?JSON.parse(cloudBase):redactTeamData(STATE); }catch(e){ safe=redactTeamData(STATE); }
+applyingRemoteState=true; STATE=safe; runMigrations(); STATE=redactTeamData(STATE); applyingRemoteState=false;
+try{ localStorage.setItem('bsf_data_v2',JSON.stringify(STATE)); }catch(e){}
+if(typeof currentView!=='undefined') reapplyRemoteStateToUI();
+}
+function saveState(){
+if(window.__VIEW_TOKEN) return;
+if(getRole()==='team'){
+restoreTeamState();
+return;
+}
+try{localStorage.setItem('bsf_data_v2', JSON.stringify(STATE));}catch(e){}
+try{ scheduleShareSync(); }catch(e){}
+try{ scheduleCloudSync(); }catch(e){}
+}
 
 /* ---------- SHARED CLOUD STATE ----------
    The whole STATE object lives in one row in Supabase (public.app_state, id='default').
@@ -1582,6 +1622,11 @@ let cloudRetryTimer=null, cloudRetryDelay=3000, cloudPollTimer=null, syncStatus=
 
 function getToken(){ try{ return localStorage.getItem('bsf_token')||null; }catch(e){ return null; } }
 function setToken(t){ try{ if(t) localStorage.setItem('bsf_token',t); else localStorage.removeItem('bsf_token'); }catch(e){} }
+function clearCachedAppState(){
+try{ localStorage.removeItem('bsf_data_v2'); localStorage.removeItem('bsf_base_v1'); }catch(e){}
+cloudBase=null; cloudBaseAt=null; cloudReady=false;
+STATE=seedState();
+}
 function persistBase(){ try{ localStorage.setItem('bsf_base_v1', canonJson({at:cloudBaseAt,data:cloudBase})); }catch(e){} }
 function loadPersistedBase(){ try{ const b=JSON.parse(localStorage.getItem('bsf_base_v1')||'null'); if(b&&b.data){ cloudBase=b.data; cloudBaseAt=b.at||null; } }catch(e){} }
 
@@ -1594,6 +1639,7 @@ saving:['','busy','Saving your changes'],
 pending:['','busy','Saving your changes'],
 offline:['Offline','warn','You are offline. Changes are kept on this device and will sync when you reconnect.'],
 error:['Not saved','err','Could not reach the server. Retrying automatically — your changes are kept on this device.'],
+readonly:['Read only','ok','Team access can view project information but cannot edit it.'],
 idle:['','','']
 };
 const m=map[s]||map.idle;
@@ -1626,6 +1672,15 @@ try{
 const {data,error}=await supabase.rpc('state_put',{p_token:getToken(),p_data:JSON.parse(payload),p_base:cloudBaseAt});
 if(error) throw error;
 if(data && data.auth===false){ cloudPushInFlight=false; handleSessionExpired(); return; }
+if(data && data.forbidden){
+cloudPushInFlight=false; cloudPushQueued=false;
+clearCachedAppState();
+try{ localStorage.setItem('bsf_role','team'); }catch(e){}
+const refreshed=await loadCloudState();
+if(refreshed==='swapped') reapplyRemoteStateToUI();
+setSyncStatus('readonly');
+return;
+}
 if(data && data.ok){
 cloudBase=payload; cloudBaseAt=data.updated_at; persistBase();
 cloudRetryDelay=3000; clearTimeout(cloudRetryTimer);
@@ -1651,7 +1706,7 @@ if(cloudPushQueued || again){ cloudPushQueued=false; scheduleCloudSync(); }
 /* Run the data-shape migrations on a server copy, so comparisons aren't fooled by shape/key-order differences. */
 function normalizeState(obj){
 const keep=STATE; applyingRemoteState=true;
-try{ STATE=JSON.parse(canonJson(obj)); runMigrations(); return STATE; }
+try{ STATE=JSON.parse(canonJson(obj)); runMigrations(); if(getRole()==='team') STATE=redactTeamData(STATE); return STATE; }
 finally{ STATE=keep; applyingRemoteState=false; }
 }
 /* Take a server copy. If we have unsynced local edits, 3-way merge them on top. */
@@ -1954,6 +2009,7 @@ if(out.locked){
 if(errEl) errEl.textContent='Too many wrong attempts. Try again in 15 minutes.';
 clearPinInputs(); shakeLoginBox();
 }else if(out.ok){
+clearCachedAppState();
 setToken(out.token);
 try{ localStorage.setItem('bsf_role',out.role); }catch(e){}
 await playLoginExit();
@@ -1969,17 +2025,19 @@ loginBusy=false;
 }
 async function signOut(){
 const t=getToken();
-if(t && supabase){ try{ if(cloudDirty()) await pushStateToCloud(); await supabase.rpc('app_logout',{p_token:t}); }catch(e){} }
+if(t && supabase){ try{ if(isAdmin() && cloudDirty()) await pushStateToCloud(); await supabase.rpc('app_logout',{p_token:t}); }catch(e){} }
 setToken(null);
-try{ localStorage.removeItem('bsf_role'); localStorage.removeItem('bsf_base_v1'); }catch(e){}
+try{ localStorage.removeItem('bsf_role'); localStorage.removeItem('bsf_base_v1'); localStorage.removeItem('bsf_data_v2'); }catch(e){}
 location.reload();
 }
 function renderRoleBadge(){
 const nameEl=document.getElementById('sidebarUserName'), avEl=document.getElementById('sidebarUserAvatar');
 if(!nameEl) return;
 const r=getRole();
+document.body.classList.toggle('role-team',r==='team');
 const custom=(typeof accountDisplayName==='function')?accountDisplayName():'';
 nameEl.textContent = custom||(r==='admin'?'Admin':(r==='team'?'Team':'Bala'));
+nameEl.title=r==='team'?'Read-only access':'Click to sign out';
 if(avEl) avEl.textContent = custom?custom.charAt(0).toUpperCase():(r==='admin'?'A':(r==='team'?'T':'B'));
 }
 
@@ -2329,7 +2387,7 @@ document.getElementById('ovActiveList').innerHTML = activeSorted.length ? active
 const pct=Math.round(STAGE_ORDER.filter(k=>p.sections[k].confirmed).length/5*100);
 const thumbStyle=p.thumbnail?`background-image:url('${p.thumbnail}')`:'';
 const status=getProjectStatus(p);
-return `<div class="ov-project-row" onclick="openProject('${p.id}')"><div class="ov-project-thumb" style="${thumbStyle}"></div><div class="ov-project-info"><div class="ov-project-title">${esc(p.title)} <span class="status-inline">(${status})</span></div><div class="ov-project-sub">${esc(p.format||'')}</div></div><div class="ov-project-progress"><div class="usage-bar"><div class="usage-bar-fill" style="width:${pct}%"></div></div><span class="ov-project-pct">${pct}%</span></div><div class="ov-project-actions" data-no-open="1"><button type="button" class="icon-btn-text ov-project-action" aria-label="Share ${esc(p.title)}" onclick="event.stopPropagation();dlShareMenu(event,'${p.id}')">${ICON_SHARE_NODES}<span>Share</span></button><button type="button" class="icon-btn-text ov-project-action" aria-label="Download ${esc(p.title)} project PDF" onclick="event.stopPropagation();printProjectPDF('${p.id}')">${ICON_DOWNLOAD}<span>PDF</span></button></div></div>`;
+return `<div class="ov-project-row" onclick="openProject('${p.id}')"><div class="ov-project-thumb" style="${thumbStyle}"></div><div class="ov-project-info"><div class="ov-project-title">${esc(p.title)} <span class="status-inline">(${status})</span></div><div class="ov-project-sub">${esc(p.format||'')}</div></div><div class="ov-project-progress"><div class="usage-bar"><div class="usage-bar-fill" style="width:${pct}%"></div></div><span class="ov-project-pct">${pct}%</span></div><div class="ov-project-actions" data-no-open="1">${isAdmin()?`<button type="button" class="icon-btn-text ov-project-action" aria-label="Share ${esc(p.title)}" onclick="event.stopPropagation();dlShareMenu(event,'${p.id}')">${ICON_SHARE_NODES}<span>Share</span></button>`:''}<button type="button" class="icon-btn-text ov-project-action" aria-label="Download ${esc(p.title)} project PDF" onclick="event.stopPropagation();printProjectPDF('${p.id}')">${ICON_DOWNLOAD}<span>PDF</span></button></div></div>`;
 }).join('') : '<div style="font-size:13px;color:#999;padding:8px 0;">Nothing in flight.</div>';
 
 /* Completed projects preview */
@@ -2372,7 +2430,7 @@ return `
 <div class="detail-row"><span class="detail-label">Crew</span><span class="detail-value">${p.crew}</span></div>
 <div class="detail-row"><span class="detail-label">Kit</span><span class="detail-value">${p.kit}</span></div>
 <div class="detail-row"><span class="detail-label">Output</span><span class="detail-value">${p.output}</span></div>
-<div class="detail-row"><span class="detail-label">Budget</span><span class="detail-value">${fmt(p.budget_actual)} of ${fmt(p.budget_planned)}</span></div>
+${isAdmin()?`<div class="detail-row"><span class="detail-label">Budget</span><span class="detail-value">${fmt(p.budget_actual)} of ${fmt(p.budget_planned)}</span></div>`:''}
 <div class="completed-footer"><div class="pill-group"><span class="pill">${p.shots} shots</span><span class="pill stages">5/5 stages</span></div>${p._liveId?`<button class="open-btn" onclick="openProject('${p._liveId}')">Open</button>`:`<button class="open-btn" disabled style="opacity:.5;">Archived</button>`}</div>
 </div>
 </div>`;
@@ -2441,7 +2499,7 @@ $('top5List').innerHTML=top5.map(t=>`<div class="top5-row"><div class="top5-head
 }
 function renderCategoryGroup(type,elId){
 const list=STATE.categories[type]||[];
-document.getElementById(elId).innerHTML=`<div class="cat-subs">`+list.map((n,si)=>`<span class="tag-pill"><input class="sub-pill-input" value="${esc(n)}" size="${Math.max(n.length+2,4)}" onchange="renameSubcategory('${type}',${si},this.value)"><span class="rm" onclick="deleteSubcategory('${type}',${si})">✕</span></span>`).join('')+`<input class="cat-sub-add" placeholder="+ subcategory" onkeydown="if(event.key==='Enter'){addSubcategory('${type}',this.value); this.value='';}"></div>`;
+document.getElementById(elId).innerHTML=`<div class="cat-subs">`+list.map((n,si)=>isAdmin()?`<span class="tag-pill"><input class="sub-pill-input" value="${esc(n)}" size="${Math.max(n.length+2,4)}" onchange="renameSubcategory('${type}',${si},this.value)"><span class="rm" onclick="deleteSubcategory('${type}',${si})">✕</span></span>`:`<span class="tag-pill">${esc(n)}</span>`).join('')+(isAdmin()?`<input class="cat-sub-add" placeholder="+ subcategory" onkeydown="if(event.key==='Enter'){addSubcategory('${type}',this.value); this.value='';}">`:'')+`</div>`;
 }
 function renameSubcategory(type,si,newVal){
 const n=(newVal||'').trim(); if(!n) return;
@@ -2743,8 +2801,7 @@ RV.adding=false;
 const p=STATE.projects.find(x=>x.id===id);
 if(!p) return;
 if(!keepTab) currentTab = STAGE_ORDER.find(k=>!p.sections[k].confirmed) || 'delivery';
-STATE.lastOpenedProjectId=id;
-saveState();
+if(isAdmin()){ STATE.lastOpenedProjectId=id; saveState(); }
 showView('projectDetail');
 renderProjectDetail();
 }
@@ -2787,6 +2844,26 @@ saveState();
 logActivity(STAGE_NAMES[key]+' confirmed',p.title);
 renderProjectDetail(); renderOverview(); renderCompleted();
 }
+const TEAM_VIEW_ACTIONS=['showView','openProject','openLatestProject','setTab','selectProjFromSwitcher','toggleSidebar','toggleProjSwitcher','renderProjSwitcherList','setCompletedSearch','setRpSearch','setRpCat','setRpSub','setRpAllocatedFilter','setShotPlannerView','toggleSort','dlSetQ','dlSetFilter','dlOpen','dlShareMenu','openShareModal','copyShareLink','closeModal','printProjectPDF'];
+function guardTeamEdit(e){
+if(isAdmin() || !getToken() || window.__VIEW_TOKEN) return;
+const target=e.target&&e.target.closest?e.target.closest('button,a,input,select,textarea,[onclick],[contenteditable="true"]'):null;
+if(!target) return;
+if(target.closest('.sidebar,.topbar')) return;
+if(target.tagName==='A' && target.href) return;
+if(target.matches('input[readonly]')) return;
+const handler=['click','input','change','keydown'].map(type=>target.getAttribute('on'+type)||'').join(';');
+const allowed=TEAM_VIEW_ACTIONS.some(name=>new RegExp('(?:^|[;{}])\\s*'+name+'\\s*\\(').test(handler));
+if(allowed) return;
+if(e.type==='click' && target.closest('.ov-project-row,.ov-sh-card,.completed-card') && /openProject\s*\(/.test(target.closest('.ov-project-row,.ov-sh-card,.completed-card').getAttribute('onclick')||'')) return;
+e.preventDefault(); e.stopImmediatePropagation();
+hintOpenProject('Read-only access — contact an admin to make changes');
+}
+document.addEventListener('click',guardTeamEdit,true);
+document.addEventListener('change',guardTeamEdit,true);
+document.addEventListener('input',guardTeamEdit,true);
+document.addEventListener('keydown',guardTeamEdit,true);
+
 /* A stage marked Completed stays fully editable; touching any field or control inside
    it silently reopens the stage, flipping its button back from Completed to Proceed.
    Controls flagged data-no-lock (view toggles, search/filter inputs) are never real
@@ -2889,7 +2966,7 @@ document.getElementById('pdStatusInline').textContent=status==='Delivered'?'Deli
 const statEl=document.getElementById('pdStat');
 if(statEl){
 let st;
-if(currentTab==='budgeting') st='Total Budget · ₹'+fmt(resourceTotals(p).total);
+if(currentTab==='budgeting') st=isAdmin()?'Total Budget · ₹'+fmt(resourceTotals(p).total):'Shared resources';
 else if(currentTab==='brief') st='';
 else st=stageStat(p,currentTab);
 statEl.textContent=st;
@@ -2904,11 +2981,12 @@ hView.innerHTML=`<div class="view-toggle" data-no-lock="1"><button class="vt-btn
 } else { hAdd.innerHTML=''; hView.innerHTML=''; }
 }
 const content=document.getElementById('pdContent');
-if(currentTab==='brief') content.innerHTML=renderBriefTab(p);
-else if(currentTab==='shotPlanning'){ content.innerHTML=renderShotPlanningTab(p); }
-else if(currentTab==='budgeting'){ content.innerHTML=renderBudgetingTab(p); renderResourcePlannerList(); }
-else if(currentTab==='shootTracking') content.innerHTML=renderShootTrackingTab(p);
-else { content.innerHTML=renderDeliveryTab(p); dlLoadVimeoThumbs(); pullShares(); if(RV.ver) dlMountPlayer(); }
+const accessNote=isAdmin()?'':'<div class="team-readonly-note">Read-only team access · Contact an admin to update this project.</div>';
+if(currentTab==='brief') content.innerHTML=accessNote+renderBriefTab(p);
+else if(currentTab==='shotPlanning'){ content.innerHTML=accessNote+renderShotPlanningTab(p); }
+else if(currentTab==='budgeting'){ content.innerHTML=accessNote+renderBudgetingTab(p); renderResourcePlannerList(); }
+else if(currentTab==='shootTracking') content.innerHTML=accessNote+renderShootTrackingTab(p);
+else { content.innerHTML=accessNote+renderDeliveryTab(p); dlLoadVimeoThumbs(); pullShares(); if(RV.ver) dlMountPlayer(); }
 renderStageStatusIcons(currentTab);
 autosizeTextareas();
 syncStickyOffsets();
@@ -2938,7 +3016,9 @@ const interactive=EDITABLE_STAGES.includes(key);
 const idx=STAGE_ORDER.indexOf(key), next=STAGE_ORDER[idx+1];
 const btn=(cls,label,icon,onclick,opts)=>{ opts=opts||{}; return `<button type="button" class="pd-icon-btn has-lbl ${cls}" title="${opts.title||label}" aria-label="${opts.title||label}"${onclick?` onclick="${onclick}"`:''}${opts.disabled?' disabled':''}>${icon}<span class="lbl">${label}</span></button>`; };
 let primary;
-if(key==='delivery'){
+if(!isAdmin() && interactive){
+primary=btn('tick',confirmed?'Saved':'View only',ICON_CHECK_SM,'',{disabled:1,title:'Team access is read only'});
+} else if(key==='delivery'){
 primary = confirmed ? btn('tick','Delivered',ICON_CHECK_SM,'',{disabled:1})
 : dlHasApproved(p) ? btn('save-btn','Mark delivered',ICON_CHECK_SM,'markProjectComplete()')
 : btn('','In progress',ICON_CHECK_SM,'',{disabled:1,title:'Approve a version to deliver'});
@@ -3137,7 +3217,7 @@ return `<section class="day"><h2>Day ${dayIndex+1} · ${esc(day.date?fmtDateShor
 const resources=RES_TYPES.flatMap(type=>[...new Set(p[RES_KEY[type]]||[])].map(id=>{
 const resource=resolveResource(type,id); if(!resource) return '';
 const line=resourceLine(p,type,id);
-return `<tr><td>${esc(type==='crew'?'Crew':type==='equipment'?'Equipment':'Production')}</td><td>${esc(resLabel(resource))}</td><td>${esc(line.qty)} ${esc(line.basis)}</td><td>${esc(rupee(line.rate))}</td><td>${esc(rupee(line.total))}</td></tr>`;
+return `<tr><td>${esc(type==='crew'?'Crew':type==='equipment'?'Equipment':'Production')}</td><td>${esc(resLabel(resource))}</td><td>${esc(line.qty)} ${esc(line.basis)}</td>${isAdmin()?`<td>${esc(rupee(line.rate))}</td><td>${esc(rupee(line.total))}</td>`:''}</tr>`;
 }).filter(Boolean)).join('');
 const totals=resourceTotals(p);
 const delivery=p.sections&&p.sections.delivery||{};
@@ -3148,7 +3228,7 @@ w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${esc(
 </style></head><body><header><h1>${esc(p.title)}</h1><div class="meta">${meta||'Project details'}</div><div class="summary"><span>${esc(status)}</span><span>${progress}% ready</span>${p.startDate?`<span>Started ${esc(fmtDateShort(p.startDate))}</span>`:''}${p.delivery?`<span>Delivery ${esc(fmtDateShort(p.delivery))}</span>`:''}</div></header>
 <h2>Project brief</h2>${briefHtml}
 <h2>Shot plan</h2>${days||'<p class="empty">No shoot days planned.</p>'}
-<h2>Resources &amp; budget</h2>${resources?`<table><thead><tr><th>Category</th><th>Resource</th><th>Quantity</th><th>Rate</th><th>Amount</th></tr></thead><tbody>${resources}</tbody></table><p class="total">Total budget: ${esc(rupee(totals.total))}</p>`:'<p class="empty">No resources allocated.</p>'}
+<h2>${isAdmin()?'Resources &amp; budget':'Shared resources'}</h2>${resources?`<table><thead><tr><th>Category</th><th>Resource</th><th>Quantity</th>${isAdmin()?'<th>Rate</th><th>Amount</th>':''}</tr></thead><tbody>${resources}</tbody></table>${isAdmin()?`<p class="total">Total budget: ${esc(rupee(totals.total))}</p>`:''}`:'<p class="empty">No resources allocated.</p>'}
 <h2>Editing &amp; review</h2>${versions?`<table><thead><tr><th>Film</th><th>Version</th><th>Date</th><th>Status</th></tr></thead><tbody>${versions}</tbody></table>`:'<p class="empty">No versions added.</p>'}
 <footer>FLOW · Big Short Films · Printed ${esc(new Date().toLocaleDateString('en-GB'))}</footer></body></html>`);
 w.document.close(); w.focus(); setTimeout(()=>w.print(),400);
@@ -4035,6 +4115,8 @@ function setRpAllocatedFilter(v){ rpAllocatedFilter=v; renderProjectDetail(); }
 function renderResourcePlannerList(){
 const el=document.getElementById('rpResourceList');
 if(!el) return;
+const readOnly=!isAdmin();
+el.classList.toggle('rm-team-readonly',readOnly);
 const p=currentProject();
 const sel={}; RES_TYPES.forEach(t=>sel[t]=new Set(p[RES_KEY[t]]||[]));
 let rows=resourcePlannerPool().filter(matchesResourceFilter);
@@ -4048,7 +4130,9 @@ rows=rows.map(r=>({r,v:val(r)})).sort((a,b)=>cmpVals(a.v,b.v,SORT.rm.dir)).map(x
 rmVisible=rows.map(r=>({type:r.type,id:r.id}));
 const allOn=rows.length>0 && rows.every(r=>sel[r.type].has(r.id));
 const today=new Date().toISOString().slice(0,10);
-const head=`<div class="rm-head"><span class="rm-chk"><input type="checkbox" class="rp-checkbox" ${allOn?'checked':''} aria-label="Select all" onchange="setAllResourcesChecked(this.checked)"></span>${sortHead('rm','name','Name')}${sortHead('rm','cat','Category')}${sortHead('rm','sub','Subcategory')}${sortHead('rm','rate','Rate')}${sortHead('rm','qty','Qty')}${sortHead('rm','amt','Amount')}</div>`;
+const head=readOnly
+?`<div class="rm-head">${sortHead('rm','name','Name')}${sortHead('rm','cat','Category')}${sortHead('rm','sub','Subcategory')}<span>Qty</span></div>`
+:`<div class="rm-head"><span class="rm-chk"><input type="checkbox" class="rp-checkbox" ${allOn?'checked':''} aria-label="Select all" onchange="setAllResourcesChecked(this.checked)"></span>${sortHead('rm','name','Name')}${sortHead('rm','cat','Category')}${sortHead('rm','sub','Subcategory')}${sortHead('rm','rate','Rate')}${sortHead('rm','qty','Qty')}${sortHead('rm','amt','Amount')}</div>`;
 el.innerHTML = head + (rows.map(r=>{
 const on=sel[r.type].has(r.id);
 const ln=on?resourceLine(p,r.type,r.id):null;
@@ -4058,23 +4142,24 @@ const next=resourceBookings(r.type,r.id).filter(b=>b.to>=today).sort((a,b)=>a.fr
 dot=next.length?`<i class="av-dot busy" title="${esc(next.map(x=>x.p.title+' · '+fmtRange(x.from,x.to)).join('\n'))}"></i>`:'<i class="av-dot free" title="Available"></i>';
 }
 const basisLbl=b=>b==='Per Day'?'Day':'Project';
-const rate=on
+const rate=readOnly?'':on
 ?`<span class="rm-cur">₹</span><input class="rp-in" type="text" inputmode="decimal" style="width:${numPx(fmt(ln.rate))}px" value="${fmt(ln.rate)}" aria-label="Rate" oninput="this.style.width=numPx(this.value)+'px'" onchange="setResourceLine('${r.type}','${r.id}','rate',this.value)"><select class="rp-in rp-basis" aria-label="Rate basis" onchange="setResourceLine('${r.type}','${r.id}','basis',this.value)">${RATE_BASES.map(b=>`<option value="${b}" ${ln.basis===b?'selected':''}>/ ${basisLbl(b)}</option>`).join('')}</select>`
 :`<span class="rb-static">${rupee(r.rate)} / Day</span>`;
 const qty=on
-?`<button type="button" class="rm-step" onclick="stepResourceQty('${r.type}','${r.id}',-1)" aria-label="Decrease">−</button><input class="rp-in rp-qty" type="number" min="0" step="1" value="${ln.qty}" aria-label="Quantity" onchange="setResourceLine('${r.type}','${r.id}','qty',this.value)"><button type="button" class="rm-step" onclick="stepResourceQty('${r.type}','${r.id}',1)" aria-label="Increase">+</button>`
+?(readOnly?`<span class="rb-static">${ln.qty}</span>`
+:`<button type="button" class="rm-step" onclick="stepResourceQty('${r.type}','${r.id}',-1)" aria-label="Decrease">−</button><input class="rp-in rp-qty" type="number" min="0" step="1" value="${ln.qty}" aria-label="Quantity" onchange="setResourceLine('${r.type}','${r.id}','qty',this.value)"><button type="button" class="rm-step" onclick="stepResourceQty('${r.type}','${r.id}',1)" aria-label="Increase">+</button>`)
 :'<span class="rb-dash">—</span>';
-const amt=on
+const amt=readOnly?'':on
 ?`<span class="rm-cur">₹</span><input class="rp-in rp-total" type="text" inputmode="decimal" style="width:${numPx(fmt(ln.total))}px" value="${fmt(ln.total)}" aria-label="Amount" oninput="this.style.width=numPx(this.value)+'px'" onchange="setResourceLine('${r.type}','${r.id}','total',this.value)">`
 :'<span class="rb-dash">—</span>';
 return `<div class="rm-row ${on?'selected':''}">
-<span class="rm-chk"><input type="checkbox" class="rp-checkbox" ${on?'checked':''} aria-label="Select ${esc(r.name)}" onchange="setResourceChecked('${r.type}','${r.id}',this.checked)"></span>
-<span class="rm-name">${dot}<b class="nm-t rp-edit" data-no-lock="1" title="Edit resource" onclick="openResourceModal('${r.type}','${r.id}')">${esc(r.name)}</b></span>
+${readOnly?'':`<span class="rm-chk"><input type="checkbox" class="rp-checkbox" ${on?'checked':''} aria-label="Select ${esc(r.name)}" onchange="setResourceChecked('${r.type}','${r.id}',this.checked)"></span>`}
+<span class="rm-name">${dot}<b class="nm-t ${readOnly?'':'rp-edit'}" ${readOnly?'':'data-no-lock="1" title="Edit resource" onclick="openResourceModal(\''+r.type+'\',\''+r.id+'\')"'}>${esc(r.name)}</b></span>
 <span class="rm-cat" data-l="Category">${r.cat}</span>
 <span class="rm-sub" data-l="Subcategory">${esc(r.sub)||'—'}</span>
-<span class="rm-rate" data-l="Rate">${rate}</span>
+${readOnly?'':`<span class="rm-rate" data-l="Rate">${rate}</span>`}
 <span class="rm-qty" data-l="Qty">${qty}</span>
-<span class="rm-amt" data-l="Amount">${amt}</span>
+${readOnly?'':`<span class="rm-amt" data-l="Amount">${amt}</span>`}
 </div>`;
 }).join('') || `<div style="font-size:13px;color:#999;padding:12px 18px;">${rpAllocatedFilter?'Nothing selected yet. Switch to All to select resources.':'No resources match.'}</div>`);
 }
@@ -4103,8 +4188,8 @@ return `<div id="pdBody">
 <div class="rp-toolbar">
 <div class="search-filter-box wide" data-no-lock="1"><input type="text" placeholder="Search resources" value="${esc(rpSearch)}" data-no-lock="1" oninput="setRpSearch(this.value)"><select data-no-lock="1" aria-label="Category" onchange="setRpCat(this.value)"><option value="">All categories</option>${RES_TYPES.map(t=>`<option value="${RES_LABEL[t]}" ${rpCat===RES_LABEL[t]?'selected':''}>${RES_LABEL[t]}</option>`).join('')}</select><select data-no-lock="1" aria-label="Subcategory" onchange="setRpSub(this.value)"><option value="">All subcategories</option>${subs.map(n=>`<option value="${esc(n)}" ${rpSub===n?'selected':''}>${esc(n)}</option>`).join('')}</select></div>
 <div class="view-toggle" data-no-lock="1"><button class="vt-btn ${!rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(false)">All</button><button class="vt-btn ${rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(true)">Selected</button></div>
-<button type="button" class="icon-btn-text primary" data-no-lock="1" title="Add resource" onclick="openAddResourceModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span>Add Resource</span></button>
-<button type="button" class="icon-btn-text" data-no-lock="1" title="Manage categories" onclick="openManageCategoriesModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.58 3.3L4 3a1 1 0 0 0-1 1l.3 5.58a2 2 0 0 0 .58 1.42l9.6 9.59a2 2 0 0 0 2.82 0l4.3-4.3a2 2 0 0 0 0-2.83Z"/><circle cx="7.5" cy="7.5" r="1.3" fill="currentColor" stroke="none"/></svg><span>Categories</span></button>
+${isAdmin()?`<button type="button" class="icon-btn-text primary" data-no-lock="1" title="Add resource" onclick="openAddResourceModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span>Add Resource</span></button>
+<button type="button" class="icon-btn-text" data-no-lock="1" title="Manage categories" onclick="openManageCategoriesModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.58 3.3L4 3a1 1 0 0 0-1 1l.3 5.58a2 2 0 0 0 2.82 0l4.3-4.3a2 2 0 0 0 0-2.83Z"/><circle cx="7.5" cy="7.5" r="1.3" fill="currentColor" stroke="none"/></svg><span>Categories</span></button>`:''}
 </div>
 <div class="resource-list-box">
 <div id="rpResourceList"></div>
@@ -4707,6 +4792,11 @@ async function openShareModal(pid,aud){
 const p=STATE.projects.find(x=>x.id===pid);
 if(!p) return;
 const box=document.getElementById('shareModalBox');
+if(!isAdmin() && !getShare(pid,aud)){
+box.innerHTML=shareModalShell(aud,p,'<div class="sh-note">Only an admin can create a share link.</div>');
+document.getElementById('shareModal').classList.add('show');
+return;
+}
 box.innerHTML=shareModalShell(aud,p,'<div class="sh-note">Preparing link…</div>');
 document.getElementById('shareModal').classList.add('show');
 try{
@@ -5192,7 +5282,7 @@ async function boot(){
 if(window.__VIEW_TOKEN){ vwInit(window.__VIEW_TOKEN); return; }
 if(!getToken()){ try{ localStorage.removeItem('bsf_role'); }catch(e){} showLoginGate(); return; }
 hideLoginGate();
-if(window.__flowBooted){ const r=await pullCloudState(); if(r==='swapped') reapplyRemoteStateToUI(); renderRoleBadge(); return; }
+if(window.__flowBooted){ const r=await pullCloudState(); if(r==='swapped') reapplyRemoteStateToUI(); renderRoleBadge(); if(getRole()==='team') setSyncStatus('readonly'); return; }
 window.__flowBooted=true;
 try{ if(localStorage.getItem('flowSidebarCollapsed')!=='0') document.body.classList.add('sidebar-collapsed'); }catch(e){}
 renderOverview();renderCompleted();renderResources();renderSidebarNav();renderRoleBadge();
@@ -5203,6 +5293,7 @@ setInterval(loadWeather,900000);
 const cloudResult=await loadCloudState();
 if(cloudResult==='swapped') reapplyRemoteStateToUI();
 renderRoleBadge();
+if(getRole()==='team') setSyncStatus('readonly');
 updateTopbarClock();
 subscribeCloudState();
 if(hasAnyShare()){ startSharePolling(); pullShares(); syncAllShares(); }
