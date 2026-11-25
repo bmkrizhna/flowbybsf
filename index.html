@@ -2036,9 +2036,9 @@ if(!nameEl) return;
 const r=getRole();
 document.body.classList.toggle('role-team',r==='team');
 const custom=(typeof accountDisplayName==='function')?accountDisplayName():'';
-nameEl.textContent = custom||(r==='admin'?'Admin':(r==='team'?'Team':'Bala'));
+nameEl.textContent = custom||(r==='team'?'Team':'Bala');
 nameEl.title=r==='team'?'Read-only access':'Click to sign out';
-if(avEl) avEl.textContent = custom?custom.charAt(0).toUpperCase():(r==='admin'?'A':(r==='team'?'T':'B'));
+if(avEl) avEl.textContent = custom?custom.charAt(0).toUpperCase():(r==='team'?'T':'B');
 }
 
 function addApproval(type,payload){
@@ -2172,7 +2172,7 @@ if(!wrap) return;
 const p = (currentView==='projectDetail' && currentProjectId) ? currentProject() : null;
 const items=[];
 items.push(`<button class="sidebar-link ${currentView==='overview'?'active':''}" onclick="showView('overview')" title="Dashboard"><span class="sidebar-link-icon">${ICON_HOUSE}</span><span class="sidebar-link-label">Dashboard</span></button>`);
-items.push(...STAGE_ORDER.filter(k=>k!=='shootTracking').map(k=>{
+items.push(...['brief','budgeting','shotPlanning','delivery'].map(k=>{
 const lab=k==='shotPlanning'?'Shoot':STAGE_NAMES[k];
 if(!p) return `<button class="sidebar-link disabled" onclick="openLatestProject('${k}')" title="Open your latest project on this stage"><span class="sidebar-link-icon">${STAGE_ICONS[k]}</span><span class="sidebar-link-label">${lab}</span></button>`;
 const active=currentView==='projectDetail' && (currentTab===k || (k==='shotPlanning' && currentTab==='shootTracking'));
@@ -4189,7 +4189,7 @@ return `<div id="pdBody">
 <div class="search-filter-box wide" data-no-lock="1"><input type="text" placeholder="Search resources" value="${esc(rpSearch)}" data-no-lock="1" oninput="setRpSearch(this.value)"><select data-no-lock="1" aria-label="Category" onchange="setRpCat(this.value)"><option value="">All categories</option>${RES_TYPES.map(t=>`<option value="${RES_LABEL[t]}" ${rpCat===RES_LABEL[t]?'selected':''}>${RES_LABEL[t]}</option>`).join('')}</select><select data-no-lock="1" aria-label="Subcategory" onchange="setRpSub(this.value)"><option value="">All subcategories</option>${subs.map(n=>`<option value="${esc(n)}" ${rpSub===n?'selected':''}>${esc(n)}</option>`).join('')}</select></div>
 <div class="view-toggle" data-no-lock="1"><button class="vt-btn ${!rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(false)">All</button><button class="vt-btn ${rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(true)">Selected</button></div>
 ${isAdmin()?`<button type="button" class="icon-btn-text primary" data-no-lock="1" title="Add resource" onclick="openAddResourceModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span>Add Resource</span></button>
-<button type="button" class="icon-btn-text" data-no-lock="1" title="Manage categories" onclick="openManageCategoriesModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.58 3.3L4 3a1 1 0 0 0-1 1l.3 5.58a2 2 0 0 0 2.82 0l4.3-4.3a2 2 0 0 0 0-2.83Z"/><circle cx="7.5" cy="7.5" r="1.3" fill="currentColor" stroke="none"/></svg><span>Categories</span></button>`:''}
+<button type="button" class="icon-btn-text" data-no-lock="1" title="Manage categories" onclick="openManageCategoriesModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.58 3.3L4 3a1 1 0 0 0-1 1l.3 5.58a2 2 0 0 0 .58 1.42l9.6 9.59a2 2 0 0 0 2.82 0l4.3-4.3a2 2 0 0 0 0-2.83Z"/><circle cx="7.5" cy="7.5" r="1.3" fill="currentColor" stroke="none"/></svg><span>Categories</span></button>`:''}
 </div>
 <div class="resource-list-box">
 <div id="rpResourceList"></div>
