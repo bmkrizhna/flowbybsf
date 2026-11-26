@@ -271,7 +271,7 @@ main:has(#projectDetail.active){padding-top:0}
 
 .resource-list-box{border:none;border-radius:0;overflow:visible;background:none}
 .rp-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
-.rp-toolbar .search-filter-box{flex:1 1 220px;min-width:200px;max-width:none}
+.rp-toolbar .search-filter-box{flex:1 1 200px;min-width:180px;max-width:none}
 .rp-toolbar .view-toggle{flex-shrink:0}
 @media(min-width:769px){
 .rp-toolbar{position:sticky;top:calc(var(--topbar-h,62.5px) + var(--proj-head-h,0px));z-index:15;background:var(--page-bg);padding:10px 0;margin-bottom:0}
@@ -344,6 +344,11 @@ main:has(#projectDetail.active){padding-top:0}
 .pd-head-add:not(:empty)+.pd-stat,.pd-head-add:not(:empty)+.pd-stat:empty+.pd-head-view{margin-left:auto}
 .pd-stat{margin-left:auto;font-size:13px;font-weight:500;color:#1a1a1a;white-space:nowrap}
 .pd-stat:empty{display:none}
+.pd-head-new:empty{display:none}
+.pd-head-new .btn-ghost{border-radius:999px;background:#f0f0f0;border:none;padding:8px 16px}
+.pd-head-new .btn-ghost:hover{background:#e5e5e5}
+.rp-total{margin-left:auto;font-size:13px;font-weight:600;white-space:nowrap;padding-left:6px}
+.pd-foot-stat{margin-top:16px;padding:14px 0 4px;border-top:1px solid #eee;font-size:13px;color:#6b6b6b;text-align:right}
 .proj-head-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;margin-left:24px}
 .pd-stat:empty+.proj-head-actions{margin-left:auto}
 .pd-stat:empty+.pd-head-view:empty+.proj-head-actions{margin-left:auto}
@@ -912,7 +917,7 @@ main{padding-left:14px;padding-right:14px}
 .dl-dots{width:34px;height:34px;border-radius:50%;border:none;background:#f0f0f0;color:#444;font:inherit;font-size:17px;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
 .dl-dots:hover{background:#e3e3e3}
 .dl-dots{background:none;width:30px;height:30px;font-size:18px;letter-spacing:1px}
-.dl-search{flex:1 1 140px;min-width:120px;display:flex;align-items:center;gap:8px;background:#f0f0f0;border-radius:999px;padding:0 14px;color:#777}
+.dl-search{flex:1 1 auto;min-width:120px;display:flex;align-items:center;gap:8px;background:#f0f0f0;border-radius:999px;padding:0 14px;color:#777}
 .dl-search input{border:none;background:none;outline:none;font:inherit;font-size:13px;padding:10px 0;width:100%;color:#1a1a1a;min-width:0}
 .dl-search:focus-within{box-shadow:0 0 0 2px var(--accent)}
 .dl-chips{display:flex;gap:8px;flex-wrap:wrap}
@@ -1138,11 +1143,10 @@ body.fb-on,body.fb-on *{cursor:crosshair!important}
 <div class="proj-switcher-list" id="projSwitcherList"></div>
 </div>
 </div>
-<div class="pd-status-cluster"><span class="pd-dot"></span><span id="pdStatusInline">—</span><b>·</b><span id="pdRingPct">—</span><div class="pd-ring" id="pdRing"></div></div>
 <div class="pd-head-add" id="pdHeadAdd"></div>
 <div class="pd-stat" id="pdStat"></div>
 <div class="pd-head-view" id="pdHeadView"></div>
-<div class="proj-head-actions"><div class="pd-stage-actions" id="pdStageActions"></div></div>
+<div class="proj-head-actions"><div class="pd-head-new" id="pdHeadNew"></div><div class="pd-stage-actions" id="pdStageActions"></div></div>
 </div>
 <div id="pdContent"></div>
 </div>
@@ -2965,30 +2969,28 @@ const confirmedCount=STAGE_ORDER.filter(k=>p.sections[k].confirmed).length;
 const progressPct=STAGE_ORDER.length>0?Math.round((confirmedCount/STAGE_ORDER.length)*100):0;
 const ringEl=document.getElementById('pdRing');
 if(ringEl) ringEl.style.setProperty('--pct',progressPct);
-document.getElementById('pdRingPct').textContent=progressPct+'%';
-document.getElementById('pdStatusInline').textContent=status==='Delivered'?'Delivered':'In '+status;
 const statEl=document.getElementById('pdStat');
 if(statEl){
 let st;
-if(currentTab==='budgeting') st=isAdmin()?'Total Budget · ₹'+fmt(resourceTotals(p).total):'Shared resources';
-else if(currentTab==='brief') st='';
+if(currentTab==='budgeting'||currentTab==='brief'||currentTab==='shotPlanning'||currentTab==='delivery') st='';
 else st=stageStat(p,currentTab);
 statEl.textContent=st;
 }
 renderSidebarNav();
 
 const hAdd=document.getElementById('pdHeadAdd'), hView=document.getElementById('pdHeadView');
+const hNew=document.getElementById('pdHeadNew');
+if(hNew) hNew.innerHTML=(currentTab==='brief'&&isAdmin())?`<button class="btn-ghost ov-new-btn" data-no-lock="1" onclick="openNewProjectModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 5v14M5 12h14"/></svg>New Project</button>`:'';
 if(hAdd&&hView){
 if(currentTab==='shotPlanning'||currentTab==='shootTracking'){
 hAdd.innerHTML='';
 hView.innerHTML=`<div class="view-toggle" data-no-lock="1"><button class="vt-btn ${currentTab==='shotPlanning'?'active':''}" data-no-lock="1" onclick="setTab('shotPlanning')">Plan</button><button class="vt-btn ${currentTab==='shootTracking'?'active':''}" data-no-lock="1" onclick="setTab('shootTracking')">Track</button></div>`;
-} else if(currentTab==='brief'&&isAdmin()){ hAdd.innerHTML=`<button class="btn-ghost ov-new-btn" data-no-lock="1" onclick="openNewProjectModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 5v14M5 12h14"/></svg>New Project</button>`; hView.innerHTML=''; }
-else { hAdd.innerHTML=''; hView.innerHTML=''; }
+} else { hAdd.innerHTML=''; hView.innerHTML=''; }
 }
 const content=document.getElementById('pdContent');
 const accessNote=isAdmin()?'':'<div class="team-readonly-note">Read-only team access · Contact an admin to update this project.</div>';
 if(currentTab==='brief') content.innerHTML=accessNote+renderBriefTab(p);
-else if(currentTab==='shotPlanning'){ content.innerHTML=accessNote+renderShotPlanningTab(p); }
+else if(currentTab==='shotPlanning'){ content.innerHTML=accessNote+renderShotPlanningTab(p)+`<div class="pd-foot-stat">${esc(stageStat(p,'shotPlanning'))}</div>`; }
 else if(currentTab==='budgeting'){ content.innerHTML=accessNote+renderBudgetingTab(p); renderResourcePlannerList(); }
 else if(currentTab==='shootTracking') content.innerHTML=accessNote+renderShootTrackingTab(p);
 else { content.innerHTML=accessNote+renderDeliveryTab(p); dlLoadVimeoThumbs(); pullShares(); if(RV.ver) dlMountPlayer(); }
@@ -4120,6 +4122,7 @@ function setRpAllocatedFilter(v){ rpAllocatedFilter=v; renderProjectDetail(); }
 function renderResourcePlannerList(){
 const el=document.getElementById('rpResourceList');
 if(!el) return;
+{const tEl=document.getElementById('rpTotal'), cp=currentProject(); if(tEl&&cp) tEl.textContent='Total Budget · ₹'+fmt(resourceTotals(cp).total);}
 const readOnly=!isAdmin();
 el.classList.toggle('rm-team-readonly',readOnly);
 const p=currentProject();
@@ -4195,6 +4198,7 @@ return `<div id="pdBody">
 <div class="view-toggle" data-no-lock="1"><button class="vt-btn ${!rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(false)">All</button><button class="vt-btn ${rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(true)">Selected</button></div>
 ${isAdmin()?`<button type="button" class="icon-btn-text primary" data-no-lock="1" title="Add resource" onclick="openAddResourceModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span>Add Resource</span></button>
 <button type="button" class="icon-btn-text" data-no-lock="1" title="Manage categories" onclick="openManageCategoriesModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.58 3.3L4 3a1 1 0 0 0-1 1l.3 5.58a2 2 0 0 0 .58 1.42l9.6 9.59a2 2 0 0 0 2.82 0l4.3-4.3a2 2 0 0 0 0-2.83Z"/><circle cx="7.5" cy="7.5" r="1.3" fill="currentColor" stroke="none"/></svg><span>Categories</span></button>`:''}
+${isAdmin()?`<div class="rp-total" id="rpTotal">Total Budget · ₹${fmt(resourceTotals(p).total)}</div>`:''}
 </div>
 <div class="resource-list-box">
 <div id="rpResourceList"></div>
@@ -4287,12 +4291,12 @@ if(RV.ver && !dlFindVersion(p,RV.ver)) RV.ver=null;
 return `<div id="pdBody" class="dl">${dlListHtml(p)}</div>`;
 }
 function dlListHtml(p){
+RV.f='all';
 const vids=dlVideos(p), all=dlAllVersions(p);
 const cnt={all:all.length,'In Review':0,'Needs Changes':0,'Approved':0}; all.forEach(o=>{ cnt[o.ver.status]=(cnt[o.ver.status]||0)+1; });
 const chipKey=k=>'dlChipCnt-'+k.replace(/\s+/g,'');
 const chip=(k,label)=>`<button type="button" class="dl-chip ${RV.f===k?'on':''}" onclick="dlSetFilter('${k}')">${label}<span id="${chipKey(k)}">${cnt[k]}</span></button>`;
 return `<div class="dl-bar">
-<div class="dl-chips">${chip('all','All Versions')}${chip('In Review','In Review')}${chip('Needs Changes','Needs Changes')}${chip('Approved','Approved')}</div>
 <label class="dl-search">${DL_ICON_SEARCH}<input type="text" placeholder="Search versions" value="${esc(RV.q)}" oninput="dlSetQ(this.value)"></label>
 ${RV.adding?`<button type="button" class="btn-ghost" onclick="dlCancelAdd()">Cancel</button><button type="button" class="btn-primary" onclick="dlSaveNewVersion()">Save Version</button>`:`<button type="button" class="btn-primary" onclick="dlStartAdd()">Add Version +</button>`}
 </div>
