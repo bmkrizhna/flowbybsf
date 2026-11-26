@@ -152,27 +152,57 @@ main:has(#projectDetail.active){padding-top:0}
 
 /* ---- Overview dashboard ---- */
 
-.ov2-grid{display:grid;grid-template-columns:minmax(360px,38%) 1fr;gap:56px;align-items:start}
-.ov-readiness{margin-bottom:24px}
-.ov-readiness-title{font-size:15px;font-weight:600;margin-bottom:16px}
-.ov-readiness-pct{font-family:'Satoshi',sans-serif;font-weight:700;font-size:32px;line-height:1;margin-bottom:18px}
-.ov-readiness-bar{height:40px;border-radius:12px}
-.ov-readiness-bar .stage-progress-fill{border-radius:12px}
-.ov-phase-rows{margin-top:22px;display:flex;flex-direction:column;gap:18px}
-.ov-phase-row{display:flex;align-items:center;gap:12px}
-.ov-phase-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#1a1a1a}
 .ov-phase-icon svg{width:16px;height:16px}
-.ov-phase-icon.pre{background:var(--lavender-bg)}
-.ov-phase-icon.prod{background:var(--peach-bg)}
-.ov-phase-icon.post{background:var(--mint-bg)}
-.ov-phase-label{font-size:13px;font-weight:600;color:#1a1a1a;width:102px;flex-shrink:0}
-.ov-phase-count{font-family:'Satoshi',sans-serif;font-weight:600;font-size:18px;width:24px;flex-shrink:0}
-.ov-phase-bar{flex:1;height:6px;background:#eee;border-radius:3px;overflow:hidden}
-.ov-phase-bar-fill{height:100%;border-radius:3px;background:#1a1a1a}
-.ov-phase-pct{font-size:13px;font-weight:700;color:#666;width:36px;text-align:right;flex-shrink:0}
 
 .ov-heading{font-size:15px;font-weight:600;margin:0;color:#1a1a1a}
 .ov-heading-lg{font-size:15px;font-weight:600;margin:0;color:#1a1a1a}
+
+/* ---- Dashboard v3 (reference layout) ---- */
+.ov-top-row{display:flex;justify-content:flex-end;margin-bottom:14px}
+.ov3-strip{display:flex;align-items:center;gap:28px;padding:14px 24px;margin-bottom:16px;overflow:visible}
+.ov3-strip-title{font-size:17px;font-weight:600;white-space:nowrap}
+.ov3-strip-items{display:flex;flex:1;align-items:center;justify-content:space-around;gap:16px}
+.ov3-strip-item{display:flex;align-items:center;gap:10px;padding-left:24px;border-left:1px solid #e5e5e5;flex:1;justify-content:center}
+.ov3-strip-ic{display:flex;color:#1a1a1a}
+.ov3-strip-ic svg{width:16px;height:16px}
+.ov3-strip-lab{font-size:13px;font-weight:600;white-space:nowrap}
+.ov3-strip-n{font-size:20px;font-weight:600;line-height:1}
+.ov3-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px;align-items:start;margin-bottom:16px}
+.ov3-grid>.box,.ov3-stack>.box{margin-bottom:0}
+.ov3-stack{display:flex;flex-direction:column;gap:16px;min-width:0}
+.ov3-bottom{grid-template-columns:minmax(0,.9fr) minmax(0,1.2fr)}
+.ov3-bottom .ov3-completed{grid-column:2}
+.ov3-card{padding:20px 22px}
+.ov3-ic-head{display:flex;align-items:center;gap:10px}
+.ov3-ic-head svg{width:18px;height:18px}
+.ov3-prow{display:flex;align-items:center;gap:14px;padding:10px 0;cursor:pointer}
+.ov3-prow+.ov3-prow{border-top:1px solid #f4f4f4}
+.ov3-prow .ov-project-thumb{width:48px;height:48px;border-radius:10px}
+.ov3-pmain{flex:1;min-width:0}
+.ov3-pline{display:flex;align-items:center;gap:10px;font-size:12px;color:#444;white-space:nowrap;overflow:hidden}
+.ov3-ptitle{font-size:13px;font-weight:600;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis}
+.ov3-sep{width:1px;height:12px;background:#ddd;flex-shrink:0}
+.ov3-pbar{height:6px;border-radius:3px;margin:8px 0 0}
+.ov3-pbar .usage-bar-fill{border-radius:3px;background:var(--accent)}
+.ov3-ppct{font-size:11px;font-weight:700;text-align:right;margin-top:3px;color:#1a1a1a}
+.ov3-pact{display:flex;align-items:center;gap:10px;flex-shrink:0;align-self:flex-start;padding-top:2px}
+.ov3-ibtn{border:none;background:none;padding:4px;color:#1a1a1a;display:flex;cursor:pointer}
+.ov3-ibtn svg{width:15px;height:15px}
+.ov3-ibtn:hover{color:#000;opacity:.7}
+.ov3-completed .ov-completed-thumb{aspect-ratio:1.9/1;border-radius:10px}
+.ov3-card .ov-up-row{padding:10px 0;gap:16px}
+.ov3-card .ov-up-dm{font-size:18px}
+.ov3-card .ov-up-title{font-size:14px;font-weight:600}
+@media(max-width:900px){
+.ov3-grid,.ov3-bottom{grid-template-columns:minmax(0,1fr)}
+.ov3-bottom .ov3-completed{grid-column:auto}
+.ov3-strip{flex-direction:column;align-items:stretch;gap:10px;padding:14px 16px}
+.ov3-strip-items{justify-content:space-between;gap:8px}
+.ov3-strip-item{padding-left:10px;gap:6px;flex-direction:column;align-items:flex-start;justify-content:flex-start}
+.ov3-strip-item:first-child{border-left:none;padding-left:0}
+.ov3-strip-lab{font-size:12px}
+.ov3-card{padding:16px}
+}
 
 .ov-activity-card{margin-top:4px}
 .ov-activity-row{display:flex;gap:12px;padding:9px 0}
@@ -725,13 +755,8 @@ html.viewer-mode .page-shell,html.viewer-mode .modal-overlay,html.viewer-mode .h
 }
 
 @media (max-width:768px){
-.ov2-grid{grid-template-columns:1fr;gap:28px}
-.ov-project-row{flex-wrap:wrap;row-gap:6px}
-.ov-project-actions{margin-left:78px}
-.ov-project-progress{width:100%;flex-basis:100%;order:4;margin-top:2px}
 .ov-card-head{flex-wrap:wrap;row-gap:8px}
 .ov-heading-lg{font-size:15px}
-.ov-project-title{white-space:normal}
 body{overflow-x:hidden}
 
 /* ---- Login doodles: full-bleed portrait stage instead of the desktop 16:9 cover-crop,
@@ -1070,18 +1095,16 @@ body.fb-on,body.fb-on *{cursor:crosshair!important}
 
 <main>
 <div id="overview" class="page active">
-<div class="ov2-grid">
-<div>
-<div class="box ov-readiness">
-<h2 class="ov-readiness-title">Project Readiness</h2>
-<div class="ov-readiness-pct" id="ovReadinessPct">0%</div>
-<div class="stage-progress ov-readiness-bar"><div class="stage-progress-fill" id="ovReadinessFill"></div></div>
-<div class="ov-phase-rows" id="ovPhaseRows"></div>
+<div class="ov-top-row"><button class="btn-primary ov-new-btn" onclick="openNewProjectModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 5v14M5 12h14"/></svg>New Project</button></div>
+<div class="box ov3-strip"><div class="ov3-strip-title">Project Overview</div><div class="ov3-strip-items" id="ovPhaseRows"></div></div>
+<div class="ov3-grid">
+<div class="box ov3-card"><div class="ov-card-head"><h3 class="ov-heading">Active Projects</h3></div><div id="ovActiveList"></div></div>
+<div class="ov3-stack">
+<div class="box ov3-card"><div class="ov-card-head"><h3 class="ov-heading ov3-ic-head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Upcoming Shoots</h3></div><div id="ovUpcoming"></div></div>
+<div class="box ov3-card ov-activity-card"><div class="ov-card-head"><h3 class="ov-heading">Recent Activities</h3></div><div id="ovActivityList"></div></div>
 </div>
-<div class="box ov-activity-card">
-<div class="ov-card-head"><h3 class="ov-heading">Recent Activities</h3></div>
-<div id="ovActivityList"></div>
 </div>
+<div class="ov3-grid ov3-bottom">
 <div class="box usage-sidebar ov-spend-card" id="finOverview" style="display:none">
 <div class="ov-card-head"><h3 class="ov-heading">Financial overview</h3></div>
 <div class="usage-top"><div><div class="usage-top-label">Total Budget</div><div class="usage-top-val fin-val" id="finBudget">₹0</div></div><div style="text-align:right;"><div class="usage-top-label">Planned Spend</div><div class="usage-top-val fin-val" id="finSpend">₹0</div></div></div>
@@ -1095,21 +1118,7 @@ body.fb-on,body.fb-on *{cursor:crosshair!important}
 <div class="top5-title">Top Five In Use</div>
 <div id="top5List"></div>
 </div>
-</div>
-<div>
-<div class="ov-section">
-<div class="ov-card-head"><h3 class="ov-heading-lg">Upcoming Shoots</h3></div>
-<div id="ovUpcoming"></div>
-</div>
-<div class="ov-section">
-<div class="ov-card-head"><h3 class="ov-heading-lg">Active Projects</h3><div style="display:flex;align-items:center;gap:8px;"><button class="btn-primary ov-new-btn" onclick="openNewProjectModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 5v14M5 12h14"/></svg>New Project</button></div></div>
-<div id="ovActiveList"></div>
-</div>
-<div class="ov-section">
-<div class="ov-card-head"><h3 class="ov-heading-lg">Completed Projects</h3><div style="display:flex;align-items:center;gap:8px;"><button class="ov-view-all" onclick="goToView('completed')">View all →</button></div></div>
-<div class="ov-completed-grid" id="ovCompletedList"></div>
-</div>
-</div>
+<div class="box ov3-card ov3-completed"><div class="ov-card-head"><h3 class="ov-heading">Completed Projects</h3><button class="ov-view-all" onclick="goToView('completed')">View all →</button></div><div class="ov-completed-grid" id="ovCompletedList"></div></div>
 </div>
 </div>
 
@@ -2337,20 +2346,15 @@ const completedAll=[...completedLive,...STATE.completed];
 const n=active.length;
 const CYCLE=['peach','lavender','mint'];
 
-/* Project Readiness */
-const overallPct = n ? Math.round(active.reduce((s,p)=>s+STAGE_ORDER.filter(k=>p.sections[k].confirmed).length,0)/(n*5)*100) : 0;
-const pctEl=document.getElementById('ovReadinessPct'); if(pctEl) pctEl.textContent=overallPct+'%';
-const fillEl=document.getElementById('ovReadinessFill'); if(fillEl) fillEl.style.width=overallPct+'%';
-
+/* Project Overview strip */
 const BUCKETS=[
-{key:'pre',label:'Pre Production',stages:['brief','shotPlanning','budgeting'],icon:ICON_PENCIL},
-{key:'prod',label:'Production',stages:['shootTracking'],icon:ICON_PROD_REF},
-{key:'post',label:'Post Production',stages:['delivery'],icon:ICON_POST_REF}
+{label:'Pre Production',icon:ICON_PENCIL},
+{label:'Production',icon:ICON_PROD_REF},
+{label:'Post Production',icon:ICON_POST_REF}
 ];
 document.getElementById('ovPhaseRows').innerHTML=BUCKETS.map(b=>{
 const count=active.filter(p=>getProjectStatus(p)===b.label).length;
-const pct = n ? Math.round(active.reduce((s,p)=>s+b.stages.filter(k=>p.sections[k].confirmed).length,0)/(n*b.stages.length)*100) : 0;
-return `<div class="ov-phase-row"><div class="ov-phase-icon ${b.key}">${b.icon}</div><div class="ov-phase-label">${b.label}</div><div class="ov-phase-count">${count}</div><div class="ov-phase-bar"><div class="ov-phase-bar-fill" style="width:${pct}%"></div></div><div class="ov-phase-pct">${pct}%</div></div>`;
+return `<div class="ov3-strip-item"><span class="ov3-strip-ic">${b.icon}</span><span class="ov3-strip-lab">${b.label}</span><b class="ov3-strip-n">${count}</b></div>`;
 }).join('');
 
 /* Recent Activities */
@@ -2387,7 +2391,8 @@ document.getElementById('ovActiveList').innerHTML = activeSorted.length ? active
 const pct=Math.round(STAGE_ORDER.filter(k=>p.sections[k].confirmed).length/5*100);
 const thumbStyle=p.thumbnail?`background-image:url('${p.thumbnail}')`:'';
 const status=getProjectStatus(p);
-return `<div class="ov-project-row" onclick="openProject('${p.id}')"><div class="ov-project-thumb" style="${thumbStyle}"></div><div class="ov-project-info"><div class="ov-project-title">${esc(p.title)} <span class="status-inline">(${status})</span></div><div class="ov-project-sub">${esc(p.format||'')}</div></div><div class="ov-project-progress"><div class="usage-bar"><div class="usage-bar-fill" style="width:${pct}%"></div></div><span class="ov-project-pct">${pct}%</span></div><div class="ov-project-actions" data-no-open="1">${isAdmin()?`<button type="button" class="icon-btn-text ov-project-action" aria-label="Share ${esc(p.title)}" onclick="event.stopPropagation();dlShareMenu(event,'${p.id}')">${ICON_SHARE_NODES}<span>Share</span></button>`:''}<button type="button" class="icon-btn-text ov-project-action" aria-label="Download ${esc(p.title)} project PDF" onclick="event.stopPropagation();printProjectPDF('${p.id}')">${ICON_DOWNLOAD}<span>PDF</span></button></div></div>`;
+const sep='<i class="ov3-sep"></i>';
+return `<div class="ov3-prow" onclick="openProject('${p.id}')"><div class="ov-project-thumb" style="${thumbStyle}"></div><div class="ov3-pmain"><div class="ov3-pline"><b class="ov3-ptitle">${esc(p.title)}</b>${sep}<span>${esc(status)}</span>${p.format?sep+'<span>'+esc(p.format)+'</span>':''}</div><div class="usage-bar ov3-pbar"><div class="usage-bar-fill" style="width:${pct}%"></div></div><div class="ov3-ppct">${pct}%</div></div><div class="ov3-pact" data-no-open="1">${isAdmin()?`<button type="button" class="ov3-ibtn" title="Share" aria-label="Share ${esc(p.title)}" onclick="event.stopPropagation();dlShareMenu(event,'${p.id}')">${ICON_SHARE_NODES}</button>`:''}<button type="button" class="ov3-ibtn" title="Download PDF" aria-label="Download ${esc(p.title)} project PDF" onclick="event.stopPropagation();printProjectPDF('${p.id}')">${ICON_DOWNLOAD}</button></div></div>`;
 }).join('') : '<div style="font-size:13px;color:#999;padding:8px 0;">Nothing in flight.</div>';
 
 /* Completed projects preview */
