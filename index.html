@@ -348,13 +348,14 @@ main:has(#projectDetail.active){padding-top:0}
 .pd-head-add:not(:empty)~.pd-stat{display:none}
 .pd-status-cluster:has(+.pd-head-add:not(:empty)) #pdStatusInline,.pd-status-cluster:has(+.pd-head-add:not(:empty)) b{display:none}
 }
-.pd-head-add{flex-shrink:0;display:flex;align-items:center;gap:10px}
-.pd-head-add .search-filter-box{width:540px;flex:0 1 540px;min-width:260px}
-.pd-head-add .search-filter-box select[aria-label="Category"]{flex:0 0 132px;width:132px}
-.pd-head-add .search-filter-box select[aria-label="Subcategory"]{flex:0 0 160px;width:160px;max-width:none}
+.pd-head-add{flex:1 1 0;min-width:0;display:flex;align-items:center;justify-content:flex-end;gap:10px}
+.pd-head-add .search-filter-box{width:auto;flex:1 1 300px;max-width:540px;min-width:340px}
+.pd-head-add .search-filter-box select[aria-label="Category"]{flex:0 0 124px;width:124px}
+.pd-head-add .search-filter-box select[aria-label="Subcategory"]{flex:0 0 148px;width:148px;max-width:none}
+.pd-head-add .dl-search{flex:1 1 300px;max-width:300px}
+@media(min-width:769px) and (max-width:1280px){.proj-head-row .pd-head-add{order:2;flex:1 1 100%;justify-content:flex-start}.proj-head-row .proj-head-actions{order:1}.pd-head-add .search-filter-box{max-width:none}}
 .pd-head-add .rp-total{margin-left:0;padding-left:4px}
 .pd-head-add .view-toggle{margin:0}
-.pd-head-add .dl-search{width:300px;flex:0 1 300px}
 .pd-head-add .btn-primary,.pd-head-add .btn-ghost{height:34px;padding:0 16px;border-radius:999px;display:inline-flex;align-items:center;white-space:nowrap}
 .pd-head-add .btn-primary{background:#1a1a1a;color:#fff;border:none}
 .pd-head-add .dl-search{height:34px}
@@ -796,7 +797,7 @@ body{overflow-x:hidden}
 .sidebar-toggle,.sidebar-bottom{display:none}
 .sidebar-link.sb-admin-nav{display:flex}
 .pd-head-add{flex:1 1 100%;flex-wrap:wrap}
-.pd-head-add .search-filter-box,.pd-head-add .dl-search{flex:1 1 100%;width:100%;max-width:100%}
+.pd-head-add .search-filter-box,.pd-head-add .dl-search{flex:1 1 100%;width:100%;max-width:100%;min-width:0}
 .pd-head-add .view-toggle{flex:1 1 auto}
 .pd-head-add .view-toggle .vt-btn{flex:1 1 0;text-align:center}
 .pd-head-add .rp-total{flex:1 1 auto;text-align:right}
