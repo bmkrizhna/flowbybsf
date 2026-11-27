@@ -158,12 +158,19 @@ main:has(#projectDetail.active){padding-top:0}
 .ov-heading-lg{font-size:15px;font-weight:600;margin:0;color:#1a1a1a}
 
 /* ---- Dashboard v3 (reference layout) ---- */
+.ov3-badge{display:inline-block;min-width:16px;padding:1px 6px;border-radius:999px;background:#c0392b;color:#fff;font-size:11px;font-weight:700;text-align:center;vertical-align:middle}
+.ov3-badge:empty{display:none}
+.ov3-appr{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0}
+.ov3-appr+.ov3-appr{border-top:1px solid #f4f4f4}
+.ov3-appr-info{min-width:0;flex:1}
+.ov3-appr-act{display:flex;gap:6px;flex-shrink:0}
+.ov3-appr-act .btn-primary,.ov3-appr-act .btn-ghost{padding:6px 14px;font-size:12px}
 .ov3-ov{padding:22px 24px}
 .ov3-ov-items{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:16px}
 .ov3-ov-item{padding:2px 20px;border-left:1px solid #e5e5e5;min-width:0}
 .ov3-ov-item:first-child{border-left:none;padding-left:0}
 .ov3-ov-lab{font-size:13px;color:#6b6b6b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ov3-ov-n{font-size:32px;font-weight:700;line-height:1.1;margin-top:6px;color:#1a1a1a;-webkit-text-stroke:1.2px #1a1a1a}
+.ov3-ov-n{font-size:26px;font-weight:700;line-height:1.1;margin-top:6px;color:#1a1a1a;-webkit-text-stroke:1.2px #1a1a1a}
 .ov3-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start;margin-bottom:16px}
 .ov3-grid>.box,.ov3-stack>.box{margin-bottom:0}
 .ov3-stack{display:flex;flex-direction:column;gap:16px;min-width:0}
@@ -180,7 +187,6 @@ main:has(#projectDetail.active){padding-top:0}
 .ov3-sep{width:1px;height:12px;background:#ddd;flex-shrink:0}
 .ov3-pbar{height:6px;border-radius:3px;margin:8px 0 0}
 .ov3-pbar .usage-bar-fill{border-radius:3px;background:var(--accent)}
-.ov3-ppct{font-size:11px;font-weight:700;text-align:right;margin-top:3px;color:#1a1a1a}
 .ov3-pact{flex-shrink:0;align-self:flex-start}
 .ov3-card .ov-up-row{padding:10px 0;gap:16px}
 .ov3-card .ov-up-dm{font-size:18px}
@@ -297,7 +303,7 @@ main:has(#projectDetail.active){padding-top:0}
 /* ---- Project detail ---- */
 #pdContent{padding-top:14px}
 .proj-head-row{display:flex;align-items:center;margin-bottom:0;gap:20px;flex-wrap:wrap;position:sticky;top:var(--topbar-h,62.5px);z-index:18;background:var(--page-bg);padding:12px 0;border-bottom:1px solid #f0f0f0}
-.pd-heading{display:flex;align-items:baseline;gap:10px;min-width:0;flex-shrink:0;position:relative}
+.pd-heading{display:flex;align-items:baseline;gap:10px;min-width:0;flex-shrink:0;position:relative;margin-right:auto}
 .pd-heading i{font-style:normal;color:#ccc;font-size:15px}
 .pd-stage-title,.pd-proj{margin:0;font-size:15px;line-height:1.2;font-weight:600;white-space:nowrap}
 .pd-proj-switch{display:inline-flex;align-items:baseline;gap:5px;border:none;background:none;font:inherit;padding:2px 4px;margin:-2px -4px;border-radius:7px;cursor:pointer;color:inherit}
@@ -327,24 +333,22 @@ main:has(#projectDetail.active){padding-top:0}
 .pd-head-add:not(:empty)+.pd-stat{display:none}
 .pd-head-add:not(:empty)~.pd-stat{display:none}
 .pd-status-cluster:has(+.pd-head-add:not(:empty)) #pdStatusInline,.pd-status-cluster:has(+.pd-head-add:not(:empty)) b{display:none}
-.pd-head-add:not(:empty)~.pd-head-view{margin-left:auto}
 }
-.pd-head-add{margin-left:6px;flex-shrink:0}
+.pd-head-add{flex-shrink:0}
 .pd-head-view{flex-shrink:0}
 .pd-head-view .view-toggle{margin:0}
 .pd-head-add .btn-ghost{border-radius:999px;background:#f0f0f0;border:none;padding:8px 16px}
 .pd-head-add .btn-ghost:hover{background:#e5e5e5}
-.pd-head-add:not(:empty)+.pd-stat,.pd-head-add:not(:empty)+.pd-stat:empty+.pd-head-view{margin-left:auto}
-.pd-stat{margin-left:auto;font-size:13px;font-weight:500;color:#1a1a1a;white-space:nowrap}
+.pd-stat{margin-left:0;font-size:13px;font-weight:500;color:#1a1a1a;white-space:nowrap}
 .pd-stat:empty{display:none}
 .pd-head-new:empty{display:none}
 .pd-head-new .btn-ghost{border-radius:999px;background:#f0f0f0;border:none;padding:8px 16px}
 .pd-head-new .btn-ghost:hover{background:#e5e5e5}
 .rp-total{margin-left:auto;font-size:13px;font-weight:600;white-space:nowrap;padding-left:6px}
 .pd-foot-stat{margin-top:16px;padding:14px 0 4px;border-top:1px solid #eee;font-size:13px;color:#6b6b6b;text-align:right}
-.proj-head-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;margin-left:24px}
-.pd-stat:empty+.proj-head-actions{margin-left:auto}
-.pd-stat:empty+.pd-head-view:empty+.proj-head-actions{margin-left:auto}
+.proj-head-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;margin-left:0}
+.pd-head-add{margin-left:0}
+@media(min-width:769px){.proj-head-row{gap:12px}.pd-icon-btn.pd-primary{width:116px;height:34px;padding:0;justify-content:center}}
 .pd-stage-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .pd-icon-btn{width:34px;height:34px;border-radius:50%;border:none;background:#f0f0f0;color:#666;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background .15s ease,color .15s ease}
 .pd-icon-btn svg{width:16px;height:16px}
@@ -801,7 +805,6 @@ main{padding:16px 16px calc(84px + env(safe-area-inset-bottom))}
 .pd-icon-btn svg{width:17px;height:17px}
 .pd-stage-actions{gap:10px;justify-content:center}
 @supports (-webkit-touch-callout:none){input:not([type=checkbox]):not([type=radio]):not([type=file]),select,textarea{font-size:16px!important}}
-.pd-stat:empty+.proj-head-actions{margin-left:0}
 
 /* ---- Grids: collapse to 1 (or 2) columns ----
    minmax(0,1fr) (not bare 1fr) so a track's min-width can't be
@@ -1095,14 +1098,13 @@ body.fb-on,body.fb-on *{cursor:crosshair!important}
 <div class="ov3-grid">
 <div class="ov3-stack">
 <div class="box ov3-card ov3-ov"><h3 class="ov-heading">Project Overview</h3><div class="ov3-ov-items" id="ovPhaseRows"></div></div>
+<div class="box ov3-card ov3-completed"><div class="ov-card-head"><h3 class="ov-heading">Completed Projects</h3><button class="ov-view-all" onclick="goToView('completed')">View all →</button></div><div id="ovCompletedList"></div></div>
 <div class="box ov3-card"><div class="ov-card-head"><h3 class="ov-heading">Active Projects</h3></div><div id="ovActiveList"></div></div>
 </div>
 <div class="ov3-stack">
 <div class="box ov3-card"><div class="ov-card-head"><h3 class="ov-heading ov3-ic-head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Upcoming Shoots</h3></div><div id="ovUpcoming"></div></div>
+<div class="box ov3-card" id="ovApprovalsCard" style="display:none"><div class="ov-card-head"><h3 class="ov-heading">Approvals <span class="ov3-badge" id="ovApprCount"></span></h3></div><div id="ovApprovals"></div></div>
 <div class="box ov3-card ov-activity-card"><div class="ov-card-head"><h3 class="ov-heading">Recent Activities</h3></div><div id="ovActivityList"></div></div>
-</div>
-</div>
-<div class="ov3-grid">
 <div class="box usage-sidebar ov-spend-card" id="finOverview" style="display:none">
 <div class="ov-card-head"><h3 class="ov-heading">Financial overview</h3></div>
 <div class="usage-top"><div><div class="usage-top-label">Total Budget</div><div class="usage-top-val fin-val" id="finBudget">₹0</div></div><div style="text-align:right;"><div class="usage-top-label">Planned Spend</div><div class="usage-top-val fin-val" id="finSpend">₹0</div></div></div>
@@ -1116,7 +1118,7 @@ body.fb-on,body.fb-on *{cursor:crosshair!important}
 <div class="top5-title">Top Five In Use</div>
 <div id="top5List"></div>
 </div>
-<div class="box ov3-card ov3-completed"><div class="ov-card-head"><h3 class="ov-heading">Completed Projects</h3><button class="ov-view-all" onclick="goToView('completed')">View all →</button></div><div id="ovCompletedList"></div></div>
+</div>
 </div>
 </div>
 
@@ -2184,10 +2186,6 @@ if(!p) return `<button class="sidebar-link disabled" onclick="openLatestProject(
 const active=currentView==='projectDetail' && (currentTab===k || (k==='shotPlanning' && currentTab==='shootTracking'));
 return `<button class="sidebar-link ${active?'active':''}" onclick="setTab('${k}')" title="${lab}"><span class="sidebar-link-icon">${STAGE_ICONS[k]}</span><span class="sidebar-link-label">${lab}</span></button>`;
 }));
-if(isAdmin()){
-const pc=pendingCount();
-items.push(`<button class="sidebar-link" onclick="openApprovalsModal()" title="Approvals"><span class="sidebar-link-icon">${ICON_CHECK_SM}</span><span class="sidebar-link-label">Approvals${pc?` <span style="display:inline-block;min-width:16px;padding:1px 5px;border-radius:999px;background:#c0392b;color:#fff;font-size:11px;font-weight:700;text-align:center;vertical-align:middle;">${pc}</span>`:''}</span></button>`);
-}
 wrap.innerHTML = items.join('');
 }
 /* ---------- CURRENT LOCATION + TEMPERATURE ----------
@@ -2354,6 +2352,18 @@ const count=active.filter(p=>getProjectStatus(p)===b.label).length;
 return `<div class="ov3-ov-item"><div class="ov3-ov-lab">${b.label}</div><div class="ov3-ov-n">${count}</div></div>`;
 }).join('');
 
+/* Approvals (admin) */
+{const card=document.getElementById('ovApprovalsCard'); if(card){
+card.style.display=isAdmin()?'':'none';
+if(isAdmin()){
+const pend=(STATE.pendingApprovals||[]).filter(a=>a.status==='pending').sort((a,b)=>b.createdAt-a.createdAt);
+document.getElementById('ovApprCount').textContent=pend.length?pend.length:'';
+document.getElementById('ovApprovals').innerHTML=pend.length?pend.slice(0,5).map(a=>{
+const when=new Date(a.createdAt).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'});
+return `<div class="ov3-appr"><div class="ov3-appr-info"><div class="ov3-ptitle">${esc(approvalLabel(a))}</div><div class="ov3-csub">requested by Team · ${when}</div></div><div class="ov3-appr-act"><button class="btn-primary" onclick="approveRequest('${a.id}')">Approve</button><button class="btn-ghost" onclick="rejectRequest('${a.id}')">Reject</button></div></div>`;
+}).join('')+(pend.length>5?`<div class="ov3-csub" style="margin-top:8px;">+${pend.length-5} more</div>`:''):'<div style="font-size:13px;color:#999;padding:4px 0;">Nothing waiting on you.</div>';
+}}}
+
 /* Recent Activities */
 const acts=(STATE.activityLog||[]).slice(0,6);
 document.getElementById('ovActivityList').innerHTML = acts.length ? acts.map((a,i)=>`<div class="ov-activity-row"><div class="ov-activity-dotcol"><div class="ov-activity-dot ${i===0?'latest':''}"></div>${i<acts.length-1?'<div class="ov-activity-line"></div>':''}</div><div class="ov-activity-info"><div class="ov-activity-msg">${esc(a.message)}</div>${(a.sub||a.by)?`<div class="ov-activity-sub">${esc([a.sub,a.by==='admin'?'Admin':(a.by?'Team':'')].filter(Boolean).join(' · '))}</div>`:''}</div><div class="ov-activity-time">${relTime(a.ts)}</div></div>`).join('') : '<div style="font-size:13px;color:#999;padding:8px 0;">No recent activity yet.</div>';
@@ -2389,7 +2399,7 @@ const pct=Math.round(STAGE_ORDER.filter(k=>p.sections[k].confirmed).length/5*100
 const thumbStyle=p.thumbnail?`background-image:url('${p.thumbnail}')`:'';
 const status=getProjectStatus(p);
 const sep='<i class="ov3-sep"></i>';
-return `<div class="ov3-prow" onclick="openProject('${p.id}')"><div class="ov3-thumb" style="${thumbStyle}"></div><div class="ov3-pmain"><div class="ov3-pline"><b class="ov3-ptitle">${esc(p.title)}</b>${sep}<span>${esc(status)}</span>${p.format?sep+'<span>'+esc(p.format)+'</span>':''}</div><div class="usage-bar ov3-pbar"><div class="usage-bar-fill" style="width:${pct}%"></div></div><div class="ov3-ppct">${pct}%</div></div><div class="ov3-pact" data-no-open="1"><button type="button" class="dl-dots ov3-dots" aria-label="More for ${esc(p.title)}" onclick="event.stopPropagation();ovProjMenu(event,'${p.id}')">⋯</button></div></div>`;
+return `<div class="ov3-prow" onclick="openProject('${p.id}')"><div class="ov3-thumb" style="${thumbStyle}"></div><div class="ov3-pmain"><div class="ov3-pline"><b class="ov3-ptitle">${esc(p.title)}</b>${sep}<span>${esc(status)}</span>${p.format?sep+'<span>'+esc(p.format)+'</span>':''}</div><div class="usage-bar ov3-pbar"><div class="usage-bar-fill" style="width:${pct}%"></div></div></div><div class="ov3-pact" data-no-open="1"><button type="button" class="dl-dots ov3-dots" aria-label="More for ${esc(p.title)}" onclick="event.stopPropagation();ovProjMenu(event,'${p.id}')">⋯</button></div></div>`;
 }).join('') : '<div style="font-size:13px;color:#999;padding:8px 0;">Nothing in flight.</div>';
 
 /* Completed projects preview */
@@ -3022,7 +3032,7 @@ if(!isAdmin() && interactive){
 primary=btn('tick',confirmed?'Saved':'View only',ICON_CHECK_SM,'',{disabled:1,title:'Team access is read only'});
 } else if(key==='delivery'){
 primary = confirmed ? btn('tick','Delivered',ICON_CHECK_SM,'',{disabled:1})
-: dlHasApproved(p) ? btn('save-btn','Mark delivered',ICON_CHECK_SM,'markProjectComplete()')
+: dlHasApproved(p) ? btn('save-btn','Deliver',ICON_CHECK_SM,'markProjectComplete()',{title:'Mark delivered'})
 : btn('','In progress',ICON_CHECK_SM,'',{disabled:1,title:'Approve a version to deliver'});
 } else if(interactive && !confirmed){
 primary = btn('save-btn','Save',ICON_SAVE,`saveStageFromHeader('${key}')`,{title:'Save changes'});
@@ -3037,6 +3047,7 @@ primary = btn('next-btn'+(pdJustSaved?' just-saved':''),'Next',ICON_ARROW,`goNex
 pdJustSaved=false;
 }
 const add = key==='shotPlanning' ? btn('','Add',ICON_PLUS,'openAddItemModal()',{title:'Add scene, shot or activity'}) : '';
+primary=primary.replace('class="pd-icon-btn has-lbl ','class="pd-icon-btn has-lbl pd-primary ');
 actionsEl.innerHTML = add+primary;
 }
 function goNextStage(key){
