@@ -349,7 +349,9 @@ main:has(#projectDetail.active){padding-top:0}
 .pd-status-cluster:has(+.pd-head-add:not(:empty)) #pdStatusInline,.pd-status-cluster:has(+.pd-head-add:not(:empty)) b{display:none}
 }
 .pd-head-add{flex-shrink:0;display:flex;align-items:center;gap:10px}
-.pd-head-add .search-filter-box{width:380px;flex:0 1 380px;min-width:220px}
+.pd-head-add .search-filter-box{width:540px;flex:0 1 540px;min-width:260px}
+.pd-head-add .search-filter-box select[aria-label="Category"]{flex:0 0 132px;width:132px}
+.pd-head-add .search-filter-box select[aria-label="Subcategory"]{flex:0 0 160px;width:160px;max-width:none}
 .pd-head-add .rp-total{margin-left:0;padding-left:4px}
 .pd-head-add .view-toggle{margin:0}
 .pd-head-add .dl-search{width:300px;flex:0 1 300px}
