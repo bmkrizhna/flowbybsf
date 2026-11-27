@@ -76,7 +76,9 @@ select:disabled{cursor:default}
 .sidebar-user{display:flex;align-items:center;gap:12px;padding:13px 14px;font-size:13px;font-weight:700;color:#1a1a1a}
 .sidebar-user-name{display:flex;flex-direction:column;gap:2px;white-space:nowrap;overflow:hidden;opacity:1;transition:opacity .2s ease,width .2s ease}
 .sidebar-user-org{font-size:10px;font-weight:500;color:#888;line-height:1.1}
-.sidebar-bottom{display:flex;align-items:center;margin-top:auto;padding-top:14px}
+.sidebar-bottom{display:flex;flex-direction:column;align-items:stretch;gap:6px;margin-top:auto;padding-top:14px}
+.sidebar-admin:empty{display:none}
+.sidebar-link.sb-admin-nav{display:none}
 .sidebar-toggle{width:34px;height:34px;border-radius:8px;border:none;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#1a1a1a;flex-shrink:0;align-self:flex-start;margin:0 0 40px 6px;transition:background .15s,color .15s,margin .25s ease}
 .sidebar-toggle:hover{background:#f0f0f0;color:#1a1a1a}
 .sidebar-toggle svg{width:18px;height:18px;transition:opacity .2s}
@@ -338,15 +340,23 @@ main:has(#projectDetail.active){padding-top:0}
 .pd-ring{width:26px;height:26px;border-radius:50%;flex-shrink:0;background:conic-gradient(var(--accent) calc(var(--pct,0)*1%),#ededed 0);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3.5px),#000 calc(100% - 3px));mask:radial-gradient(farthest-side,transparent calc(100% - 3.5px),#000 calc(100% - 3px))}
 .pd-head-add:empty,.pd-head-view:empty{display:none}
 @media (min-width:768px) and (max-width:1500px){
-.pd-head-add:not(:empty)~.proj-head-actions .pd-icon-btn.has-lbl:not(.save-btn):not(.next-btn):not(.tick):not(.err):not(.busy){width:34px;padding:0}
-.pd-head-add:not(:empty)~.proj-head-actions .pd-icon-btn.has-lbl:not(.save-btn):not(.next-btn):not(.tick):not(.err):not(.busy) .lbl{display:none}
+.pd-head-add:not(:empty)~.proj-head-actions .pd-icon-btn.has-lbl:not(.save-btn):not(.next-btn):not(.tick):not(.err):not(.busy):not(.pd-primary){width:34px;padding:0}
+.pd-head-add:not(:empty)~.proj-head-actions .pd-icon-btn.has-lbl:not(.save-btn):not(.next-btn):not(.tick):not(.err):not(.busy):not(.pd-primary) .lbl{display:none}
 }
 @media (min-width:768px) and (max-width:1320px){
 .pd-head-add:not(:empty)+.pd-stat{display:none}
 .pd-head-add:not(:empty)~.pd-stat{display:none}
 .pd-status-cluster:has(+.pd-head-add:not(:empty)) #pdStatusInline,.pd-status-cluster:has(+.pd-head-add:not(:empty)) b{display:none}
 }
-.pd-head-add{flex-shrink:0}
+.pd-head-add{flex-shrink:0;display:flex;align-items:center;gap:10px}
+.pd-head-add .search-filter-box{width:380px;flex:0 1 380px;min-width:220px}
+.pd-head-add .rp-total{margin-left:0;padding-left:4px}
+.pd-head-add .view-toggle{margin:0}
+.pd-head-add .dl-search{width:300px;flex:0 1 300px}
+.pd-head-add .btn-primary,.pd-head-add .btn-ghost{height:34px;padding:0 16px;border-radius:999px;display:inline-flex;align-items:center;white-space:nowrap}
+.pd-head-add .btn-primary{background:#1a1a1a;color:#fff;border:none}
+.pd-head-add .dl-search{height:34px}
+.pd-head-add .search-filter-box{height:34px}
 .pd-head-view{flex-shrink:0}
 .pd-head-view .view-toggle{margin:0}
 .pd-head-add .btn-ghost{border-radius:999px;background:#f0f0f0;border:none;padding:8px 16px}
@@ -782,6 +792,13 @@ body{overflow-x:hidden}
 /* ---- Sidebar -> bottom tab bar on mobile (full-width content, thumb-reachable nav) ---- */
 .sidebar,body.sidebar-collapsed .sidebar,body:not(.sidebar-collapsed) .sidebar{position:fixed;left:0;right:0;bottom:0;top:auto;width:100%;height:calc(60px + env(safe-area-inset-bottom));padding:0 6px env(safe-area-inset-bottom);flex-direction:row;align-items:center;z-index:120;background:#fff;border-top:1px solid #ececec;box-shadow:0 -4px 18px rgba(0,0,0,.06);overflow:visible;transition:none}
 .sidebar-toggle,.sidebar-bottom{display:none}
+.sidebar-link.sb-admin-nav{display:flex}
+.pd-head-add{flex:1 1 100%;flex-wrap:wrap}
+.pd-head-add .search-filter-box,.pd-head-add .dl-search{flex:1 1 100%;width:100%;max-width:100%}
+.pd-head-add .view-toggle{flex:1 1 auto}
+.pd-head-add .view-toggle .vt-btn{flex:1 1 0;text-align:center}
+.pd-head-add .rp-total{flex:1 1 auto;text-align:right}
+.pd-head-add .btn-ghost,.pd-head-add .btn-primary{flex:1 1 0;justify-content:center}
 .sidebar-nav,body.sidebar-collapsed .sidebar-nav{flex-direction:row;gap:2px;width:100%;justify-content:space-around}
 .sidebar-link,body.sidebar-collapsed .sidebar-link{flex:1 1 0;min-width:0;justify-content:center;padding:10px 0;gap:0;border-radius:12px;width:auto}
 .sidebar-link-label,body.sidebar-collapsed .sidebar-link-label{display:none}
@@ -1104,6 +1121,7 @@ body.fb-on,body.fb-on *{cursor:crosshair!important}
 <button type="button" class="sidebar-toggle" id="sidebarToggle" title="Hide sidebar" aria-label="Hide sidebar" onclick="toggleSidebar()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 <nav class="sidebar-nav" id="sidebarNav"></nav>
 <div class="sidebar-bottom">
+<div class="sidebar-admin" id="sidebarAdminBtn"></div>
 <div class="sidebar-user" id="sidebarUserBtn" onclick="openAccountModal()" style="cursor:pointer;" title="Account"><span class="sidebar-avatar" id="sidebarUserAvatar">B</span><span class="sidebar-user-name"><span id="sidebarUserName">Bala</span><small class="sidebar-user-org">Big Short Films</small></span></div>
 </div>
 </aside>
@@ -2210,8 +2228,10 @@ if(!p) return `<button class="sidebar-link disabled" onclick="openLatestProject(
 const active=currentView==='projectDetail' && (currentTab===k || (k==='shotPlanning' && currentTab==='shootTracking'));
 return `<button class="sidebar-link ${active?'active':''}" onclick="setTab('${k}')" title="${lab}"><span class="sidebar-link-icon">${STAGE_ICONS[k]}</span><span class="sidebar-link-label">${lab}</span></button>`;
 }));
-if(isAdmin()) items.push(`<button class="sidebar-link" onclick="openAdminSettings()" title="Admin settings"><span class="sidebar-link-icon">${ICON_GEAR}</span><span class="sidebar-link-label">Admin settings</span></button>`);
+if(isAdmin()) items.push(`<button class="sidebar-link sb-admin-nav" onclick="openAdminSettings()" title="Admin settings"><span class="sidebar-link-icon">${ICON_GEAR}</span><span class="sidebar-link-label">Admin settings</span></button>`);
 wrap.innerHTML = items.join('');
+const ab=document.getElementById('sidebarAdminBtn');
+if(ab) ab.innerHTML = isAdmin() ? `<button class="sidebar-link" onclick="openAdminSettings()" title="Admin settings"><span class="sidebar-link-icon">${ICON_GEAR}</span><span class="sidebar-link-label">Admin settings</span></button>` : '';
 }
 /* ---------- CURRENT LOCATION + TEMPERATURE ----------
    Location: the device's GPS/Wi-Fi position (asks permission once); if that is blocked or unavailable we fall back
@@ -3042,7 +3062,11 @@ const hAdd=document.getElementById('pdHeadAdd'), hView=document.getElementById('
 const hNew=document.getElementById('pdHeadNew');
 if(hNew) hNew.innerHTML=(currentTab==='brief'&&isAdmin())?`<button class="btn-ghost ov-new-btn" data-no-lock="1" onclick="openNewProjectModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 5v14M5 12h14"/></svg>New Project</button>`:'';
 if(hAdd&&hView){
-if(currentTab==='shotPlanning'||currentTab==='shootTracking'){
+if(currentTab==='budgeting'){
+hAdd.innerHTML=rpToolbarHtml(p); hView.innerHTML='';
+} else if(currentTab==='delivery'){
+hAdd.innerHTML=dlHeadBarHtml(); hView.innerHTML='';
+} else if(currentTab==='shotPlanning'||currentTab==='shootTracking'){
 hAdd.innerHTML='';
 hView.innerHTML=`<div class="view-toggle" data-no-lock="1"><button class="vt-btn ${currentTab==='shotPlanning'?'active':''}" data-no-lock="1" onclick="setTab('shotPlanning')">Plan</button><button class="vt-btn ${currentTab==='shootTracking'?'active':''}" data-no-lock="1" onclick="setTab('shootTracking')">Track</button></div>`;
 } else { hAdd.innerHTML=''; hView.innerHTML=''; }
@@ -4257,14 +4281,15 @@ saveProjectChange(p);
 logActivity(checked?'Resources assigned':'Resources removed',p.title);
 rerenderKeepScroll();
 }
-function renderBudgetingTab(p){
+function rpToolbarHtml(p){
 const subs=rpCat?(STATE.categories[rpCat.toLowerCase()]||[]):[...new Set(RES_TYPES.flatMap(t=>STATE.categories[t]||[]))];
-return `<div id="pdBody">
-<div class="rp-toolbar">
-<div class="search-filter-box wide" data-no-lock="1"><input type="text" placeholder="Search resources" value="${esc(rpSearch)}" data-no-lock="1" oninput="setRpSearch(this.value)"><select data-no-lock="1" aria-label="Category" onchange="setRpCat(this.value)"><option value="">All categories</option>${RES_TYPES.map(t=>`<option value="${RES_LABEL[t]}" ${rpCat===RES_LABEL[t]?'selected':''}>${RES_LABEL[t]}</option>`).join('')}</select><select data-no-lock="1" aria-label="Subcategory" onchange="setRpSub(this.value)"><option value="">All subcategories</option>${subs.map(n=>`<option value="${esc(n)}" ${rpSub===n?'selected':''}>${esc(n)}</option>`).join('')}</select></div>
+return `<div class="search-filter-box wide" data-no-lock="1"><input type="text" placeholder="Search resources" value="${esc(rpSearch)}" data-no-lock="1" oninput="setRpSearch(this.value)"><select data-no-lock="1" aria-label="Category" onchange="setRpCat(this.value)"><option value="">All categories</option>${RES_TYPES.map(t=>`<option value="${RES_LABEL[t]}" ${rpCat===RES_LABEL[t]?'selected':''}>${RES_LABEL[t]}</option>`).join('')}</select><select data-no-lock="1" aria-label="Subcategory" onchange="setRpSub(this.value)"><option value="">All subcategories</option>${subs.map(n=>`<option value="${esc(n)}" ${rpSub===n?'selected':''}>${esc(n)}</option>`).join('')}</select></div>
 <div class="view-toggle" data-no-lock="1"><button class="vt-btn ${!rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(false)">All</button><button class="vt-btn ${rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(true)">Selected</button></div>
 ${isAdmin()?`<div class="rp-total" id="rpTotal">Total Budget · ₹${fmt(resourceTotals(p).total)}</div>`:''}
-</div>
+`;
+}
+function renderBudgetingTab(p){
+return `<div id="pdBody">
 <div class="resource-list-box">
 <div id="rpResourceList"></div>
 </div>
@@ -4355,17 +4380,17 @@ dlVideos(p);
 if(RV.ver && !dlFindVersion(p,RV.ver)) RV.ver=null;
 return `<div id="pdBody" class="dl">${dlListHtml(p)}</div>`;
 }
+function dlHeadBarHtml(){
+return `<label class="dl-search">${DL_ICON_SEARCH}<input type="text" placeholder="Search versions" value="${esc(RV.q)}" oninput="dlSetQ(this.value)" data-no-lock="1"></label>
+${RV.adding?`<button type="button" class="btn-ghost" data-no-lock="1" onclick="dlCancelAdd()">Cancel</button><button type="button" class="btn-primary" data-no-lock="1" onclick="dlSaveNewVersion()">Save Version</button>`:`<button type="button" class="btn-ghost" data-no-lock="1" onclick="dlStartAdd()">Add Version +</button>`}`;
+}
 function dlListHtml(p){
 RV.f='all';
 const vids=dlVideos(p), all=dlAllVersions(p);
 const cnt={all:all.length,'In Review':0,'Needs Changes':0,'Approved':0}; all.forEach(o=>{ cnt[o.ver.status]=(cnt[o.ver.status]||0)+1; });
 const chipKey=k=>'dlChipCnt-'+k.replace(/\s+/g,'');
 const chip=(k,label)=>`<button type="button" class="dl-chip ${RV.f===k?'on':''}" onclick="dlSetFilter('${k}')">${label}<span id="${chipKey(k)}">${cnt[k]}</span></button>`;
-return `<div class="dl-bar">
-<label class="dl-search">${DL_ICON_SEARCH}<input type="text" placeholder="Search versions" value="${esc(RV.q)}" oninput="dlSetQ(this.value)"></label>
-${RV.adding?`<button type="button" class="btn-ghost" onclick="dlCancelAdd()">Cancel</button><button type="button" class="btn-primary" onclick="dlSaveNewVersion()">Save Version</button>`:`<button type="button" class="btn-primary" onclick="dlStartAdd()">Add Version +</button>`}
-</div>
-<div id="dlTableWrap">${dlTableHtml(p)}</div>`;
+return `<div id="dlTableWrap">${dlTableHtml(p)}</div>`;
 }
 function dlFilteredVersions(p){
 const q=RV.q.trim().toLowerCase();
