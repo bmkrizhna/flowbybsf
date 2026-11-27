@@ -158,6 +158,15 @@ main:has(#projectDetail.active){padding-top:0}
 .ov-heading-lg{font-size:15px;font-weight:600;margin:0;color:#1a1a1a}
 
 /* ---- Dashboard v3 (reference layout) ---- */
+.as-row{display:flex;align-items:center;gap:12px;width:100%;padding:12px 4px;border:none;border-top:1px solid #f0f0f0;background:none;text-align:left;cursor:pointer;font:inherit}
+.as-row:first-of-type{border-top:none}
+.as-row:hover{background:#fafafa}
+.as-ic{width:34px;height:34px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.as-ic svg{width:15px;height:15px}
+.as-tx{display:flex;flex-direction:column;flex:1;min-width:0}
+.as-tx b{font-size:13px;font-weight:600}
+.as-tx small{font-size:12px;color:#6b6b6b}
+.as-go{color:#999;font-size:18px}
 .ov3-badge{display:inline-block;min-width:16px;padding:1px 6px;border-radius:999px;background:#c0392b;color:#fff;font-size:11px;font-weight:700;text-align:center;vertical-align:middle}
 .ov3-badge:empty{display:none}
 .ov3-appr{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0}
@@ -165,12 +174,14 @@ main:has(#projectDetail.active){padding-top:0}
 .ov3-appr-info{min-width:0;flex:1}
 .ov3-appr-act{display:flex;gap:6px;flex-shrink:0}
 .ov3-appr-act .btn-primary,.ov3-appr-act .btn-ghost{padding:6px 14px;font-size:12px}
-.ov3-ov{padding:22px 24px}
-.ov3-ov-items{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:16px}
+.ov3-ov{padding:20px 22px}
+.ov3-ov-items{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:16px 0 18px}
+.ov3-ov-lab{font-size:13px;color:#777;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ov3-ov-n{font-size:18px;font-weight:500;line-height:1.1;color:#1a1a1a}
+.ov3-projects{border-top:1px solid #eee;padding-top:16px}
+.ov3-projects>#ovCompletedList .ov3-crow:first-child{border-top:1px solid #f4f4f4}
 .ov3-ov-item{padding:2px 20px;border-left:1px solid #e5e5e5;min-width:0}
 .ov3-ov-item:first-child{border-left:none;padding-left:0}
-.ov3-ov-lab{font-size:13px;color:#6b6b6b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ov3-ov-n{font-size:26px;font-weight:700;line-height:1.1;margin-top:6px;color:#1a1a1a;-webkit-text-stroke:1.2px #1a1a1a}
 .ov3-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start;margin-bottom:16px}
 .ov3-grid>.box,.ov3-stack>.box{margin-bottom:0}
 .ov3-stack{display:flex;flex-direction:column;gap:16px;min-width:0}
@@ -424,7 +435,10 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .sp-shot-row.dragging,.sp-scene-row.dragging,.shot-activity-row.dragging{opacity:.4}
 .sp-shot-row.drag-over,.shot-activity-row.drag-over{outline:2px dashed var(--accent);outline-offset:-2px;border-radius:8px}
 .seg{white-space:nowrap}
-.sp-add-row{display:flex;gap:10px;flex-wrap:wrap}
+.sp-add-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.sp-add-bar{flex:1 1 200px;display:flex;align-items:center;justify-content:center;background:#fbf6e3;color:#1a1a1a;font-size:13px;font-weight:700;padding:7px 16px;border-radius:8px;cursor:pointer;transition:background .15s}
+.sp-add-bar:hover{background:#f5edc9}
+#spPlus{position:fixed;display:none;width:22px;height:22px;border-radius:50%;border:none;background:#1a1a1a;color:#fff;font-size:16px;font-weight:600;line-height:1;align-items:center;justify-content:center;cursor:pointer;z-index:45;padding:0;box-shadow:0 2px 8px rgba(0,0,0,.25)}
 .sp-add-row .sp-add-details-row{flex:1 1 200px}
 .sp-add-item-row{font-size:12px;font-weight:600;color:#9a9a9a;padding:8px 14px;margin-top:2px;cursor:pointer;border-radius:8px;text-align:center}
 .sp-add-item-row:hover{background:#f6f6f6;color:#1a1a1a}
@@ -851,6 +865,7 @@ main{padding:16px 16px calc(84px + env(safe-area-inset-bottom))}
 .sp-shot-row .sp-shot-thumb{grid-area:thumb;width:84px;max-width:100%;aspect-ratio:4/3;align-self:start}
 .sp-shot-row .shot-tag{padding:3px 10px;font-size:11px}
 .sp-scene-row{padding:10px 12px}
+.sp-add-bar{padding:10px 12px}
 .sp-scene-row-text{font-size:12px;line-height:1.5}
 .sp-scene-row-text .sep{margin:0 5px}
 .sp-day-band{margin:16px 0 8px}
@@ -1097,9 +1112,8 @@ body.fb-on,body.fb-on *{cursor:crosshair!important}
 <div id="overview" class="page active">
 <div class="ov3-grid">
 <div class="ov3-stack">
-<div class="box ov3-card ov3-ov"><h3 class="ov-heading">Project Overview</h3><div class="ov3-ov-items" id="ovPhaseRows"></div></div>
-<div class="box ov3-card ov3-completed"><div class="ov-card-head"><h3 class="ov-heading">Completed Projects</h3><button class="ov-view-all" onclick="goToView('completed')">View all →</button></div><div id="ovCompletedList"></div></div>
-<div class="box ov3-card"><div class="ov-card-head"><h3 class="ov-heading">Active Projects</h3></div><div id="ovActiveList"></div></div>
+<div class="box ov3-card ov3-ov"><h3 class="ov-heading">Project Overview</h3><div class="ov3-ov-items" id="ovPhaseRows"></div>
+<div class="ov3-projects"><div class="ov-card-head"><h3 class="ov-heading">Projects</h3><button class="ov-view-all" onclick="goToView('completed')">View all →</button></div><div id="ovActiveList"></div><div id="ovCompletedList"></div></div></div>
 </div>
 <div class="ov3-stack">
 <div class="box ov3-card"><div class="ov-card-head"><h3 class="ov-heading ov3-ic-head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Upcoming Shoots</h3></div><div id="ovUpcoming"></div></div>
@@ -1124,9 +1138,9 @@ body.fb-on,body.fb-on *{cursor:crosshair!important}
 
 <div id="completed" class="page">
 <div class="page-head-row">
-<h1 class="page-heading compact">Completed projects</h1>
+<h1 class="page-heading compact">Projects</h1>
 <div class="search-filter-row">
-<input type="text" class="page-search-input" style="width:100%;flex:1 1 320px;max-width:420px;" id="completedSearchInput" placeholder="Search completed projects" oninput="setCompletedSearch(this.value)">
+<input type="text" class="page-search-input" style="width:100%;flex:1 1 320px;max-width:420px;" id="completedSearchInput" placeholder="Search projects" oninput="setCompletedSearch(this.value)">
 </div>
 </div>
 <div class="completed-grid" id="completedGrid"></div>
@@ -1171,6 +1185,7 @@ body.fb-on,body.fb-on *{cursor:crosshair!important}
 <div class="modal-box" id="confirmModalBox" style="max-width:380px;"></div>
 </div>
 <div class="modal-overlay" id="loginGate" style="z-index:10000;background:#ffffff;align-items:center;overflow:hidden;"><div id="loginStage" aria-hidden="true"></div><div class="modal-box" id="loginGateBox" style="max-width:340px;background:#fff;box-shadow:0 20px 60px rgba(0,0,0,.18);border:1px solid #eee;position:relative;z-index:1;"></div></div>
+<div class="modal-overlay" id="adminSettingsModal"><div class="modal-box" id="adminSettingsBox" style="max-width:420px;"></div></div>
 <div class="modal-overlay" id="approvalsModal"><div class="modal-box" id="approvalsModalBox" style="max-width:520px;max-height:80vh;overflow:auto;"></div></div>
 <div class="modal-overlay" id="categoriesModal">
 <div class="modal-box xwide">
@@ -2109,6 +2124,14 @@ a.status='rejected'; a.resolvedAt=Date.now();
 saveState();
 renderApprovalsModal(); renderSidebarNav(); renderOverview(); renderCompleted();
 }
+function openAdminSettings(){
+if(!isAdmin()) return;
+const row=(icon,title,sub,fn)=>`<button type="button" class="as-row" onclick="${fn}"><span class="as-ic">${icon}</span><span class="as-tx"><b>${title}</b><small>${sub}</small></span><span class="as-go">›</span></button>`;
+$id('adminSettingsBox').innerHTML=`<button class="modal-close" onclick="closeModal('adminSettingsModal')">×</button><div class="modal-title">Admin settings</div>
+${row('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>','Add resource','Add crew, kit or production items',"closeModal('adminSettingsModal');openAddResourceModal()")}
+${row('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.58 3.3L4 3a1 1 0 0 0-1 1l.3 5.58a2 2 0 0 0 .58 1.42l9.6 9.59a2 2 0 0 0 2.82 0l4.3-4.3a2 2 0 0 0 0-2.83Z"/><circle cx="7.5" cy="7.5" r="1.3" fill="currentColor" stroke="none"/></svg>','Manage categories','Rename, add or remove subcategories',"closeModal('adminSettingsModal');openManageCategoriesModal()")}`;
+$id('adminSettingsModal').classList.add('show');
+}
 function openApprovalsModal(){ renderApprovalsModal(); const m=document.getElementById('approvalsModal'); if(m) m.classList.add('show'); }
 function renderApprovalsModal(){
 const box=document.getElementById('approvalsModalBox'); if(!box) return;
@@ -2186,6 +2209,7 @@ if(!p) return `<button class="sidebar-link disabled" onclick="openLatestProject(
 const active=currentView==='projectDetail' && (currentTab===k || (k==='shotPlanning' && currentTab==='shootTracking'));
 return `<button class="sidebar-link ${active?'active':''}" onclick="setTab('${k}')" title="${lab}"><span class="sidebar-link-icon">${STAGE_ICONS[k]}</span><span class="sidebar-link-label">${lab}</span></button>`;
 }));
+if(isAdmin()) items.push(`<button class="sidebar-link" onclick="openAdminSettings()" title="Admin settings"><span class="sidebar-link-icon">${ICON_GEAR}</span><span class="sidebar-link-label">Admin settings</span></button>`);
 wrap.innerHTML = items.join('');
 }
 /* ---------- CURRENT LOCATION + TEMPERATURE ----------
@@ -2347,10 +2371,11 @@ const BUCKETS=[
 {label:'Production',icon:ICON_PROD_REF},
 {label:'Post Production',icon:ICON_POST_REF}
 ];
+const doneCount=completedAll.length;
 document.getElementById('ovPhaseRows').innerHTML=BUCKETS.map(b=>{
 const count=active.filter(p=>getProjectStatus(p)===b.label).length;
 return `<div class="ov3-ov-item"><div class="ov3-ov-lab">${b.label}</div><div class="ov3-ov-n">${count}</div></div>`;
-}).join('');
+}).join('')+`<div class="ov3-ov-item"><div class="ov3-ov-lab">Completed</div><div class="ov3-ov-n">${doneCount}</div></div>`;
 
 /* Approvals (admin) */
 {const card=document.getElementById('ovApprovalsCard'); if(card){
@@ -2412,8 +2437,36 @@ const thumbStyle=p.thumbnail?`background-image:url('${p.thumbnail}')`:'';
 const clickable=p._liveId?` onclick="openProject('${p._liveId}')"`:'';
 const meta=[p.client,p.date&&p.date!=='—'?'Delivered '+p.date:''].filter(Boolean).join(' · ');
 return `<div class="ov3-crow"${clickable}><div class="ov3-thumb" style="${thumbStyle}"></div><div class="ov3-cinfo"><div class="ov3-ptitle">${esc(p.title)}</div><div class="ov3-csub">${esc(p.format||'')}</div>${meta?`<div class="ov3-csub">${esc(meta)}</div>`:''}</div></div>`;
-}).join('') : '<div style="font-size:13px;color:#999;padding:8px 0;">Nothing delivered yet.</div>';
+}).join('') : '';
 }
+
+/* ---------- Shoot · Plan: hover "+" to insert between rows ---------- */
+(function(){
+let el=null, cur=null;
+function hide(){ if(el) el.style.display='none'; cur=null; }
+function ensure(){
+if(el) return el;
+el=document.createElement('button'); el.type='button'; el.id='spPlus'; el.title='Add here'; el.textContent='+';
+el.addEventListener('click',function(ev){ ev.stopPropagation(); if(!cur) return; const c=cur; hide(); openAddItemModal(c.di,c.si,c); });
+document.body.appendChild(el); return el;
+}
+document.addEventListener('mousemove',function(e){
+if(currentView!=='projectDetail'||currentTab!=='shotPlanning'||!isAdmin()||document.querySelector('.modal-overlay.show')){ hide(); return; }
+if(el && e.target===el) return;
+const row=e.target.closest&&e.target.closest('.sp-shot-row[id^="item-"],.shot-activity-row[id^="item-"]');
+if(!row){ hide(); return; }
+const r=row.getBoundingClientRect(), l=e.clientX-r.left, rt=r.right-e.clientX;
+if(l>44&&rt>44){ hide(); return; }
+const m=row.id.match(/^item-(\d+)-(\d+)-(\d+)$/); if(!m){ hide(); return; }
+const after=(e.clientY-r.top)>r.height/2;
+cur={di:+m[1],si:+m[2],idx:+m[3]+(after?1:0)};
+const b=ensure(); b.style.display='flex';
+b.style.left=(l<=rt?r.left-12:r.right-10)+'px';
+b.style.top=((after?r.bottom:r.top)-11)+'px';
+},{passive:true});
+document.addEventListener('dragstart',hide);
+window.addEventListener('scroll',hide,{passive:true,capture:true});
+})();
 
 /* ---------- COMPLETED ---------- */
 function projectToCompletedCard(p){
@@ -2424,8 +2477,9 @@ const budgetTotal=resourceTotals(p).total;
 return {_liveId:p.id,title:p.title,client:p.client,format:p.format,place:p.place,logline:p.brief.logline||'',plan:`${(p.days||[]).length} days`,crew:crewNames,kit:kitNames,output:'—',budget_actual:budgetTotal,budget_planned:budgetTotal,shots:sh.total,date:fmtDateShort(p.delivery)||'—',_deliveredISO:(p.phaseLog&&p.phaseLog.delivered)||'',thumbnail:p.thumbnail||''};
 }
 function renderCompleted(){
+const activeCards=STATE.projects.filter(p=>getProjectStatus(p)!=='Delivered').sort((a,b)=>STAGE_ORDER.filter(k=>b.sections[k].confirmed).length-STAGE_ORDER.filter(k=>a.sections[k].confirmed).length).map(p=>Object.assign(projectToCompletedCard(p),{_status:getProjectStatus(p),_stages:STAGE_ORDER.filter(k=>p.sections[k].confirmed).length}));
 const live=STATE.projects.filter(p=>getProjectStatus(p)==='Delivered').map(projectToCompletedCard);
-const all=[...live,...STATE.completed];
+const all=[...activeCards,...live,...STATE.completed];
 const q=completedSearch.trim().toLowerCase();
 const shown=q ? all.filter(p=>[p.title,p.client,p.place].some(v=>(v||'').toLowerCase().includes(q))) : all;
 document.getElementById('completedGrid').innerHTML=(shown.map(p=>{
@@ -2433,7 +2487,7 @@ const bgStyle = p.thumbnail ? `background-image:linear-gradient(180deg,rgba(0,0,
 return `
 <div class="completed-card">
 <div class="completed-image" style="${bgStyle}">
-<div class="badges"><span class="status-badge">Delivered</span><span class="date-badge">${p.date}</span></div>
+<div class="badges"><span class="status-badge">${esc(p._status||'Delivered')}</span><span class="date-badge">${p.date}</span></div>
 <div class="ctitle">${p.title}</div>
 </div>
 <div class="completed-content">
@@ -2444,7 +2498,7 @@ return `
 <div class="detail-row"><span class="detail-label">Kit</span><span class="detail-value">${p.kit}</span></div>
 <div class="detail-row"><span class="detail-label">Output</span><span class="detail-value">${p.output}</span></div>
 ${isAdmin()?`<div class="detail-row"><span class="detail-label">Budget</span><span class="detail-value">${fmt(p.budget_actual)} of ${fmt(p.budget_planned)}</span></div>`:''}
-<div class="completed-footer"><div class="pill-group"><span class="pill">${p.shots} shots</span><span class="pill stages">5/5 stages</span></div>${p._liveId?`<button class="open-btn" onclick="openProject('${p._liveId}')">Open</button>`:`<button class="open-btn" disabled style="opacity:.5;">Archived</button>`}</div>
+<div class="completed-footer"><div class="pill-group"><span class="pill">${p.shots} shots</span><span class="pill stages">${p._stages!=null?p._stages:5}/5 stages</span></div>${p._liveId?`<button class="open-btn" onclick="openProject('${p._liveId}')">Open</button>`:`<button class="open-btn" disabled style="opacity:.5;">Archived</button>`}</div>
 </div>
 </div>`;
 }).join('')) || (q ? `<div style="font-size:13px;color:#999;padding:12px 0;">No projects match "${esc(completedSearch)}".</div>` : '');
@@ -2977,7 +3031,7 @@ if(ringEl) ringEl.style.setProperty('--pct',progressPct);
 const statEl=document.getElementById('pdStat');
 if(statEl){
 let st;
-if(currentTab==='budgeting'||currentTab==='brief'||currentTab==='shotPlanning'||currentTab==='delivery') st='';
+if(currentTab==='budgeting'||currentTab==='brief'||currentTab==='shotPlanning'||currentTab==='delivery'||currentTab==='shootTracking') st='';
 else st=stageStat(p,currentTab);
 statEl.textContent=st;
 }
@@ -3032,7 +3086,7 @@ if(!isAdmin() && interactive){
 primary=btn('tick',confirmed?'Saved':'View only',ICON_CHECK_SM,'',{disabled:1,title:'Team access is read only'});
 } else if(key==='delivery'){
 primary = confirmed ? btn('tick','Delivered',ICON_CHECK_SM,'',{disabled:1})
-: dlHasApproved(p) ? btn('save-btn','Deliver',ICON_CHECK_SM,'markProjectComplete()',{title:'Mark delivered'})
+: dlHasApproved(p) ? btn('save-btn','Delivered',ICON_CHECK_SM,'markProjectComplete()',{title:'Mark as delivered'})
 : btn('','In progress',ICON_CHECK_SM,'',{disabled:1,title:'Approve a version to deliver'});
 } else if(interactive && !confirmed){
 primary = btn('save-btn','Save',ICON_SAVE,`saveStageFromHeader('${key}')`,{title:'Save changes'});
@@ -3046,7 +3100,7 @@ primary = btn('busy','Saving…',ICON_SAVE,'',{disabled:1});
 primary = btn('next-btn'+(pdJustSaved?' just-saved':''),'Next',ICON_ARROW,`goNextStage('${key}')`,{title:'Saved — go to '+(STAGE_NAMES[next]||'next step')});
 pdJustSaved=false;
 }
-const add = key==='shotPlanning' ? btn('','Add',ICON_PLUS,'openAddItemModal()',{title:'Add scene, shot or activity'}) : '';
+const add = '';
 primary=primary.replace('class="pd-icon-btn has-lbl ','class="pd-icon-btn has-lbl pd-primary ');
 actionsEl.innerHTML = add+primary;
 }
@@ -3381,11 +3435,12 @@ ${unschedHtml}${body}
 }
 function dayBandLabel(d,di){ return `Day ${di+1} — ${fmtDateShort(d.date)||'Unscheduled'}`; }
 function addRowHtml(days){
-return `<div class="sp-add-row"><div class="sp-add-details-row" data-no-lock="1" onclick="openAddItemModal()">+ Add</div></div>`;
+return `<div class="sp-add-row"><div class="sp-add-bar" data-no-lock="1" onclick="openAddItemModal()">+ Add</div></div>`;
 }
 function renderShotPlannerListBody(days){
 const hasScenes=days.some(d=>(d.scenes||[]).length>0);
 if(!hasScenes) return addRowHtml(days);
+const addBar=addRowHtml(days);
 const dayBlocks=days.map((d,di)=>{
 if(!(d.scenes||[]).length) return '';
 const sceneBlocks=(d.scenes||[]).map((sc,si)=>{
@@ -3422,7 +3477,7 @@ return sceneRow+itemRows;
 }).join('');
 return `<div class="sp-day-band">${dayBandLabel(d,di)}</div>${sceneBlocks}`;
 }).join('');
-return dayBlocks;
+return dayBlocks+addBar;
 }
 /* ---------- Schedule card grid (Shoot · Track) ---------- */
 function dayShotCounts(d){
@@ -3971,7 +4026,9 @@ const sc=p.days[di].scenes[si];
 $id(prefix+'Start').value=nextItemStart(sc);
 updateItemEnd(prefix);
 }
-function openAddItemModal(di,si){
+var ADDAT=null;
+function openAddItemModal(di,si,at){
+ADDAT=at||null;
 const p=currentProject(); if(!p) return;
 const scenes=allScenes(p);
 let key=null;
@@ -4011,6 +4068,7 @@ const item=readItemFromForm(prefix); if(!item) return;
 const [di,si]=$id(prefix+'Scene').value.split('-').map(Number);
 const sc=p.days[di].scenes[si];
 sc.items=sc.items||[];
+let insertedId=null;
 if(editKey){
 const oldSc=p.days[editKey.di].scenes[editKey.si];
 const old=oldSc.items[editKey.idx];
@@ -4019,7 +4077,9 @@ if(oldSc===sc) sc.items[editKey.idx]=item;
 else { oldSc.items.splice(editKey.idx,1); sc.items.push(item); }
 logActivity('Item updated',p.title);
 } else {
-sc.items.push(item);
+if(ADDAT && ADDAT.di===di && ADDAT.si===si && ADDAT.idx<=sc.items.length){ sc.items.splice(ADDAT.idx,0,item); insertedId='item-'+di+'-'+si+'-'+ADDAT.idx; }
+else sc.items.push(item);
+ADDAT=null;
 logActivity(item.type==='shot'?'Shot added':'Activity added',p.title);
 }
 if(!sc.time && itemStart(item)) sc.time=itemStart(item);
@@ -4027,7 +4087,7 @@ p.sections.shotPlanning.confirmed=false;
 saveProjectChange(p);
 closeModal('sceneModal'); closeModal('itemModal');
 renderProjectDetail();
-setTimeout(()=>{ const rows=document.querySelectorAll('.sp-shot-row,.shot-activity-row'); const last=rows[rows.length-1]; if(!editKey && last) last.scrollIntoView({behavior:'smooth',block:'center'}); },60);
+setTimeout(()=>{ const rows=document.querySelectorAll('.sp-shot-row,.shot-activity-row'); const last=insertedId?document.getElementById(insertedId):rows[rows.length-1]; if(!editKey && last) last.scrollIntoView({behavior:'smooth',block:'center'}); },60);
 }
 function openEditItemModal(di,si,idx){
 const p=currentProject(); const sc=p.days[di].scenes[si]; const it=sc.items[idx];
@@ -4202,8 +4262,6 @@ return `<div id="pdBody">
 <div class="rp-toolbar">
 <div class="search-filter-box wide" data-no-lock="1"><input type="text" placeholder="Search resources" value="${esc(rpSearch)}" data-no-lock="1" oninput="setRpSearch(this.value)"><select data-no-lock="1" aria-label="Category" onchange="setRpCat(this.value)"><option value="">All categories</option>${RES_TYPES.map(t=>`<option value="${RES_LABEL[t]}" ${rpCat===RES_LABEL[t]?'selected':''}>${RES_LABEL[t]}</option>`).join('')}</select><select data-no-lock="1" aria-label="Subcategory" onchange="setRpSub(this.value)"><option value="">All subcategories</option>${subs.map(n=>`<option value="${esc(n)}" ${rpSub===n?'selected':''}>${esc(n)}</option>`).join('')}</select></div>
 <div class="view-toggle" data-no-lock="1"><button class="vt-btn ${!rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(false)">All</button><button class="vt-btn ${rpAllocatedFilter?'active':''}" data-no-lock="1" onclick="setRpAllocatedFilter(true)">Selected</button></div>
-${isAdmin()?`<button type="button" class="icon-btn-text primary" data-no-lock="1" title="Add resource" onclick="openAddResourceModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span>Add Resource</span></button>
-<button type="button" class="icon-btn-text" data-no-lock="1" title="Manage categories" onclick="openManageCategoriesModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.58 3.3L4 3a1 1 0 0 0-1 1l.3 5.58a2 2 0 0 0 .58 1.42l9.6 9.59a2 2 0 0 0 2.82 0l4.3-4.3a2 2 0 0 0 0-2.83Z"/><circle cx="7.5" cy="7.5" r="1.3" fill="currentColor" stroke="none"/></svg><span>Categories</span></button>`:''}
 ${isAdmin()?`<div class="rp-total" id="rpTotal">Total Budget · ₹${fmt(resourceTotals(p).total)}</div>`:''}
 </div>
 <div class="resource-list-box">
