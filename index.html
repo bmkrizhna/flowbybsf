@@ -566,11 +566,8 @@ select:disabled.f-input{background-color:#fafafa;color:#444;border-color:#eee}
 .sched-day-prog{font-size:12px;font-weight:600;color:#1a1a1a;margin-top:6px}
 .sched-wrap-btn{margin-top:10px;border:none;border-radius:999px;background:#1a1a1a;color:#fff;font:inherit;font-size:12px;font-weight:600;padding:6px 14px;cursor:pointer}
 .sched-wrap-done{margin-top:10px;font-size:12px;font-weight:600;color:#1d7a3b}
-.trk-summary{display:flex;align-items:center;gap:16px;margin-bottom:16px}
-.trk-sum-text{font-size:14px;color:#1a1a1a;white-space:nowrap}
-.trk-sum-text span{margin-left:10px;color:#999;font-size:13px}
-.trk-bar{flex:1;height:8px;border-radius:999px;background:#eee;overflow:hidden}
-.trk-bar-fill{height:100%;background:var(--accent);border-radius:999px;transition:width .3s}
+.trk-pill{display:inline-flex;align-items:center;height:34px;padding:0 16px;border-radius:999px;background:#f0f0f0;font-size:13px;color:#1a1a1a;white-space:nowrap}
+.trk-pill span{margin-left:10px;color:#777}
 .sched-card.shot{background:#f0f0f0}
 .sched-card.activity{background:var(--accent-bg)}
 .sched-top-row{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;min-height:24px}
@@ -3087,6 +3084,10 @@ if(currentTab==='budgeting'){
 hAdd.innerHTML=rpToolbarHtml(p); hView.innerHTML='';
 } else if(currentTab==='delivery'){
 hAdd.innerHTML=dlHeadBarHtml(); hView.innerHTML='';
+} else if(currentTab==='shotPlanning'){
+hAdd.innerHTML=isAdmin()?`<button type="button" class="btn-ghost" data-no-lock="1" onclick="openAddItemModal()">+ Add</button>`:''; hView.innerHTML='';
+} else if(currentTab==='shootTracking'){
+hAdd.innerHTML=trkPillHtml(p); hView.innerHTML='';
 } else { hAdd.innerHTML=''; hView.innerHTML=''; }
 }
 const content=document.getElementById('pdContent');
@@ -3478,7 +3479,7 @@ ${unschedHtml}${body}
 }
 function dayBandLabel(d,di){ return `Day ${di+1} — ${fmtDateShort(d.date)||'Unscheduled'}`; }
 function addRowHtml(days){
-return `<div class="sp-add-row"><div class="sp-add-bar" data-no-lock="1" onclick="openAddItemModal()">+ Add</div></div>`;
+return '';
 }
 function renderShotPlannerListBody(days){
 const hasScenes=days.some(d=>(d.scenes||[]).length>0);
@@ -4316,17 +4317,20 @@ return `<div id="pdBody">
 }
 
 /* ---------- SHOOT TRACKER ---------- */
-function renderShootTrackingTab(p){
+function trkPillHtml(p){
 const days=p.days||[];
-const hasScenes=days.some(d=>(d.scenes||[]).length>0);
+if(!days.some(d=>(d.scenes||[]).length>0)) return '';
 let total=0,done=0;
 days.forEach(d=>{ const c=dayShotCounts(d); total+=c.total; done+=c.done; });
 const left=total-done;
-const pct=total?Math.round(done/total*100):0;
-const summary=hasScenes?`<div class="trk-summary"><div class="trk-sum-text"><b>${done}</b> of ${total} shots done<span>${left?left+' left':'All done'}</span></div><div class="trk-bar"><div class="trk-bar-fill" style="width:${pct}%"></div></div></div>`:'';
+return `<div class="trk-pill"><b>${done}</b> of ${total} shots done<span>${left?left+' left':'All done'}</span></div>`;
+}
+function renderShootTrackingTab(p){
+const days=p.days||[];
+const hasScenes=days.some(d=>(d.scenes||[]).length>0);
 const grid=hasScenes?scheduleGridHtml(days,true):'';
 return `<div id="pdBody">
-${summary}${grid || '<div class="box" style="font-size:13px;color:#999;padding:20px 0;">No shots scheduled yet — switch to Plan to add days and shots.</div>'}
+${grid || '<div class="box" style="font-size:13px;color:#999;padding:20px 0;">No shots scheduled yet — add days and shots in Shoot Plan.</div>'}
 </div>`;
 }
 function allShotsResolved(p){
