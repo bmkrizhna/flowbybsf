@@ -5,7 +5,7 @@
 // static icon/manifest assets, and hands-off for everything else
 // (Supabase, fonts, analytics, etc. go straight to the network).
 
-const CACHE_NAME = 'flow-shell-v22';
+const CACHE_NAME = 'flow-shell-v23';
 const STATIC_ASSETS = [
   '/manifest.json',
   '/icons/icon-192.png',
