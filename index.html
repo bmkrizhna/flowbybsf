@@ -2353,7 +2353,7 @@ renderProjectDetail();
 }
 
 let projFilter='active';
-function goToProjects(f){ projFilter=f; completedSearch=''; const si=document.getElementById('completedSearchInput'); if(si) si.value=''; showView('completed'); }
+function goToProjects(f){ projFilter=f; completedSearch=''; const si=document.getElementById('completedSearchInput'); if(si) si.value=''; showView('completed'); renderCompleted(); }
 function goToView(view){
 showView(view);
 }
